@@ -5,7 +5,7 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-# library(tarchetypes) # Load other packages as needed.
+library(tarchetypes) # for tar_file
 
 # Set target options:
 suppressPackageStartupMessages({
@@ -49,20 +49,48 @@ tar_option_set(
 )
 })
 
+
 # Run the R scripts in the R/ folder with your custom functions:
-source("R/get_data.R")
-source("R/get_data_file_paths.R") # Function to get data file paths.
+#source("R/get_data.R")
+#source("R/get_data_file_paths.R") # Function to get data file paths.
 
 
-# Replace the target list below with your own:
+# TARGETS PIPELINE------------------
+
 list(
+  ## Get data-----
+  tar_file(site_descriptors_file, "input_data/3_site_descriptors_data.csv"),
   tar_target(
-    name = parent_data_path,
-    command = "input_data/"), # Path to the data files
+    name = site_descriptors_data,
+    command = readr::read_csv(site_descriptors_file, guess_max = 5000)),
+  
+  tar_file(emission_rate_points_file, "input_data/4_emission_rate_points.csv"),
   tar_target(
-    name = data_file_paths,
-    command = get_data_file_paths(parent_data_path)),
+    name = emission_rate_points_data,
+    command = readr::read_csv(emission_rate_points_file, guess_max = 5000)),
+  
+  tar_file(emissions_lake_file, "input_data/5_emissions_lake.csv"),
   tar_target(
-    name = data,
-    command = get_data(data_file_paths))
+    name = emissions_lake_data,
+    command = readr::read_csv(emissions_lake_file, guess_max = 5000)),
+  
+  tar_file(depth_profiles_file, "input_data/6_depth_profiles.csv"),
+  tar_target(
+    name = depth_profiles_data,
+    command = readr::read_csv(depth_profiles_file, guess_max = 5000)),
+  
+  tar_file(name = site_data_file, command = "input_data/7_site_data.csv"),
+  tar_target(
+    name = site_data,
+    command = readr::read_csv(site_data_file, guess_max = 5000)),
+  
+  tar_file(name = lake_scale_file, "input_data/8_lake_scale.csv"),
+  tar_target(
+    name = lake_scale_data,
+    command = readr::read_csv(lake_scale_file, guess_max = 5000)),
+  
+  tar_file(phyto_data_file, "input_data/9_phyto_data.csv"),
+  tar_target(
+    name = phyto_data,
+    command = readr::read_csv(phyto_data_file, guess_max = 5000))
 )
