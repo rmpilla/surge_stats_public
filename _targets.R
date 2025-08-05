@@ -2,6 +2,8 @@
 # libraries for _targets.R
 library(targets)
 library(tarchetypes) # for tar_file
+library(visNetwork) # for tar_visnetwork)
+library(styler) # for styler add-in
 
 # Set target options:
 suppressPackageStartupMessages({ # cleaner output
