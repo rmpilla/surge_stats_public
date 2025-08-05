@@ -1,4 +1,5 @@
 "variable","definition"
+"site_id","Unique identifier for sample site within a waterbody"
 "lake_id","Unique identifier for each waterbody"
 "visit","First (1) or second (2) site visit"
 "algal_group","Broad algal group classification"
