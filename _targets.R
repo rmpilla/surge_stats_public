@@ -68,7 +68,8 @@ list(
       emission_rate_points_data = emission_rate_points_data,
       emissions_lake_data = emissions_lake_data,
       site_data = site_data,
-      lake_scale_data = lake_scale_data
+      lake_scale_data = lake_scale_data,
+      phyto_data = phyto_data
       )
   )
   )
