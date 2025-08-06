@@ -5,19 +5,31 @@ library(tarchetypes) # for tar_file
 library(visNetwork) # for tar_visnetwork)
 library(styler) # for styler add-in
 
+# # for development
+pacman::p_load(
+  tidyverse, # data wrangling
+  janitor, # enforce naming conventions
+  GGally, # pairs plots with rho
+  plotly, # interactive plots
+  tidymodels # modeling framework
+)
+
 # Set target options:
 suppressPackageStartupMessages({ # cleaner output
 tar_option_set(
   # Packages that your targets need for their tasks.
   packages = c("tidyverse", 
                "janitor", # enforce naming conventions
-               "GGally") # pairs plots with rho 
+               "GGally", # pairs plots with rho 
+               "plotly",
+               "tidymodels")
 )
 })
 
 
 # SOURCE CUSTOM FUNCTIONS----
 source("R/merge_data.R") # merge data from SuRGE repository
+source("R/aed_corvif.R") # load vif function
 
 
 # TARGETS PIPELINE------------------
@@ -74,5 +86,5 @@ list(
       phyto_data = phyto_data
       )
   )
-  )
+)
 

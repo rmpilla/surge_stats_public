@@ -64,7 +64,7 @@ merge_data <- function(
     ungroup()
 
   ### dups----
-  dim(site_data_w) # 2365
+  dim(site_data_w) # 2366
   site_data_w %>%
     select(lake_id) %>%
     summarize(n = n_distinct(.)) # 146 lakes
@@ -87,6 +87,9 @@ merge_data <- function(
       names_glue = "{name}_{.value}",
       values_from = c(value, units)
     ) %>%
+    mutate(across(!c(contains("units"), e_i_type_value, ag_eco9_value, ag_eco9_nm_value, 
+                     depth_cat_value, chla_cat_value, study_value),
+                     as.numeric)) %>% # convert to numeric
     # remove "_value" from column names
     rename_with(
       ~ gsub("_value", "", .x), # replace "_value" with ""
@@ -124,8 +127,8 @@ merge_data <- function(
       lake_id == 70 & is.na(thermdep2) ~ "6_riverine",
       lake_id == 70 & thermdep2 > 9 & thermdep2 < 10 ~ "7_transitional",
       lake_id == 70 & thermdep2 > 15 ~ "6_lacustrine",
-      TRUE ~ "FLY YOU FOOLS!"
-    )) %>% # ERROR CODE
+      TRUE ~ "FLY YOU FOOLS!" # ERROR CODE
+    )) %>% 
     select(-row_id) %>% # remove these columns
     # bring in all site_id values for these lakes. Needed to fill values
     # by lake and reservoir zone
@@ -146,6 +149,10 @@ merge_data <- function(
     tidyr::fill(buoyf, buoyf_units, thermdep2, thermdep2_units,
       .direction = "updown"
     )
+  
+  # check for error
+  emissions_lake_data_missouri %>%
+    filter(lake_id == "FLY YOU FOOLS")
 
   ## phyto_data----
   ### aggregate----
@@ -202,13 +209,13 @@ merge_data <- function(
 
   # inspect dat object
   if (dat %>%
-    get_dupes(lake_id, site_id, visit) %>%
+    janitor::get_dupes(lake_id, site_id, visit) %>%
     nrow() > 0) {
     print("There are duplicate rows in the dat object. Check the merge_data function.")
   }
   # no dupes
-  if (dat %>% distinct(lake_id) %>% nrow() != 148) {
-    print("There are not 148 lakes in the dat object. Check the merge_data function.")
+  if (dat %>% distinct(lake_id) %>% nrow() != 146) {
+    print("There are not 146 lakes in the dat object. Check the merge_data function.")
   } # 146 lakes
 
 
