@@ -1,4 +1,3 @@
-get_mor
 # 1. DEFINE MORPHO VARIABLES--------
 morpho_vars <- c("surface_area",         
                  "shoreline_length",     
@@ -12,17 +11,36 @@ morpho_vars <- c("surface_area",
                  "volume",               
                  "littoral_fraction",    
                  "circularity", # circular lakes (value approaches 1) vs elongated lakes (value approaches 0).",          
-                 "dynamic_ratio") # Surface area to mean depth ratio of the lake. Low values indicate lakes that are bowl shaped, whereas high values are associated to dish-like lakes.
+                 "dynamic_ratio", # Surface area to mean depth ratio of the lake. Low values indicate lakes that are bowl shaped, whereas high values are associated to dish-like lakes.
+                 
+                 # NWI variables
+                 ## lacustrine + subclasses
+                 "lacustrine", # < 30% persistent emergent vegetation
+                 "limnetic", # >2.5m deep in lacustrine
+                 "littoral", # <2.5m deep in lacustrine, or max extent of nonpersistent emergents
+                 
+                 ## palustrine + subclasses
+                 "palustrine", # wetlands, <8Ha, max depth < 2.5m
+                 
+                 ## riverine + subclasses
+                 "riverine", #  habitats contained within a channel
+                 "intermittent", # seasonally inundated riverine
+                 "lower_perennial", # low gradient riverine
+                 "upper_perennial", # high gradient riverine
+                 
+                 ## classes of lacustrine/palustrine/riverine
+                 "emergent",
+                 "aquatic_bed")
 
 # any missing values? NO
-dat %>% 
+dat_raw %>% 
   select(lake_id, site_id, visit, all_of(morpho_vars)) %>% 
   # filter missing values
   filter(rowSums(is.na(.)) > 0)
 
 # 2. INSPECT FOR OUTLIERS-------------
 # interactive cleveland dotplots
-p_morpho <- dat %>% 
+p_morpho <- dat_raw %>% 
   select(lake_id, all_of(morpho_vars)) %>% 
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
@@ -52,14 +70,14 @@ ggplotly(p_morpho)
 # volume, lake_id: 69, 70
 
 # log10 transform variables with outliers
-dat <- dat %>%
+dat_morph <- dat_raw %>%
   mutate(across(c(dynamic_ratio, max_length, shoreline_development,
                   shoreline_length, max_width, mean_width, surface_area,
                   volume, site_depth),
                 ~ log10(.x), .names = "l_{.col}"))
 
 # Inspect the transformed variables for outliers again
-p_morpho_log <- dat %>% 
+p_morpho_log <- dat_morph %>% 
   select(lake_id, starts_with("l_")) %>% 
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
@@ -97,7 +115,7 @@ l_morpho_vars <- c("l_surface_area",
 # Lets see which of these variables are related to CH4. This can help
 # inform which variables to retain when assessing collinearity in next step.
 
-dat %>% 
+dat_morph %>% 
   select(all_of(l_morpho_vars), ch4_diffusion,
          ch4_ebullition, ch4_total) %>% 
   GGally::ggpairs() 
@@ -107,7 +125,7 @@ dat %>%
 
 # 4. INSPECT VARIABLES FOR COLLINEARITY-------------
 # oh, oh, lots of correlations > 0.5 (cutoff suggested by Zuur, pg. 473)
-dat %>% 
+dat_morph %>% 
   select(all_of(l_morpho_vars)) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
@@ -152,7 +170,7 @@ dat %>%
 
 # here are the morpho variables used in Casas-Ruiz
 # everything is correlated
-dat %>%
+dat_morph %>%
   select(l_surface_area, l_volume, l_shoreline_development, circularity,
          l_dynamic_ratio) %>%
   distinct() %>%
@@ -162,12 +180,13 @@ dat %>%
 # surface area we need to omit everything else except site_depth and
 # possibly circularity.
 # rho < 0.5, good
-dat %>%
+dat_morph %>%
   select(l_surface_area, l_site_depth, circularity) %>%
   GGally::ggpairs(.)
 # variance inflation factor (VIF, Zuur pg.386-387, 478-479, 535-536)
+source("R/aed_corvif.R") # load vif function
 # vif < 2, good
-dat %>%
+dat_morph %>%
   select(l_surface_area, l_site_depth, circularity) %>%
   corvif(.)
 
@@ -175,11 +194,11 @@ dat %>%
 # Dynamic ratio is correlated with everything except depth (site, mean,
 # or max) and littoral_fraction.
 # rho up to -0.516
-dat %>%
+dat_morph %>%
   select(l_dynamic_ratio, l_site_depth, littoral_fraction) %>%
   GGally::ggpairs()
 # vif < 2, good
-dat %>%
+dat_morph %>%
   select(l_dynamic_ratio, l_site_depth, littoral_fraction) %>%
   corvif()
 
@@ -187,14 +206,14 @@ dat %>%
 # Shoreline development is correlated with everything except littoral_fraction
 # (-0.49), site_depth (0.251), and mean depth (0.486).
 # rho up to 0.592
-dat %>%
+dat_morph %>%
   select(
     l_shoreline_development, littoral_fraction, l_site_depth,
     mean_depth
   ) %>%
   GGally::ggpairs(.)
 # vif up to 2.05, good
-dat %>%
+dat_morph %>%
   select(
     l_shoreline_development, littoral_fraction, l_site_depth,
     mean_depth
@@ -204,11 +223,11 @@ dat %>%
 
 # fetch (l_max length) + circularity (0.517) + l_site_depth
 # rho up to 0.592
-dat %>%
+dat_morph %>%
   select(l_max_length, l_site_depth, circularity) %>%
   GGally::ggpairs(.)
 # vif <2, good
-dat %>%
+dat_morph %>%
   select(l_max_length, l_site_depth, circularity) %>%
   corvif(.)
 
@@ -220,7 +239,7 @@ dat %>%
 m_morpho1 <- lm(ch4_total ~ littoral_fraction * l_dynamic_ratio +
                   littoral_fraction * l_site_depth +
                   l_site_depth * l_dynamic_ratio,
-                data = dat)
+                data = dat_morph)
 summary(m_morpho1) # interaction p > 0.318
 drop1(m_morpho1, test = "F") # interaction p > 0.318
 
@@ -231,7 +250,7 @@ step(m_morpho1, direction = "backward") # selects CH4tot ~ littoral_fraction + l
 
 # refit model
 m_morpho2 <- lm(ch4_total ~ littoral_fraction + l_site_depth,
-                data = dat)
+                data = dat_morph)
 summary(m_morpho2) # p < 0.0133
 glance(m_morpho2)
 tidy(m_morpho2)

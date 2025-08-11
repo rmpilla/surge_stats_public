@@ -3,34 +3,38 @@
 library(targets)
 library(tarchetypes) # for tar_file
 library(visNetwork) # for tar_visnetwork)
-library(styler) # for styler add-in
+library(styler) # for tidyverse styler conventions
+library(miniUI) # for styler Addin
+library(pacman) # load packages outside of tar_make
 
 # # for development
-pacman::p_load(
-  tidyverse, # data wrangling
-  janitor, # enforce naming conventions
-  GGally, # pairs plots with rho
-  plotly, # interactive plots
-  tidymodels # modeling framework
-)
+# pacman::p_load(
+#   tidyverse, # data wrangling
+#   janitor, # enforce naming conventions
+#   GGally, # pairs plots with rho
+#   plotly, # interactive plots
+#   tidymodels # modeling framework
+# )
 
 # Set target options:
 suppressPackageStartupMessages({ # cleaner output
-tar_option_set(
-  # Packages that your targets need for their tasks.
-  packages = c("tidyverse", 
-               "janitor", # enforce naming conventions
-               "GGally", # pairs plots with rho 
-               "plotly",
-               "tidymodels")
-)
+  tar_option_set(
+    # Packages that your targets need for their tasks.
+    packages = c("tidyverse", 
+                 "janitor", # enforce naming conventions
+                 "GGally", # pairs plots with rho 
+                 "plotly",
+                 "tidymodels")
+  )
 })
 
 
 # SOURCE CUSTOM FUNCTIONS----
+source("R/get_lake_cat_data.R") # get lakeCat variables
 source("R/merge_data.R") # merge data from SuRGE repository
-source("R/aed_corvif.R") # load vif function
-
+source("R/define_original_vars.R") # define full list of variables
+source("R/define_modeling_vars.R") # find vars with missing observations
+#source("R/trans_data.R") # transform data
 
 # TARGETS PIPELINE------------------
 
@@ -73,18 +77,48 @@ list(
     name = phyto_data,
     command = readr::read_csv(phyto_data_file, guess_max = 5000)),
   
-  ## combine and recreate `dat` object from SuRGE repository-----
-  # still need phyto data
+  tar_file(lake_cat_file, "input_data/lake_cat.csv"),
   tar_target(
-    name = dat,
+    name = lake_cat_data,
+    command = get_lake_cat_data(
+      lake_cat_file = lake_cat_file
+    )),
+
+  
+  
+  ## recreate `dat` object from SuRGE repository-----
+  tar_target(
+    name = dat_raw,
     command = merge_data(
       site_descriptors_data = site_descriptors_data,
       emission_rate_points_data = emission_rate_points_data,
       emissions_lake_data = emissions_lake_data,
       site_data = site_data,
       lake_scale_data = lake_scale_data,
-      phyto_data = phyto_data
-      )
+      phyto_data = phyto_data,
+      lake_cat_data = lake_cat_data
+    )
+  ),
+
+
+  ## initial list of predictor variables----
+  tar_target(
+    name = original_vars,
+    command = define_original_vars() # no argument to this function
   )
+  # 
+  # ## screen vars for missing observations, select subset for modeling-----
+  # tar_target(
+  #   name = modeling_vars,
+  #   command = define_modeling_vars(dat_raw_lakecat = dat_raw_lakecat,
+  #                               original_vars = original_vars)
+  # )
+  
+  # ## transform data-----
+  # tar_target(
+  #   name = dat_raw_lakecat,
+  #   command = trans_dat(dat_raw_lakecat = dat_raw_lakecat,
+  #                       modeling_vars = modeling_vars)
+  # )
 )
 

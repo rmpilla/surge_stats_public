@@ -8,7 +8,8 @@ merge_data <- function(
     emissions_lake_data,
     site_data,
     lake_scale_data,
-    phyto_data) {
+    phyto_data,
+    lake_cat_data) {
   # pivot from long to wide where needed----
   ## site_data----
   ### pivot----
@@ -94,7 +95,7 @@ merge_data <- function(
     rename_with(
       ~ gsub("_value", "", .x), # replace "_value" with ""
       ends_with("_value") # in columns that end with "_value"
-    )
+    ) 
 
   ### dups----
   dim(lake_scale_data_w) # 146
@@ -151,8 +152,12 @@ merge_data <- function(
     )
   
   # check for error
-  emissions_lake_data_missouri %>%
-    filter(lake_id == "FLY YOU FOOLS")
+  if (emissions_lake_data_missouri %>%
+      filter(lake_id == "FLY YOU FOOLS") %>%
+      nrow() > 0) {
+    print("Problem with emissions_lake_data_missouri. Check the merge_data function.")
+  }
+
 
   ## phyto_data----
   ### aggregate----
@@ -202,7 +207,8 @@ merge_data <- function(
       by = c("lake_id", "visit")
     ) %>%
     ## now join with objects containing lake_id only----
-    full_join(lake_scale_data_w)
+    full_join(lake_scale_data_w) %>%
+    full_join(lake_cat_data)
 
 
 
