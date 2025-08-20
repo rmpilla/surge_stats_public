@@ -1,0 +1,102 @@
+---
+title: "NLA vs SuRGE chemistry"
+author: "J. Beaulieu"
+date: "2025-08-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+Quick comparison of selected analytes measured during SuRGE and the two most recent NLA campaigns (NLA17 and NLA22).
+
+## Data
+
+Required data are created via the targets pipeline. Load data here.
+
+```{r data}
+tar_load(dat_raw)
+```
+
+
+## Extraction based chlorophyll a
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id) %>% nrow()` of these lakes lakes have chla estimates from 2017 and/or 2022 NLA. 
+
+As expected, the concurrence among SuRGE and NLA observations is not great
+```{r chla, echo=FALSE}
+
+{dat_raw %>%
+  select(lake_id, nla17_site_id, nla22_site_id,
+         chla_lab_shallow, nla17_chla, nla22_chla) %>%
+  distinct() %>%
+  pivot_longer(
+    cols = c(nla17_chla, nla22_chla),
+    names_to = "nla_year",
+    values_to = "nla_chla"
+  ) %>%
+    filter(!is.na(nla_chla), !is.na(chla_lab_shallow)) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_chla, chla_lab_shallow, 
+      text = paste("SuRGE:", chla_lab_shallow, "<br>",
+                   "NLA:", nla_chla, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    ggtitle("Extraction Based Chlorophyll a") +
+    xlab("NLA chla") +
+    ylab("SuRGE chla")} %>%
+  ggplotly(tooltip = "text")
+
+
+
+```
+
+
+## SO4
+
+```{r plots, echo=FALSE}
+{dat_raw %>%
+  select(lake_id, nla17_site_id, nla22_site_id,
+         so4_shallow, nla17_sulfate, nla22_sulfate) %>%
+  distinct() %>%
+  pivot_longer(
+    cols = c(nla17_sulfate, nla22_sulfate),
+    names_to = "nla_year",
+    values_to = "nla_so4"
+  ) %>%
+    filter(!is.na(nla_so4), !is.na(so4_shallow)) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_so4, so4_shallow, 
+      text = paste("SuRGE:", so4_shallow, "<br>",
+                   "NLA:", nla_so4, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    ggtitle("Sulfate") +
+    xlab("NLA SO4") +
+    ylab("SuRGE SO4")} %>%
+  ggplotly(tooltip = "text")
+```
+
+

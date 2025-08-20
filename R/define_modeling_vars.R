@@ -44,10 +44,47 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
            ) # close all_of
     ) %>% # close select
     # filter missing values
-    filter(rowSums(is.na(.)) > 0) %>%
     select(lake_id, where(anyNA)) %>%
     distinct()
-  ##PICK UP HERE. MISSING SOME LAB-BASED CHLA FROM 2016!
+  
+  
+  # FEW MEASUREMENTS OF LAB-BASED CHLA IN 2016!
+  # Inspect missing values
+  dat_raw %>% 
+    select(lake_id, site_id, visit, 
+           # no2_3_shallow, nh4_shallow, op_shallow,
+           # tp_shallow, tn_shallow, 
+           # doc_shallow,
+           turbidity_shallow, turbidity_deep, 
+           chla_sonde_shallow, chla_sonde_deep 
+    ) %>%
+    # filter on variable of interest
+    # 250 and 281 visit 1 missing chem (samples got lost in shipping)
+    # filter(is.na(tp_shallow)) %>%
+    # filter(is.na(tn_shallow)) %>%
+    
+    # 1, 14, and 57 missing inorganics [emailed Nietch 8/15/2025]
+    # filter(is.na(op_shallow)) %>%
+    # filter(is.na(no2_3_shallow)) %>%
+    # filter(is.na(doc_shallow)) %>%
+    
+    # sonde
+    # filter(is.na(turbidity_shallow)) %>% # missing from most of 1009, 184, 190, 235, 237, 250, 
+    # 276, 281, 328, 9
+    # filter(is.na(turbidity_deep)) %>% # 1000, 999, 328, 281, 276, 250, 237, 236...
+    filter(is.na(chla_sonde_shallow)) %>% # 157, 159, 165, 211, 247, 250, 281, 302,323, 999
+    # filter(is.na(chla_sonde_deep)) %>%
+    print(n=Inf)
+  
+  # list of vars to exclude from list
+  exclude_trophic_vars <- c(
+    "algal_density", "cyano_density", # only SuRGE
+    "doc_shallow" # only >=2021
+  )
+  
+  
+  # remove excluded vars from original_vars
+  modeling_vars$trophic_vars <- modeling_vars$trophic_vars[!(modeling_vars$trophic_vars %in% exclude_trophic_vars)] 
   
   # 6. Chemistry variables----
   dat_raw %>% 
@@ -63,29 +100,42 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
     select(lake_id, where(anyNA)) %>%
     distinct()
   
-  # list of chem vars to exclude from modeling list
-  exclude_chem_vars <- 
+  # Restrict list to those we want for modeling
+  modeling_vars$chem_vars <- modeling_vars$chem_vars %>%
     # 2016 only has shallow chemistry
-    expand.grid("_deep",
-                c(
-                  #"tn", "tp", "op", "no2_3", in tropic status vars
-                  "nh4", "no2",  # nutrients
-                  "f", "cl", "br", "so4", # anions
-                  "doc", "toc", # organics
-                  "al", "as", "ba", "be", "ca", # metals
-                  "cd", "cr", "cu", "fe",
-                  "k", "li", "mg", "mn", "na",
-                  "ni", "pb", "p", "sb", "si",
-                  "sn", "sr", "s", "v", "zn"
-                ),
-                stringsAsFactors = FALSE
-    ) %>%
-    mutate(chem_vars_to_exclude = paste0(Var2, Var1)) %>% # paste
-    pull(chem_vars_to_exclude) 
-  
-  # remove excluded vars from original_vars
-  modeling_vars$chem_vars <- modeling_vars$chem_vars[!(modeling_vars$chem_vars %in% exclude_chem_vars)] 
-  
+    .[!grepl("_deep", .)] %>% # remove deep chemistry
+    # add in deep sonde measurement
+    c("turbidity_deep", "do_deep", "ph_deep", "sp_cond_deep") %>%
+    # NO2 not widely available
+    .[!grepl("no2_shallow", .)] %>% #
+    # IC and metals only for >=2021, but we do want SO4
+    .[!(. %in% paste0(c("f", "cl", "br",  # anions
+                        "al", "as", "ba", "be", "ca", # metals
+                        "cd", "cr", "cu", "fe",
+                        "k", "li", "mg", "mn", "na",
+                        "ni", "pb", "p", "sb", "si",
+                        "sn", "sr", "s", "v", "zn"),
+                      "_shallow"))] %>%
+    set_names("chem_var")
+
+  # Review after excluding vars above
+  # Should we backfill these data using NLA?
+  dat_raw %>% 
+    select(lake_id, site_id, visit, 
+           all_of(
+             unname( # must remove name attribute for all_of
+               modeling_vars$chem_vars
+             ) # close unname
+           ) # close all_of
+    ) %>% # close select
+    # filter missing values
+    select(lake_id, where(anyNA)) %>%
+    # distinct() %>%
+    # filter(lake_id >= 1001) %>%
+    # select(lake_id, nh4_shallow,  
+    #        toc_shallow, turbidity_shallow, turbidity_deep, 
+    #        do_shallow, do_deep) %>%
+    # print(n=Inf)
   
   
 return(modeling_vars)

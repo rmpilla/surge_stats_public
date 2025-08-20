@@ -6,6 +6,7 @@ library(visNetwork) # for tar_visnetwork)
 library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
+library(quarto) # for tar_quarto)
 
 # # for development
 # pacman::p_load(
@@ -31,6 +32,7 @@ suppressPackageStartupMessages({ # cleaner output
 
 # SOURCE CUSTOM FUNCTIONS----
 source("R/get_lake_cat_data.R") # get lakeCat variables
+source("R/get_nla_chem.R") # get NLA data
 source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
@@ -81,9 +83,17 @@ list(
   tar_target(
     name = lake_cat_data,
     command = get_lake_cat_data(
-      lake_cat_file = lake_cat_file
-    )),
-
+      lake_cat_file = lake_cat_file)),
+  
+  tar_file(nla17_water_chem_file, "input_data/nla_2017_water_chemistry_chla-data.csv"),
+  tar_file(nla17_sed_chem_file, "input_data/nla_2017_sediment_chemistry-data.csv"),
+  tar_file(nla22_water_chem_file, "input_data/nla22_waterchem_wide.csv"),
+  tar_target(
+    name = nla_chem,
+    command = get_nla_chem(nla17_water_chem_file = nla17_water_chem_file,
+                           nla17_sed_chem_file = nla17_sed_chem_file,
+                           nla22_water_chem_file = nla22_water_chem_file)),
+  
   
   
   ## recreate `dat` object from SuRGE repository-----
@@ -96,16 +106,17 @@ list(
       site_data = site_data,
       lake_scale_data = lake_scale_data,
       phyto_data = phyto_data,
-      lake_cat_data = lake_cat_data
+      lake_cat_data = lake_cat_data,
+      nla_chem = nla_chem
     )
   ),
-
-
+  
+  
   ## initial list of predictor variables----
   tar_target(
     name = original_vars,
     command = define_original_vars() # no argument to this function
-  )
+  ),
   # 
   # ## screen vars for missing observations, select subset for modeling-----
   # tar_target(
@@ -120,5 +131,13 @@ list(
   #   command = trans_dat(dat_raw_lakecat = dat_raw_lakecat,
   #                       modeling_vars = modeling_vars)
   # )
+  
+  ## NLA report----
+  # tar_quarto(nla_chem_comparison_report, 
+  #            path = "reports/nla_chem_comparison_report.qmd",
+  #            output_file = "nla_chem_comparison_report.html")
+  
+  tar_render(nla_chem_comparison_report, 
+             "reports/nla_chem_comparison_report.rmd")
 )
 

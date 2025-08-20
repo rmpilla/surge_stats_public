@@ -129,7 +129,7 @@ define_original_vars <- function() {
                              #"tn", "tp", "op", "no2_3", in tropic status vars
                              "nh4", "no2",  # nutrients
                              "f", "cl", "br", "so4", # anions
-                             "doc", "toc", # organics
+                             "toc", # organics, doc in trophic status
                              "al", "as", "ba", "be", "ca", # metals
                              "cd", "cr", "cu", "fe",
                              "k", "li", "mg", "mn", "na",
