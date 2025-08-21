@@ -51,10 +51,11 @@ get_nla_chem <- function(nla17_water_chem_file,
   
   
   # vector of analytes to keep
-  nla17_analytes <- c("ammonia_n", "chla", "doc",
+  nla17_analytes <- c("ammonia_n", "chla", "doc", "sulfate",
                       "nitrate_n", "nitrite_n", "nitrate_nitrite_n",
+                      "ntl", "ptl", # TN and TP
                       "sed_c",
-                      "ph", "sulfate", "turb")
+                      "ph", "cond", "turb")
   
   # bind rows and pivot to wide
   nla17_chem <- bind_rows(nla17_water_chem, nla17_sed_chem) %>%
@@ -79,7 +80,8 @@ get_nla_chem <- function(nla17_water_chem_file,
     ) %>%
     select(
       !matches(paste(c("date", "dilution", "holding", "volume", "extract",
-                       "lab_sample", "sample_id", "mdl", "flag", "rl"), 
+                       "lab_sample", "sample_id", "mdl", "flag", "rl",
+                       "ptl_diss", "ntl_diss"), # dissolved TN and TP 
                      collapse = "|"))
     ) %>% # close select
     dplyr::rename_with(~paste0("nla22_", .)) %>% # append nla22_ to all columns names
@@ -96,8 +98,6 @@ get_nla_chem <- function(nla17_water_chem_file,
     ) %>%
     select(-nla22_visit_no) 
   
-  # [8/20/2025] don't have NLA22 site_id value, so can't use these data yet.
-  # just return nla17 for now. Can add NLA22 later
   nla_chem <- lst(nla17_chem, nla22_chem)
   return(nla_chem)
   

@@ -23,10 +23,10 @@ tar_load(dat_raw)
 
 
 ## Extraction based chlorophyll a
-We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id) %>% nrow()` of these lakes lakes have chla estimates from 2017 and/or 2022 NLA. 
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA. 
 
-As expected, the concurrence among SuRGE and NLA observations is not great
-```{r chla, echo=FALSE}
+As expected, the concurrence among SuRGE and NLA observations is not great:
+```{r chla_plot, echo=FALSE}
 
 {dat_raw %>%
   select(lake_id, nla17_site_id, nla22_site_id,
@@ -65,8 +65,8 @@ As expected, the concurrence among SuRGE and NLA observations is not great
 
 
 ## SO4
-
-```{r plots, echo=FALSE}
+Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA. Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I wonder if there is something about those regions that lead to greater temporal variability. There are 3 SuRGE lakes where sulfate was undetected and we assigned a value of 0.03 mg/L (the MDL).
+```{r so4_plot, echo=FALSE}
 {dat_raw %>%
   select(lake_id, nla17_site_id, nla22_site_id,
          so4_shallow, nla17_sulfate, nla22_sulfate) %>%
@@ -93,9 +93,321 @@ As expected, the concurrence among SuRGE and NLA observations is not great
     )
     ) +
     geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
     ggtitle("Sulfate") +
     xlab("NLA SO4") +
     ylab("SuRGE SO4")} %>%
+  ggplotly(tooltip = "text")
+```
+
+
+
+## NO2_3
+We are missing NO2_3 (combined NO2 + NO3) measurements for `r dat_raw %>% filter(is.na(no2_3_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains NO2_3 observations for `r if(dat_raw %>% filter(is.na(no2_3_shallow) & (!is.na(nla17_nitrate_nitrite_n) | !is.na(nla22_nitrate_nitrite_n))) %>% distinct(lake_id) %>% nrow() == 0) {"none"} else {dat_raw %>% filter(is.na(no2_3_shallow) & (!is.na(nla17_nitrate_nitrite_n) | !is.na(nla22_nitrate_nitrite_n))) %>% distinct(lake_id) %>% nrow()}` of these lakes.`
+
+```{r no2_3_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           no2_3_shallow, 
+           nla17_nitrate_n, 
+           nla22_nitrate_n) %>% 
+    distinct() %>%
+    mutate(nla17_nitrate_n = nla17_nitrate_n * 1000,
+           nla22_nitrate_n = nla22_nitrate_n * 1000) %>%
+    pivot_longer(
+      cols = c(nla17_nitrate_n, nla22_nitrate_n),
+      names_to = "nla_year",
+      values_to = "nla_no2_3"
+    ) %>%
+    filter(
+      !is.na(nla_no2_3),
+      !is.na(no2_3_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_no2_3, no2_3_shallow, 
+      text = paste("SuRGE:", no2_3_shallow, "<br>",
+                   "NLA:", nla_no2_3, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Nitrate") +
+    xlab("NLA NO3") +
+    ylab("SuRGE NO2_3")} %>%
+  ggplotly(tooltip = "text")
+```
+
+
+## TP
+We are missing TP measurements for `r dat_raw %>% filter(is.na(tp_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains TP observations for `r if(dat_raw %>% filter(is.na(tp_shallow) & (!is.na(nla17_ptl) | !is.na(nla22_ptl))) %>% distinct(lake_id) %>% nrow() == 0) {"none"} else {dat_raw %>% filter(is.na(tp_shallow) & (!is.na(nla17_ptl) | !is.na(nla22_ptl))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+```{r tp_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           tp_shallow, 
+           nla17_ptl, 
+           nla22_ptl) %>% 
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_ptl, nla22_ptl),
+      names_to = "nla_year",
+      values_to = "nla_ptl"
+    ) %>%
+    filter(
+      !is.na(nla_ptl),
+      !is.na(tp_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_ptl, tp_shallow, 
+      text = paste("SuRGE:", tp_shallow, "<br>",
+                   "NLA:", nla_ptl, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Total Phosphorus") +
+    xlab("NLA TP") +
+    ylab("SuRGE TP")} %>%
+  ggplotly(tooltip = "text")
+```
+
+
+## TN
+We are missing TN measurements for `r dat_raw %>% filter(is.na(tn_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains TN observations for `r if(dat_raw %>% filter(is.na(tn_shallow) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(tn_shallow) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+```{r tn_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           tn_shallow, 
+           nla17_ntl, 
+           nla22_ntl) %>% 
+    distinct() %>%
+        mutate(nla17_ntl = nla17_ntl * 1000,
+           nla22_ntl = nla22_ntl * 1000) %>%
+    pivot_longer(
+      cols = c(nla17_ntl, nla22_ntl),
+      names_to = "nla_year",
+      values_to = "nla_ntl"
+    ) %>%
+    filter(
+      !is.na(nla_ntl),
+      !is.na(tn_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_ntl, tn_shallow, 
+      text = paste("SuRGE:", tn_shallow, "<br>",
+                   "NLA:", nla_ntl, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Total Nitrogen") +
+    xlab("NLA TN") +
+    ylab("SuRGE TN") +
+    scale_x_continuous(breaks = seq(0, 30000, 1000))} %>%
+  ggplotly(tooltip = "text")
+
+
+```
+
+
+## NH4
+We are missing NH4 measurements for `r dat_raw %>% filter(is.na(nh4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains NH4 observations for `r if(dat_raw %>% filter(is.na(nh4_shallow) & (!is.na(nla17_ammonia_n) | !is.na(nla22_ammonia_n))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(nh4_shallow) & (!is.na(nla17_ammonia_n) | !is.na(nla22_ammonia_n))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+```{r nh4_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           nh4_shallow, 
+           nla17_ammonia_n, 
+           nla22_ammonia_n) %>% 
+    distinct() %>%
+        mutate(nla17_ammonia_n = nla17_ammonia_n * 1000,
+           nla22_ammonia_n = nla22_ammonia_n * 1000) %>%
+    pivot_longer(
+      cols = c(nla17_ammonia_n, nla22_ammonia_n),
+      names_to = "nla_year",
+      values_to = "nla_ammonia"
+    ) %>%
+    filter(
+      !is.na(nla_ammonia),
+      !is.na(nh4_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_ammonia, nh4_shallow, 
+      text = paste("SuRGE:", nh4_shallow, "<br>",
+                   "NLA:", nla_ammonia, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("NH4") +
+    xlab("NLA NH4") +
+    ylab("SuRGE NH4")} %>%
+  ggplotly(tooltip = "text")
+```
+
+## DOC
+We are missing DOC measurements for `r dat_raw %>% filter(is.na(doc_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains DOC observations for `r if(dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+
+Pretty good concurence between NLA and SuRGE DOC.
+```{r doc_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           doc_shallow, 
+           nla17_doc, 
+           nla22_doc) %>% 
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_doc, nla22_doc),
+      names_to = "nla_year",
+      values_to = "nla_doc"
+    ) %>%
+    filter(
+      !is.na(nla_doc),
+      !is.na(doc_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_doc, doc_shallow, 
+      text = paste("SuRGE:", doc_shallow, "<br>",
+                   "NLA:", nla_doc, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("DOC") +
+    xlab("NLA DOC") +
+    ylab("SuRGE DOC")} %>%
+  ggplotly(tooltip = "text")
+```
+
+## TOC
+No NLA TOC data
+
+## pH
+We are missing shallow pH measurements for `r dat_raw %>% filter(is.na(ph_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains pH observations for `r if(dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+
+
+```{r ph_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           ph_shallow, 
+           nla17_ph, 
+           nla22_ph) %>% 
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_ph, nla22_ph),
+      names_to = "nla_year",
+      values_to = "nla_ph"
+    ) %>%
+    filter(
+      !is.na(nla_ph),
+      !is.na(ph_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_ph, ph_shallow, 
+      text = paste("SuRGE:", ph_shallow, "<br>",
+                   "NLA:", nla_ph, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("pH") +
+    xlab("NLA pH") +
+    ylab("SuRGE pH")} %>%
+  ggplotly(tooltip = "text")
+```
+
+## Specific Conductivity
+We are missing shallow specific conductivity measurements for `r dat_raw %>% filter(is.na(sp_cond_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains specific conductivity observations for `r if(dat_raw %>% filter(is.na(sp_cond_shallow) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(sp_cond_shallow) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow() }` of these lakes.
+
+
+```{r cond_plot, echo=FALSE}
+{dat_raw %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           sp_cond_shallow, 
+           nla17_cond, 
+           nla22_cond) %>% 
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_cond, nla22_cond),
+      names_to = "nla_year",
+      values_to = "nla_cond"
+    ) %>%
+    filter(
+      !is.na(nla_cond),
+      !is.na(sp_cond_shallow)
+    ) %>%
+    pivot_longer(
+      cols = c(nla17_site_id, nla22_site_id),
+      names_to = "nla_parameter",
+      values_to = "nla_site_id"
+    ) %>%
+    filter(!is.na(nla_site_id)) %>%
+    ggplot(aes(
+      nla_cond, sp_cond_shallow, 
+      text = paste("SuRGE:", sp_cond_shallow, "<br>",
+                   "NLA:", nla_cond, "<br>",
+                   "nla_site_id:", nla_site_id, "<br>",
+                   "SuRGE lake_id:", lake_id),
+      color = nla_year
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Specific Conductivity") +
+    xlab("NLA Specific Conductivity") +
+    ylab("SuRGE Specific Conductivity")} %>%
   ggplotly(tooltip = "text")
 ```
 
