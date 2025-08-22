@@ -30300,7 +30300,7 @@
 155,"25",1,"as",0.0041,NA,NA,"shallow","mg_l",0.0041
 155,"25",1,"ba",0.0691,"L",NA,"shallow","mg_l",0.0691
 155,"25",1,"be",0.005,"ND",NA,"shallow","mg_l",0.005
-155,"25",1,"br",0.02,"ND H",NA,"shallow","mg_l",0.02
+155,"25",1,"br",0.02,"ND",NA,"shallow","mg_l",0.02
 155,"25",1,"ca",63.08,NA,NA,"shallow","mg_l",63.08
 155,"25",1,"cd",3e-04,"ND",NA,"shallow","mg_l",3e-04
 155,"25",1,"ch4_sat_ratio",85.1330796046032,NA,NA,"shallow","unitless",NA
@@ -30528,7 +30528,7 @@
 16,"8",1,"dissolved_co2",0.0038,NA,NA,"deep","mol co2 L-1",NA
 16,"8",1,"dissolved_n2o",6.22e-08,NA,NA,"deep","mol n2o L-1",NA
 16,"8",1,"doc",6.6,NA,NA,"deep","mg_c_l",6.6
-16,"8",1,"f",0.005,"ND",NA,"deep","mg_l",0.005
+16,"8",1,"f",0.032,"L H",NA,"deep","mg_l",0.032
 16,"8",1,"fe",5.379,NA,NA,"deep","mg_l",5.379
 16,"8",1,"k",1.24,NA,NA,"deep","mg_l",1.24
 16,"8",1,"li",0.0065,"L",NA,"deep","mg_l",0.0065
@@ -32388,7 +32388,7 @@
 231,"24",1,"ca",63.35,NA,NA,"deep","mg_l",63.35
 231,"24",1,"cd",3e-04,"ND",NA,"deep","mg_l",3e-04
 231,"24",1,"ch4_sat_ratio",163.215410431663,NA,NA,"deep","unitless",NA
-231,"24",1,"cl",0.03,"ND",NA,"deep","mg_l",0.03
+231,"24",1,"cl",84.07,"H",NA,"deep","mg_l",84.07
 231,"24",1,"co2_sat_ratio",5.30179464940902,NA,NA,"deep","unitless",NA
 231,"24",1,"cr",0.001,"ND",NA,"deep","mg_l",0.001
 231,"24",1,"cu",0.001,"ND",NA,"deep","mg_l",0.001
@@ -32415,7 +32415,7 @@
 231,"24",1,"sb",0.003,"ND",NA,"deep","mg_l",0.003
 231,"24",1,"si",13.31,NA,NA,"deep","mg_l",13.31
 231,"24",1,"sn",0.001,"ND",NA,"deep","mg_l",0.001
-231,"24",1,"so4",0.03,"ND",NA,"deep","mg_l",0.03
+231,"24",1,"so4",537.89,"H",NA,"deep","mg_l",537.89
 231,"24",1,"sr",0.4713,"L",NA,"deep","mg_l",0.4713
 231,"24",1,"tn",1215.7,"H",NA,"deep","ug_n_l",1215.7
 231,"24",1,"toc",13.04,NA,NA,"deep","mg_c_l",13.04
@@ -32425,7 +32425,7 @@
 231,"24",1,"br",0.02,"ND",NA,"shallow","mg_l",0.02
 231,"24",1,"ch4_sat_ratio",134.420837712219,NA,NA,"shallow","unitless",NA
 231,"24",1,"chla_lab",35.66,NA,NA,"shallow","ug_l",35.66
-231,"24",1,"cl",0.03,"ND",NA,"shallow","mg_l",0.03
+231,"24",1,"cl",67.41,"H",NA,"shallow","mg_l",67.41
 231,"24",1,"co2_sat_ratio",3.04085214505771,NA,NA,"shallow","unitless",NA
 231,"24",1,"dissolved_ch4",3.48e-06,NA,NA,"shallow","mol ch4 L-1",NA
 231,"24",1,"dissolved_co2",0.000312,NA,NA,"shallow","mol co2 L-1",NA
@@ -32439,7 +32439,7 @@
 231,"24",1,"no2",7.1,"L H",NA,"shallow","ug_n_l",7.1
 231,"24",1,"no2_3",14.7,"L H",NA,"shallow","ug_n_l",14.7
 231,"24",1,"op",1610,"H",NA,"shallow","ug_p_l",1610
-231,"24",1,"so4",0.03,"ND",NA,"shallow","mg_l",0.03
+231,"24",1,"so4",390.89,"H",NA,"shallow","mg_l",390.89
 231,"24",1,"tn",1021.2,"H",NA,"shallow","ug_n_l",1021.2
 231,"24",1,"toc",13.39,NA,NA,"shallow","mg_c_l",13.39
 231,"24",1,"tp",1579.2,"H",NA,"shallow","ug_p_l",1579.2
@@ -33489,7 +33489,7 @@
 275,"12",1,"ca",28.21,NA,NA,"deep","mg_l",28.21
 275,"12",1,"cd",3e-04,"ND",NA,"deep","mg_l",3e-04
 275,"12",1,"ch4_sat_ratio",2504.75361808584,NA,NA,"deep","unitless",NA
-275,"12",1,"cl",51.3,"H",NA,"deep","mg_l",51.3
+275,"12",1,"cl",68.21,"H",NA,"deep","mg_l",68.21
 275,"12",1,"co2_sat_ratio",1.94807228129511,NA,NA,"deep","unitless",NA
 275,"12",1,"cr",0.001,"ND",NA,"deep","mg_l",0.001
 275,"12",1,"cu",0.001,"ND",NA,"deep","mg_l",0.001
@@ -33870,7 +33870,7 @@
 288,"10",1,"dissolved_co2",4.69e-05,NA,NA,"shallow","mol co2 L-1",NA
 288,"10",1,"dissolved_n2o",6.06e-08,NA,NA,"shallow","mol n2o L-1",NA
 288,"10",1,"doc",5.41,NA,NA,"shallow","mg_c_l",5.41
-288,"10",1,"f",0.118,"H S",NA,"shallow","mg_l",0.118
+288,"10",1,"f",0.23,"L H",NA,"shallow","mg_l",0.23
 288,"10",1,"fe",0.0436,"L",NA,"shallow","mg_l",0.0436
 288,"10",1,"k",6.6855,NA,NA,"shallow","mg_l",6.6855
 288,"10",1,"li",0.14495,"L",NA,"shallow","mg_l",0.14495
@@ -33890,7 +33890,7 @@
 288,"10",1,"sb",0.003,"ND",NA,"shallow","mg_l",0.003
 288,"10",1,"si",7.094,NA,NA,"shallow","mg_l",7.094
 288,"10",1,"sn",0.001,"ND",NA,"shallow","mg_l",0.001
-288,"10",1,"so4",20.36,"H S",NA,"shallow","mg_l",20.36
+288,"10",1,"so4",40.7,"H S",NA,"shallow","mg_l",40.7
 288,"10",1,"sr",0.4119,"L",NA,"shallow","mg_l",0.4119
 288,"10",1,"tn",715.5,"H S",NA,"shallow","ug_n_l",715.5
 288,"10",1,"toc",5.32,NA,NA,"shallow","mg_c_l",5.32
@@ -34685,7 +34685,7 @@
 327,"5",1,"sb",0.003,"ND",NA,"deep","mg_l",0.003
 327,"5",1,"si",3.08,"L",NA,"deep","mg_l",3.08
 327,"5",1,"sn",0.001,"ND",NA,"deep","mg_l",0.001
-327,"5",1,"so4",0.03,"ND",NA,"deep","mg_l",0.03
+327,"5",1,"so4",58.15,"H",NA,"deep","mg_l",58.15
 327,"5",1,"sr",0.5566,NA,NA,"deep","mg_l",0.5566
 327,"5",1,"tn",449.3,"H",NA,"deep","ug_n_l",449.3
 327,"5",1,"toc",5.63,NA,NA,"deep","mg_c_l",5.63
@@ -34729,7 +34729,7 @@
 327,"5",1,"sb",0.003,"ND",NA,"shallow","mg_l",0.003
 327,"5",1,"si",3.09,"L",NA,"shallow","mg_l",3.09
 327,"5",1,"sn",0.001,"ND",NA,"shallow","mg_l",0.001
-327,"5",1,"so4",0.03,"ND",NA,"shallow","mg_l",0.03
+327,"5",1,"so4",48.77,"H",NA,"shallow","mg_l",48.77
 327,"5",1,"sr",0.5337,NA,NA,"shallow","mg_l",0.5337
 327,"5",1,"tn",479.4,"H",NA,"shallow","ug_n_l",479.4
 327,"5",1,"toc",4.91,NA,NA,"shallow","mg_c_l",4.91
@@ -36106,7 +36106,7 @@
 67,"4",1,"cd",3e-04,"ND",NA,"shallow","mg_l",3e-04
 67,"4",1,"ch4_sat_ratio",72.0368704577215,NA,NA,"shallow","unitless",NA
 67,"4",1,"chla_lab",8.17,NA,NA,"shallow","ug_l",8.17
-67,"4",1,"cl",37.85,"H",NA,"shallow","mg_l",37.85
+67,"4",1,"cl",39.52,"H",NA,"shallow","mg_l",39.52
 67,"4",1,"co2_sat_ratio",2.65103563329429,NA,NA,"shallow","unitless",NA
 67,"4",1,"cr",0.001,"ND",NA,"shallow","mg_l",0.001
 67,"4",1,"cu",0.001,"ND",NA,"shallow","mg_l",0.001
@@ -37100,7 +37100,7 @@
 78,"29",1,"ca",130,NA,NA,"deep","mg_l",130
 78,"29",1,"cd",3e-04,"ND",NA,"deep","mg_l",3e-04
 78,"29",1,"ch4_sat_ratio",446.890567815453,NA,NA,"deep","unitless",NA
-78,"29",1,"cl",37.58,"H",NA,"deep","mg_l",37.58
+78,"29",1,"cl",36.65,"H",NA,"deep","mg_l",36.65
 78,"29",1,"co2_sat_ratio",1.89929745675884,NA,NA,"deep","unitless",NA
 78,"29",1,"cr",0.001,"ND",NA,"deep","mg_l",0.001
 78,"29",1,"cu",0.0144,"L",NA,"deep","mg_l",0.0144
@@ -37127,7 +37127,7 @@
 78,"29",1,"sb",0.0206,"L",NA,"deep","mg_l",0.0206
 78,"29",1,"si",4.181,NA,NA,"deep","mg_l",4.181
 78,"29",1,"sn",0.001,"ND",NA,"deep","mg_l",0.001
-78,"29",1,"so4",2405.92,"H",NA,"deep","mg_l",2405.92
+78,"29",1,"so4",2098.07,"H",NA,"deep","mg_l",2098.07
 78,"29",1,"sr",1.426,NA,NA,"deep","mg_l",1.426
 78,"29",1,"tn",1659.1,"H",NA,"deep","ug_n_l",1659.1
 78,"29",1,"toc",21.76,NA,NA,"deep","mg_c_l",21.76
@@ -37143,7 +37143,7 @@
 78,"29",1,"cd",3e-04,"ND",NA,"shallow","mg_l",3e-04
 78,"29",1,"ch4_sat_ratio",255.277547976489,NA,NA,"shallow","unitless",NA
 78,"29",1,"chla_lab",1.73,"H",NA,"shallow","ug_l",1.73
-78,"29",1,"cl",38.16,"H",NA,"shallow","mg_l",38.16
+78,"29",1,"cl",36.97,"H",NA,"shallow","mg_l",36.97
 78,"29",1,"co2_sat_ratio",0.743002620604681,NA,NA,"shallow","unitless",NA
 78,"29",1,"cr",0.001,"ND",NA,"shallow","mg_l",0.001
 78,"29",1,"cu",0.001,"ND",NA,"shallow","mg_l",0.001
