@@ -65,7 +65,7 @@ As expected, the concurrence among SuRGE and NLA observations is not great:
 
 
 ## SO4
-Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA. Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I wonder if there is something about those regions that lead to greater temporal variability. There are 3 SuRGE lakes where sulfate was undetected and we assigned a value of 0.03 mg/L (the MDL).
+Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA. Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
 ```{r so4_plot, echo=FALSE}
 {dat_raw %>%
   select(lake_id, nla17_site_id, nla22_site_id,
