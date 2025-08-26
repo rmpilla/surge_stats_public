@@ -28492,8 +28492,11 @@
 1,"8",1,"mn",1.811,NA,NA,"deep","mg_l",1.811
 1,"8",1,"n2o_sat_ratio",0.198904454049314,NA,NA,"deep","unitless",NA
 1,"8",1,"na",11.18,NA,NA,"deep","mg_l",11.18
+1,"8",1,"nh4",45.9,"H",NA,"deep","ug_n_l",45.9
 1,"8",1,"ni",0.001,"ND",NA,"deep","mg_l",0.001
 1,"8",1,"no2",6,"ND",NA,"deep","ug_n_l",6
+1,"8",1,"no2_3",9.8,"L H",NA,"deep","ug_n_l",9.8
+1,"8",1,"op",11.1,"H",NA,"deep","ug_p_l",11.1
 1,"8",1,"p",0.0723,"L",NA,"deep","mg_l",0.0723
 1,"8",1,"pb",0.002,"ND",NA,"deep","mg_l",0.002
 1,"8",1,"s",9.164,"L",NA,"deep","mg_l",9.164
@@ -28533,8 +28536,11 @@
 1,"8",1,"mn",0.0013,"L",NA,"shallow","mg_l",0.0013
 1,"8",1,"n2o_sat_ratio",0.714281347425404,NA,NA,"shallow","unitless",NA
 1,"8",1,"na",12.67,NA,NA,"shallow","mg_l",12.67
+1,"8",1,"nh4",102,"H",NA,"shallow","ug_n_l",102
 1,"8",1,"ni",0.001,"ND",NA,"shallow","mg_l",0.001
 1,"8",1,"no2",6,"ND",NA,"shallow","ug_n_l",6
+1,"8",1,"no2_3",10.1,"L H",NA,"shallow","ug_n_l",10.1
+1,"8",1,"op",11.6,"H",NA,"shallow","ug_p_l",11.6
 1,"8",1,"p",0.005,"ND",NA,"shallow","mg_l",0.005
 1,"8",1,"pb",0.002,"ND",NA,"shallow","mg_l",0.002
 1,"8",1,"s",11.93,"L",NA,"shallow","mg_l",11.93
@@ -29691,8 +29697,11 @@
 14,"8",1,"mg",1.785,NA,NA,"deep","mg_l",1.785
 14,"8",1,"n2o_sat_ratio",0.0293987446456862,NA,NA,"deep","unitless",NA
 14,"8",1,"na",4.172,NA,NA,"deep","mg_l",4.172
+14,"8",1,"nh4",6,"ND H",NA,"deep","ug_n_l",6
 14,"8",1,"ni",0.001,"ND",NA,"deep","mg_l",0.001
 14,"8",1,"no2",6,"ND",NA,"deep","ug_n_l",6
+14,"8",1,"no2_3",6,"ND H",NA,"deep","ug_n_l",6
+14,"8",1,"op",8.7,"H",NA,"deep","ug_p_l",8.7
 14,"8",1,"p",0.0095,"L",NA,"deep","mg_l",0.0095
 14,"8",1,"pb",0.002,"ND",NA,"deep","mg_l",0.002
 14,"8",1,"s",0.3143,"L",NA,"deep","mg_l",0.3143
@@ -29732,8 +29741,11 @@
 14,"8",1,"mn",0.00385,NA,NA,"shallow","mg_l",0.00385
 14,"8",1,"n2o_sat_ratio",0.621798882158273,NA,NA,"shallow","unitless",NA
 14,"8",1,"na",4.8205,NA,NA,"shallow","mg_l",4.8205
+14,"8",1,"nh4",6,"ND H",NA,"shallow","ug_n_l",6
 14,"8",1,"ni",0.001,"ND",NA,"shallow","mg_l",0.001
 14,"8",1,"no2",6.2,NA,NA,"shallow","ug_n_l",6.2
+14,"8",1,"no2_3",6,"ND H",NA,"shallow","ug_n_l",6
+14,"8",1,"op",6.1,"H",NA,"shallow","ug_p_l",6.1
 14,"8",1,"p",0.0084,"L",NA,"shallow","mg_l",0.0084
 14,"8",1,"pb",0.002,"ND",NA,"shallow","mg_l",0.002
 14,"8",1,"s",1.218,"L",NA,"shallow","mg_l",1.218
@@ -35759,10 +35771,16 @@
 55,"14",1,"tp",53,NA,NA,"shallow","ug_p_l",53
 55,"14",1,"v",0.001,"ND",NA,"shallow","mg_l",0.001
 55,"14",1,"zn",0.0023,"L",NA,"shallow","mg_l",0.0023
+57,"2",1,"nh4",58.6,"H",NA,"deep","ug_n_l",58.6
 57,"2",1,"no2",8.1,"L",NA,"deep","ug_n_l",8.1
+57,"2",1,"no2_3",111,"H",NA,"deep","ug_n_l",111
+57,"2",1,"op",10.8,"H",NA,"deep","ug_p_l",10.8
 57,"2",1,"tn",591.9,NA,NA,"deep","ug_n_l",591.9
 57,"2",1,"tp",19,NA,NA,"deep","ug_p_l",19
+57,"2",1,"nh4",30.6,"H",NA,"shallow","ug_n_l",30.6
 57,"2",1,"no2",97,"L",NA,"shallow","ug_n_l",97
+57,"2",1,"no2_3",71.4,"H",NA,"shallow","ug_n_l",71.4
+57,"2",1,"op",12.2,"H",NA,"shallow","ug_p_l",12.2
 57,"2",1,"tn",954.2,NA,NA,"shallow","ug_n_l",954.2
 57,"2",1,"tp",177.9,NA,NA,"shallow","ug_p_l",177.9
 57,"4",1,"al",0.1177,"L",NA,"deep","mg_l",0.1177
