@@ -11,32 +11,43 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Background
 
-Quick comparison of selected analytes measured during SuRGE and the two most recent NLA campaigns (NLA17 and NLA22).
+Quick comparison of selected analytes measured during SuRGE, the two most recent NLA campaigns (NLA17 and NLA22), and lagos.
 
 ## Data
 
 Required data are created via the targets pipeline. Load data here.
 
-```{r data}
+```{r data, echo=FALSE, message=FALSE, warning=FALSE}
 tar_load(dat_raw)
+tar_load(lagos_chem)
+dat_lagos <- left_join(lagos_chem, dat_raw, relationship = "many-to-many")
 ```
 
 
 ## Extraction based chlorophyll a
-We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA. 
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA. `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from LAGOS. 
 
-As expected, the concurrence among SuRGE and NLA observations is not great:
+As expected, the concurrence among SuRGE and NLA observations is not great. 
+
+The LAGOS data highlight the temporal variation within a lake (LAGOS has time series for most lakes, hover cursor over point to reveal sample date). Matching values by sample data is likely important. We could impute chla for lake  `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(lake_id) %>% pull()` from LAGOS, but the SuRGE sampling was conducted on  `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(sample_start) %>% pull()` whereas the LAGOS sampling dates were `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(sample_date) %>% pull()`.
+
+
+None of the available chla data were collected in same year as SuRGE sampling. Maybe not a good idea to impute these values. Are there other data sources we can mine? See here for some 2013-2014 data (https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2016IR.pdf)
+
+`r full_join(dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id, sample_start, nla17_chla, nla22_chla) %>% rename(SuRGE_sample_date = sample_start),            dat_lagos %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_chla_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_chla_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS chla data for missing lakes") %>% kable_styling(full_width = FALSE)`
+
+
 ```{r chla_plot, echo=FALSE}
 
 {dat_raw %>%
-  select(lake_id, nla17_site_id, nla22_site_id,
-         chla_lab_shallow, nla17_chla, nla22_chla) %>%
-  distinct() %>%
-  pivot_longer(
-    cols = c(nla17_chla, nla22_chla),
-    names_to = "nla_year",
-    values_to = "nla_chla"
-  ) %>%
+    select(lake_id, nla17_site_id, nla22_site_id,
+           chla_lab_shallow, nla17_chla, nla22_chla) %>%
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_chla, nla22_chla),
+      names_to = "nla_year",
+      values_to = "nla_chla"
+    ) %>%
     filter(!is.na(nla_chla), !is.na(chla_lab_shallow)) %>%
     pivot_longer(
       cols = c(nla17_site_id, nla22_site_id),
@@ -54,18 +65,51 @@ As expected, the concurrence among SuRGE and NLA observations is not great:
     )
     ) +
     geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
     ggtitle("Extraction Based Chlorophyll a") +
     xlab("NLA chla") +
     ylab("SuRGE chla")} %>%
   ggplotly(tooltip = "text")
 
 
-
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           chla_lab_shallow, lagos_chla_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_chla_shallow)) %>%
+    ggplot(aes(
+      lagos_chla_shallow, chla_lab_shallow, 
+      text = paste("SuRGE:", chla_lab_shallow, "<br>",
+                   "LAGOS:", lagos_chla_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Extraction Based Chlorophyll a") +
+    xlab("LAGOS chla") +
+    ylab("SuRGE chla")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 
 ## SO4
-Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA. Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
+Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA and `r dat_lagos %>% filter(is.na(so4_shallow) & (!is.na(lagos_so4_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from LAGOS. 
+
+
+Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
+
+Comparison with LAGOS is also pretty good. Again, the time series is useful for visualizing temporal variation.
+
+The table shows the available data for the missing observations. A few lakes have observations over multiple years and these show pretty good agreement. I think we can impute the missing SO4 using NLA and LAGOS, but that still leaves 31 lakes with no data. We may need to dig a bit for lake-specific data reports.
+
+
+
+`r full_join(dat_raw %>% filter(is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id, sample_start, nla17_sulfate, nla22_sulfate) %>% rename(SuRGE_sample_date = sample_start, NLA17_SO4 = nla17_sulfate, NLA22_SO4 = nla22_sulfate),  dat_lagos %>% filter(is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_so4_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_so4_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS SO4 data for missing lakes") %>% kable_styling(full_width = FALSE)`
+
 ```{r so4_plot, echo=FALSE}
 {dat_raw %>%
   select(lake_id, nla17_site_id, nla22_site_id,
@@ -98,13 +142,35 @@ Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% fi
     xlab("NLA SO4") +
     ylab("SuRGE SO4")} %>%
   ggplotly(tooltip = "text")
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           so4_shallow, lagos_so4_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_so4_shallow)) %>%
+    ggplot(aes(
+      lagos_so4_shallow, so4_shallow, 
+      text = paste("SuRGE:", so4_shallow, "<br>",
+                   "LAGOS:", lagos_so4_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Sulfate") +
+    xlab("LAGOS SO4") +
+    ylab("SuRGE SO4")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 
 
 ## NO2_3
-We are missing NO2_3 (combined NO2 + NO3) measurements for `r dat_raw %>% filter(is.na(no2_3_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains NO2_3 observations for `r if(dat_raw %>% filter(is.na(no2_3_shallow) & (!is.na(nla17_nitrate_nitrite_n) | !is.na(nla22_nitrate_nitrite_n))) %>% distinct(lake_id) %>% nrow() == 0) {"none"} else {dat_raw %>% filter(is.na(no2_3_shallow) & (!is.na(nla17_nitrate_nitrite_n) | !is.na(nla22_nitrate_nitrite_n))) %>% distinct(lake_id) %>% nrow()}` of these lakes.`
-
+We are missing NO2_3 (combined NO2 + NO3) measurements for `r dat_raw %>% filter(is.na(no2_3_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (aside from visit 1 to lakes 250 and 281 where the samples were lost in mail).
 ```{r no2_3_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -144,11 +210,35 @@ We are missing NO2_3 (combined NO2 + NO3) measurements for `r dat_raw %>% filter
     xlab("NLA NO3") +
     ylab("SuRGE NO2_3")} %>%
   ggplotly(tooltip = "text")
+
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           no2_3_shallow, lagos_no2_3_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_no2_3_shallow)) %>%
+    ggplot(aes(
+      lagos_no2_3_shallow, no2_3_shallow, 
+      text = paste("SuRGE:", no2_3_shallow, "<br>",
+                   "LAGOS:", lagos_no2_3_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Nitrate") +
+    xlab("LAGOS NO2_3") +
+    ylab("SuRGE NO2_3")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 
 ## TP
-We are missing TP measurements for `r dat_raw %>% filter(is.na(tp_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains TP observations for `r if(dat_raw %>% filter(is.na(tp_shallow) & (!is.na(nla17_ptl) | !is.na(nla22_ptl))) %>% distinct(lake_id) %>% nrow() == 0) {"none"} else {dat_raw %>% filter(is.na(tp_shallow) & (!is.na(nla17_ptl) | !is.na(nla22_ptl))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+We are missing TP measurements for `r dat_raw %>% filter(is.na(tp_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (aside from visit 1 to lakes 250 and 281 where the samples were lost in mail). 
 ```{r tp_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -186,11 +276,39 @@ We are missing TP measurements for `r dat_raw %>% filter(is.na(tp_shallow)) %>% 
     xlab("NLA TP") +
     ylab("SuRGE TP")} %>%
   ggplotly(tooltip = "text")
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           tp_shallow, lagos_tp_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_tp_shallow)) %>%
+    ggplot(aes(
+      lagos_tp_shallow, tp_shallow, 
+      text = paste("SuRGE:", tp_shallow, "<br>",
+                   "LAGOS:", lagos_tp_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("TP") +
+    xlab("LAGOS TP") +
+    ylab("SuRGE TP")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 
 ## TN
-We are missing TN measurements for `r dat_raw %>% filter(is.na(tn_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains TN observations for `r if(dat_raw %>% filter(is.na(tn_shallow) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(tn_shallow) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+We are missing TN measurements for `r dat_raw %>% filter(is.na(tn_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains TN observations for `r if(dat_raw %>% filter(is.na(tn_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(tn_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id) %>% nrow()}` of these lakes. LAGOS contains TN for 
+`r dat_lagos %>% filter(is.na(tn_shallow) & (!is.na(lagos_tn_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes.
+
+The NLA comparison with TN is pretty good. Also, the 2 lakes with NLA17 and NLA22 observations agree pretty well (Table 2). I think we can imput the missing SuRGE data with the NLA numbers, especially the 2 NLA22 lakes.
+
+`r dat_raw %>% filter(is.na(tn_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_ntl) | !is.na(nla22_ntl))) %>% distinct(lake_id, sample_start, nla17_ntl, nla22_ntl) %>% rename(SuRGE_sample_date = sample_start, NLA17_TN = nla17_ntl, NLA22_TN = nla22_ntl) %>% kableExtra::kable(caption = "Table 2. NLA TN data for missing lakes") %>% kable_styling(full_width = FALSE)`
 ```{r tn_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -233,11 +351,33 @@ We are missing TN measurements for `r dat_raw %>% filter(is.na(tn_shallow)) %>% 
   ggplotly(tooltip = "text")
 
 
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           tn_shallow, lagos_tn_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_tn_shallow)) %>%
+    ggplot(aes(
+      lagos_tn_shallow, tn_shallow, 
+      text = paste("SuRGE:", tn_shallow, "<br>",
+                   "LAGOS:", lagos_tn_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("TN") +
+    xlab("LAGOS TN") +
+    ylab("SuRGE TN")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 
 ## NH4
-We are missing NH4 measurements for `r dat_raw %>% filter(is.na(nh4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains NH4 observations for `r if(dat_raw %>% filter(is.na(nh4_shallow) & (!is.na(nla17_ammonia_n) | !is.na(nla22_ammonia_n))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(nh4_shallow) & (!is.na(nla17_ammonia_n) | !is.na(nla22_ammonia_n))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+We are missing NH4 measurements for `r dat_raw %>% filter(is.na(nh4_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (aside from visit 1 to lakes 250 and 281 where the samples were lost in mail). 
+
 ```{r nh4_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -280,9 +420,14 @@ We are missing NH4 measurements for `r dat_raw %>% filter(is.na(nh4_shallow)) %>
 ```
 
 ## DOC
-We are missing DOC measurements for `r dat_raw %>% filter(is.na(doc_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains DOC observations for `r if(dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+We are missing DOC measurements for `r dat_raw %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains DOC observations for `r if(dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow()}` of these lakes. LAGOS contains data for 
+`r dat_lagos %>% filter(is.na(doc_shallow) & (!is.na(lagos_doc_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes.
 
-Pretty good concurence between NLA and SuRGE DOC.
+Pretty good concurence between NLA and SuRGE DOC, a bit weaker with LAGOS, but look at the data in table 3. Very good concurence between repeat measurements at one lake, even across multiple years. I think we can impute the missing DOC using NLA and LAGOS, but that still leaves 29 lakes with no data. We may need to dig a bit for lake-specific data reports.
+
+`r full_join(dat_raw %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id, sample_start, nla17_doc, nla22_doc) %>% rename(SuRGE_sample_date = sample_start, NLA17_TN = nla17_doc, NLA22_TN = nla22_doc),  dat_lagos %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_doc_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_doc_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS DOC data for missing lakes") %>% kable_styling(full_width = FALSE)`
+
+    
 ```{r doc_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -320,13 +465,39 @@ Pretty good concurence between NLA and SuRGE DOC.
     xlab("NLA DOC") +
     ylab("SuRGE DOC")} %>%
   ggplotly(tooltip = "text")
+
+
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           doc_shallow, lagos_doc_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_doc_shallow)) %>%
+    ggplot(aes(
+      lagos_doc_shallow, doc_shallow, 
+      text = paste("SuRGE:", doc_shallow, "<br>",
+                   "LAGOS:", lagos_doc_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("DOC") +
+    xlab("LAGOS DOC") +
+    ylab("SuRGE DOC")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 ## TOC
-No NLA TOC data
+We are missing shallow TOC measurements for `r dat_raw %>% filter(is.na(toc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (aside from visit 1 to lakes 250 and 281 where the samples were lost in mail).
 
 ## pH
-We are missing shallow pH measurements for `r dat_raw %>% filter(is.na(ph_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains pH observations for `r if(dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow()}` of these lakes.
+We are missing shallow pH measurements for `r dat_raw %>% filter(is.na(ph_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains pH observations for `r if(dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(ph_shallow) & (!is.na(nla17_ph) | !is.na(nla22_ph))) %>% distinct(lake_id) %>% nrow()}` of these lakes.  LAGOS contains pH for 
+`r dat_lagos %>% filter(is.na(ph_shallow) & (!is.na(lagos_ph_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes.
 
 
 ```{r ph_plot, echo=FALSE}
@@ -366,12 +537,39 @@ We are missing shallow pH measurements for `r dat_raw %>% filter(is.na(ph_shallo
     xlab("NLA pH") +
     ylab("SuRGE pH")} %>%
   ggplotly(tooltip = "text")
+
+
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           ph_shallow, lagos_ph_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_ph_shallow)) %>%
+    ggplot(aes(
+      lagos_ph_shallow, ph_shallow, 
+      text = paste("SuRGE:", ph_shallow, "<br>",
+                   "LAGOS:", lagos_ph_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("pH") +
+    xlab("LAGOS pH") +
+    ylab("SuRGE pH")} %>%
+  ggplotly(tooltip = "text")
 ```
 
 ## Specific Conductivity
-We are missing shallow specific conductivity measurements for `r dat_raw %>% filter(is.na(sp_cond_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains specific conductivity observations for `r if(dat_raw %>% filter(is.na(sp_cond_shallow) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(sp_cond_shallow) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow() }` of these lakes.
+We are missing shallow specific conductivity measurements for `r dat_raw %>% filter(is.na(sp_cond_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains specific conductivity observations for `r if(dat_raw %>% filter(is.na(sp_cond_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(sp_cond_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id) %>% nrow()}` of these lakes. LAGOS contains specific conductivity for 
+`r dat_lagos %>% filter(is.na(sp_cond_shallow) & (!is.na(lagos_sp_cond_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes.
 
 
+`r dat_raw %>% filter(is.na(sp_cond_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_cond) | !is.na(nla22_cond))) %>% distinct(lake_id, sample_start, nla17_cond, nla22_cond) %>% rename(SuRGE_sample_date = sample_start, NLA17_sp_cond = nla17_cond, NLA22_sp_cond = nla22_cond) %>% kableExtra::kable(caption = "Table 4. NLA sp_cond data for missing lakes") %>% kable_styling(full_width = FALSE)`
 ```{r cond_plot, echo=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
@@ -408,6 +606,30 @@ We are missing shallow specific conductivity measurements for `r dat_raw %>% fil
     ggtitle("Specific Conductivity") +
     xlab("NLA Specific Conductivity") +
     ylab("SuRGE Specific Conductivity")} %>%
+  ggplotly(tooltip = "text")
+
+
+
+{dat_lagos %>%
+    select(lake_id, lagoslakeid, sample_date,
+           sp_cond_shallow, lagos_sp_cond_shallow) %>%
+    distinct() %>%
+    filter(!is.na(lagos_sp_cond_shallow)) %>%
+    ggplot(aes(
+      lagos_sp_cond_shallow, sp_cond_shallow, 
+      text = paste("SuRGE:", sp_cond_shallow, "<br>",
+                   "LAGOS:", lagos_sp_cond_shallow, "<br>",
+                   "lagoslakeid:", lagoslakeid, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "LAGOS sample date:", sample_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("sp_cond") +
+    xlab("LAGOS sp_cond") +
+    ylab("SuRGE sp_cond")} %>%
   ggplotly(tooltip = "text")
 ```
 

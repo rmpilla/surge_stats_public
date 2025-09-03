@@ -105,12 +105,19 @@ merge_data <- function(
   ## lake_scale_data----
   ### pivot----
   lake_scale_data_w <- lake_scale_data %>%
-    # retain nla17_site_id and nla22_site_id
+    # retain nla17_site_id, nla22_site_id, and lagoslakeid
     filter(!name %in% c(
       "nla12_site_id", "nla07_site_id",
-      "nhdplus_comid", "gnis_id", "lagoslakeid",
+      "nhdplus_comid", "gnis_id",
       "hylak_id", "grand_id", "nid_id"
     )) %>%
+    # must deal with lakes 231 and 69 that have two lagoslakeid values
+    filter(
+      # 69 (Oahe) includes two large lagos polygons. Omit both.
+      !(lake_id == 69 & name == "lagoslakeid"),
+      # 231 has one small and one large lagos polygon. Omit small.  
+      !(lake_id == 231 & name == "lagoslakeid" & value == 351297)
+    ) %>%
     # pivot wider
     tidyr::pivot_wider(
       names_from = name,
@@ -121,7 +128,7 @@ merge_data <- function(
                      ag_eco9_value, ag_eco9_nm_value, 
                      depth_cat_value, chla_cat_value, 
                      study_value, nla17_site_id_value, nla22_site_id_value),
-                     as.numeric)) %>% # convert to numeric
+                  as.numeric)) %>% # convert to numeric
     # remove "_value" from column names
     rename_with(
       ~ gsub("_value", "", .x), # replace "_value" with ""

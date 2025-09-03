@@ -25,7 +25,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "janitor", # enforce naming conventions
                  "GGally", # pairs plots with rho 
                  "plotly",
-                 "tidymodels")
+                 "tidymodels",
+                 "kableExtra")
   )
 })
 
@@ -33,6 +34,7 @@ suppressPackageStartupMessages({ # cleaner output
 # SOURCE CUSTOM FUNCTIONS----
 source("R/get_lake_cat_data.R") # get lakeCat variables
 source("R/get_nla_chem.R") # get NLA data
+source("R/get_lagos_chem.R") # read in lagos chem data
 source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
@@ -94,7 +96,10 @@ list(
                            nla17_sed_chem_file = nla17_sed_chem_file,
                            nla22_water_chem_file = nla22_water_chem_file)),
   
-  
+  tar_file(lagos_chem_file, "input_data/lagos_chem.rds"),
+  tar_target(
+    name = lagos_chem,
+    command = get_lagos_chem(lagos_chem_file = lagos_chem_file)),
   
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
