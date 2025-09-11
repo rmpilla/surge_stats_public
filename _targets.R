@@ -6,7 +6,7 @@ library(visNetwork) # for tar_visnetwork)
 library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
-library(quarto) # for tar_quarto)
+
 
 # # for development
 # pacman::p_load(
@@ -38,7 +38,10 @@ source("R/get_lagos_chem.R") # read in lagos chem data
 source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
-#source("R/trans_data.R") # transform data
+source("R/get_aquamatch_data.R") # aquamatch doc and chla
+source("R/impute_data.R") # impute missing data
+source("R/trans_data.R") # transform data
+source("R/update_modeling_vars.R") # update list of vars to relfect transformations
 
 # TARGETS PIPELINE------------------
 
@@ -101,6 +104,11 @@ list(
     name = lagos_chem,
     command = get_lagos_chem(lagos_chem_file = lagos_chem_file)),
   
+  tar_file(aquamatch_file, "input_data/surge_doc-chl_AquaMatch-matchups_2025Sep04.csv"),
+  tar_target(
+    name = aquamatch_data,
+    command = get_aquamatch_data(aquamatch_file = aquamatch_file)),
+  
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
     name = dat_raw,
@@ -122,27 +130,39 @@ list(
     name = original_vars,
     command = define_original_vars() # no argument to this function
   ),
-  # 
-  # ## screen vars for missing observations, select subset for modeling-----
-  # tar_target(
-  #   name = modeling_vars,
-  #   command = define_modeling_vars(dat_raw_lakecat = dat_raw_lakecat,
-  #                               original_vars = original_vars)
-  # )
   
-  # ## transform data-----
-  # tar_target(
-  #   name = dat_raw_lakecat,
-  #   command = trans_dat(dat_raw_lakecat = dat_raw_lakecat,
-  #                       modeling_vars = modeling_vars)
-  # )
+  ## impute missing chemistry date
+  tar_target(
+    name = dat_impute,
+    command = impute_data(dat_raw = dat_raw, 
+                          lagos_chem = lagos_chem, 
+                          aquamatch_data = aquamatch_data)
+  ),
+
+  ## screen vars for missing observations, select subset for modeling-----
+  tar_target(
+    name = modeling_vars,
+    command = define_modeling_vars(dat_impute = dat_impute,
+                                original_vars = original_vars)
+  ),
   
-  ## NLA report----
-  # tar_quarto(nla_chem_comparison_report, 
-  #            path = "reports/nla_chem_comparison_report.qmd",
-  #            output_file = "nla_chem_comparison_report.html")
+  ## transform data-----
+  tar_target(
+    name = dat_trans,
+    command = trans_dat(dat_impute = dat_impute,
+                        modeling_vars = modeling_vars)
+  ),
+
+  ## update list of modeling vars to reflect transformations-----
+  tar_target(
+    name = modeling_vars_update,
+    command = update_modeling_vars(dat_trans = dat_trans,
+                                   modeling_vars = modeling_vars)
+  ),
+  # next step is screen for collinearity
   
+
   tar_render(nla_chem_comparison_report, 
-             "reports/nla_chem_comparison_report.rmd")
+             "reports/nla_chem_comparison_report.Rmd")
 )
 

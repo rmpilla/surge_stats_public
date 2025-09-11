@@ -1,4 +1,4 @@
-define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
+define_modeling_vars <- function(original_vars, dat_impute) {
   
   # CREATE LIST TO HOLD SUBSET OF VARS TO BE USED FOR MODELING----
   modeling_vars <- original_vars
@@ -8,7 +8,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
   # some negative buoyf values
   # One missing buoyf value (lake 71, no depth profile at that lake)
   # missing NWI data (see SuRGE issue #110)
-  dat_raw %>% 
+  dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
@@ -35,7 +35,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
   
   
   # 2. Trophic variables----
-  dat_raw %>% 
+  dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
@@ -50,7 +50,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
   
   # FEW MEASUREMENTS OF LAB-BASED CHLA IN 2016!
   # Inspect missing values
-  dat_raw %>% 
+  dat_impute %>% 
     select(lake_id, site_id, visit, 
            # no2_3_shallow, nh4_shallow, op_shallow,
            # tp_shallow, tn_shallow, 
@@ -62,12 +62,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
     # 250 and 281 visit 1 missing chem (samples got lost in shipping)
     # filter(is.na(tp_shallow)) %>%
     # filter(is.na(tn_shallow)) %>%
-    
-    # 1, 14, and 57 missing inorganics [emailed Nietch 8/15/2025]
-    # filter(is.na(op_shallow)) %>%
-    # filter(is.na(no2_3_shallow)) %>%
-    # filter(is.na(doc_shallow)) %>%
-    
+
     # sonde
     # filter(is.na(turbidity_shallow)) %>% # missing from most of 1009, 184, 190, 235, 237, 250, 
     # 276, 281, 328, 9
@@ -78,8 +73,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
   
   # list of vars to exclude from list
   exclude_trophic_vars <- c(
-    "algal_density", "cyano_density", # only SuRGE
-    "doc_shallow" # only >=2021
+    "algal_density", "cyano_density" # only SuRGE
   )
   
   
@@ -87,7 +81,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
   modeling_vars$trophic_vars <- modeling_vars$trophic_vars[!(modeling_vars$trophic_vars %in% exclude_trophic_vars)] 
   
   # 6. Chemistry variables----
-  dat_raw %>% 
+  dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
@@ -105,9 +99,13 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
     # 2016 only has shallow chemistry
     .[!grepl("_deep", .)] %>% # remove deep chemistry
     # add in deep sonde measurement
-    c("turbidity_deep", "do_deep", "ph_deep", "sp_cond_deep") %>%
+    c("do_deep") %>%
     # NO2 not widely available
     .[!grepl("no2_shallow", .)] %>% #
+    # specific conductivity missing from a few lakes
+    .[!grepl("sp_cond_shallow", .)] %>%
+    # pH not a predictor and missing from a few lakes
+    .[!grepl("ph_shallow", .)] %>%
     # IC and metals only for >=2021, but we do want SO4
     .[!(. %in% paste0(c("f", "cl", "br",  # anions
                         "al", "as", "ba", "be", "ca", # metals
@@ -119,8 +117,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
     set_names("chem_var")
 
   # Review after excluding vars above
-  # Should we backfill these data using NLA?
-  dat_raw %>% 
+  dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
@@ -129,7 +126,7 @@ define_modeling_vars <- function(dat_raw_lakecat, original_vars) {
            ) # close all_of
     ) %>% # close select
     # filter missing values
-    select(lake_id, where(anyNA)) %>%
+    select(lake_id, where(anyNA)) 
     # distinct() %>%
     # filter(lake_id >= 1001) %>%
     # select(lake_id, nh4_shallow,  

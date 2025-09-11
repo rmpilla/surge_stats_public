@@ -2,16 +2,21 @@
 title: "NLA vs SuRGE chemistry"
 author: "J. Beaulieu"
 date: "2025-08-20"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(knitr.kable.NA = '')
 ```
 
 ## Background
 
-Quick comparison of selected analytes measured during SuRGE, the two most recent NLA campaigns (NLA17 and NLA22), and lagos.
+Quick comparison of selected analytes measured during SuRGE, the two most recent NLA campaigns (NLA17 and NLA22), lagos, and aquamatch (doc and chla).
 
 ## Data
 
@@ -20,21 +25,19 @@ Required data are created via the targets pipeline. Load data here.
 ```{r data, echo=FALSE, message=FALSE, warning=FALSE}
 tar_load(dat_raw)
 tar_load(lagos_chem)
+tar_load(aquamatch_data)
 dat_lagos <- left_join(lagos_chem, dat_raw, relationship = "many-to-many")
+dat_aquamatch <- left_join(aquamatch_data, dat_raw, by = "lake_id", relationship = "many-to-many")
 ```
 
 
 ## Extraction based chlorophyll a
-We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA. `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from LAGOS. 
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA. `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from LAGOS, and `r dat_aquamatch %>% filter(is.na(chla_lab_shallow) & (!is.na(aquamatch_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` lakes has chla from aquamatch.
 
-As expected, the concurrence among SuRGE and NLA observations is not great. 
+As expected, the concurrence among the various datasets is not great. 
 
-The LAGOS data highlight the temporal variation within a lake (LAGOS has time series for most lakes, hover cursor over point to reveal sample date). Matching values by sample data is likely important. We could impute chla for lake  `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(lake_id) %>% pull()` from LAGOS, but the SuRGE sampling was conducted on  `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(sample_start) %>% pull()` whereas the LAGOS sampling dates were `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow))) %>% distinct(sample_date) %>% pull()`.
+The LAGOS and aquamatch data highlight the temporal variation within a lake ( time series available for most lakes, hover cursor over point to reveal sample date). Matching values by sample data is likely important. 
 
-
-None of the available chla data were collected in same year as SuRGE sampling. Maybe not a good idea to impute these values. Are there other data sources we can mine? See here for some 2013-2014 data (https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2016IR.pdf)
-
-`r full_join(dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_chla) | !is.na(nla22_chla))) %>% distinct(lake_id, sample_start, nla17_chla, nla22_chla) %>% rename(SuRGE_sample_date = sample_start),            dat_lagos %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_chla_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_chla_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS chla data for missing lakes") %>% kable_styling(full_width = FALSE)`
 
 
 ```{r chla_plot, echo=FALSE}
@@ -93,8 +96,74 @@ None of the available chla data were collected in same year as SuRGE sampling. M
     xlab("LAGOS chla") +
     ylab("SuRGE chla")} %>%
   ggplotly(tooltip = "text")
+
+
+{dat_aquamatch %>%
+    select(lake_id, activity_start_date,
+           chla_lab_shallow, aquamatch_chla_shallow) %>%
+    distinct() %>%
+    filter(!is.na(aquamatch_chla_shallow)) %>%
+    ggplot(aes(
+      aquamatch_chla_shallow, chla_lab_shallow, 
+      text = paste("SuRGE:", chla_lab_shallow, "<br>",
+                   "aquamatch:", aquamatch_chla_shallow, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "aquamatch sample date:", activity_start_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("Extraction Based Chlorophyll a") +
+    xlab("aquamatch chla") +
+    ylab("SuRGE chla")} %>%
+  ggplotly(tooltip = "text")
 ```
 
+
+None of the datasets have chla from the same year as the SuRGE sampling.  
+
+Are there other data sources we can mine? See here for some 2013-2014 data (https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2016IR.pdf). Scott Jacobs will dig into USACE data. I found data for Acton Lake (lake_id == 1001) from Vanni's EDI repo.
+
+
+
+```{r chla_table, echo=FALSE, message=FALSE}
+left_join(
+  dat_raw %>% 
+    select(lake_id, visit, sample_start, 
+           chla_lab_shallow, nla17_chla, nla22_chla) %>%
+    distinct() %>%
+    filter(
+      is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)
+    ) %>%
+    select(-visit),
+  dat_lagos %>% 
+    select(lake_id, sample_date, lagos_chla_shallow) %>%
+    rename(lagos_sample_date = sample_date)
+) %>%
+  left_join(
+    dat_aquamatch %>%
+      filter(!is.na(aquamatch_chla_shallow)) %>%
+      select(lake_id, activity_start_date, aquamatch_chla_shallow) %>%
+      rename(aquamatch_sample_date = activity_start_date) %>%
+      distinct()
+  ) %>%
+  rename(surge_sample_date = sample_start) %>%
+  filter(
+    !is.na(lagos_chla_shallow) | 
+      !is.na(aquamatch_chla_shallow) | 
+      !is.na(nla17_chla) | 
+      !is.na(nla22_chla)
+  ) %>%
+  select(-chla_lab_shallow) %>%
+  arrange(lake_id, aquamatch_sample_date) %>% 
+  distinct() %>%
+  kableExtra::kable(caption = "Table 3. NLA, LAGOS, and aquamatch chla data for missing lakes") %>% 
+  column_spec(1, bold = T) %>%
+  kable_styling("hover", full_width = FALSE) %>%
+  collapse_rows(columns = 1:2)
+
+```
 
 ## SO4
 Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA and `r dat_lagos %>% filter(is.na(so4_shallow) & (!is.na(lagos_so4_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from LAGOS. 
@@ -104,22 +173,21 @@ Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Intere
 
 Comparison with LAGOS is also pretty good. Again, the time series is useful for visualizing temporal variation.
 
-The table shows the available data for the missing observations. A few lakes have observations over multiple years and these show pretty good agreement. I think we can impute the missing SO4 using NLA and LAGOS, but that still leaves 31 lakes with no data. We may need to dig a bit for lake-specific data reports.
 
-
-
-`r full_join(dat_raw %>% filter(is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id, sample_start, nla17_sulfate, nla22_sulfate) %>% rename(SuRGE_sample_date = sample_start, NLA17_SO4 = nla17_sulfate, NLA22_SO4 = nla22_sulfate),  dat_lagos %>% filter(is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_so4_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_so4_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS SO4 data for missing lakes") %>% kable_styling(full_width = FALSE)`
 
 ```{r so4_plot, echo=FALSE}
-{dat_raw %>%
-  select(lake_id, nla17_site_id, nla22_site_id,
-         so4_shallow, nla17_sulfate, nla22_sulfate) %>%
-  distinct() %>%
-  pivot_longer(
-    cols = c(nla17_sulfate, nla22_sulfate),
-    names_to = "nla_year",
-    values_to = "nla_so4"
-  ) %>%
+{
+  dat_raw %>%
+    select(
+      lake_id, nla17_site_id, nla22_site_id,
+      so4_shallow, nla17_sulfate, nla22_sulfate
+    ) %>%
+    distinct() %>%
+    pivot_longer(
+      cols = c(nla17_sulfate, nla22_sulfate),
+      names_to = "nla_year",
+      values_to = "nla_so4"
+    ) %>%
     filter(!is.na(nla_so4), !is.na(so4_shallow)) %>%
     pivot_longer(
       cols = c(nla17_site_id, nla22_site_id),
@@ -128,19 +196,21 @@ The table shows the available data for the missing observations. A few lakes hav
     ) %>%
     filter(!is.na(nla_site_id)) %>%
     ggplot(aes(
-      nla_so4, so4_shallow, 
-      text = paste("SuRGE:", so4_shallow, "<br>",
-                   "NLA:", nla_so4, "<br>",
-                   "nla_site_id:", nla_site_id, "<br>",
-                   "SuRGE lake_id:", lake_id),
+      nla_so4, so4_shallow,
+      text = paste(
+        "SuRGE:", so4_shallow, "<br>",
+        "NLA:", nla_so4, "<br>",
+        "nla_site_id:", nla_site_id, "<br>",
+        "SuRGE lake_id:", lake_id
+      ),
       color = nla_year
-    )
-    ) +
+    )) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
     ggtitle("Sulfate") +
     xlab("NLA SO4") +
-    ylab("SuRGE SO4")} %>%
+    ylab("SuRGE SO4")
+} %>%
   ggplotly(tooltip = "text")
 
 
@@ -164,6 +234,65 @@ The table shows the available data for the missing observations. A few lakes hav
     ggtitle("Sulfate") +
     xlab("LAGOS SO4") +
     ylab("SuRGE SO4")} %>%
+  ggplotly(tooltip = "text")
+```
+
+The table shows the available data for the missing observations. A few lakes have observations over multiple years and these show pretty good agreement. I think we can impute the missing SO4 using NLA and LAGOS, but that still leaves 31 lakes with no data. We may need to dig a bit for lake-specific data reports.
+
+
+
+```{r so4_table, echo = FALSE, message = FALSE}
+full_join(
+  dat_raw %>% 
+    filter(
+      is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))
+      ) %>% 
+    distinct(
+      lake_id, sample_start, nla17_sulfate, nla22_sulfate
+      ) %>% 
+    rename(
+      SuRGE_sample_date = sample_start, 
+      NLA17_SO4 = nla17_sulfate, 
+      NLA22_SO4 = nla22_sulfate
+      ), 
+  dat_lagos %>% 
+    filter(
+      is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_so4_shallow)
+      ) %>% 
+    select(
+      lake_id, sample_start, sample_date, lagos_so4_shallow
+      ) %>% 
+    distinct() %>% 
+    rename(
+      SuRGE_sample_date = sample_start, 
+      lagos_sample_date = sample_date)
+  ) %>%
+  kableExtra::kable(caption = "Table 3. NLA and LAGOS SO4 data for missing lakes") %>%
+  kable_styling(full_width = FALSE)
+```
+
+Another possibility is to estimate sulfate based on conductivity. The relationship is pretty good in Northern Appalachians, Northern Plains, and Upper Midwest. Northern Plains lake 75 (Freeman Lake) is an outlier with exceptionally high SO4 given the conductivity. This lake is known to be weird; for example, nitrate is 30 mg/l! 
+
+We could estimate sulfate from conductivity for the 10 Northern Appalachian and 2 Upper Midwest lakes for which it is missing.
+```{r so4_by_eco, echo=FALSE, message=FALSE}
+dat_raw %>% 
+  filter(is.na(so4_shallow)) %>% 
+  distinct(lake_id, ag_eco9_nm) %>%
+  {table(.$ag_eco9_nm)} %>%
+    kableExtra::kable(caption = "Number of lakes with missing sulfate by ecoregion") %>%
+  kable_styling(full_width = FALSE)
+
+```
+
+```{r so4_cond_plot, echo = FALSE, message = FALSE}
+{dat_raw %>%
+    filter(!is.na(ag_eco9_nm)) %>%
+    ggplot(aes(
+      sp_cond_shallow, so4_shallow, 
+      text = paste("SuRGE lake_id:", lake_id))) +
+    geom_point() +
+    facet_wrap(~ag_eco9_nm, scales = "free") +
+    theme(panel.spacing.y = unit(1.5, "cm"))} %>% 
   ggplotly(tooltip = "text")
 ```
 
@@ -421,14 +550,13 @@ We are missing NH4 measurements for `r dat_raw %>% filter(is.na(nh4_shallow) & !
 
 ## DOC
 We are missing DOC measurements for `r dat_raw %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. NLA contains DOC observations for `r if(dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow() == 0) {print("none")} else {dat_raw %>% filter(is.na(doc_shallow) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id) %>% nrow()}` of these lakes. LAGOS contains data for 
-`r dat_lagos %>% filter(is.na(doc_shallow) & (!is.na(lagos_doc_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes.
+`r dat_lagos %>% filter(is.na(doc_shallow) & (!is.na(lagos_doc_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes. `r dat_aquamatch %>% filter(is.na(doc_shallow) & (!is.na(aquamatch_doc_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` lakes has DOC from aquamatch.
 
-Pretty good concurence between NLA and SuRGE DOC, a bit weaker with LAGOS, but look at the data in table 3. Very good concurence between repeat measurements at one lake, even across multiple years. I think we can impute the missing DOC using NLA and LAGOS, but that still leaves 29 lakes with no data. We may need to dig a bit for lake-specific data reports.
+Pretty good concurence between NLA and SuRGE DOC, a bit weaker with LAGOS, but look at the data in table 3. Very good concurence between repeat measurements at one lake, even across multiple years. I think we can impute the missing DOC using NLA, LAGOS, and aquamatch. These 3 datasets provide matches to 51 of the missing lakes.
 
-`r full_join(dat_raw %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & (!is.na(nla17_doc) | !is.na(nla22_doc))) %>% distinct(lake_id, sample_start, nla17_doc, nla22_doc) %>% rename(SuRGE_sample_date = sample_start, NLA17_TN = nla17_doc, NLA22_TN = nla22_doc),  dat_lagos %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(lagos_doc_shallow)) %>% select(lake_id, sample_start, sample_date, lagos_doc_shallow) %>% distinct() %>% rename(SuRGE_sample_date = sample_start, lagos_sample_date = sample_date)) %>% kableExtra::kable(caption = "Table 3. NLA and LAGOS DOC data for missing lakes") %>% kable_styling(full_width = FALSE)`
-
+The only DOC data available for seven of the lakes are from aquamatch observations in the late 1970s. The 1970's data matches contemporay observations fairly well in a few of the other lakes (e.g. 1026, 1019, 1011) so maybe these old data are OK, but more recent observations would be preferable.
     
-```{r doc_plot, echo=FALSE}
+```{r doc_plot, echo=FALSE, message=FALSE}
 {dat_raw %>%
     select(lake_id, nla17_site_id, nla22_site_id,
            doc_shallow, 
@@ -490,7 +618,74 @@ Pretty good concurence between NLA and SuRGE DOC, a bit weaker with LAGOS, but l
     xlab("LAGOS DOC") +
     ylab("SuRGE DOC")} %>%
   ggplotly(tooltip = "text")
+
+
+
+{dat_aquamatch %>%
+    select(lake_id, activity_start_date,
+           doc_shallow, aquamatch_doc_shallow) %>%
+    distinct() %>%
+    filter(!is.na(aquamatch_doc_shallow),
+           !(lake_id %in% 69:70), # huge lakes with lots of variation
+           activity_start_date > as.Date("2000-01-01")) %>%
+    ggplot(aes(
+      aquamatch_doc_shallow, doc_shallow, 
+      text = paste("SuRGE:", doc_shallow, "<br>",
+                   "aquamatch:", aquamatch_doc_shallow, "<br>",
+                   "SuRGE lake_id:", lake_id, "<br>",
+                   "aquamatch sample date:", activity_start_date),
+      color = as.factor(lake_id)
+    )
+    ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggtitle("DOC") +
+    xlab("aquamatch DOC") +
+    ylab("SuRGE DOC")} %>%
+  ggplotly(tooltip = "text")
 ```
+
+
+```{r doc_table, echo=FALSE, message=FALSE, warning=FALSE}
+
+left_join(
+  dat_raw %>% 
+    select(lake_id, visit, sample_start, 
+           doc_shallow, nla17_doc, nla22_doc) %>%
+    distinct() %>%
+    filter(
+      is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)
+    ) %>%
+    select(-visit),
+  dat_lagos %>% 
+    select(lake_id, sample_date, lagos_doc_shallow) %>%
+    rename(lagos_sample_date = sample_date) %>%
+    filter(!is.na(lagos_doc_shallow))
+) %>%
+  left_join(
+    dat_aquamatch %>%
+      filter(!is.na(aquamatch_doc_shallow)) %>%
+      select(lake_id, activity_start_date, aquamatch_doc_shallow) %>%
+      rename(aquamatch_sample_date = activity_start_date) %>%
+      distinct()
+  ) %>%
+  rename(surge_sample_date = sample_start) %>%
+  filter(
+    !is.na(lagos_doc_shallow) | 
+      !is.na(aquamatch_doc_shallow) | 
+      !is.na(nla17_doc) | 
+      !is.na(nla22_doc)
+  ) %>%
+  select(-doc_shallow) %>%
+  arrange(lake_id, aquamatch_sample_date) %>% 
+  distinct() %>%
+  kableExtra::kable(caption = "Table 3. NLA, LAGOS, and aquamatch doc data for missing lakes") %>% 
+  column_spec(1, bold = T) %>%
+  kable_styling("hover", full_width = FALSE) %>%
+  collapse_rows(columns = 1:2)
+
+```
+
 
 ## TOC
 We are missing shallow TOC measurements for `r dat_raw %>% filter(is.na(toc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (aside from visit 1 to lakes 250 and 281 where the samples were lost in mail).
@@ -633,4 +828,258 @@ We are missing shallow specific conductivity measurements for `r dat_raw %>% fil
   ggplotly(tooltip = "text")
 ```
 
+## Put it all together
+The code below replaces missing values with those from NLA, LAGOS, or aquamatch. Preference is given to values from the same year as the SuRGE sampling, else we use the mean of all available data. Aquamatch values from earlier than 2009 are ommitted.
+
+
+```{r impute, echo=FALSE, message = FALSE}
+# TN
+# missing values are from 2022 SuRGE sampling. Replace with
+# NLA22 when available, else NLA17.
+dat_raw <- 
+  dat_raw %>%
+  mutate(tn_shallow = case_when(
+    is.na(tn_shallow) & !is.na(nla22_ntl) ~ nla22_ntl,
+    is.na(tn_shallow) & is.na(nla22_ntl) & !is.na(nla17_ntl) ~ nla17_ntl,
+    TRUE ~ tn_shallow
+  ))
+
+# chla
+# only have data for Acton Lake (1001) from Vanni's EDI repo
+# https://portal.edirepository.org/nis/mapbrowse?packageid=edi.256.3
+# input_data/ActonLakeIntegrated.csv
+dat_raw <- 
+  dat_raw %>%
+  mutate(chla_lab_shallow = case_when(
+    lake_id == 1001 ~ 28.98, # 28.98 ug/L from Vanni for 5/31/2016
+    TRUE ~ chla_lab_shallow
+  ))
+
+# SULFATE
+# impute with lagos and/or NLA
+# none of the lagos or NLA data are from same year at SuRGE
+# observations, so just use mean
+dat_raw <- left_join(
+  # 1st df
+  dat_raw,
+  # bring in lagos data
+  dat_lagos %>%
+    select(
+      lake_id, lagos_so4_shallow
+    ) %>%
+    distinct() %>%
+    # exclude missing observations
+    filter(!is.na(lagos_so4_shallow)) %>%
+    # mean by lake
+    group_by(lake_id) %>%
+    summarize(lagos_so4_shallow = mean(lagos_so4_shallow))
+) %>%
+  # replace missing value with mean nla17, nla22, and lagos sulfate by lake.
+  # this is a rowwise operation
+  rowwise() %>% 
+  mutate(
+    so4_shallow = case_when(
+      is.na(so4_shallow) ~ mean(
+        c(nla17_sulfate, nla22_sulfate, lagos_so4_shallow),
+        na.rm = TRUE
+      ), # close mean
+      TRUE ~ so4_shallow
+    )
+  ) %>%
+  ungroup %>% # remove rowwise
+  select(-lagos_so4_shallow)
+  
+
+# DOC
+dat_raw <- left_join(
+  # 1st df
+  dat_raw,
+  # join aquamatch data!
+  dat_aquamatch %>%
+    select(lake_id, activity_start_date, aquamatch_doc_shallow) %>%
+    distinct() %>%
+    # exclude lake 83 values not wanted. Remaining values
+    # are temporally matched (2020-07-27, 2020-08-28) to surge
+    # sampling date (2020-08-10)
+    filter(
+      !(lake_id == 83 & 
+          (activity_start_date <= as.Date("2020-06-25") | 
+             activity_start_date >= as.Date("2020-09-23")))
+    ) %>% # close filter
+    # Omit observations from 1970s (all others are > 2009-01-01)
+    filter(
+      activity_start_date > as.Date("2009-01-01")
+    ) %>%
+    # calculate mean by lake (collapse time series into one value)
+    group_by(lake_id) %>%
+    summarize(
+      aquamatch_doc_shallow = mean(aquamatch_doc_shallow, na.rm = TRUE)
+    ) %>%
+    filter(!is.na(aquamatch_doc_shallow), !is.nan(aquamatch_doc_shallow))
+) %>% # close left_join
+  left_join(
+    # join lagos data
+    dat_lagos %>%
+      select(
+        lake_id, lagos_doc_shallow
+      ) %>%
+      distinct() %>%
+      # exclude missing observations
+      filter(!is.na(lagos_doc_shallow)) %>%
+      # mean by lake
+      group_by(lake_id) %>%
+      summarize(lagos_doc_shallow = mean(lagos_doc_shallow))
+  ) %>% # close second join 
+    # replace missing value with mean nla17, nla22, lagos, and aquamatch
+  # DOC by lake.
+  # this is a rowwise operation
+  rowwise() %>% 
+mutate(
+  doc_shallow = case_when(
+    lake_id == 83 ~ aquamatch_doc_shallow, # sampling date match
+    is.na(doc_shallow) ~ mean(
+        c(nla17_doc, nla22_doc, lagos_doc_shallow, aquamatch_doc_shallow),
+        na.rm = TRUE
+      ), # close mean
+      TRUE ~ so4_shallow
+    )
+  ) %>%
+  ungroup %>% # remove rowwise
+  select(-lagos_doc_shallow, -aquamatch_doc_shallow)
+
+
+```
+
+
+
+## Missing data
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes).
+
+We are missing sulfate data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes.
+
+We are missing TN measurements for `r dat_raw %>% filter(is.na(tn_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes.
+
+We are missing DOC measurements for `r dat_raw %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes.
+
+Table below compiles a list of missing data for Scott Jacobs to dig into. Value of 0 means the observation is missing. Value of 1 means it is present.
+
+Contact information for lakes sampled in 2016 can be found at: L:\\Priv\\Cin\\NRMRL\\ReservoirEbullitionStudy\\multiResSurvey2016\\grtsDesign\\...
+
+```{r, missing_data, echo=FALSE, message=FALSE}
+missing_dat <- dat_raw %>%
+  # exclude visit 1 from 250 and 281 where samples were lost in mail
+  filter(
+    !(lake_id %in% c(250, 281) & visit == 1)
+  ) %>%
+  filter(
+    is.na(chla_lab_shallow) |
+      is.na(so4_shallow) |
+      is.na(doc_shallow)
+  ) %>%
+  select(lake_id, visit, sample_start,
+         chla_lab_shallow,
+         so4_shallow,
+         doc_shallow) %>%
+  distinct() %>% 
+  mutate(
+    # 0 if absent, 1 if present
+    across(c(chla_lab_shallow, so4_shallow, doc_shallow), ~ 
+             case_when(is.na(.x) ~ 0,
+                       !is.na(.x) ~ 1,
+                       TRUE ~ 99999999))
+  ) %>%
+  distinct()
+
+# Table for report
+missing_dat %>%
+  kableExtra::kable(caption = "Missing DOC, chla, and SO4") %>% 
+  column_spec(1, bold = T) %>%
+  kable_styling("hover", full_width = FALSE) 
+
+
+```
+
+
+```{r scott_table, echo=FALSE, message=FALSE}
+# print table of missing values for Scott to investigate
+
+# Table for Scott
+left_join(
+  missing_dat, 
+tribble(
+  ~lake_id, ~lake_name, ~lab, ~management, ~notes,
+  1001,	"Acton Lake", "CIN", "Miami University", "Rachel will check with Miami U",
+1002,	"Alum Creek Lake", "CIN", "USACE Huntington District", "",
+1003,	"Apple Valley Lake",	"CIN", "private", "",
+1005,	"Brookville Lake",	"CIN", "USACE Lousiville District", "",
+1006,	"Buckhorn Lake",	"CIN", "USACE Lousiville District", "",
+1007,	"Burr Oak Reservoir",	"CIN", "USACE Huntington District", "DOC in Knoll et al. Rachel with check with Knoll for SO4 and chl",
+1008,	"Caesar Creek Lake",	"CIN", "USACE Lousiville District", "",
+1009,	"Carr Fork Lake",	"CIN", "USACE Lousiville District", "",
+1010,	"Cave Run Lake",	"CIN", "USACE Lousiville District", "",
+1011,	"Charles Mill Lake",	"CIN",  "USACE Huntington District", "",
+1012,	"Cowan Lake",	"CIN", "Ohio State Park", "",
+1013,	"Delaware Reservoir",	"CIN", "USACE Huntington District", "",
+1014,	"Dillon Lake",	"CIN", "USACE Huntington District", "",
+1015,	"Hocking County Lake/Lake Logan",	"CIN", "Ohio State Park", "",
+1016,	"Kiser Lake",	"CIN",  "Ohio State Park", "",
+1017,	"Knox Lake",	"CIN", "Ohio Division of Wildlife", "",
+1018,	"La Due Reservoir",	"CIN", "Ohio Division of Wildlife", "Water supply reservoir",
+1020,	"Lake Milton",	"CIN", "Ohio State Park", "",
+1021,	"Lake Mohawk",	"CIN", "private", "",
+1022,	"Lake Roaming Rock",	"CIN", "private", "",
+1023,	"Lake Waynoka",	"CIN", "private", "",
+1024,	"Michael J Kirwan Reservoir",	"CIN", "USACE Pittsburg District", "",
+1025,	"Paint Creek Lake",	"CIN", "Ohio Division of Wildlife", "",
+1026,	"Piedmont Lake",	"CIN", "Ohio Division of Wildlife", "",
+1027,	"Pleasant Hill Lake",	"CIN", "Ohio Division of Wildlife", "",
+1028,	"Rocky Fork Lake",	"CIN", "Ohio Division of Wildlife", "",
+1029,	"Senecaville Lake",	"CIN", "Ohio Division of Wildlife", "",
+1030,	"Tappan Lake",	"CIN", "Ohio Division of Wildlife", "",
+1031,	"William H Harsha Lake",	"CIN", "Ohio State Park", "Jake got DOC from Nietch. He does not have sulfate",
+1032,	"Wingfoot Lake",	"CIN", "Ohio State Park", "",
+83,	"Monroe Lake",	"CIN", "Indiana State Park", "",
+204,	"Beaver Creek Upground Reservoir",	"CIN", "Private",  "We have 2024 data. Waiting for 2018.",
+239,	"Philips Lake",	"R10", "", "",
+323,	"Mormon Reservoir",	"R10", "", "")
+) %>%
+  write.table("reports/missing_surge_chem.csv", sep = ",")
+
+```
+
+
+## Modeled Sulfate
+As shown in SO4 section, SO4 can be predicted from conductivity in the Northern Appalachians and Northern Plains ecoregions. This is implemented in R/impute_data.R
+
+```{r so4_model, echo=FALSE, echo=FALSE}
+
+# reload data with no imputed values
+tar_load(dat_raw)
+
+# This bit predicts missing SO4 for the two ecoregions.
+# After predictions, these data need to replace those in dat_raw
+# Also, data imputed from other sources (e.g. NLA) should be 
+# done prior to predicting missing values.
+so4_models <- dat_raw %>%
+  filter(
+    ag_eco9_nm %in% c("Northern Appalachians", "Upper Midwest")
+  ) %>%
+  group_by(ag_eco9_nm) %>%
+  nest() %>%
+  mutate(
+    model = map(data, ~ {
+      # Apply lm to each nested tibble
+      model <- lm(so4_shallow ~ sp_cond_shallow, data = .)
+      
+      # Predict missing values
+      missing_rows <- is.na(.x$so4_shallow)
+      if (any(missing_rows)) {
+        .x$so4_shallow[missing_rows] <- predict(model, newdata = .x[missing_rows, ])
+      }
+      .x
+    })
+  ) %>%
+  unnest(data)
+
+```
 
