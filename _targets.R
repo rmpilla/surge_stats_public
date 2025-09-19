@@ -192,6 +192,6 @@ list(
   
 
   tar_render(nla_chem_comparison_report, 
-             "reports/nla_chem_comparison_report.Rmd")
+             "reports/chemistry_and_chla_data_sources.Rmd")
 )
 

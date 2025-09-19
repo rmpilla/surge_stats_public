@@ -1,5 +1,5 @@
 ---
-title: "NLA vs SuRGE chemistry"
+title: "Chemistry and Chla Data Sources"
 author: "J. Beaulieu"
 date: "2025-08-20"
 output: 
@@ -1365,7 +1365,7 @@ We are missing TN measurements for `r dat_impute %>% filter(is.na(tn_shallow) & 
 We are missing DOC measurements for `r dat_impute %>% filter(is.na(doc_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes.
 
 ### Table
-Table below compiles a list of missing data for Scott Jacobs to dig into. Value of 0 means the observation is missing. Value of 1 means it is present.
+Table below compiles a list of missing data. Value of 0 means the observation is missing. Value of 1 means it is present. I anticipate getting data for all USACE lakes from the USACE (already got data for Cave Run). Some of the Ohio lakes could be revisited.
 
 Contact information for lakes sampled in 2016 can be found at: L:\\Priv\\Cin\\NRMRL\\ReservoirEbullitionStudy\\multiResSurvey2016\\grtsDesign\\...
 
@@ -1392,10 +1392,51 @@ missing_dat <- dat_impute %>%
                        !is.na(.x) ~ 1,
                        TRUE ~ 99999999))
   ) %>%
-  distinct()
+  distinct() %>%
+  left_join(
+    
+    tribble(
+      ~lake_id, ~lake_name, ~lab, ~management, ~notes,
+      1001,	"Acton Lake", "CIN", "Miami University", "",
+      1002,	"Alum Creek Lake", "CIN", "USACE Huntington District", "",
+      1003,	"Apple Valley Lake",	"CIN", "private", "",
+      1005,	"Brookville Lake",	"CIN", "USACE Lousiville District", "",
+      1006,	"Buckhorn Lake",	"CIN", "USACE Lousiville District", "",
+      1007,	"Burr Oak Reservoir",	"CIN", "USACE Huntington District", "See The Ohio State U STRIVE Lab.",
+      1008,	"Caesar Creek Lake",	"CIN", "USACE Lousiville District", "",
+      1009,	"Carr Fork Lake",	"CIN", "USACE Lousiville District", "",
+      1010,	"Cave Run Lake",	"CIN", "USACE Lousiville District", "",
+      1011,	"Charles Mill Lake",	"CIN",  "USACE Huntington District", "",
+      1012,	"Cowan Lake",	"CIN", "Ohio State Park", "",
+      1013,	"Delaware Reservoir",	"CIN", "USACE Huntington District", "2006 DOC from Miami U",
+      1014,	"Dillon Lake",	"CIN", "USACE Huntington District", "2006 and 2007 DOC from Miami U",
+      1015,	"Hocking County Lake/Lake Logan",	"CIN", "Ohio State Park", "",
+      1016,	"Kiser Lake",	"CIN",  "Ohio State Park", "",
+      1017,	"Knox Lake",	"CIN", "Ohio Division of Wildlife", "DOC (2013) from Miami U",
+      1018,	"La Due Reservoir",	"CIN", "Ohio Division of Wildlife", "Water supply reservoir",
+      1020,	"Lake Milton",	"CIN", "Ohio State Park", "",
+      1021,	"Lake Mohawk",	"CIN", "private", "",
+      1022,	"Lake Roaming Rock",	"CIN", "private", "",
+      1023,	"Lake Waynoka",	"CIN", "private", "",
+      1024,	"Michael J Kirwan Reservoir",	"CIN", "USACE Pittsburg District", "",
+      1025,	"Paint Creek Lake",	"CIN", "USACE Huntington District", "",
+      1026,	"Piedmont Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS (2015). 2013 DOC from Miami U.",
+      1027,	"Pleasant Hill Lake",	"CIN", "USACE Huntington District", "2006-2007 DOC from Miami U",
+      1028,	"Rocky Fork Lake",	"CIN", "Ohio Division of Wildlife", "",
+      1029,	"Senecaville Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS.",
+      1030,	"Tappan Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS.",
+      1031,	"William H Harsha Lake",	"CIN", "Ohio State Park", "Nietch does not have sulfate",
+      1032,	"Wingfoot Lake",	"CIN", "Ohio State Park", "",
+      83,	"Monroe Lake",	"CIN", "Indiana State Park", "See The Ohio State U STRIVE Lab",
+      204,	"Beaver Creek Upground Reservoir",	"CIN", "Private",  "We have 2024 data. Waiting for 2018.",
+      239,	"Philips Lake",	"R10", "", "",
+      323,	"Mormon Reservoir",	"R10", "", "")
+  )
 
 # Table for report
 missing_dat %>%
+  select(-lab, -notes) %>%
+  arrange(management) %>%
   kableExtra::kable(caption = "Missing DOC, chla, and SO4") %>% 
   column_spec(1, bold = T) %>%
   kable_styling("hover", full_width = FALSE) 
@@ -1408,52 +1449,13 @@ missing_dat %>%
 # print table of missing values for Scott to investigate
 
 # Table for Scott
-left_join(
-  missing_dat, 
-tribble(
-  ~lake_id, ~lake_name, ~lab, ~management, ~notes,
-  1001,	"Acton Lake", "CIN", "Miami University", "",
-1002,	"Alum Creek Lake", "CIN", "USACE Huntington District", "",
-1003,	"Apple Valley Lake",	"CIN", "private", "",
-1005,	"Brookville Lake",	"CIN", "USACE Lousiville District", "",
-1006,	"Buckhorn Lake",	"CIN", "USACE Lousiville District", "",
-1007,	"Burr Oak Reservoir",	"CIN", "USACE Huntington District", "See The Ohio State U STRIVE Lab.",
-1008,	"Caesar Creek Lake",	"CIN", "USACE Lousiville District", "",
-1009,	"Carr Fork Lake",	"CIN", "USACE Lousiville District", "",
-1010,	"Cave Run Lake",	"CIN", "USACE Lousiville District", "",
-1011,	"Charles Mill Lake",	"CIN",  "USACE Huntington District", "",
-1012,	"Cowan Lake",	"CIN", "Ohio State Park", "",
-1013,	"Delaware Reservoir",	"CIN", "USACE Huntington District", "2006 DOC from Miami U",
-1014,	"Dillon Lake",	"CIN", "USACE Huntington District", "2006 and 2007 DOC from Miami U",
-1015,	"Hocking County Lake/Lake Logan",	"CIN", "Ohio State Park", "",
-1016,	"Kiser Lake",	"CIN",  "Ohio State Park", "",
-1017,	"Knox Lake",	"CIN", "Ohio Division of Wildlife", "DOC (2013) from Miami U",
-1018,	"La Due Reservoir",	"CIN", "Ohio Division of Wildlife", "Water supply reservoir",
-1020,	"Lake Milton",	"CIN", "Ohio State Park", "",
-1021,	"Lake Mohawk",	"CIN", "private", "",
-1022,	"Lake Roaming Rock",	"CIN", "private", "",
-1023,	"Lake Waynoka",	"CIN", "private", "",
-1024,	"Michael J Kirwan Reservoir",	"CIN", "USACE Pittsburg District", "",
-1025,	"Paint Creek Lake",	"CIN", "USACE Huntington District", "",
-1026,	"Piedmont Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS (2015). 2013 DOC from Miami U.",
-1027,	"Pleasant Hill Lake",	"CIN", "USACE Huntington District", "2006-2007 DOC from Miami U",
-1028,	"Rocky Fork Lake",	"CIN", "Ohio Division of Wildlife", "",
-1029,	"Senecaville Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS.",
-1030,	"Tappan Lake",	"CIN", "USACE Huntington District", "Sulfate and DOC from USGS.",
-1031,	"William H Harsha Lake",	"CIN", "Ohio State Park", "Nietch does not have sulfate",
-1032,	"Wingfoot Lake",	"CIN", "Ohio State Park", "",
-83,	"Monroe Lake",	"CIN", "Indiana State Park", "See The Ohio State U STRIVE Lab",
-204,	"Beaver Creek Upground Reservoir",	"CIN", "Private",  "We have 2024 data. Waiting for 2018.",
-239,	"Philips Lake",	"R10", "", "",
-323,	"Mormon Reservoir",	"R10", "", "")
-) %>%
+missing_dat %>%
   write.table("reports/missing_surge_chem.csv", sep = ",", row.names = FALSE)
-
 ```
 
 
 ### Map of sites to revisit
-Below is a map of midwestern lakes that 1) need chla and/or sulfate, and 2) are not Army Corps or privately owned lakes.
+Below is a map of midwestern lakes that 1) need chla and/or sulfate, and 2) are not Army Corps or privately owned lakes. Access to private lakes was challenging in 2016; will likely be more so today. I anticipate the USACE will provide data for their lakes. Will attempt to revisit the remaining 6 lakes during the first week of October.
 ```{r map, echo=FALSE, message=FALSE}
 
 leaflet() %>%
