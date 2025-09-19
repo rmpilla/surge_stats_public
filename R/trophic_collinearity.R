@@ -1,6 +1,6 @@
 ## Look at Trophic Status Grouping and Run Collinearity Matrix
 
-library(reshape2)
+# library(reshape2) migrate to dplyr pivot functions
 library(corrplot)
 
 chemistry<-read.csv(file="C:/Users/bdeemer/Environmental Protection Agency (EPA)/SuRGE Survey of Reservoir Greenhouse gas Emissions - Documents/communications/manuscript/data_paper/7_site_data.csv")%>%

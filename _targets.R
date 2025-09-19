@@ -26,7 +26,10 @@ suppressPackageStartupMessages({ # cleaner output
                  "GGally", # pairs plots with rho 
                  "plotly",
                  "tidymodels",
-                 "kableExtra")
+                 "kableExtra", 
+                 "sf",
+                 "leaflet" # nla_chem_comparison
+                 )
   )
 })
 
@@ -35,13 +38,17 @@ suppressPackageStartupMessages({ # cleaner output
 source("R/get_lake_cat_data.R") # get lakeCat variables
 source("R/get_nla_chem.R") # get NLA data
 source("R/get_lagos_chem.R") # read in lagos chem data
+source("R/get_usgs_stations.R") # read in USGS stations for missing data
+source("R/get_usgs_chem.R") # get usgs chem data from WQP
+source("R/get_usgs_chla.R") # get usgs chla data from WQP
+source("R/get_williamson_doc.R") # get DOC for some 2016 lakes
 source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
 source("R/get_aquamatch_data.R") # aquamatch doc and chla
 source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
-source("R/update_modeling_vars.R") # update list of vars to relfect transformations
+source("R/update_modeling_vars.R") # update list of vars to reflect transformations
 
 # TARGETS PIPELINE------------------
 
@@ -108,6 +115,28 @@ list(
   tar_target(
     name = aquamatch_data,
     command = get_aquamatch_data(aquamatch_file = aquamatch_file)),
+  
+  tar_file(usgs_stations_file, "input_data/usgs_stations.gpkg"),
+  tar_target(
+    name = usgs_stations,
+    command = get_usgs_stations(usgs_stations_file = usgs_stations_file)), 
+  
+  tar_file(usgs_chem_file, "input_data/usgs_chem.csv"),
+  tar_target(
+    name = usgs_chem, 
+    command = get_usgs_chem(usgs_chem_file = usgs_chem_file,
+                            usgs_stations = usgs_stations)), 
+  
+  tar_file(usgs_chla_file, "input_data/national_chlorophyll_corrected_chlorophyll_a_data.zip"),
+  tar_target(
+    name = usgs_chla,
+    command = get_usgs_chla(usgs_chla_file = usgs_chla_file,
+                            usgs_stations = usgs_stations)),
+  
+  tar_file(williamson_doc_file, "input_data/williamson_2023_doc.csv"),
+  tar_target(
+    name = williamson_doc,
+    command = get_williamson_doc(williamson_doc_file)),
   
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
