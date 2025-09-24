@@ -34,8 +34,8 @@ dat_aquamatch <- left_join(aquamatch_data, dat_raw, by = "lake_id", relationship
 dat_usgs_chla <- left_join(usgs_chla, dat_raw, relationship = "many-to-many")
 dat_usgs_chem <- left_join(usgs_chem, dat_raw, relationship = "many-to-many")
 dat_williamson_doc <- left_join(williamson_doc, dat_raw, relationship = "many-to-many")
-acton_lake <- read_csv("input_data/ActonLakeIntegrated.csv") %>% clean_names()
-cave_run <- readxl::read_xlsx("input_data/USACE Cave Run Data_2009-2025.xlsx",
+acton_lake <- read_csv("input_data/external_data/ActonLakeIntegrated.csv") %>% clean_names()
+cave_run <- readxl::read_xlsx("input_data/external_data/USACE Cave Run Data_2009-2025.xlsx",
                               sheet = "All Regular Data") %>%
   clean_names()
 ```
@@ -1062,7 +1062,7 @@ The code below replaces missing values with those from the dataset discussed abo
   # IMPUTE CHLA----
   # Acton Lake (1001) from Vanni's EDI repo
   # https://portal.edirepository.org/nis/mapbrowse?packageid=edi.256.3
-  # input_data/ActonLakeIntegrated.csv
+  # input_data/external_data/ActonLakeIntegrated.csv
 
   dat_impute <- 
     dat_impute %>%
@@ -1070,7 +1070,7 @@ The code below replaces missing values with those from the dataset discussed abo
       # Acton Lake. 28.98 ug/L from Vanni for 5/31/2016
       lake_id == 1001 ~ 28.98,
       
-      # Burr Oak from Tanner Williamson (input_data/Burr Oak chl data.csv)
+      # Burr Oak from Tanner Williamson (input_data/external_data/Burr Oak chl data.csv)
       # on 2016-07-16 and 2016-07-23
       # Williamson, T. J. (2020). A multi-scale approach to understanding 
       # how environmental variability modulates structure and function in

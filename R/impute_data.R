@@ -24,7 +24,7 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data){
   # IMPUTE CHLA----
   # only have data for Acton Lake (1001) from Vanni's EDI repo
   # https://portal.edirepository.org/nis/mapbrowse?packageid=edi.256.3
-  # input_data/ActonLakeIntegrated.csv
+  # input_data/external_data/ActonLakeIntegrated.csv
   dat_impute <- 
     dat_impute %>%
     mutate(chla_lab_shallow = case_when(

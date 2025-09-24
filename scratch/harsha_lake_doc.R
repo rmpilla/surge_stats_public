@@ -3,7 +3,8 @@
 
 # WE ARE LOOKING FOR DOC AND SULFATE IN 2016
 
-hl_oc <- readxl::read_xlsx("input_data/EastFork-HarshaLake_GrabSamplingAndDiscreteSondeData_Merged_CTN03242022.xlsx",
+hl_oc <- readxl::read_xlsx(file.path("input_data/external_data",
+"EastFork-HarshaLake_GrabSamplingAndDiscreteSondeData_Merged_CTN03242022.xlsx"),
                   sheet = "SortMergedData2") %>%
   clean_names() %>%
   mutate(date = as.Date(date)) %>%
