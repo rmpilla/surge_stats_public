@@ -14,7 +14,11 @@ library(pacman) # load packages outside of tar_make
 #   janitor, # enforce naming conventions
 #   GGally, # pairs plots with rho
 #   plotly, # interactive plots
-#   tidymodels # modeling framework
+#   tidymodels, # modeling framework
+#   sf,
+#   leaflet, # nla_chem_comparison
+#   readxl,
+#   kableExtra
 # )
 
 # Set target options:
@@ -28,7 +32,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "tidymodels",
                  "kableExtra", 
                  "sf",
-                 "leaflet" # nla_chem_comparison
+                 "leaflet", # nla_chem_comparison
+                 "readxl"
                  )
   )
 })
@@ -46,6 +51,7 @@ source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
 source("R/get_aquamatch_data.R") # aquamatch doc and chla
+source("R/get_usace_chem.R") # USACE chemistry data
 source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
@@ -137,6 +143,11 @@ list(
   tar_target(
     name = williamson_doc,
     command = get_williamson_doc(williamson_doc_file)),
+  
+  tar_file(usace_caesar_file, "input_data/external_data/USACE Caesar Creek Data 2009-2025.xlsx"),
+  tar_file(usace_cave_file, "input_data/external_data/USACE Cave Run Data_2009-2025.xlsx"),
+  tar_file(usace_brookville_buckhorn_carr_file, "input_data/external_data/USACE_Brookville_Buckhorn_Carr Creek_Data.xlsx"),
+  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file, usace_brookville_buckhorn_carr_file)),
   
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
