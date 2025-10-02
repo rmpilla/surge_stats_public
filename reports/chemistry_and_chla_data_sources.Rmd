@@ -1145,12 +1145,7 @@ The code below replaces missing values with those from the dataset discussed abo
       # OhioLINK Electronic Theses and Dissertations Center.
       # http://rave.ohiolink.edu/etdc/view?acc_num=miami1595521238756147
       lake_id == 1007 ~ mean(23.65, 34.45, 27.70, 10.10, 13.20, 7.50,
-                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50),
-      
-      # Beavercreek Upground Reservoir (204) on 2024-08-14
-      # email from Scott Jacobs 9/11/2025
-      lake_id == 204 ~ 8.12,
-      TRUE ~ chla_lab_shallow
+                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50)
     )) %>%
   left_join(
     # Need to add the single estimate for Beaver Upground
@@ -1211,7 +1206,7 @@ The code below replaces missing values with those from the dataset discussed abo
         is.na(chla_lab_shallow) ~ mean(
           c(nla17_chla, nla22_chla, odow_chla_shallow,
             lagos_chla_shallow, aquamatch_chla_shallow,
-            usgs_chla_shallow),
+            usgs_chla_shallow, ohio_epa_chla_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ chla_lab_shallow)
@@ -1581,8 +1576,8 @@ missing_dat %>%
 ```
 
 
-### Map of sites to revisit
-Below is a map of midwestern lakes that 1) need chla and/or sulfate, and 2) are not Army Corps or privately owned lakes. Access to private lakes was challenging in 2016; will likely be more so today. I anticipate the USACE will provide data for their lakes. Will attempt to revisit the remaining 6 lakes during the first week of October.
+### Map of Ohio Lakes
+Below is a map of Ohio lakes that 1) need chla and/or sulfate, and 2) are not Army Corps lakes.
 ```{r map, echo=FALSE, message=FALSE}
 
 leaflet() %>%
@@ -1615,8 +1610,9 @@ leaflet() %>%
                      left_join(
                        # dat 1
                        dat_impute %>%
-                         filter(lake_id %in% c(1017, 1018, 1012,
-                                               1015, 1016, 1020)
+                         filter(lake_id %in% c(1012, 1015, 1016,
+                                               1017, 1018, 1020,
+                                               1021, 1022, 1023)
                          ) %>%
                          select(lake_id, lat, long) %>%
                          group_by(lake_id) %>%
@@ -1632,7 +1628,11 @@ leaflet() %>%
                          1016,	"Kiser Lake",	
                          1017,	"Knox Lake",	
                          1018,	"La Due Reservoir",	
-                         1020,	"Lake Milton")
+                         1020,	"Lake Milton",
+                         1021, "Lake Mohawk",
+                         1022, "Lake Roaming Rock",
+                         1023, "Lake Waynoka"
+                         )
                      ),
                    label = ~lake_name, # Specify the label 
                    labelOptions = labelOptions(

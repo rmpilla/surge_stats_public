@@ -190,7 +190,12 @@ list(
     name = dat_impute,
     command = impute_data(dat_raw = dat_raw, 
                           lagos_chem = lagos_chem, 
-                          aquamatch_data = aquamatch_data)
+                          aquamatch_data = aquamatch_data,
+                          usgs_chem = usgs_chem,
+                          usgs_chla = usgs_chla,
+                          williamson_doc = williamson_doc,
+                          usace_chem = usace_chem,
+                          ohio_epa_chem = ohio_epa_chem)
   ),
 
   ## screen vars for missing observations, select subset for modeling-----
