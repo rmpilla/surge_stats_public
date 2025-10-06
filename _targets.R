@@ -53,6 +53,7 @@ source("R/define_modeling_vars.R") # find vars with missing observations
 source("R/get_aquamatch_data.R") # aquamatch doc and chla
 source("R/get_usace_chem.R") # USACE chemistry data
 source("R/get_ohio_epa_chem.R") # ohio EPA chemistry data
+source("R/get_ohio_wildlife_chem.R") # chem from Ohio Div of Wildlife
 source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
@@ -160,6 +161,12 @@ list(
       ohio_epa_chem_ladue_file, 
       ohio_epa_chem_milton_file)
     ),
+  
+  tar_file(ohio_wildlife_chem_file, "input_data/external_data/ohio_div_wildlife/ResProdDataRequest_USEPA_20251006.csv"),
+  tar_target(
+    name = ohio_wildlife_chem,
+    command = get_ohio_wildlife_chem(ohio_wildlife_chem_file = ohio_wildlife_chem_file)
+  ),
   
   
   

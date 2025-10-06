@@ -16,7 +16,7 @@ options(knitr.kable.NA = '')
 
 ## Background
 
-Quick comparison of selected analytes measured during SuRGE, the two most recent NLA campaigns (NLA17 and NLA22), lagos, and aquamatch (doc and chla).
+An analysis of data sources that could be used to impute missing observations for the SuRGE project. Data sources include the two most recent NLA campaigns (NLA17 and NLA22), lagos, aquamatch (doc and chla), USACE, USGS, Ohio EPA, Ohio Division of Wildlife, local contacts, and the literature.
 
 ## Data
 
@@ -31,6 +31,7 @@ tar_load(usgs_chla)
 tar_load(williamson_doc)
 tar_load(usace_chem)
 tar_load(ohio_epa_chem)
+tar_load(ohio_wildlife_chem)
 dat_lagos <- left_join(lagos_chem, dat_raw, relationship = "many-to-many")
 dat_aquamatch <- left_join(aquamatch_data, dat_raw, by = "lake_id", relationship = "many-to-many")
 dat_usgs_chla <- left_join(usgs_chla, dat_raw, relationship = "many-to-many")
@@ -38,13 +39,14 @@ dat_usgs_chem <- left_join(usgs_chem, dat_raw, relationship = "many-to-many")
 dat_williamson_doc <- left_join(williamson_doc, dat_raw, relationship = "many-to-many")
 dat_usace_chem <- left_join(usace_chem, dat_raw, relationship = "many-to-many")
 dat_ohio_epa_chem <- left_join(ohio_epa_chem, dat_raw, relationship = "many-to-many")
+dat_ohio_wildlife_chem <- left_join(ohio_wildlife_chem, dat_raw, relationship = "many-to-many")
 acton_lake <- read_csv("input_data/external_data/ActonLakeIntegrated.csv") %>% clean_names()
 
 ```
 
 
 ## Extraction based chlorophyll a
-We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA, `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from LAGOS, `r dat_aquamatch %>% filter(is.na(chla_lab_shallow) & (!is.na(aquamatch_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes has chla from aquamatch, `r dat_usgs_chla %>% filter(is.na(chla_lab_shallow) & (!is.na(usgs_chla_lab_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have data from USGS, `r dat_usace_chem %>% filter(is.na(chla_lab_shallow) & (!is.na(usace_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have USACE data, and `r dat_ohio_epa_chem %>% filter(is.na(chla_lab_shallow) & (!is.na(ohio_epa_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()`have Ohio EPA data. 
+We are missing extraction-based chlorophyll a measurements for `r dat_raw %>% filter(is.na(chla_lab_shallow) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes (mostly 2016 lakes). `r dat_raw %>% filter(is.na(chla_lab_shallow) & (!is.na(nla17_chla) | !is.na(nla22_chla)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from 2017 and/or 2022 NLA, `r dat_lagos %>% filter(is.na(chla_lab_shallow) & (!is.na(lagos_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have chla estimates from LAGOS, `r dat_aquamatch %>% filter(is.na(chla_lab_shallow) & (!is.na(aquamatch_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes has chla from aquamatch, `r dat_usgs_chla %>% filter(is.na(chla_lab_shallow) & (!is.na(usgs_chla_lab_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` of these lakes have data from USGS, `r dat_usace_chem %>% filter(is.na(chla_lab_shallow) & (!is.na(usace_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have USACE data, `r dat_ohio_epa_chem %>% filter(is.na(chla_lab_shallow) & (!is.na(ohio_epa_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have Ohio EPA data, and `r dat_ohio_wildlife_chem %>% filter(is.na(chla_lab_shallow) & (!is.na(ohio_wildlife_chla_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` from Ohio Division of Wildlife. 
 
 As expected, the concurrence among the various datasets is not great. 
 
@@ -221,6 +223,14 @@ left_join(
         ) %>%
       distinct()
   ) %>%
+  left_join(
+    # Ohio Division of Wildlife data
+    dat_ohio_wildlife_chem %>%
+      select(
+        lake_id, ohio_wildlife_chla_shallow_sample_date, ohio_wildlife_chla_shallow
+        ) %>%
+      distinct()
+  ) %>%
   rename(surge_sample_date = sample_start) %>%
   filter(
     !is.na(lagos_chla_shallow) | 
@@ -229,7 +239,8 @@ left_join(
       !is.na(nla22_chla) |
       !is.na(usgs_chla_lab_shallow) |
       !is.na(usace_chla_shallow) |
-      !is.na(ohio_epa_chla_shallow)
+      !is.na(ohio_epa_chla_shallow) |
+      !is.na(ohio_wildlife_chla_shallow)
   ) %>%
   select(-chla_lab_shallow, -usgs_chla_lab_shallow_units) %>%
   pivot_longer(
@@ -244,6 +255,7 @@ left_join(
       name == "usgs_chla_lab_shallow" ~ usgs_chla_lab_sample_date,
       name == "usace_chla_shallow" ~ usace_chla_shallow_sample_date,
       name == "ohio_epa_chla_shallow" ~ ohio_epa_chla_shallow_sample_date,
+      name == "ohio_wildlife_chla_shallow" ~ ohio_wildlife_chla_shallow_sample_date,
       TRUE ~ as.Date("1789-07-14")
     ),
     source = case_when(
@@ -254,6 +266,7 @@ left_join(
       name == "usgs_chla_lab_shallow" ~ "usgs",
       name == "usace_chla_shallow" ~ "USACE",
       name == "ohio_epa_chla_shallow" ~ "ohio_epa",
+      name == "ohio_wildlife_chla_shallow" ~ "ohio_div_wildlife",
       TRUE ~ "Gandalf"
     )
   ) %>%
@@ -261,12 +274,12 @@ left_join(
   select(lake_id, surge_sample_date, source, value, sample_date) %>%
   distinct() %>%
   bind_rows(
+    # Local Water District for BeaverCreek (lake_id == 204):
     tribble(~lake_id, ~surge_sample_date, ~source, ~value, ~sample_date,
-            204,  as.Date("2020-07-27"),  "Ohio Div. of Wildlife", 
-            8.12, as.Date("2024-08-14"))
+            204,  as.Date("2020-07-27"),  "Ohio Div. of Wildlife", 8.12, as.Date("2024-08-14"))
   ) %>%
   arrange(lake_id, source, sample_date) %>% 
-  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USGS, Ohio EPA, and aquamatch chla data for missing lakes") %>% 
+  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USGS, Ohio EPA, Ohio Division of Wildlife, and aquamatch chla data for missing lakes") %>% 
   column_spec(1, bold = T) %>%
   kable_styling("hover", full_width = FALSE) %>%
   collapse_rows(columns = c(1:2)) 
@@ -274,7 +287,7 @@ left_join(
 ```
 
 ## SO4
-Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA, `r dat_lagos %>% filter(is.na(so4_shallow) & (!is.na(lagos_so4_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from LAGOS, `r dat_usgs_chem %>% filter(is.na(so4_shallow) & (!is.na(usgs_so4_shallow))) %>% distinct(lake_id) %>% nrow()` have estimates from USGS, `r dat_usace_chem %>% filter(is.na(so4_shallow) & (!is.na(usace_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have USACE data, and  `r dat_ohio_epa_chem %>% filter(is.na(so4_shallow) & (!is.na(ohio_epa_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()`have Ohio EPA data.
+Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA, `r dat_lagos %>% filter(is.na(so4_shallow) & (!is.na(lagos_so4_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from LAGOS, `r dat_usgs_chem %>% filter(is.na(so4_shallow) & (!is.na(usgs_so4_shallow))) %>% distinct(lake_id) %>% nrow()` have estimates from USGS, `r dat_usace_chem %>% filter(is.na(so4_shallow) & (!is.na(usace_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have USACE data, `r dat_ohio_epa_chem %>% filter(is.na(so4_shallow) & (!is.na(ohio_epa_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have Ohio EPA data, and `r dat_ohio_wildlife_chem %>% filter(is.na(so4_shallow) & (!is.na(ohio_wildlife_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have Ohio Division of Wildlife data.
 
 
 Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
@@ -425,6 +438,20 @@ full_join(
         SuRGE_sample_date = sample_start),
     relationship = "many-to-many"
   ) %>%
+  full_join(
+    # Ohio Division of Wildlife
+    dat_ohio_wildlife_chem %>%
+      filter(
+        is.na(so4_shallow) & !(lake_id %in% c(250, 281) & visit == 1) & !is.na(ohio_wildlife_so4_shallow)
+      ) %>% 
+      select(
+        lake_id, sample_start, ohio_wildlife_so4_shallow_sample_date, ohio_wildlife_so4_shallow
+      ) %>% 
+      distinct() %>% 
+      rename(
+        SuRGE_sample_date = sample_start),
+    relationship = "many-to-many"
+  ) %>%
   pivot_longer(
     cols = -c(lake_id, contains("date"))
   ) %>%
@@ -436,6 +463,7 @@ full_join(
       name == "usgs_so4_shallow" ~ usgs_so4_shallow_sample_date,
       name == "usace_so4_shallow" ~ usace_so4_shallow_sample_date,
       name == "ohio_epa_so4_shallow" ~ ohio_epa_so4_shallow_sample_date,
+      name == "ohio_wildlife_so4_shallow" ~ ohio_wildlife_so4_shallow_sample_date,
       TRUE ~ as.Date("1789-07-14")
     ),
     source = case_when(
@@ -445,6 +473,7 @@ full_join(
       name == "usgs_so4_shallow" ~ "usgs",
       name == "usace_so4_shallow" ~ "USACE",
       name == "ohio_epa_so4_shallow" ~ "ohio_epa",
+      name == "ohio_wildlife_so4_shallow" ~ "ohio_div_wildlife",
       TRUE ~ "Gandalf"
     )
   ) %>%
@@ -459,7 +488,7 @@ full_join(
             22.9, as.Date("2024-08-14"))
   ) %>%
   arrange(lake_id, source, sample_date) %>% 
-  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USACE, Ohio EPA and USGS SO4 data for missing lakes") %>%
+  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USACE, Ohio EPA, Ohio Div of Wildlife, and USGS SO4 data for missing lakes") %>%
   kable_styling(full_width = FALSE) %>%
   collapse_rows(columns = c(1:2)) 
 
