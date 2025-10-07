@@ -115,6 +115,22 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     select(lake_id, site_id, visit, where(anyNA)) %>%
     distinct()  
   
+  # 5. hydrology variables----
+  # missing for most 2016 lakes.
+  dat_impute %>% 
+    select(lake_id, site_id, visit, 
+           all_of(
+             unname( # must remove name attribute for all_of
+               original_vars$hydrol_vars
+             ) # close unname
+           ) # close all_of
+    ) %>% # close select
+    # filter missing values
+    filter(rowSums(is.na(.)) > 0) %>%
+    select(lake_id, site_id, visit, where(anyNA)) %>%
+    distinct()  
+  
+  
   # 6. Chemistry variables----
   dat_impute %>% 
     select(lake_id, site_id, visit, 
