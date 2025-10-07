@@ -54,7 +54,7 @@ define_original_vars <- function() {
     "tp_shallow",
     "tn_shallow",
     "op_shallow",
-    "doc_shallow",
+    "toc_shallow",
     
     # sonde values
     "turbidity_shallow",
@@ -87,7 +87,7 @@ define_original_vars <- function() {
     # all these vectors into a DF
     set_names("clim_var")
   
-  # 8. TEMPERATURE
+  # 4. TEMPERATURE----
   temp_vars <-
     paste(
       "temp",
@@ -98,7 +98,7 @@ define_original_vars <- function() {
     # all these vectors into a DF
     set_names("temp_var")
   
-  # 4. HYDROLOGY VARIABLES--------
+  # 5. HYDROLOGY VARIABLES--------
   hydrol_vars <- c(
     "e_i",
     "residence_time",
@@ -109,7 +109,7 @@ define_original_vars <- function() {
     set_names("hydrol_var")
   
   
-  # 5. LANDSCAPE VARIABLES--------
+  # 6. LANDSCAPE VARIABLES--------
   landscape_vars <- c("kffactcat", "kffactws", # soil erodibility factor
                       "omcat", "omws",
                       "scat", "sws", # Mean % lithological sulfur
@@ -123,7 +123,7 @@ define_original_vars <- function() {
     # all these vectors into a DF
     set_names("landscape_var")
   
-  # 6. CHEMISTRY VARIABLES--------
+  # 7. CHEMISTRY VARIABLES--------
   chem_vars <- expand.grid(c("_deep", "_shallow"),
                            c(
                              #"tn", "tp", "op", "no2_3", in tropic status vars
@@ -135,7 +135,7 @@ define_original_vars <- function() {
                              "k", "li", "mg", "mn", "na",
                              "ni", "pb", "p", "sb", "si",
                              "sn", "sr", "s", "v", "zn",
-                             "do", "ph", "sp_cond", "turbidity"
+                             "do", "ph", "sp_cond"
                            ),
                            stringsAsFactors = FALSE
   ) %>%

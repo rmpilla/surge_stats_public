@@ -192,7 +192,7 @@ list(
     command = define_original_vars() # no argument to this function
   ),
   
-  ## impute missing chemistry date
+  ## impute missing chemistry date----
   tar_target(
     name = dat_impute,
     command = impute_data(dat_raw = dat_raw, 
@@ -202,7 +202,8 @@ list(
                           usgs_chla = usgs_chla,
                           williamson_doc = williamson_doc,
                           usace_chem = usace_chem,
-                          ohio_epa_chem = ohio_epa_chem)
+                          ohio_epa_chem = ohio_epa_chem,
+                          ohio_wildlife_chem = ohio_wildlife_chem)
   ),
 
   ## screen vars for missing observations, select subset for modeling-----

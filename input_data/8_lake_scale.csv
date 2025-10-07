@@ -4938,876 +4938,1022 @@
 1,"ag_eco9_nm","Coastal Plains",NA
 1,"depth_cat","GT_6m",NA
 1,"chla_cat","GT_7",NA
+1,"lab","DOE",NA
 1,"study","SuRGE",NA
 2,"wgt","2","dimensionless"
 2,"ag_eco9","CPL",NA
 2,"ag_eco9_nm","Coastal Plains",NA
 2,"depth_cat","GT_6m",NA
 2,"chla_cat","GT_7",NA
+2,"lab","DOE",NA
 2,"study","SuRGE",NA
 3,"wgt","2","dimensionless"
 3,"ag_eco9","CPL",NA
 3,"ag_eco9_nm","Coastal Plains",NA
 3,"depth_cat","GT_6m",NA
 3,"chla_cat","GT_7",NA
+3,"lab","ADA",NA
 3,"study","SuRGE",NA
 4,"wgt","2","dimensionless"
 4,"ag_eco9","CPL",NA
 4,"ag_eco9_nm","Coastal Plains",NA
 4,"depth_cat","GT_6m",NA
 4,"chla_cat","GT_7",NA
+4,"lab","ADA",NA
 4,"study","SuRGE",NA
 10,"wgt","1","dimensionless"
 10,"ag_eco9","CPL",NA
 10,"ag_eco9_nm","Coastal Plains",NA
 10,"depth_cat","GT_6m",NA
 10,"chla_cat","LE_7",NA
+10,"lab","RTP",NA
 10,"study","SuRGE",NA
 11,"wgt","1","dimensionless"
 11,"ag_eco9","CPL",NA
 11,"ag_eco9_nm","Coastal Plains",NA
 11,"depth_cat","GT_6m",NA
 11,"chla_cat","LE_7",NA
+11,"lab","ADA",NA
 11,"study","SuRGE",NA
 13,"wgt","6.4","dimensionless"
 13,"ag_eco9","CPL",NA
 13,"ag_eco9_nm","Coastal Plains",NA
 13,"depth_cat","LE_6m",NA
 13,"chla_cat","GT_7",NA
+13,"lab","CIN",NA
 13,"study","SuRGE",NA
 14,"wgt","6.4","dimensionless"
 14,"ag_eco9","CPL",NA
 14,"ag_eco9_nm","Coastal Plains",NA
 14,"depth_cat","LE_6m",NA
 14,"chla_cat","GT_7",NA
+14,"lab","DOE",NA
 14,"study","SuRGE",NA
 16,"wgt","6.4","dimensionless"
 16,"ag_eco9","CPL",NA
 16,"ag_eco9_nm","Coastal Plains",NA
 16,"depth_cat","LE_6m",NA
 16,"chla_cat","GT_7",NA
+16,"lab","RTP",NA
 16,"study","SuRGE",NA
 17,"wgt","6.4","dimensionless"
 17,"ag_eco9","CPL",NA
 17,"ag_eco9_nm","Coastal Plains",NA
 17,"depth_cat","LE_6m",NA
 17,"chla_cat","GT_7",NA
+17,"lab","CIN",NA
 17,"study","SuRGE",NA
 18,"wgt","6.4","dimensionless"
 18,"ag_eco9","CPL",NA
 18,"ag_eco9_nm","Coastal Plains",NA
 18,"depth_cat","LE_6m",NA
 18,"chla_cat","GT_7",NA
+18,"lab","ADA",NA
 18,"study","SuRGE",NA
 44,"wgt","1.4","dimensionless"
 44,"ag_eco9","CPL",NA
 44,"ag_eco9_nm","Coastal Plains",NA
 44,"depth_cat","LE_6m",NA
 44,"chla_cat","LE_7",NA
+44,"lab","RTP",NA
 44,"study","SuRGE",NA
 45,"wgt","1.4","dimensionless"
 45,"ag_eco9","CPL",NA
 45,"ag_eco9_nm","Coastal Plains",NA
 45,"depth_cat","LE_6m",NA
 45,"chla_cat","LE_7",NA
+45,"lab","RTP",NA
 45,"study","SuRGE",NA
 46,"wgt","1.4","dimensionless"
 46,"ag_eco9","CPL",NA
 46,"ag_eco9_nm","Coastal Plains",NA
 46,"depth_cat","LE_6m",NA
 46,"chla_cat","LE_7",NA
+46,"lab","CIN",NA
 46,"study","SuRGE",NA
 47,"wgt","1.4","dimensionless"
 47,"ag_eco9","CPL",NA
 47,"ag_eco9_nm","Coastal Plains",NA
 47,"depth_cat","LE_6m",NA
 47,"chla_cat","LE_7",NA
+47,"lab","CIN",NA
 47,"study","SuRGE",NA
 49,"wgt","1.4","dimensionless"
 49,"ag_eco9","CPL",NA
 49,"ag_eco9_nm","Coastal Plains",NA
 49,"depth_cat","LE_6m",NA
 49,"chla_cat","LE_7",NA
+49,"lab","CIN",NA
 49,"study","SuRGE",NA
 51,"wgt","1","dimensionless"
 51,"ag_eco9","NAP",NA
 51,"ag_eco9_nm","Northern Appalachians",NA
 51,"depth_cat","GT_6m",NA
 51,"chla_cat","GT_7",NA
+51,"lab","Narragansett",NA
 51,"study","SuRGE",NA
 52,"wgt","1","dimensionless"
 52,"ag_eco9","NAP",NA
 52,"ag_eco9_nm","Northern Appalachians",NA
 52,"depth_cat","GT_6m",NA
 52,"chla_cat","GT_7",NA
+52,"lab","Narragansett",NA
 52,"study","SuRGE",NA
 53,"wgt","1","dimensionless"
 53,"ag_eco9","NAP",NA
 53,"ag_eco9_nm","Northern Appalachians",NA
 53,"depth_cat","GT_6m",NA
 53,"chla_cat","LE_7",NA
+53,"lab","Narragansett",NA
 53,"study","SuRGE",NA
 54,"wgt","3","dimensionless"
 54,"ag_eco9","NAP",NA
 54,"ag_eco9_nm","Northern Appalachians",NA
 54,"depth_cat","LE_6m",NA
 54,"chla_cat","GT_7",NA
+54,"lab","CIN",NA
 54,"study","SuRGE",NA
 55,"wgt","3","dimensionless"
 55,"ag_eco9","NAP",NA
 55,"ag_eco9_nm","Northern Appalachians",NA
 55,"depth_cat","LE_6m",NA
 55,"chla_cat","GT_7",NA
+55,"lab","CIN",NA
 55,"study","SuRGE",NA
 57,"wgt","3","dimensionless"
 57,"ag_eco9","NAP",NA
 57,"ag_eco9_nm","Northern Appalachians",NA
 57,"depth_cat","LE_6m",NA
 57,"chla_cat","GT_7",NA
+57,"lab","Narragansett",NA
 57,"study","SuRGE",NA
 64,"wgt","1.33333333333333","dimensionless"
 64,"ag_eco9","NAP",NA
 64,"ag_eco9_nm","Northern Appalachians",NA
 64,"depth_cat","LE_6m",NA
 64,"chla_cat","LE_7",NA
+64,"lab","Narragansett",NA
 64,"study","SuRGE",NA
 65,"wgt","1.33333333333333","dimensionless"
 65,"ag_eco9","NAP",NA
 65,"ag_eco9_nm","Northern Appalachians",NA
 65,"depth_cat","LE_6m",NA
 65,"chla_cat","LE_7",NA
+65,"lab","Narragansett",NA
 65,"study","SuRGE",NA
 66,"wgt","1.33333333333333","dimensionless"
 66,"ag_eco9","NAP",NA
 66,"ag_eco9_nm","Northern Appalachians",NA
 66,"depth_cat","LE_6m",NA
 66,"chla_cat","LE_7",NA
+66,"lab","Narragansett",NA
 66,"study","SuRGE",NA
 67,"wgt","1","dimensionless"
 67,"ag_eco9","NPL",NA
 67,"ag_eco9_nm","Northern Plains",NA
 67,"depth_cat","GT_6m",NA
 67,"chla_cat","GT_7",NA
+67,"lab","CIN",NA
 67,"study","SuRGE",NA
 68,"wgt","1","dimensionless"
 68,"ag_eco9","NPL",NA
 68,"ag_eco9_nm","Northern Plains",NA
 68,"depth_cat","GT_6m",NA
 68,"chla_cat","GT_7",NA
+68,"lab","CIN",NA
 68,"study","SuRGE",NA
 69,"wgt","1.33333333333333","dimensionless"
 69,"ag_eco9","NPL",NA
 69,"ag_eco9_nm","Northern Plains",NA
 69,"depth_cat","GT_6m",NA
 69,"chla_cat","LE_7",NA
+69,"lab","CIN",NA
 69,"study","SuRGE",NA
 70,"wgt","1.33333333333333","dimensionless"
 70,"ag_eco9","NPL",NA
 70,"ag_eco9_nm","Northern Plains",NA
 70,"depth_cat","GT_6m",NA
 70,"chla_cat","LE_7",NA
+70,"lab","CIN",NA
 70,"study","SuRGE",NA
 71,"wgt","1.33333333333333","dimensionless"
 71,"ag_eco9","NPL",NA
 71,"ag_eco9_nm","Northern Plains",NA
 71,"depth_cat","GT_6m",NA
 71,"chla_cat","LE_7",NA
+71,"lab","CIN",NA
 71,"study","SuRGE",NA
 72,"wgt","1.33333333333333","dimensionless"
 72,"ag_eco9","NPL",NA
 72,"ag_eco9_nm","Northern Plains",NA
 72,"depth_cat","GT_6m",NA
 72,"chla_cat","LE_7",NA
+72,"lab","CIN",NA
 72,"study","SuRGE",NA
 75,"wgt","1","dimensionless"
 75,"ag_eco9","NPL",NA
 75,"ag_eco9_nm","Northern Plains",NA
 75,"depth_cat","LE_6m",NA
 75,"chla_cat","GT_7",NA
+75,"lab","CIN",NA
 75,"study","SuRGE",NA
 76,"wgt","2","dimensionless"
 76,"ag_eco9","NPL",NA
 76,"ag_eco9_nm","Northern Plains",NA
 76,"depth_cat","LE_6m",NA
 76,"chla_cat","LE_7",NA
+76,"lab","CIN",NA
 76,"study","SuRGE",NA
 77,"wgt","2","dimensionless"
 77,"ag_eco9","NPL",NA
 77,"ag_eco9_nm","Northern Plains",NA
 77,"depth_cat","LE_6m",NA
 77,"chla_cat","LE_7",NA
+77,"lab","CIN",NA
 77,"study","SuRGE",NA
 78,"wgt","2","dimensionless"
 78,"ag_eco9","NPL",NA
 78,"ag_eco9_nm","Northern Plains",NA
 78,"depth_cat","LE_6m",NA
 78,"chla_cat","LE_7",NA
+78,"lab","CIN",NA
 78,"study","SuRGE",NA
 79,"wgt","2","dimensionless"
 79,"ag_eco9","NPL",NA
 79,"ag_eco9_nm","Northern Plains",NA
 79,"depth_cat","LE_6m",NA
 79,"chla_cat","LE_7",NA
+79,"lab","CIN",NA
 79,"study","SuRGE",NA
 82,"wgt","5.33333333333333","dimensionless"
 82,"ag_eco9","SAP",NA
 82,"ag_eco9_nm","Southern Appalachians",NA
 82,"depth_cat","GT_6m",NA
 82,"chla_cat","GT_7",NA
+82,"lab","RTP",NA
 82,"study","SuRGE",NA
 83,"wgt","5.33333333333333","dimensionless"
 83,"ag_eco9","SAP",NA
 83,"ag_eco9_nm","Southern Appalachians",NA
 83,"depth_cat","GT_6m",NA
 83,"chla_cat","GT_7",NA
+83,"lab","CIN",NA
 83,"study","SuRGE",NA
 84,"wgt","5.33333333333333","dimensionless"
 84,"ag_eco9","SAP",NA
 84,"ag_eco9_nm","Southern Appalachians",NA
 84,"depth_cat","GT_6m",NA
 84,"chla_cat","GT_7",NA
+84,"lab","DOE",NA
 84,"study","SuRGE",NA
 98,"wgt","3.6","dimensionless"
 98,"ag_eco9","SAP",NA
 98,"ag_eco9_nm","Southern Appalachians",NA
 98,"depth_cat","GT_6m",NA
 98,"chla_cat","LE_7",NA
+98,"lab","RTP",NA
 98,"study","SuRGE",NA
 99,"wgt","3.6","dimensionless"
 99,"ag_eco9","SAP",NA
 99,"ag_eco9_nm","Southern Appalachians",NA
 99,"depth_cat","GT_6m",NA
 99,"chla_cat","LE_7",NA
+99,"lab","ADA",NA
 99,"study","SuRGE",NA
 100,"wgt","3.6","dimensionless"
 100,"ag_eco9","SAP",NA
 100,"ag_eco9_nm","Southern Appalachians",NA
 100,"depth_cat","GT_6m",NA
 100,"chla_cat","LE_7",NA
+100,"lab","ADA",NA
 100,"study","SuRGE",NA
 101,"wgt","3.6","dimensionless"
 101,"ag_eco9","SAP",NA
 101,"ag_eco9_nm","Southern Appalachians",NA
 101,"depth_cat","GT_6m",NA
 101,"chla_cat","LE_7",NA
+101,"lab","CIN",NA
 101,"study","SuRGE",NA
 102,"wgt","3.6","dimensionless"
 102,"ag_eco9","SAP",NA
 102,"ag_eco9_nm","Southern Appalachians",NA
 102,"depth_cat","GT_6m",NA
 102,"chla_cat","LE_7",NA
+102,"lab","RTP",NA
 102,"study","SuRGE",NA
 103,"wgt","3.6","dimensionless"
 103,"ag_eco9","SAP",NA
 103,"ag_eco9_nm","Southern Appalachians",NA
 103,"depth_cat","GT_6m",NA
 103,"chla_cat","LE_7",NA
+103,"lab","CIN",NA
 103,"study","SuRGE",NA
 116,"wgt","6.66666666666666","dimensionless"
 116,"ag_eco9","SAP",NA
 116,"ag_eco9_nm","Southern Appalachians",NA
 116,"depth_cat","LE_6m",NA
 116,"chla_cat","GT_7",NA
+116,"lab","CIN",NA
 116,"study","SuRGE",NA
 117,"wgt","6.66666666666666","dimensionless"
 117,"ag_eco9","SAP",NA
 117,"ag_eco9_nm","Southern Appalachians",NA
 117,"depth_cat","LE_6m",NA
 117,"chla_cat","GT_7",NA
+117,"lab","DOE",NA
 117,"study","SuRGE",NA
 119,"wgt","6.66666666666666","dimensionless"
 119,"ag_eco9","SAP",NA
 119,"ag_eco9_nm","Southern Appalachians",NA
 119,"depth_cat","LE_6m",NA
 119,"chla_cat","GT_7",NA
+119,"lab","RTP",NA
 119,"study","SuRGE",NA
 136,"wgt","3.33333333333333","dimensionless"
 136,"ag_eco9","SAP",NA
 136,"ag_eco9_nm","Southern Appalachians",NA
 136,"depth_cat","LE_6m",NA
 136,"chla_cat","LE_7",NA
+136,"lab","ADA",NA
 136,"study","SuRGE",NA
 137,"wgt","3.33333333333333","dimensionless"
 137,"ag_eco9","SAP",NA
 137,"ag_eco9_nm","Southern Appalachians",NA
 137,"depth_cat","LE_6m",NA
 137,"chla_cat","LE_7",NA
+137,"lab","RTP",NA
 137,"study","SuRGE",NA
 138,"wgt","3.33333333333333","dimensionless"
 138,"ag_eco9","SAP",NA
 138,"ag_eco9_nm","Southern Appalachians",NA
 138,"depth_cat","LE_6m",NA
 138,"chla_cat","LE_7",NA
+138,"lab","RTP",NA
 138,"study","SuRGE",NA
 146,"wgt","2.25","dimensionless"
 146,"ag_eco9","SPL",NA
 146,"ag_eco9_nm","Southern Plains",NA
 146,"depth_cat","GT_6m",NA
 146,"chla_cat","GT_7",NA
+146,"lab","ADA",NA
 146,"study","SuRGE",NA
 147,"wgt","2.25","dimensionless"
 147,"ag_eco9","SPL",NA
 147,"ag_eco9_nm","Southern Plains",NA
 147,"depth_cat","GT_6m",NA
 147,"chla_cat","GT_7",NA
+147,"lab","ADA",NA
 147,"study","SuRGE",NA
 148,"wgt","2.25","dimensionless"
 148,"ag_eco9","SPL",NA
 148,"ag_eco9_nm","Southern Plains",NA
 148,"depth_cat","GT_6m",NA
 148,"chla_cat","GT_7",NA
+148,"lab","ADA",NA
 148,"study","SuRGE",NA
 149,"wgt","2.25","dimensionless"
 149,"ag_eco9","SPL",NA
 149,"ag_eco9_nm","Southern Plains",NA
 149,"depth_cat","GT_6m",NA
 149,"chla_cat","GT_7",NA
+149,"lab","CIN",NA
 149,"study","SuRGE",NA
 155,"wgt","3.33333333333333","dimensionless"
 155,"ag_eco9","SPL",NA
 155,"ag_eco9_nm","Southern Plains",NA
 155,"depth_cat","GT_6m",NA
 155,"chla_cat","LE_7",NA
+155,"lab","CIN",NA
 155,"study","SuRGE",NA
 157,"wgt","3.33333333333333","dimensionless"
 157,"ag_eco9","SPL",NA
 157,"ag_eco9_nm","Southern Plains",NA
 157,"depth_cat","GT_6m",NA
 157,"chla_cat","LE_7",NA
+157,"lab","CIN",NA
 157,"study","SuRGE",NA
 159,"wgt","3.33333333333333","dimensionless"
 159,"ag_eco9","SPL",NA
 159,"ag_eco9_nm","Southern Plains",NA
 159,"depth_cat","GT_6m",NA
 159,"chla_cat","LE_7",NA
+159,"lab","CIN",NA
 159,"study","SuRGE",NA
 165,"wgt","6","dimensionless"
 165,"ag_eco9","SPL",NA
 165,"ag_eco9_nm","Southern Plains",NA
 165,"depth_cat","LE_6m",NA
 165,"chla_cat","GT_7",NA
+165,"lab","CIN",NA
 165,"study","SuRGE",NA
 166,"wgt","6","dimensionless"
 166,"ag_eco9","SPL",NA
 166,"ag_eco9_nm","Southern Plains",NA
 166,"depth_cat","LE_6m",NA
 166,"chla_cat","GT_7",NA
+166,"lab","ADA",NA
 166,"study","SuRGE",NA
 167,"wgt","6","dimensionless"
 167,"ag_eco9","SPL",NA
 167,"ag_eco9_nm","Southern Plains",NA
 167,"depth_cat","LE_6m",NA
 167,"chla_cat","GT_7",NA
+167,"lab","ADA",NA
 167,"study","SuRGE",NA
 184,"wgt","2.33333333333333","dimensionless"
 184,"ag_eco9","SPL",NA
 184,"ag_eco9_nm","Southern Plains",NA
 184,"depth_cat","LE_6m",NA
 184,"chla_cat","LE_7",NA
+184,"lab","ADA",NA
 184,"study","SuRGE",NA
 186,"wgt","2.33333333333333","dimensionless"
 186,"ag_eco9","SPL",NA
 186,"ag_eco9_nm","Southern Plains",NA
 186,"depth_cat","LE_6m",NA
 186,"chla_cat","LE_7",NA
+186,"lab","ADA",NA
 186,"study","SuRGE",NA
 188,"wgt","2.33333333333333","dimensionless"
 188,"ag_eco9","SPL",NA
 188,"ag_eco9_nm","Southern Plains",NA
 188,"depth_cat","LE_6m",NA
 188,"chla_cat","LE_7",NA
+188,"lab","CIN",NA
 188,"study","SuRGE",NA
 190,"wgt","4.66666666666666","dimensionless"
 190,"ag_eco9","TPL",NA
 190,"ag_eco9_nm","Temperate Plains",NA
 190,"depth_cat","GT_6m",NA
 190,"chla_cat","GT_7",NA
+190,"lab","ADA",NA
 190,"study","SuRGE",NA
 191,"wgt","4.66666666666666","dimensionless"
 191,"ag_eco9","TPL",NA
 191,"ag_eco9_nm","Temperate Plains",NA
 191,"depth_cat","GT_6m",NA
 191,"chla_cat","GT_7",NA
+191,"lab","CIN",NA
 191,"study","SuRGE",NA
 195,"wgt","4.66666666666666","dimensionless"
 195,"ag_eco9","TPL",NA
 195,"ag_eco9_nm","Temperate Plains",NA
 195,"depth_cat","GT_6m",NA
 195,"chla_cat","GT_7",NA
+195,"lab","CIN",NA
 195,"study","SuRGE",NA
 204,"wgt","1","dimensionless"
 204,"ag_eco9","TPL",NA
 204,"ag_eco9_nm","Temperate Plains",NA
 204,"depth_cat","GT_6m",NA
 204,"chla_cat","LE_7",NA
+204,"lab","CIN",NA
 204,"study","SuRGE",NA
 205,"wgt","1","dimensionless"
 205,"ag_eco9","TPL",NA
 205,"ag_eco9_nm","Temperate Plains",NA
 205,"depth_cat","GT_6m",NA
 205,"chla_cat","LE_7",NA
+205,"lab","CIN",NA
 205,"study","SuRGE",NA
 206,"wgt","1","dimensionless"
 206,"ag_eco9","TPL",NA
 206,"ag_eco9_nm","Temperate Plains",NA
 206,"depth_cat","GT_6m",NA
 206,"chla_cat","LE_7",NA
+206,"lab","ADA",NA
 206,"study","SuRGE",NA
 207,"wgt","1","dimensionless"
 207,"ag_eco9","TPL",NA
 207,"ag_eco9_nm","Temperate Plains",NA
 207,"depth_cat","GT_6m",NA
 207,"chla_cat","LE_7",NA
+207,"lab","CIN",NA
 207,"study","SuRGE",NA
 208,"wgt","1","dimensionless"
 208,"ag_eco9","TPL",NA
 208,"ag_eco9_nm","Temperate Plains",NA
 208,"depth_cat","GT_6m",NA
 208,"chla_cat","LE_7",NA
+208,"lab","CIN",NA
 208,"study","SuRGE",NA
 209,"wgt","1","dimensionless"
 209,"ag_eco9","TPL",NA
 209,"ag_eco9_nm","Temperate Plains",NA
 209,"depth_cat","GT_6m",NA
 209,"chla_cat","LE_7",NA
+209,"lab","CIN",NA
 209,"study","SuRGE",NA
 210,"wgt","6.66666666666666","dimensionless"
 210,"ag_eco9","TPL",NA
 210,"ag_eco9_nm","Temperate Plains",NA
 210,"depth_cat","LE_6m",NA
 210,"chla_cat","GT_7",NA
+210,"lab","CIN",NA
 210,"study","SuRGE",NA
 211,"wgt","6.66666666666666","dimensionless"
 211,"ag_eco9","TPL",NA
 211,"ag_eco9_nm","Temperate Plains",NA
 211,"depth_cat","LE_6m",NA
 211,"chla_cat","GT_7",NA
+211,"lab","CIN",NA
 211,"study","SuRGE",NA
 214,"wgt","6.66666666666666","dimensionless"
 214,"ag_eco9","TPL",NA
 214,"ag_eco9_nm","Temperate Plains",NA
 214,"depth_cat","LE_6m",NA
 214,"chla_cat","GT_7",NA
+214,"lab","CIN",NA
 214,"study","SuRGE",NA
 230,"wgt","1","dimensionless"
 230,"ag_eco9","TPL",NA
 230,"ag_eco9_nm","Temperate Plains",NA
 230,"depth_cat","LE_6m",NA
 230,"chla_cat","LE_7",NA
+230,"lab","CIN",NA
 230,"study","SuRGE",NA
 231,"wgt","1","dimensionless"
 231,"ag_eco9","TPL",NA
 231,"ag_eco9_nm","Temperate Plains",NA
 231,"depth_cat","LE_6m",NA
 231,"chla_cat","LE_7",NA
+231,"lab","CIN",NA
 231,"study","SuRGE",NA
 232,"wgt","1","dimensionless"
 232,"ag_eco9","TPL",NA
 232,"ag_eco9_nm","Temperate Plains",NA
 232,"depth_cat","LE_6m",NA
 232,"chla_cat","LE_7",NA
+232,"lab","CIN",NA
 232,"study","SuRGE",NA
 233,"wgt","1","dimensionless"
 233,"ag_eco9","UMW",NA
 233,"ag_eco9_nm","Upper Midwest",NA
 233,"depth_cat","GT_6m",NA
 233,"chla_cat","GT_7",NA
+233,"lab","CIN",NA
 233,"study","SuRGE",NA
 234,"wgt","1","dimensionless"
 234,"ag_eco9","UMW",NA
 234,"ag_eco9_nm","Upper Midwest",NA
 234,"depth_cat","GT_6m",NA
 234,"chla_cat","GT_7",NA
+234,"lab","CIN",NA
 234,"study","SuRGE",NA
 235,"wgt","1","dimensionless"
 235,"ag_eco9","UMW",NA
 235,"ag_eco9_nm","Upper Midwest",NA
 235,"depth_cat","GT_6m",NA
 235,"chla_cat","GT_7",NA
+235,"lab","CIN",NA
 235,"study","SuRGE",NA
 236,"wgt","1","dimensionless"
 236,"ag_eco9","UMW",NA
 236,"ag_eco9_nm","Upper Midwest",NA
 236,"depth_cat","LE_6m",NA
 236,"chla_cat","GT_7",NA
+236,"lab","CIN",NA
 236,"study","SuRGE",NA
 237,"wgt","1","dimensionless"
 237,"ag_eco9","UMW",NA
 237,"ag_eco9_nm","Upper Midwest",NA
 237,"depth_cat","LE_6m",NA
 237,"chla_cat","LE_7",NA
+237,"lab","CIN",NA
 237,"study","SuRGE",NA
 238,"wgt","2","dimensionless"
 238,"ag_eco9","WMT",NA
 238,"ag_eco9_nm","Western Mountains",NA
 238,"depth_cat","GT_6m",NA
 238,"chla_cat","GT_7",NA
+238,"lab","R10",NA
 238,"study","SuRGE",NA
 239,"wgt","2","dimensionless"
 239,"ag_eco9","WMT",NA
 239,"ag_eco9_nm","Western Mountains",NA
 239,"depth_cat","GT_6m",NA
 239,"chla_cat","GT_7",NA
+239,"lab","R10",NA
 239,"study","SuRGE",NA
 240,"wgt","2","dimensionless"
 240,"ag_eco9","WMT",NA
 240,"ag_eco9_nm","Western Mountains",NA
 240,"depth_cat","GT_6m",NA
 240,"chla_cat","GT_7",NA
+240,"lab","CIN",NA
 240,"study","SuRGE",NA
 247,"wgt","6.33333333333333","dimensionless"
 247,"ag_eco9","WMT",NA
 247,"ag_eco9_nm","Western Mountains",NA
 247,"depth_cat","GT_6m",NA
 247,"chla_cat","LE_7",NA
+247,"lab","CIN",NA
 247,"study","SuRGE",NA
 249,"wgt","6.33333333333333","dimensionless"
 249,"ag_eco9","WMT",NA
 249,"ag_eco9_nm","Western Mountains",NA
 249,"depth_cat","GT_6m",NA
 249,"chla_cat","LE_7",NA
+249,"lab","R10",NA
 249,"study","SuRGE",NA
 250,"wgt","6.33333333333333","dimensionless"
 250,"ag_eco9","WMT",NA
 250,"ag_eco9_nm","Western Mountains",NA
 250,"depth_cat","GT_6m",NA
 250,"chla_cat","LE_7",NA
+250,"lab","CIN",NA
 250,"study","SuRGE",NA
 253,"wgt","6.33333333333333","dimensionless"
 253,"ag_eco9","WMT",NA
 253,"ag_eco9_nm","Western Mountains",NA
 253,"depth_cat","GT_6m",NA
 253,"chla_cat","LE_7",NA
+253,"lab","R10",NA
 253,"study","SuRGE",NA
 263,"wgt","4","dimensionless"
 263,"ag_eco9","WMT",NA
 263,"ag_eco9_nm","Western Mountains",NA
 263,"depth_cat","LE_6m",NA
 263,"chla_cat","GT_7",NA
+263,"lab","R10",NA
 263,"study","SuRGE",NA
 264,"wgt","4","dimensionless"
 264,"ag_eco9","WMT",NA
 264,"ag_eco9_nm","Western Mountains",NA
 264,"depth_cat","LE_6m",NA
 264,"chla_cat","GT_7",NA
+264,"lab","CIN",NA
 264,"study","SuRGE",NA
 265,"wgt","4","dimensionless"
 265,"ag_eco9","WMT",NA
 265,"ag_eco9_nm","Western Mountains",NA
 265,"depth_cat","LE_6m",NA
 265,"chla_cat","GT_7",NA
+265,"lab","R10",NA
 265,"study","SuRGE",NA
 275,"wgt","3.33333333333333","dimensionless"
 275,"ag_eco9","WMT",NA
 275,"ag_eco9_nm","Western Mountains",NA
 275,"depth_cat","LE_6m",NA
 275,"chla_cat","LE_7",NA
+275,"lab","USGS",NA
 275,"study","SuRGE",NA
 276,"wgt","3.33333333333333","dimensionless"
 276,"ag_eco9","WMT",NA
 276,"ag_eco9_nm","Western Mountains",NA
 276,"depth_cat","LE_6m",NA
 276,"chla_cat","LE_7",NA
+276,"lab","CIN",NA
 276,"study","SuRGE",NA
 281,"wgt","3.33333333333333","dimensionless"
 281,"ag_eco9","WMT",NA
 281,"ag_eco9_nm","Western Mountains",NA
 281,"depth_cat","LE_6m",NA
 281,"chla_cat","LE_7",NA
+281,"lab","CIN",NA
 281,"study","SuRGE",NA
 287,"wgt","3.66666666666666","dimensionless"
 287,"ag_eco9","XER",NA
 287,"ag_eco9_nm","Xeric",NA
 287,"depth_cat","GT_6m",NA
 287,"chla_cat","GT_7",NA
+287,"lab","R10",NA
 287,"study","SuRGE",NA
 288,"wgt","3.66666666666666","dimensionless"
 288,"ag_eco9","XER",NA
 288,"ag_eco9_nm","Xeric",NA
 288,"depth_cat","GT_6m",NA
 288,"chla_cat","GT_7",NA
+288,"lab","USGS",NA
 288,"study","SuRGE",NA
 291,"wgt","3.66666666666666","dimensionless"
 291,"ag_eco9","XER",NA
 291,"ag_eco9_nm","Xeric",NA
 291,"depth_cat","GT_6m",NA
 291,"chla_cat","GT_7",NA
+291,"lab","USGS",NA
 291,"study","SuRGE",NA
 296,"wgt","6.66666666666666","dimensionless"
 296,"ag_eco9","XER",NA
 296,"ag_eco9_nm","Xeric",NA
 296,"depth_cat","GT_6m",NA
 296,"chla_cat","LE_7",NA
+296,"lab","USGS",NA
 296,"study","SuRGE",NA
 297,"wgt","6.66666666666666","dimensionless"
 297,"ag_eco9","XER",NA
 297,"ag_eco9_nm","Xeric",NA
 297,"depth_cat","GT_6m",NA
 297,"chla_cat","LE_7",NA
+297,"lab","USGS",NA
 297,"study","SuRGE",NA
 298,"wgt","6.66666666666666","dimensionless"
 298,"ag_eco9","XER",NA
 298,"ag_eco9_nm","Xeric",NA
 298,"depth_cat","GT_6m",NA
 298,"chla_cat","LE_7",NA
+298,"lab","USGS",NA
 298,"study","SuRGE",NA
 302,"wgt","6.66666666666666","dimensionless"
 302,"ag_eco9","XER",NA
 302,"ag_eco9_nm","Xeric",NA
 302,"depth_cat","GT_6m",NA
 302,"chla_cat","LE_7",NA
+302,"lab","R10",NA
 302,"study","SuRGE",NA
 308,"wgt","6.66666666666666","dimensionless"
 308,"ag_eco9","XER",NA
 308,"ag_eco9_nm","Xeric",NA
 308,"depth_cat","GT_6m",NA
 308,"chla_cat","LE_7",NA
+308,"lab","R10",NA
 308,"study","SuRGE",NA
 316,"wgt","3.33333333333333","dimensionless"
 316,"ag_eco9","XER",NA
 316,"ag_eco9_nm","Xeric",NA
 316,"depth_cat","LE_6m",NA
 316,"chla_cat","GT_7",NA
+316,"lab","USGS",NA
 316,"study","SuRGE",NA
 317,"wgt","3.33333333333333","dimensionless"
 317,"ag_eco9","XER",NA
 317,"ag_eco9_nm","Xeric",NA
 317,"depth_cat","LE_6m",NA
 317,"chla_cat","GT_7",NA
+317,"lab","USGS",NA
 317,"study","SuRGE",NA
 323,"wgt","3.33333333333333","dimensionless"
 323,"ag_eco9","XER",NA
 323,"ag_eco9_nm","Xeric",NA
 323,"depth_cat","LE_6m",NA
 323,"chla_cat","GT_7",NA
+323,"lab","R10",NA
 323,"study","SuRGE",NA
 326,"wgt","3.66666666666666","dimensionless"
 326,"ag_eco9","XER",NA
 326,"ag_eco9_nm","Xeric",NA
 326,"depth_cat","LE_6m",NA
 326,"chla_cat","LE_7",NA
+326,"lab","USGS",NA
 326,"study","SuRGE",NA
 327,"wgt","3.66666666666666","dimensionless"
 327,"ag_eco9","XER",NA
 327,"ag_eco9_nm","Xeric",NA
 327,"depth_cat","LE_6m",NA
 327,"chla_cat","LE_7",NA
+327,"lab","USGS",NA
 327,"study","SuRGE",NA
 328,"wgt","3.66666666666666","dimensionless"
 328,"ag_eco9","XER",NA
 328,"ag_eco9_nm","Xeric",NA
 328,"depth_cat","LE_6m",NA
 328,"chla_cat","LE_7",NA
+328,"lab","CIN",NA
 328,"study","SuRGE",NA
 331,"wgt","3.66666666666666","dimensionless"
 331,"ag_eco9","XER",NA
 331,"ag_eco9_nm","Xeric",NA
 331,"depth_cat","LE_6m",NA
 331,"chla_cat","LE_7",NA
+331,"lab","R10",NA
 331,"study","SuRGE",NA
 999,"wgt",NA,"dimensionless"
 999,"ag_eco9","WMT",NA
 999,"ag_eco9_nm","Western Mountains",NA
 999,"depth_cat","GT_6m",NA
 999,"chla_cat","LE_7",NA
+999,"lab","R10",NA
 999,"study","Hand picked",NA
 1000,"wgt",NA,"dimensionless"
 1000,"ag_eco9",NA,NA
 1000,"ag_eco9_nm",NA,NA
 1000,"depth_cat",NA,NA
 1000,"chla_cat",NA,NA
+1000,"lab","PR",NA
 1000,"study","Hand picked",NA
 1001,"wgt",NA,"dimensionless"
 1001,"ag_eco9","TPL",NA
 1001,"ag_eco9_nm","Temperate Plains",NA
 1001,"depth_cat",NA,NA
 1001,"chla_cat",NA,NA
+1001,"lab","CIN",NA
 1001,"study","2016 Regional Survey",NA
 1002,"wgt",NA,"dimensionless"
 1002,"ag_eco9","TPL",NA
 1002,"ag_eco9_nm","Temperate Plains",NA
 1002,"depth_cat",NA,NA
 1002,"chla_cat",NA,NA
+1002,"lab","CIN",NA
 1002,"study","2016 Regional Survey",NA
 1003,"wgt",NA,"dimensionless"
 1003,"ag_eco9","NPL",NA
 1003,"ag_eco9_nm","Northern Appalachians",NA
 1003,"depth_cat",NA,NA
 1003,"chla_cat",NA,NA
+1003,"lab","CIN",NA
 1003,"study","2016 Regional Survey",NA
 1004,"wgt",NA,"dimensionless"
 1004,"ag_eco9","SAP",NA
 1004,"ag_eco9_nm","Southern Appalachians",NA
 1004,"depth_cat",NA,NA
 1004,"chla_cat",NA,NA
+1004,"lab","CIN",NA
 1004,"study","2016 Regional Survey",NA
 1005,"wgt",NA,"dimensionless"
 1005,"ag_eco9","TPL",NA
 1005,"ag_eco9_nm","Temperate Plains",NA
 1005,"depth_cat",NA,NA
 1005,"chla_cat",NA,NA
+1005,"lab","CIN",NA
 1005,"study","2016 Regional Survey",NA
 1006,"wgt",NA,"dimensionless"
 1006,"ag_eco9","SAP",NA
 1006,"ag_eco9_nm","Southern Appalachians",NA
 1006,"depth_cat",NA,NA
 1006,"chla_cat",NA,NA
+1006,"lab","CIN",NA
 1006,"study","2016 Regional Survey",NA
 1007,"wgt",NA,"dimensionless"
 1007,"ag_eco9","SAP",NA
 1007,"ag_eco9_nm","Southern Appalachians",NA
 1007,"depth_cat",NA,NA
 1007,"chla_cat",NA,NA
+1007,"lab","CIN",NA
 1007,"study","2016 Regional Survey",NA
 1008,"wgt",NA,"dimensionless"
 1008,"ag_eco9","TPL",NA
 1008,"ag_eco9_nm","Temperate Plains",NA
 1008,"depth_cat",NA,NA
 1008,"chla_cat",NA,NA
+1008,"lab","CIN",NA
 1008,"study","2016 Regional Survey",NA
 1009,"wgt",NA,"dimensionless"
 1009,"ag_eco9","SAP",NA
 1009,"ag_eco9_nm","Southern Appalachians",NA
 1009,"depth_cat",NA,NA
 1009,"chla_cat",NA,NA
+1009,"lab","CIN",NA
 1009,"study","2016 Regional Survey",NA
 1010,"wgt",NA,"dimensionless"
 1010,"ag_eco9","SAP",NA
 1010,"ag_eco9_nm","Southern Appalachians",NA
 1010,"depth_cat",NA,NA
 1010,"chla_cat",NA,NA
+1010,"lab","CIN",NA
 1010,"study","2016 Regional Survey",NA
 1011,"wgt",NA,"dimensionless"
 1011,"ag_eco9","NPL",NA
 1011,"ag_eco9_nm","Northern Appalachians",NA
 1011,"depth_cat",NA,NA
 1011,"chla_cat",NA,NA
+1011,"lab","CIN",NA
 1011,"study","2016 Regional Survey",NA
 1012,"wgt",NA,"dimensionless"
 1012,"ag_eco9","TPL",NA
 1012,"ag_eco9_nm","Temperate Plains",NA
 1012,"depth_cat",NA,NA
 1012,"chla_cat",NA,NA
+1012,"lab","CIN",NA
 1012,"study","2016 Regional Survey",NA
 1013,"wgt",NA,"dimensionless"
 1013,"ag_eco9","TPL",NA
 1013,"ag_eco9_nm","Temperate Plains",NA
 1013,"depth_cat",NA,NA
 1013,"chla_cat",NA,NA
+1013,"lab","CIN",NA
 1013,"study","2016 Regional Survey",NA
 1014,"wgt",NA,"dimensionless"
 1014,"ag_eco9","SAP",NA
 1014,"ag_eco9_nm","Southern Appalachians",NA
 1014,"depth_cat",NA,NA
 1014,"chla_cat",NA,NA
+1014,"lab","CIN",NA
 1014,"study","2016 Regional Survey",NA
 1015,"wgt",NA,"dimensionless"
 1015,"ag_eco9","SAP",NA
 1015,"ag_eco9_nm","Southern Appalachians",NA
 1015,"depth_cat",NA,NA
 1015,"chla_cat",NA,NA
+1015,"lab","CIN",NA
 1015,"study","2016 Regional Survey",NA
 1016,"wgt",NA,"dimensionless"
 1016,"ag_eco9","TPL",NA
 1016,"ag_eco9_nm","Temperate Plains",NA
 1016,"depth_cat",NA,NA
 1016,"chla_cat",NA,NA
+1016,"lab","CIN",NA
 1016,"study","2016 Regional Survey",NA
 1017,"wgt",NA,"dimensionless"
 1017,"ag_eco9","NPL",NA
 1017,"ag_eco9_nm","Northern Appalachians",NA
 1017,"depth_cat",NA,NA
 1017,"chla_cat",NA,NA
+1017,"lab","CIN",NA
 1017,"study","2016 Regional Survey",NA
 1018,"wgt",NA,"dimensionless"
 1018,"ag_eco9","NPL",NA
 1018,"ag_eco9_nm","Northern Appalachians",NA
 1018,"depth_cat",NA,NA
 1018,"chla_cat",NA,NA
+1018,"lab","CIN",NA
 1018,"study","2016 Regional Survey",NA
 1019,"wgt",NA,"dimensionless"
 1019,"ag_eco9","TPL",NA
 1019,"ag_eco9_nm","Temperate Plains",NA
 1019,"depth_cat",NA,NA
 1019,"chla_cat",NA,NA
+1019,"lab","CIN",NA
 1019,"study","2016 Regional Survey",NA
 1020,"wgt",NA,"dimensionless"
 1020,"ag_eco9","NPL",NA
 1020,"ag_eco9_nm","Northern Appalachians",NA
 1020,"depth_cat",NA,NA
 1020,"chla_cat",NA,NA
+1020,"lab","CIN",NA
 1020,"study","2016 Regional Survey",NA
 1021,"wgt",NA,"dimensionless"
 1021,"ag_eco9","SAP",NA
 1021,"ag_eco9_nm","Southern Appalachians",NA
 1021,"depth_cat",NA,NA
 1021,"chla_cat",NA,NA
+1021,"lab","CIN",NA
 1021,"study","2016 Regional Survey",NA
 1022,"wgt",NA,"dimensionless"
 1022,"ag_eco9","NPL",NA
 1022,"ag_eco9_nm","Northern Appalachians",NA
 1022,"depth_cat",NA,NA
 1022,"chla_cat",NA,NA
+1022,"lab","CIN",NA
 1022,"study","2016 Regional Survey",NA
 1023,"wgt",NA,"dimensionless"
 1023,"ag_eco9","TPL",NA
 1023,"ag_eco9_nm","Temperate Plains",NA
 1023,"depth_cat",NA,NA
 1023,"chla_cat",NA,NA
+1023,"lab","CIN",NA
 1023,"study","2016 Regional Survey",NA
 1024,"wgt",NA,"dimensionless"
 1024,"ag_eco9","NPL",NA
 1024,"ag_eco9_nm","Northern Appalachians",NA
 1024,"depth_cat",NA,NA
 1024,"chla_cat",NA,NA
+1024,"lab","CIN",NA
 1024,"study","2016 Regional Survey",NA
 1025,"wgt",NA,"dimensionless"
 1025,"ag_eco9","TPL",NA
 1025,"ag_eco9_nm","Temperate Plains",NA
 1025,"depth_cat",NA,NA
 1025,"chla_cat",NA,NA
+1025,"lab","CIN",NA
 1025,"study","2016 Regional Survey",NA
 1026,"wgt",NA,"dimensionless"
 1026,"ag_eco9","SAP",NA
 1026,"ag_eco9_nm","Southern Appalachians",NA
 1026,"depth_cat",NA,NA
 1026,"chla_cat",NA,NA
+1026,"lab","CIN",NA
 1026,"study","2016 Regional Survey",NA
 1027,"wgt",NA,"dimensionless"
 1027,"ag_eco9","NPL",NA
 1027,"ag_eco9_nm","Northern Appalachians",NA
 1027,"depth_cat",NA,NA
 1027,"chla_cat",NA,NA
+1027,"lab","CIN",NA
 1027,"study","2016 Regional Survey",NA
 1028,"wgt",NA,"dimensionless"
 1028,"ag_eco9","TPL",NA
 1028,"ag_eco9_nm","Temperate Plains",NA
 1028,"depth_cat",NA,NA
 1028,"chla_cat",NA,NA
+1028,"lab","CIN",NA
 1028,"study","2016 Regional Survey",NA
 1029,"wgt",NA,"dimensionless"
 1029,"ag_eco9","SAP",NA
 1029,"ag_eco9_nm","Southern Appalachians",NA
 1029,"depth_cat",NA,NA
 1029,"chla_cat",NA,NA
+1029,"lab","CIN",NA
 1029,"study","2016 Regional Survey",NA
 1030,"wgt",NA,"dimensionless"
 1030,"ag_eco9","SAP",NA
 1030,"ag_eco9_nm","Southern Appalachians",NA
 1030,"depth_cat",NA,NA
 1030,"chla_cat",NA,NA
+1030,"lab","CIN",NA
 1030,"study","2016 Regional Survey",NA
 1031,"wgt",NA,"dimensionless"
 1031,"ag_eco9","TPL",NA
 1031,"ag_eco9_nm","Temperate Plains",NA
 1031,"depth_cat",NA,NA
 1031,"chla_cat",NA,NA
+1031,"lab","CIN",NA
 1031,"study","2016 Regional Survey",NA
 1032,"wgt",NA,"dimensionless"
 1032,"ag_eco9","NPL",NA
 1032,"ag_eco9_nm","Northern Appalachians",NA
 1032,"depth_cat",NA,NA
 1032,"chla_cat",NA,NA
+1032,"lab","CIN",NA
 1032,"study","2016 Regional Survey",NA
 1,"chl_predicted_sample_month_visit1","27.70","ug_l"
 1,"doc_predicted_sample_month_visit1"," 5.69","mg_l"
@@ -6409,3 +6555,149 @@
 999,"doc_predicted_sample_month_visit1"," 1.44","mg_l"
 999,"chl_predicted_sample_season_visit1"," 2.04","ug_l"
 999,"doc_predicted_sample_season_visit1"," 1.85","mg_l"
+1,"lake_elevation","  30.7","meters above sea level"
+2,"lake_elevation","  75.0","meters above sea level"
+3,"lake_elevation","  69.4","meters above sea level"
+4,"lake_elevation","  30.1","meters above sea level"
+10,"lake_elevation","   5.0","meters above sea level"
+11,"lake_elevation"," 132.2","meters above sea level"
+13,"lake_elevation","   2.3","meters above sea level"
+14,"lake_elevation","  73.0","meters above sea level"
+16,"lake_elevation","   2.7","meters above sea level"
+17,"lake_elevation","   1.1","meters above sea level"
+18,"lake_elevation","  29.6","meters above sea level"
+44,"lake_elevation","  31.9","meters above sea level"
+45,"lake_elevation","   0.5","meters above sea level"
+46,"lake_elevation","  10.0","meters above sea level"
+47,"lake_elevation","  19.9","meters above sea level"
+49,"lake_elevation","  21.0","meters above sea level"
+51,"lake_elevation"," 194.2","meters above sea level"
+52,"lake_elevation"," 113.3","meters above sea level"
+53,"lake_elevation"," 198.5","meters above sea level"
+54,"lake_elevation"," 259.1","meters above sea level"
+55,"lake_elevation"," 378.6","meters above sea level"
+57,"lake_elevation","  75.0","meters above sea level"
+64,"lake_elevation"," 156.4","meters above sea level"
+65,"lake_elevation"," 204.6","meters above sea level"
+66,"lake_elevation","  31.8","meters above sea level"
+67,"lake_elevation"," 622.5","meters above sea level"
+68,"lake_elevation"," 629.6","meters above sea level"
+69,"lake_elevation"," 549.5","meters above sea level"
+70,"lake_elevation"," 493.2","meters above sea level"
+71,"lake_elevation","1265.3","meters above sea level"
+72,"lake_elevation"," 705.3","meters above sea level"
+75,"lake_elevation"," 680.7","meters above sea level"
+76,"lake_elevation","1258.6","meters above sea level"
+77,"lake_elevation","1555.8","meters above sea level"
+78,"lake_elevation"," 794.5","meters above sea level"
+79,"lake_elevation"," 675.2","meters above sea level"
+82,"lake_elevation","  56.3","meters above sea level"
+83,"lake_elevation"," 164.5","meters above sea level"
+84,"lake_elevation"," 198.1","meters above sea level"
+98,"lake_elevation"," 284.8","meters above sea level"
+99,"lake_elevation"," 124.7","meters above sea level"
+100,"lake_elevation"," 327.8","meters above sea level"
+101,"lake_elevation"," 239.7","meters above sea level"
+102,"lake_elevation"," 880.4","meters above sea level"
+103,"lake_elevation"," 160.6","meters above sea level"
+116,"lake_elevation"," 169.0","meters above sea level"
+117,"lake_elevation"," 257.9","meters above sea level"
+119,"lake_elevation","  66.0","meters above sea level"
+136,"lake_elevation"," 324.1","meters above sea level"
+137,"lake_elevation"," 273.1","meters above sea level"
+138,"lake_elevation"," 115.6","meters above sea level"
+146,"lake_elevation"," 492.5","meters above sea level"
+147,"lake_elevation"," 251.1","meters above sea level"
+148,"lake_elevation"," 253.8","meters above sea level"
+149,"lake_elevation"," 657.7","meters above sea level"
+155,"lake_elevation","1253.7","meters above sea level"
+157,"lake_elevation","2012.4","meters above sea level"
+159,"lake_elevation","1632.9","meters above sea level"
+165,"lake_elevation","1477.0","meters above sea level"
+166,"lake_elevation"," 415.8","meters above sea level"
+167,"lake_elevation"," 377.5","meters above sea level"
+184,"lake_elevation"," 355.8","meters above sea level"
+186,"lake_elevation","1579.7","meters above sea level"
+188,"lake_elevation","1869.0","meters above sea level"
+190,"lake_elevation"," 266.8","meters above sea level"
+191,"lake_elevation"," 249.8","meters above sea level"
+195,"lake_elevation"," 226.1","meters above sea level"
+204,"lake_elevation"," 231.0","meters above sea level"
+205,"lake_elevation"," 183.4","meters above sea level"
+206,"lake_elevation"," 254.3","meters above sea level"
+207,"lake_elevation"," 202.3","meters above sea level"
+208,"lake_elevation"," 172.8","meters above sea level"
+209,"lake_elevation"," 145.5","meters above sea level"
+210,"lake_elevation"," 207.7","meters above sea level"
+211,"lake_elevation"," 293.2","meters above sea level"
+214,"lake_elevation"," 217.1","meters above sea level"
+230,"lake_elevation"," 151.0","meters above sea level"
+231,"lake_elevation"," 431.0","meters above sea level"
+232,"lake_elevation"," 488.3","meters above sea level"
+233,"lake_elevation"," 279.2","meters above sea level"
+234,"lake_elevation"," 262.4","meters above sea level"
+235,"lake_elevation"," 278.3","meters above sea level"
+236,"lake_elevation"," 346.5","meters above sea level"
+237,"lake_elevation"," 318.1","meters above sea level"
+238,"lake_elevation","1019.2","meters above sea level"
+239,"lake_elevation","1241.7","meters above sea level"
+240,"lake_elevation","1576.2","meters above sea level"
+247,"lake_elevation","2182.8","meters above sea level"
+249,"lake_elevation"," 745.5","meters above sea level"
+250,"lake_elevation","1847.3","meters above sea level"
+253,"lake_elevation","1453.8","meters above sea level"
+263,"lake_elevation"," 240.4","meters above sea level"
+264,"lake_elevation","2984.0","meters above sea level"
+265,"lake_elevation"," 859.4","meters above sea level"
+275,"lake_elevation","1567.6","meters above sea level"
+276,"lake_elevation","2569.0","meters above sea level"
+281,"lake_elevation","1996.9","meters above sea level"
+287,"lake_elevation"," 823.1","meters above sea level"
+288,"lake_elevation"," 459.6","meters above sea level"
+291,"lake_elevation"," 173.2","meters above sea level"
+296,"lake_elevation"," 101.3","meters above sea level"
+297,"lake_elevation"," 319.9","meters above sea level"
+298,"lake_elevation","1892.2","meters above sea level"
+302,"lake_elevation","1520.5","meters above sea level"
+308,"lake_elevation"," 375.5","meters above sea level"
+316,"lake_elevation","  48.2","meters above sea level"
+317,"lake_elevation","   1.1","meters above sea level"
+323,"lake_elevation","1566.4","meters above sea level"
+326,"lake_elevation","1992.6","meters above sea level"
+327,"lake_elevation","1575.4","meters above sea level"
+328,"lake_elevation","2179.2","meters above sea level"
+331,"lake_elevation","1338.8","meters above sea level"
+999,"lake_elevation"," 656.5","meters above sea level"
+1000,"lake_elevation","  96.2","meters above sea level"
+1001,"lake_elevation"," 262.1","meters above sea level"
+1002,"lake_elevation"," 268.8","meters above sea level"
+1003,"lake_elevation"," 304.2","meters above sea level"
+1004,"lake_elevation"," 284.6","meters above sea level"
+1005,"lake_elevation"," 225.3","meters above sea level"
+1006,"lake_elevation"," 265.5","meters above sea level"
+1007,"lake_elevation"," 265.7","meters above sea level"
+1008,"lake_elevation"," 263.0","meters above sea level"
+1009,"lake_elevation"," 309.7","meters above sea level"
+1010,"lake_elevation"," 220.1","meters above sea level"
+1011,"lake_elevation"," 302.3","meters above sea level"
+1012,"lake_elevation"," 291.7","meters above sea level"
+1013,"lake_elevation"," 286.8","meters above sea level"
+1014,"lake_elevation"," 271.6","meters above sea level"
+1015,"lake_elevation"," 230.3","meters above sea level"
+1016,"lake_elevation"," 324.0","meters above sea level"
+1017,"lake_elevation"," 336.3","meters above sea level"
+1018,"lake_elevation"," 341.9","meters above sea level"
+1019,"lake_elevation"," 290.1","meters above sea level"
+1020,"lake_elevation"," 287.4","meters above sea level"
+1021,"lake_elevation"," 312.4","meters above sea level"
+1022,"lake_elevation"," 258.5","meters above sea level"
+1023,"lake_elevation"," 302.6","meters above sea level"
+1024,"lake_elevation"," 307.7","meters above sea level"
+1025,"lake_elevation"," 275.7","meters above sea level"
+1026,"lake_elevation"," 280.8","meters above sea level"
+1027,"lake_elevation"," 309.6","meters above sea level"
+1028,"lake_elevation"," 267.6","meters above sea level"
+1029,"lake_elevation"," 284.9","meters above sea level"
+1030,"lake_elevation"," 297.5","meters above sea level"
+1031,"lake_elevation"," 260.5","meters above sea level"
+1032,"lake_elevation"," 348.6","meters above sea level"

@@ -1,8 +1,8 @@
 impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
                         usgs_chem, usgs_chla, williamson_doc,
-                        usace_chem, ohio_epa_chem){
+                        usace_chem, ohio_epa_chem, ohio_wildlife_chem){
   
-  # bring in LAGOS and aquamatch data
+  # bring in external data sources
   dat_lagos <- left_join(
     lagos_chem, dat_raw, 
     relationship = "many-to-many"
@@ -31,7 +31,10 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
     ohio_epa_chem, dat_raw, 
     relationship = "many-to-many"
     )
-  
+  dat_ohio_wildlife_chem <- left_join(
+    ohio_wildlife_chem, dat_raw, 
+    relationship = "many-to-many"
+  )
   
   # IMPUTE TN-----
   # missing values are from 2022 SuRGE sampling. Replace with
@@ -115,15 +118,26 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
         group_by(lake_id) %>%
         summarize(ohio_epa_chla_shallow = mean(ohio_epa_chla_shallow))
     ) %>%
-    # replace missing value with mean nla17, nla22, lagos, usgs, odow, ohio epa 
-    # this is a rowwise operation
+    left_join(
+      dat_ohio_wildlife_chem %>%
+        select(lake_id, ohio_wildlife_chla_shallow) %>%
+        distinct() %>%
+        # exclude missing observations
+        filter(!is.na(ohio_wildlife_chla_shallow)) %>%
+        # mean by lake
+        group_by(lake_id) %>%
+        summarize(ohio_wildlife_chla_shallow = mean(ohio_wildlife_chla_shallow))
+    ) %>%
+    # replace missing value with mean nla17, nla22, lagos, usgs, odow, ohio epa, 
+    # ohio_wildlife. This is a rowwise operation
     rowwise() %>% 
     mutate(
       chla_lab_shallow = case_when(
         is.na(chla_lab_shallow) ~ mean(
           c(nla17_chla, nla22_chla, odow_chla_shallow,
             lagos_chla_shallow, aquamatch_chla_shallow,
-            usgs_chla_shallow, ohio_epa_chla_shallow),
+            usgs_chla_shallow, ohio_epa_chla_shallow,
+            ohio_wildlife_chla_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ chla_lab_shallow)
@@ -131,7 +145,7 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
     ungroup %>% # remove rowwise
     select(-odow_chla_shallow, -lagos_chla_shallow, 
            -aquamatch_chla_shallow, -usgs_chla_shallow,
-           -ohio_epa_chla_shallow)
+           -ohio_epa_chla_shallow, -ohio_wildlife_chla_shallow)
   
   # IMPUTE SULFATE----
   # 1. Create so4 ~ cond model for Northern Appalachians.
@@ -149,8 +163,8 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
   )
   
   
-  ## Impute with lagos and/or NLA----
-  # none of the lagos or NLA data are from same year as SuRGE
+  ## Impute with external data----
+  # none of the external data sources are from same year/month as SuRGE
   # observations, so just use mean
   dat_impute <- left_join(
     # 1st df
@@ -219,6 +233,16 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
         group_by(lake_id) %>%
         summarize(ohio_epa_so4_shallow = mean(ohio_epa_so4_shallow)) 
     ) %>%
+    left_join(
+      dat_ohio_wildlife_chem %>%
+        select(lake_id, ohio_wildlife_so4_shallow) %>%
+        distinct() %>%
+        # exclude missing observations
+        filter(!is.na(ohio_wildlife_so4_shallow)) %>%
+        # mean by lake
+        group_by(lake_id) %>%
+        summarize(ohio_wildlife_so4_shallow = mean(ohio_wildlife_so4_shallow)) 
+    ) %>%
     # replace missing value with mean of all available data
     # this is a rowwise operation
     rowwise() %>% 
@@ -227,7 +251,7 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
         is.na(so4_shallow) ~ mean(
           c(nla17_sulfate, nla22_sulfate, lagos_so4_shallow,
             usgs_so4_shallow, odow_so4_shallow, leslie_lyons_so4_shallow,
-            usace_so4_shallow, ohio_epa_so4_shallow),
+            usace_so4_shallow, ohio_epa_so4_shallow, ohio_wildlife_so4_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ so4_shallow
@@ -236,7 +260,8 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
     ungroup %>% # remove rowwise
     select(-lagos_so4_shallow, -usgs_so4_shallow, 
            -odow_so4_shallow, -leslie_lyons_so4_shallow,
-           -usace_so4_shallow, -ohio_epa_so4_shallow)
+           -usace_so4_shallow, -ohio_epa_so4_shallow,
+           -ohio_wildlife_so4_shallow)
   
   
   ## Impute with model----
@@ -388,6 +413,70 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
            -williamson_doc_shallow, -usgs_doc_shallow,
            -usace_doc_shallow, -ohio_epa_doc_shallow)
   
+  # IMPUTE BUOYF----
+  # buoyf is the buoyancy frequency, a measure of the strength of thermal
+  # stratification. No depth profile collected at lake == 71 (sampled
+  # 2021-08-08) due to storms. This lake was sampled on July 23, 2017 for NLA 
+  # and none of the variables (temp, DO, pH) showed evidence of stratification.
+  # set buoyf to 0 indicating no stratification.
+  dat_impute <- dat_impute %>%
+    mutate(buoyf = case_when(lake_id == 71 ~ 0,
+                             TRUE ~ buoyf))
+  
+  # IMPUTE TEMPERATURE----
+  # Cave Run (1010) site 4 missing shallow temp. Assign mean value from
+  # nearby sites
+  temp_shallow_1010_4 <- dat_impute %>%
+    filter(lake_id == 1010 & site_id %in% c(7, 11, 15)) %>% 
+    summarize(s_temp = mean(temp_shallow)) %>% 
+    pull()
+ 
+  # Cowan (1012) site 5 missing shallow temp. Assign value from
+  # nearby site.
+  temp_shallow_1012_5 <- dat_impute %>%
+    filter(lake_id == 1012 & site_id == 1) %>% 
+    pull(temp_shallow)
+  
+  # ladue (1018) site 5 missing shallow temp. Assign mean value from
+  # nearby site
+  temp_shallow_1018_5 <- dat_impute %>%
+    filter(lake_id == 1018 & site_id == 1) %>% 
+    pull(temp_shallow)
+  
+  # (70) site 2_lacustrine missing deep temp. Shallow site (1.3m), assign 
+  # shallow temp value
+  temp_deep_70_2_lacustrine <- dat_impute %>%
+    filter(lake_id == 70 & site_id == "2_lacustrine") %>% 
+    pull(temp_shallow)
+  
+  # (75) site 12 missing deep temp. Shallow site (1.2m), assign shallow temp
+  temp_deep_75_12 <- dat_impute %>%
+    filter(lake_id == 75 & site_id == 12) %>% 
+    pull(temp_shallow)
+  
+  dat_impute <- dat_impute %>%
+    mutate(temp_shallow = case_when(lake_id == 1010 & site_id == 4 ~ temp_shallow_1010_4,
+                                    lake_id == 1012 & site_id == 5 ~ temp_shallow_1012_5,
+                                    lake_id == 1018 & site_id == 5 ~ temp_shallow_1018_5,
+                                    TRUE ~ temp_shallow),
+           temp_deep = case_when(lake_id == 70 & site_id == "2_lacustrine" ~ temp_deep_70_2_lacustrine,
+                                 lake_id == 75 & site_id == 12 ~ temp_deep_75_12,
+                                 TRUE ~ temp_deep),
+           temp_shallow_flags = case_when(lake_id == 1010 & site_id == 4 ~ "I",
+                                          lake_id == 1012 & site_id == 5 ~ "I",
+                                          lake_id == 1018 & site_id == 5 ~ "I",
+                                          TRUE ~ temp_shallow_flags),
+           temp_shallow_units = case_when(lake_id == 1010 & site_id == 4 ~ "c",
+                                          lake_id == 1012 & site_id == 5 ~ "c",
+                                          lake_id == 1018 & site_id == 5 ~ "c",
+                                          TRUE ~ temp_shallow_units),
+           temp_deep_flags = case_when(lake_id == 70 & site_id == "2_lacustrine" ~ "I",
+                                    lake_id == 75 & site_id == 12 ~ "I",
+                                    TRUE ~ temp_deep_flags),
+           temp_deep_units = case_when(lake_id == 70 & site_id == "2_lacustrine" ~ "c",
+                                       lake_id == 75 & site_id == 12 ~ "c",
+                                       TRUE ~ temp_deep_units)
+    )
   
   return(dat_impute)
 }

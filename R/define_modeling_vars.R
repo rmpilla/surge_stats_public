@@ -4,9 +4,9 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   modeling_vars <- original_vars
   
   # 1. Morphology variables----
+  # filter to rows that contain at least one missing morpho variable
   # thermdep2 is NA for unstratified lakes
   # some negative buoyf values
-  # One missing buoyf value (lake 71, no depth profile at that lake)
   # missing NWI data (see SuRGE issue #110)
   dat_impute %>% 
     select(lake_id, site_id, visit, 
@@ -35,6 +35,7 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   
   
   # 2. Trophic variables----
+  # filter to rows that contain at least one missing trophic variable
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
@@ -73,12 +74,46 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   
   # list of vars to exclude from list
   exclude_trophic_vars <- c(
-    "algal_density", "cyano_density" # only SuRGE
+    "algal_density", "cyano_density", "chla_sonde_deep" # only SuRGE
   )
   
   
   # remove excluded vars from original_vars
   modeling_vars$trophic_vars <- modeling_vars$trophic_vars[!(modeling_vars$trophic_vars %in% exclude_trophic_vars)] 
+  
+  
+  # 3. Climate variables----
+  # 173 lake_id x site_id x visit combinations lacking
+  # precip and wind speed? These are sites with no diffusive
+  # emission rates. No action required.
+  dat_impute %>% 
+    select(lake_id, site_id, visit, 
+           all_of(
+             unname( # must remove name attribute for all_of
+               original_vars$clim_vars
+             ) # close unname
+           ) # close all_of
+    ) %>% # close select
+    # filter missing values
+    filter(rowSums(is.na(.)) > 0) %>%
+    select(lake_id, site_id, visit, where(anyNA)) %>%
+    #distinct(lake_id) %>%
+    arrange(lake_id, site_id, visit)
+  
+  # 4. temperature variables-----
+  # sonde temperature value
+  dat_impute %>% 
+    select(lake_id, site_id, visit, 
+           all_of(
+             unname( # must remove name attribute for all_of
+               original_vars$temp_vars
+             ) # close unname
+           ) # close all_of
+    ) %>% # close select
+    # filter missing values
+    filter(rowSums(is.na(.)) > 0) %>%
+    select(lake_id, site_id, visit, where(anyNA)) %>%
+    distinct()  
   
   # 6. Chemistry variables----
   dat_impute %>% 
@@ -91,7 +126,7 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     ) %>% # close select
     # filter missing values
     filter(rowSums(is.na(.)) > 0) %>%
-    select(lake_id, where(anyNA)) %>%
+    select(lake_id, visit, where(anyNA)) %>%
     distinct()
   
   # Restrict list to those we want for modeling
@@ -117,6 +152,10 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     set_names("chem_var")
 
   # Review after excluding vars above
+  # 250 and 281 visit 1 have no chem, cooler lost is transit
+  # resampled on visit 2
+  # 239 (Philips) and 323 (Mormon) no SO4. Leinenbach looking...
+  # 45 (RTP, 4 Prong) has no DO (sensor not working)
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
@@ -126,7 +165,8 @@ define_modeling_vars <- function(original_vars, dat_impute) {
            ) # close all_of
     ) %>% # close select
     # filter missing values
-    select(lake_id, where(anyNA)) 
+    filter(rowSums(is.na(.)) > 0) %>%
+    select(lake_id, site_id, visit, where(anyNA)) 
     # distinct() %>%
     # filter(lake_id >= 1001) %>%
     # select(lake_id, nh4_shallow,  
