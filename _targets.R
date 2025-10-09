@@ -58,6 +58,15 @@ source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
 
+# restrict predictor variable list based on collinearity
+source("R/aed_corvif.R") # load vif function
+source("R/get_final_morpho_vars.R") # restrict morpho vars based on collinearity
+source("R/get_final_chem_vars.R") # restrict chem vars based on collinearity
+source("R/get_final_clim_vars.R") # restrict clim vars based on collinearity
+source("R/get_final_temp_vars.R") # restrict temp vars based on collinearity
+source("R/get_final_hydrol_vars.R") # restrict hydrol vars based on collinearity
+source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
+
 # TARGETS PIPELINE------------------
 
 list(
@@ -213,22 +222,69 @@ list(
                                 original_vars = original_vars)
   ),
   
-  ## transform data-----
+  ## TRANSFORM DATA-----
   tar_target(
     name = dat_trans,
     command = trans_dat(dat_impute = dat_impute,
                         modeling_vars = modeling_vars)
   ),
 
-  ## update list of modeling vars to reflect transformations-----
+  ## update list of modeling vars to reflect transformations
   tar_target(
     name = modeling_vars_update,
     command = update_modeling_vars(dat_trans = dat_trans,
                                    modeling_vars = modeling_vars)
   ),
-  # next step is screen for collinearity
   
+  # SCREEN FOR COLLINEARITY----
+  # morphology vars
+  tar_target(
+    name = final_morpho_vars,
+    command = get_final_morpho_vars(dat_trans = dat_trans, 
+                                    modeling_vars_update = modeling_vars_update)
+  ),
+  
+  # hydrology vars
+  tar_target(
+    name = final_hydrol_vars,
+    command = get_final_hydrol_vars(dat_trans = dat_trans, 
+                                    modeling_vars_update = modeling_vars_update)
+  ),
+  
+  # chemistry vars
+  ## not needed. Using all vars
+  # tar_target(
+  #   name = final_chem_vars,
+  #   command = get_final_chem_vars(dat_trans = dat_trans, 
+  #                                   modeling_vars_update = modeling_vars_update)
+  # ),
+  
+  # climate vars
+  ## not needed. Using all vars
+  # tar_target(
+  #   name = final_clim_vars,
+  #   command = get_final_clim_vars(dat_trans = dat_trans, 
+  #                                   modeling_vars_update = modeling_vars_update)
+  # ),
+  
+  # temperature vars
+  ## not needed. Using all vars
+  # tar_target(
+  #   name = final_temp_vars,
+  #   command = get_final_temp_vars(dat_trans = dat_trans, 
+  #                                   modeling_vars_update = modeling_vars_update)
+  # ),
+  
+  # finalize modeling vars
+  tar_target(
+    name = modeling_vars_final,
+    command = finalize_modeling_vars(modeling_vars_update = modeling_vars_update,
+                                     final_morpho_vars = final_morpho_vars,
+                                     final_hydrol_vars = final_hydrol_vars
+                                     )
+  ),
 
+  # REPORTS----
   tar_render(chemistry_and_chla_data_sources_report, 
              "reports/chemistry_and_chla_data_sources.Rmd")
 )
