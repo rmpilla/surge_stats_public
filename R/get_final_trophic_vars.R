@@ -1,0 +1,73 @@
+# FUNCTION TO RESTRICT LIST OF TROPHIC VARIABLES BASED ON COLINEARITY
+
+
+get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
+  
+  # 1. RELATIONSHIPS----------
+  # Lets see which of these variables are related to CH4. This can help
+  # inform which variables to retain when assessing collinearity in next step.
+  
+  dat_trans %>% 
+    select(all_of(
+      unname( # attributes must be stripped for all_of
+        modeling_vars_update$trophic_vars
+      ) # close unname
+    ), # close all_of
+    ch4_diffusion, ch4_ebullition, ch4_total) %>% 
+    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    theme(
+      axis.text = element_blank(),
+      strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
+    )
+  
+  # Noteable correlations with LAGOS remotely sensed data
+  
+  # 2. INSPECT VARIABLES FOR COLLINEARITY-------------
+  # yikes, looks like lots of correlation
+  dat_trans %>% 
+    select(all_of(
+      unname( # attributes must be stripped for all_of
+        modeling_vars_update$trophic_vars
+      ) # close unname
+    )
+    ) %>%
+    # chem variables are repeated for each site in a lake
+    # filter to unique value to simplify the plot
+    distinct() %>%
+    #cor(use = "pairwise.complete.obs") %>%
+    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    theme(strip.text = element_text(size = 5),
+          axis.text = element_blank())
+  
+  
+  # Assess collinearity using variance inflation factor (VIF). VIF measuring 
+  # how much a predictor's standard error is inflated due to correlations with 
+  # other predictors in the model, providing a more comprehensive view than 
+  # simple pairwise correlations. Cutoffs of 10 (Zuur 386) 3 (Zuur 387, 536)
+  # are recommended
+  
+  # all VIF ....
+  final_trophic_vars <- dat_trans %>%
+    select(all_of(
+      unname( # attributes must be stripped for all_of
+        modeling_vars_update$trophic_vars
+      ) # close unname
+    )) %>%
+    # sequentially remove predictors with greatest VIF,
+    select(-contains("visit2"), # these are mostly NA and break corvif
+           -chl_predicted_sample_season_visit1, # highest vif, 9.3
+           -doc_predicted_sample_season_visit1, # next highest, 5.6
+           -turbidity_shallow, # next highest, 4.4
+           # TN is next highest at 3.7 (>3.0 threshold), but TN is a better
+           # trophic status predictor than no2_3 which has a VIF of 2.4.
+           # Choosing to omit no2_3 and retain TN
+           -no2_3_shallow
+    ) %>%
+    # some variables are repeated for each site in a lake
+    # filter to unique value to simplify the plot
+    distinct() %>%
+    corvif(.) %>%
+    rownames_to_column(var = "variable") # corvif assigns variable names to row names
+  
+return(final_trophic_vars)
+}

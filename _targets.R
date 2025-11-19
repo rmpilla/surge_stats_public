@@ -65,6 +65,7 @@ source("R/get_final_chem_vars.R") # restrict chem vars based on collinearity
 source("R/get_final_clim_vars.R") # restrict clim vars based on collinearity
 source("R/get_final_temp_vars.R") # restrict temp vars based on collinearity
 source("R/get_final_hydrol_vars.R") # restrict hydrol vars based on collinearity
+source("R/get_final_trophic_vars.R") # restrict trophic vars based on collinearity
 source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 
 # TARGETS PIPELINE------------------
@@ -275,12 +276,20 @@ list(
   #                                   modeling_vars_update = modeling_vars_update)
   # ),
   
+  # trophic vars
+  tar_target(
+    name = final_trophic_vars,
+    command = get_final_trophic_vars(dat_trans = dat_trans, 
+                                    modeling_vars_update = modeling_vars_update)
+  ),
+  
   # finalize modeling vars
   tar_target(
     name = modeling_vars_final,
     command = finalize_modeling_vars(modeling_vars_update = modeling_vars_update,
                                      final_morpho_vars = final_morpho_vars,
-                                     final_hydrol_vars = final_hydrol_vars
+                                     final_hydrol_vars = final_hydrol_vars,
+                                     final_trophic_vars = final_trophic_vars
                                      )
   ),
 

@@ -23,7 +23,7 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
 # No noteable correlations
 
 # 2. INSPECT VARIABLES FOR COLLINEARITY-------------
-# 0.073 nothing to see here
+# yes, some correlation
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
