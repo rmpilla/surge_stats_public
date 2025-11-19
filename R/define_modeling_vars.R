@@ -83,9 +83,9 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   
   
   # 3. Climate variables----
-  # 173 lake_id x site_id x visit combinations lacking
-  # precip and wind speed? These are sites with no diffusive
-  # emission rates. No action required.
+  # 229 lake_id x site_id x visit combinations lacking
+  # precip and/or wind speed? These are sites with no diffusive
+  # ore ebullitive emission rates. No action required.
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(

@@ -80,8 +80,10 @@ define_original_vars <- function() {
   # what about lake_cat variables?
   clim_vars <- c(
     # ERA 5 variables
-    "precipitation",
-    "wind_speed"
+    "precipitation_chamber",
+    "precipitation_trap",
+    "wind_speed_chamber",
+    "wind_speed_trap"
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF

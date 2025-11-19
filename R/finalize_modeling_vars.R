@@ -7,7 +7,8 @@
 
 finalize_modeling_vars <- function(modeling_vars_update,
                                    final_morpho_vars,
-                                   final_hydrol_vars
+                                   final_hydrol_vars,
+                                   final_trophic_vars
                                    
                                    # Using all climate, chem and temp vars
                                    # final_clim_vars,
@@ -29,7 +30,7 @@ finalize_modeling_vars <- function(modeling_vars_update,
   modeling_vars_final$morpho_var_dynamic <- final_morpho_vars  %>%
     filter(group == "dynamic_ratio_group") %>% pull(variable)
   
-  # delete $morph_var from modeling_vars_final. It iw replaced with above
+  # delete $morph_var from modeling_vars_final. It is replaced with above
   modeling_vars_final$morpho_vars <- NULL
   
   # HYDROL----
@@ -53,7 +54,8 @@ finalize_modeling_vars <- function(modeling_vars_update,
   # using all variables. No action required
   
   # TROPHIC----
-  # TBD
+  modeling_vars_final$trophic_vars <- final_trophic_vars %>%
+    pull(variable)
   
   # OTHER VARS----
   # year_completed, ag_eco9_nm, keep both, no action required

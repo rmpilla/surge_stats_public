@@ -92,7 +92,7 @@ trans_dat <- function(dat_impute, modeling_vars){
           )
         )
       ) %>% 
-      # morpho variables are repeated for each site in a lake
+      # some variables are repeated for each site in a lake
       # filter to unique value to simplify the plot
       distinct() %>% 
       pivot_longer(cols = !lake_id, names_to = "trophic_var", values_to = "value") %>%
@@ -113,7 +113,7 @@ trans_dat <- function(dat_impute, modeling_vars){
   trophic_to_trans <- c(
     "op_shallow", # lake_id 231
     "tp_shallow", # lake_id 231
-    "chla_sonde_shallow" # lake_id 166
+    "chla_sonde_shallow" # lake_id 166, but has zeroes, must add small constant
   )
   
   # log10 transform variables with outliers and inspect distribution
@@ -142,8 +142,9 @@ trans_dat <- function(dat_impute, modeling_vars){
   # Implement transformations in main data frame
   dat_trans <- dat_trans %>%
     mutate(
-      across(all_of(trophic_to_trans),
-             ~ log10(.x), .names = "l_{.col}")
+      across(all_of(trophic_to_trans[!trophic_to_trans == "chla_sonde_shallow"]), # omit "chla_sonde_shallow"
+             ~ log10(.x), .names = "l_{.col}"),
+      l_chla_sonde_shallow = log10(chla_sonde_shallow + 0.001) # add small positive for negative values
       )
   
   
@@ -179,7 +180,9 @@ trans_dat <- function(dat_impute, modeling_vars){
   # The following have outliers.
   # log transform the variables to reduce the influence of outliers.
   clim_to_trans <- c(
-    "precipitation" # 191, 146, 98
+    "precipitation_chamber", # 146, 47
+    "precipitation_trap", # 147, 148
+    "wind_speed_chamber" # 68, 69, 45
   )
   
   # log10 transform variables with outliers and inspect distribution
@@ -204,7 +207,7 @@ trans_dat <- function(dat_impute, modeling_vars){
             panel.spacing.y = unit(1.5, "cm"))} %>%
     ggplotly()
   
-  # not much better
+  # better
   # Implement transformations in main data frame
   dat_trans <- dat_trans %>%
     mutate(
