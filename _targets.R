@@ -35,7 +35,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "sf",
                  "leaflet", # nla_chem_comparison
                  "readxl",
-                 "tictoc"
+                 "tictoc",
+                 "spmodel"
                  )
   )
 })
@@ -72,6 +73,7 @@ source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 
 # models
 source("R/run_gamm.R") # create gam_object, list of gams
+source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
 
 # TARGETS PIPELINE------------------
 
@@ -300,13 +302,19 @@ list(
   ),
 
   
-# MODELS----
-tar_target(
-  name = gam_object,
-  command = run_gamm(modeling_vars_final = modeling_vars_final,
-                     dat_trans = dat_trans)
-),
-
+  # MODELS----
+  tar_target(
+    name = gam_object,
+    command = run_gamm(modeling_vars_final = modeling_vars_final,
+                       dat_trans = dat_trans)
+  ),
+  
+  tar_target(
+    name = random_forest_object,
+    command = run_random_forest(modeling_vars_final = modeling_vars_final,
+                                dat_trans = dat_trans)
+  ),
+  
   # REPORTS----
   tar_render(chemistry_and_chla_data_sources_report, 
              "reports/chemistry_and_chla_data_sources.Rmd")
