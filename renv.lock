@@ -1667,6 +1667,24 @@
       ],
       "Hash": "4f3392eb5828d32cdd82bd875b42e424"
     },
+    "pdp": {
+      "Package": "pdp",
+      "Version": "0.8.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "foreach",
+        "ggplot2",
+        "grDevices",
+        "lattice",
+        "methods",
+        "rlang",
+        "stats",
+        "utils"
+      ],
+      "Hash": "9aa46dfbabf4e58d5a1fa73a456c38ac"
+    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.11.0",
@@ -2352,6 +2370,23 @@
       ],
       "Hash": "9e3c5b84f78db47fc6eb6195e20b4d9a"
     },
+    "spmodel": {
+      "Package": "spmodel",
+      "Version": "0.11.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "generics",
+        "graphics",
+        "parallel",
+        "sf",
+        "stats",
+        "tibble"
+      ],
+      "Hash": "9262d0ba253b7800e538691dd5e4f44d"
+    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.8.7",
@@ -2554,6 +2589,17 @@
         "vctrs"
       ],
       "Hash": "784b27d0801c3829de602105757b2cd7"
+    },
+    "tictoc": {
+      "Package": "tictoc",
+      "Version": "1.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "646895a33d57984ce7534249bd9adf64"
     },
     "tidymodels": {
       "Package": "tidymodels",

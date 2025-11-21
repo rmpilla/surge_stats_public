@@ -18,7 +18,8 @@ library(pacman) # load packages outside of tar_make
 #   sf,
 #   leaflet, # nla_chem_comparison
 #   readxl,
-#   kableExtra
+#   kableExtra,
+#   tictoc
 # )
 
 # Set target options:
@@ -33,7 +34,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "kableExtra", 
                  "sf",
                  "leaflet", # nla_chem_comparison
-                 "readxl"
+                 "readxl",
+                 "tictoc"
                  )
   )
 })
@@ -67,6 +69,9 @@ source("R/get_final_temp_vars.R") # restrict temp vars based on collinearity
 source("R/get_final_hydrol_vars.R") # restrict hydrol vars based on collinearity
 source("R/get_final_trophic_vars.R") # restrict trophic vars based on collinearity
 source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
+
+# models
+source("R/run_gamm.R") # create gam_object, list of gams
 
 # TARGETS PIPELINE------------------
 
@@ -289,9 +294,18 @@ list(
     command = finalize_modeling_vars(modeling_vars_update = modeling_vars_update,
                                      final_morpho_vars = final_morpho_vars,
                                      final_hydrol_vars = final_hydrol_vars,
-                                     final_trophic_vars = final_trophic_vars
+                                     final_trophic_vars = final_trophic_vars,
+                                     dat_trans = dat_trans
                                      )
   ),
+
+  
+# MODELS----
+tar_target(
+  name = gam_object,
+  command = run_gamm(modeling_vars_final = modeling_vars_final,
+                     dat_trans = dat_trans)
+),
 
   # REPORTS----
   tar_render(chemistry_and_chla_data_sources_report, 
