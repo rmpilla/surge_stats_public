@@ -27,7 +27,7 @@ run_random_forest <- function(dat_trans,
                                                               spcov_type = "exponential",
                                                               quantreg = T,
                                                               keep.inbag = T,
-                                                              importance = "impurity"))
+                                                              importance = "permutation"))
   toc()
   
   return(random_forest_object)
