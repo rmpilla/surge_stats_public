@@ -1,0 +1,98 @@
+
+Chris and Jake,
+
+Here’s everything for the lakes in our database, 1999 to present - attached. 
+
+> names(lakedata)
+[1] "stanid"      "station"     "basin"       "stream"      "trib"       
+ [6] "rm"          "storet"      "watertype"   "water_depth" "chemsheet"  
+[11] "refs"        "latdd"       "longdd"      "huc"         "da"         
+[16] "cdate"       "parameter"   "result"      "unit"        "logval"     
+[21] "fieldflag"   "matrix"      "qatype"      "yr"          "storeyr"    
+[26] "bicarb"      "stype"       "leftx"       "rightx"      "collector"  
+
+We don’t have a good lake identifier (that I’m aware of) so you will probably have to use grep or similar.
+
+The field “parameter” includes the names of the various parameters. I include the field parameters (D.O., temperature, pH, and depth), as you will likely need the depth field. The field “logval” contains the log10 values for chlorophyll, pheophytin, sulfate and DOC [log10(result times 1000); the times 1000 bit is to avoid having negatives] – if the result was less than the RL, I substitute ½ the RL prior to the log transformation.  
+ 
+The fields “leftx” and “rightx” are to return results that can be run through the fitdistrplus package, should one of the parameters be highly truncated (not the case here). The “x” added to the field name is to deal with Postgres.
+
+The field “water_depth” is included in the station table, but I think it is inconsistently populated, so probably just ignore it.
+
+We had a problem with DOC on the filters used in the field, and identified and corrected the problem circa 2018. I’m not sure how consistently we collected both TOC and DOC in lakes, but a simple plot of DOC on TOC would help screen results. I included TOC in the query. 
+
+I don’t have ready access to pre-1999 lakes data. 
+
+Let me know if you have any questions or trouble with the attachment.
+
+Bob
+
+
+From: Gledhill, Paul <paul.gledhill@epa.ohio.gov> 
+Sent: Monday, September 22, 2025 10:03 AM
+To: Nietch, Christopher <nietch.christopher@epa.gov>; Miltner, Robert <Robert.Miltner@epa.ohio.gov>; Beaulieu, Jake <Beaulieu.Jake@epa.gov>
+Cc: Briland, Ruth <Ruth.Briland@epa.ohio.gov>
+Subject: RE: chla, sulfate, DOC from six Ohio Lakes
+
+Hi Chris and Jake,
+
+Ohio EPA data:
+Ohio EPA has collected data at some, maybe all these lakes. I just looked in our database for three of these lakes. I see a bunch of Lake Logan samples. We have established stations for Cowan and Milton, but I don’t see any recent data. Because those stations exist there’s a very decent chance that we have pre-1999 data from them. So, first question: How far back are you interested? 
+
+Also, we sample a great deal more on streams. I saw samples for inlet streams of all three of the lakes I checked. Are you interested in lake inlet/outlet data from streams, too? 
+
+Ruth Briland has somewhat recently shifted into the role of our division’s surface water data custodian. I’ve copied her. She’s a whiz with pulling our data, old and new. I’m sure she can pull our data for you with your answers to my questions. 
+
+
+Non-Ohio EPA collected data: 
+Natalie Foos, natalie.foos@dnr.ohio.gov  Is the environmental compliance point of contact for ODNR’s parks and watercraft. She should be able to connect you to any ODNR collections of the parameters you’re interested in due to HABS and other recreation monitoring. If they’ve collected any. 
+Rich Zweifel, richard.zweifel@dnr.ohio.gov Is in ODNR’s Division of Wildlife. Ruth thinks there’s a chance they may have collected the parameters you’re interested in via their inland lakes fisheries assessment program. 
+
+Ruth and Bob may have more to add. 
+
+We assume you are just looking for state contacts and that you already know all the US ACE folks. 
+
+
+Take care,
+Paul
+
+
+
+From: Nietch, Christopher <Nietch.Christopher@epa.gov> 
+Sent: Monday, September 22, 2025 9:34 AM
+To: Gledhill, Paul <paul.gledhill@epa.ohio.gov>; Miltner, Robert <Robert.Miltner@epa.ohio.gov>; Beaulieu, Jake <Beaulieu.Jake@epa.gov>
+Subject: FW: chla, sulfate, DOC from six Ohio Lakes
+
+Hey Guys,
+Jake is looking for sulfate, chla, and DOC from 6 Ohio lakes: Kiser, Knox, Cowan, Logan, Milton, and La Due. Do you know of any POCs for him to pursue. They are mostly Ohio State Park or Department of Wildlife lakes. This is related to his carbon biogeochemistry/methane work.
+
+Thanks for the consideration,
+Chris
+
+
+=============================================================================
+Christopher T. Nietch, Ph.D. | Research Ecologist 
+U.S. EPA | Watershed and Ecosystem Characterization Division
+Watershed Management Branch | Experimental Stream Facility
+513-569-7460 (Office) | 513-265-6829 (Mobile)
+nietch.christopher@epa.gov 
+26 W. MLK Dr., Cincinnati, OH 45268 | 1003 US HWY 50, Milford, OH 45150
+
+From: Beaulieu, Jake <Beaulieu.Jake@epa.gov> 
+Sent: Friday, September 19, 2025 10:54 AM
+To: Nietch, Christopher <Nietch.Christopher@epa.gov>
+Subject: chla, sulfate, DOC from six Ohio Lakes
+
+The travel I’m pulling together is to collect suflate, chla, and DOC from 6 Ohio lakes: Kiser, Knox, Cowan, Logan, Milton, and La Due. See map at very bottom of attached pdf for locations.
+
+I have identified many datasets that contain these parameters for US lakes (see attached for details) but am striking out on these six lakes. Do you happen to know of data sources for these lakes? They are mostly Ohio State Park or Department of Wildlife lakes (not USACE lakes). 
+
+Thanks!
+
+
+Jake Beaulieu
+Biologist
+Office of Research and Development, U.S. EPA
+26 West Martin Luther King Dr.
+Cincinnati, OH 45268
+Phone: 513-569-7842|beaulieu.jake@epa.gov
