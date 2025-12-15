@@ -164,11 +164,7 @@ I propose that we use chla measured on the day of SuRGE sampling when available,
 ```
 
 ### Missing data sources
-None of the datasets have chla from the same year as the SuRGE sampling.  
-
-We expect to obtain additional monitoring data for the USACE lakes.
-
-I found data for Acton Lake (lake_id == 1001) from Vanni's EDI repo.
+I found data for Acton Lake on the day of the SuRGE sampling (lake_id == 1001) from Vanni's EDI repo.
 
 Local Water District for BeaverCreek (lake_id == 204):
 2024-08-14, chla = 8.12 ug/L
@@ -220,7 +216,7 @@ left_join(
     dat_ohio_epa_chem %>%
       select(
         lake_id, ohio_epa_chla_shallow_sample_date, ohio_epa_chla_shallow
-        ) %>%
+      ) %>%
       distinct()
   ) %>%
   left_join(
@@ -228,7 +224,7 @@ left_join(
     dat_ohio_wildlife_chem %>%
       select(
         lake_id, ohio_wildlife_chla_shallow_sample_date, ohio_wildlife_chla_shallow
-        ) %>%
+      ) %>%
       distinct()
   ) %>%
   rename(surge_sample_date = sample_start) %>%
@@ -278,8 +274,33 @@ left_join(
     tribble(~lake_id, ~surge_sample_date, ~source, ~value, ~sample_date,
             204,  as.Date("2020-07-27"),  "Ohio Div. of Wildlife", 8.12, as.Date("2024-08-14"))
   ) %>%
+  bind_rows(
+    # Williamson et al. 2020 for Burr Oak (1007)
+    tribble(
+      ~lake_id, ~surge_sample_date, ~source, ~value, ~sample_date,
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 23.65, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 34.45, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 27.7, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 10.1, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 13.2, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 7.5, as.Date("2016-07-16"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 47.1, as.Date("2016-07-23"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 50.05, as.Date("2016-07-23"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 32.85, as.Date("2016-07-23"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 22.5, as.Date("2016-07-23"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 31.9, as.Date("2016-07-23"),
+      1007, as.Date("2016-06-21"), "Williamson et al. 2020", 28.5, as.Date("2016-07-23")
+    )
+  ) %>%
+  bind_rows(
+    # Acton Lake
+    tribble(
+      ~lake_id, ~surge_sample_date, ~source, ~value, ~sample_date,
+      1001, as.Date("2016-05-31"), "Vanni et al EDI", 28.98, as.Date("2016-05-31")
+    )
+  ) %>%
   arrange(lake_id, source, sample_date) %>% 
-  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USGS, Ohio EPA, Ohio Division of Wildlife, and aquamatch chla data for missing lakes") %>% 
+  kableExtra::kable(caption = "Table 3. NLA, LAGOS, USGS, Ohio EPA, Ohio Division of Wildlife, USACE, and aquamatch chla data for missing lakes") %>% 
   column_spec(1, bold = T) %>%
   kable_styling("hover", full_width = FALSE) %>%
   collapse_rows(columns = c(1:2)) 
@@ -290,7 +311,7 @@ left_join(
 Sulfate wasn't measured until 2021 and we are missing data for `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% nrow()` SuRGE lakes. `r dat_raw %>% filter(is.na(so4_shallow) & (!is.na(nla17_sulfate) | !is.na(nla22_sulfate))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from 2017 and/or 2022 NLA, `r dat_lagos %>% filter(is.na(so4_shallow) & (!is.na(lagos_so4_shallow))) %>% distinct(lake_id) %>% nrow()` of these lakes have sulfate estimates from LAGOS, `r dat_usgs_chem %>% filter(is.na(so4_shallow) & (!is.na(usgs_so4_shallow))) %>% distinct(lake_id) %>% nrow()` have estimates from USGS, `r dat_usace_chem %>% filter(is.na(so4_shallow) & (!is.na(usace_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have USACE data, `r dat_ohio_epa_chem %>% filter(is.na(so4_shallow) & (!is.na(ohio_epa_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have Ohio EPA data, and `r dat_ohio_wildlife_chem %>% filter(is.na(so4_shallow) & (!is.na(ohio_wildlife_so4_shallow)) & !(lake_id %in% c(250, 281) & visit == 1)) %>% distinct(lake_id) %>% nrow()` have Ohio Division of Wildlife data.
 
 
-Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are in New Mexico South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
+Comparison of SuRGE and NLA sulfate measurements is actually pretty good. Interestingly, most of the outliers in the plot below are from New Mexico or South Dakota. I double checked the NLA and SuRGE data for these sites and don't see any issues. The New Mexico data shown are the mean of visits 1 and 2, which had very similar results. NLA sampled NLA22_NM-10013 in 2017 and 2022 with very similar results (data shown, 243 vs 83). 
 
 Comparison with LAGOS is also pretty good. Again, the time series is useful for visualizing temporal variation.
 
@@ -1173,9 +1194,11 @@ The code below replaces missing values with those from the dataset discussed abo
       # reservoir ecosystems [Doctoral dissertation, Miami University].
       # OhioLINK Electronic Theses and Dissertations Center.
       # http://rave.ohiolink.edu/etdc/view?acc_num=miami1595521238756147
-      lake_id == 1007 ~ mean(23.65, 34.45, 27.70, 10.10, 13.20, 7.50,
-                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50)
-    )) %>%
+      lake_id == 1007 ~ mean(c(23.65, 34.45, 27.70, 10.10, 13.20, 7.50,
+                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50)),
+      TRUE ~ chla_lab_shallow
+    )
+    ) %>%
   left_join(
     # Need to add the single estimate for Beaver Upground
     # provided by Ohio Division of Wildlife (ODOW). Creating
@@ -1227,7 +1250,27 @@ The code below replaces missing values with those from the dataset discussed abo
       group_by(lake_id) %>%
       summarize(ohio_epa_chla_shallow = mean(ohio_epa_chla_shallow))
   ) %>%
-   # replace missing value with mean nla17, nla22, lagos, usgs, odow 
+  left_join(
+    dat_usace_chem %>%
+      select(lake_id, usace_chla_shallow) %>%
+      distinct() %>%
+      # exclude missing observations
+      filter(!is.na(usace_chla_shallow)) %>%
+      # mean by lake
+      group_by(lake_id) %>%
+      summarize(usace_chla_shallow = mean(usace_chla_shallow))
+  ) %>%
+   left_join(
+    dat_ohio_wildlife_chem %>%
+      select(lake_id, ohio_wildlife_chla_shallow) %>%
+      distinct() %>%
+      # exclude missing observations
+      filter(!is.na(ohio_wildlife_chla_shallow)) %>%
+      # mean by lake
+      group_by(lake_id) %>%
+      summarize(ohio_wildlife_chla_shallow = mean(ohio_wildlife_chla_shallow))
+   ) %>%
+   # replace missing value with mean nla17, nla22, lagos, usgs, odow, usace 
     # this is a rowwise operation
     rowwise() %>% 
     mutate(
@@ -1235,7 +1278,8 @@ The code below replaces missing values with those from the dataset discussed abo
         is.na(chla_lab_shallow) ~ mean(
           c(nla17_chla, nla22_chla, odow_chla_shallow,
             lagos_chla_shallow, aquamatch_chla_shallow,
-            usgs_chla_shallow, ohio_epa_chla_shallow),
+            usgs_chla_shallow, ohio_epa_chla_shallow,
+            usace_chla_shallow, ohio_wildlife_chla_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ chla_lab_shallow)
@@ -1243,7 +1287,8 @@ The code below replaces missing values with those from the dataset discussed abo
     ungroup %>% # remove rowwise
     select(-odow_chla_shallow, -lagos_chla_shallow, 
            -aquamatch_chla_shallow, -usgs_chla_shallow,
-           -ohio_epa_chla_shallow)
+           -ohio_epa_chla_shallow, -usace_chla_shallow,
+           -ohio_wildlife_chla_shallow)
 
   
   # IMPUTE SULFATE----
@@ -1304,7 +1349,12 @@ The code below replaces missing values with those from the dataset discussed abo
   ) %>%
   left_join(
    dat_usgs_chem %>%
-      select(lake_id, usgs_so4_shallow) %>%
+      select(lake_id, usgs_so4_shallow, usgs_so4_shallow_sample_date) %>%
+      # Omit observations from 1970s (all others are > 2009-01-01)
+      filter(
+        usgs_so4_shallow_sample_date > as.Date("2009-01-01")
+      ) %>%
+     select(-usgs_so4_shallow_sample_date) %>%
       distinct() %>%
       # exclude missing observations
       filter(!is.na(usgs_so4_shallow)) %>%
@@ -1332,6 +1382,16 @@ The code below replaces missing values with those from the dataset discussed abo
       group_by(lake_id) %>%
       summarize(ohio_epa_so4_shallow = mean(ohio_epa_so4_shallow)) 
   ) %>%
+  left_join(
+     dat_ohio_wildlife_chem %>%
+      select(lake_id, ohio_wildlife_so4_shallow) %>%
+      distinct() %>%
+      # exclude missing observations
+      filter(!is.na(ohio_wildlife_so4_shallow)) %>%
+      # mean by lake
+      group_by(lake_id) %>%
+      summarize(ohio_wildlife_so4_shallow = mean(ohio_wildlife_so4_shallow)) 
+  ) %>%
     # replace missing value with mean of all available data
     # this is a rowwise operation
     rowwise() %>% 
@@ -1340,7 +1400,7 @@ The code below replaces missing values with those from the dataset discussed abo
         is.na(so4_shallow) ~ mean(
           c(nla17_sulfate, nla22_sulfate, lagos_so4_shallow,
             usgs_so4_shallow, odow_so4_shallow, leslie_lyons_so4_shallow,
-            usace_so4_shallow, ohio_epa_so4_shallow),
+            usace_so4_shallow, ohio_epa_so4_shallow, ohio_wildlife_so4_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ so4_shallow
@@ -1349,7 +1409,8 @@ The code below replaces missing values with those from the dataset discussed abo
     ungroup %>% # remove rowwise
     select(-lagos_so4_shallow, -usgs_so4_shallow, 
            -odow_so4_shallow, -leslie_lyons_so4_shallow,
-           -usace_so4_shallow, -ohio_epa_so4_shallow)
+           -usace_so4_shallow, -ohio_epa_so4_shallow,
+           -ohio_wildlife_so4_shallow)
   
   
   ## Impute with model----

@@ -433,6 +433,12 @@ trans_dat <- function(dat_impute, modeling_vars){
   
   # no improvement. Don't transform
   
+# 8. factors----
+  # models require nominal vars as factors.
+  dat_trans <- dat_trans %>% 
+    mutate(
+      across(c(lake_id, ag_eco9_nm, ag_eco9, e_i_type), as.factor)
+    )
   
   return(dat_trans)
 

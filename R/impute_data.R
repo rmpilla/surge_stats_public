@@ -64,8 +64,9 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
       # reservoir ecosystems [Doctoral dissertation, Miami University].
       # OhioLINK Electronic Theses and Dissertations Center.
       # http://rave.ohiolink.edu/etdc/view?acc_num=miami1595521238756147
-      lake_id == 1007 ~ mean(23.65, 34.45, 27.70, 10.10, 13.20, 7.50,
-                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50),
+      lake_id == 1007 ~ mean(c(23.65, 34.45, 27.70, 10.10, 13.20, 7.50,
+                             47.10, 50.05, 32.85, 22.50, 31.90, 28.50)),
+      TRUE ~ chla_lab_shallow
     )) %>%
     left_join(
       # Need to add the single estimate for Beaver Upground
@@ -119,6 +120,16 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
         summarize(ohio_epa_chla_shallow = mean(ohio_epa_chla_shallow))
     ) %>%
     left_join(
+      dat_usace_chem %>%
+        select(lake_id, usace_chla_shallow) %>%
+        distinct() %>%
+        # exclude missing observations
+        filter(!is.na(usace_chla_shallow)) %>%
+        # mean by lake
+        group_by(lake_id) %>%
+        summarize(usace_chla_shallow = mean(usace_chla_shallow))
+    ) %>%
+    left_join(
       dat_ohio_wildlife_chem %>%
         select(lake_id, ohio_wildlife_chla_shallow) %>%
         distinct() %>%
@@ -137,7 +148,7 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
           c(nla17_chla, nla22_chla, odow_chla_shallow,
             lagos_chla_shallow, aquamatch_chla_shallow,
             usgs_chla_shallow, ohio_epa_chla_shallow,
-            ohio_wildlife_chla_shallow),
+            usace_chla_shallow, ohio_wildlife_chla_shallow),
           na.rm = TRUE
         ), # close mean
         TRUE ~ chla_lab_shallow)
@@ -145,7 +156,8 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
     ungroup %>% # remove rowwise
     select(-odow_chla_shallow, -lagos_chla_shallow, 
            -aquamatch_chla_shallow, -usgs_chla_shallow,
-           -ohio_epa_chla_shallow, -ohio_wildlife_chla_shallow)
+           -ohio_epa_chla_shallow, -usace_chla_shallow,
+           -ohio_wildlife_chla_shallow)
   
   # IMPUTE SULFATE----
   # 1. Create so4 ~ cond model for Northern Appalachians.
@@ -205,7 +217,12 @@ impute_data <- function(dat_raw, lagos_chem, aquamatch_data,
     ) %>%
     left_join(
       dat_usgs_chem %>%
-        select(lake_id, usgs_so4_shallow) %>%
+        select(lake_id, usgs_so4_shallow, usgs_so4_shallow_sample_date) %>%
+        # Omit observations from 1970s (all others are > 2009-01-01)
+        filter(
+          usgs_so4_shallow_sample_date > as.Date("2009-01-01")
+        ) %>%
+        select(-usgs_so4_shallow_sample_date) %>%
         distinct() %>%
         # exclude missing observations
         filter(!is.na(usgs_so4_shallow)) %>%
