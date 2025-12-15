@@ -19,7 +19,8 @@ library(pacman) # load packages outside of tar_make
 #   leaflet, # nla_chem_comparison
 #   readxl,
 #   kableExtra,
-#   tictoc
+#   tictoc,
+#   mgcv
 # )
 
 # Set target options:
@@ -36,6 +37,7 @@ suppressPackageStartupMessages({ # cleaner output
                  "leaflet", # nla_chem_comparison
                  "readxl",
                  "tictoc",
+                 "mgcv",
                  "spmodel"
                  )
   )
@@ -166,7 +168,12 @@ list(
   tar_file(usace_caesar_file, "input_data/external_data/usace/USACE Caesar Creek Data 2009-2025.xlsx"),
   tar_file(usace_cave_file, "input_data/external_data/usace/USACE Cave Run Data_2009-2025.xlsx"),
   tar_file(usace_brookville_buckhorn_carr_file, "input_data/external_data/usace/USACE_Brookville_Buckhorn_Carr Creek_Data.xlsx"),
-  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file, usace_brookville_buckhorn_carr_file)),
+  tar_file(usace_huntington_file, "input_data/external_data/usace/USACE_Huntington_District.xlsx"),
+  tar_file(usace_pittsburg_file, "input_data/external_data/usace/USACE_Pittsburg_District.xlsx"),
+  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file, 
+                                        usace_brookville_buckhorn_carr_file,
+                                        usace_huntington_file,
+                                        usace_pittsburg_file)),
   
   tar_file(ohio_epa_chem_file, "input_data/external_data/ohio_epa/ohio_epa_lake_data.rds"),
   tar_file(ohio_epa_chem_milton_file, "input_data/external_data/ohio_epa/STORET_historicalWQ.csv"),
@@ -302,19 +309,21 @@ list(
   ),
 
   
-  # MODELS----
-  tar_target(
-    name = gam_object,
-    command = run_gamm(modeling_vars_final = modeling_vars_final,
-                       dat_trans = dat_trans)
-  ),
-  
+
+# MODELS----
+# tar_target(
+#   name = gam_object,
+#   command = run_gamm(modeling_vars_final = modeling_vars_final,
+#                      dat_trans = dat_trans)
+# ),
+
   tar_target(
     name = random_forest_object,
     command = run_random_forest(modeling_vars_final = modeling_vars_final,
                                 dat_trans = dat_trans)
   ),
   
+
   # REPORTS----
   tar_render(chemistry_and_chla_data_sources_report, 
              "reports/chemistry_and_chla_data_sources.Rmd")

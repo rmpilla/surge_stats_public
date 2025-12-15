@@ -2,7 +2,9 @@
 
 get_usace_chem <- function(usace_caesar_file,
                            usace_cave_file,
-                           usace_brookville_buckhorn_carr_file) {
+                           usace_brookville_buckhorn_carr_file,
+                           usace_huntington_file,
+                           usace_pittsburg_file) {
   # location data----
   # map to filter sites
   # bind_rows(
@@ -32,12 +34,14 @@ get_usace_chem <- function(usace_caesar_file,
   
   # chem data----
   
-  # Brookville, Buckhorn, and Carr first
+
   usace_chem <- bind_rows(
+    # bind Brookville, Buckhorn, and Carr first
     read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Brookville Regular Data"),
     read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Carr Creek Regular Data"),
     read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Buckhorn Regular Data")
-  ) %>%
+  ) %>% # close bind
+    # format bound Brookville, Buckhorn, and Carr data
     clean_names() %>%
     select(
       site_id = location,
@@ -76,7 +80,7 @@ get_usace_chem <- function(usace_caesar_file,
           parameter, units, value, year, month, day, depth_ft
         ) %>%
         mutate(lake_id = 1010)
-    ) %>% # close final bind
+    ) %>% # close bind
     # format bound data
     mutate(
       across(c(value, year, month, day, depth_ft), as.numeric),
@@ -86,6 +90,64 @@ get_usace_chem <- function(usace_caesar_file,
                   replacement = "_",
                   units)
     ) %>%
+    # bind Huntington district data
+    bind_rows(
+      read_xlsx(usace_huntington_file) %>%   
+        clean_names %>%
+        select(
+          site_id = location_id,
+          sample_date = observed_date_time, 
+          parameter = observed_property_id, 
+          depth, 
+          value = result_value, 
+          units = result_unit
+        ) %>%
+        # exclude uncorrected chla. We have 0 instances of uncorrected
+        # observations in the absence of corrected at the same site
+        # in shallow water.
+        filter(parameter != "Chlorophyll a, Uncorrected") %>%
+        # replicate observations of chl at PHC0002 2016-06-07
+        # and ACS0002 2019-08-21. Aggregate them
+        group_by(site_id, sample_date, parameter, depth, units) %>%
+        summarize(value = mean(value)) %>%
+        ungroup %>%
+        mutate(
+          depth_ft = depth / 3.28, # convert m to feet
+          sample_date = as.Date(sample_date), # date_time -> date
+          lake_id = case_when(
+            grepl("PCS", site_id) ~ 1025,
+            grepl("ACS", site_id) ~ 1002,
+            grepl("CMB", site_id) ~ 1011,
+            grepl("PHC", site_id) ~ 1027,
+            grepl("SES", site_id) ~ 1029,
+            grepl("TAL", site_id) ~ 1030,
+            grepl("PES", site_id) ~ 1026,
+            TRUE ~ 99999999 # error code
+          )
+        ) %>%
+        select(-depth)
+    ) %>% # close bind
+    bind_rows(
+      # bind Pittsburg District (MJ Kirwan)
+      read_xlsx(usace_pittsburg_file) %>%   
+        clean_names %>%
+        select(
+          sample_date = date, 
+          parameter,
+          depth_ft,
+          collection_method,
+          value = result, 
+          units
+        ) %>%
+        filter(collection_method == "Grab", # exclude sonde
+               # 8 filtered sulfate samples from 2013, all others
+               # unfiltered. Filtered samples are quite a bit higher
+               # than all others. exclude.
+              parameter != "sulfate, filtered") %>% 
+        select(-collection_method) %>%
+        mutate(sample_date = as.Date(sample_date),
+               lake_id = 1024)
+    ) %>% # close bind
     rename(analyte = parameter) %>%
     filter(
       # < 10ft in depth. shallow only
@@ -95,9 +157,18 @@ get_usace_chem <- function(usace_caesar_file,
       analyte = case_when(
         analyte == "Chlorophyll a, Corrected" ~ "chla_shallow",
         analyte == "Chlorophyll a, Uncorrected" ~ "chla_shallow", # Cave Run
+        analyte == "chlorophyll a" ~ "chla_shallow", # MJ Kirwan pittsburg district
         analyte == "Carbon, Dissolved Organic" ~ "doc_shallow",
         analyte == "Sulfate, Dissolved" ~ "so4_shallow",
+        analyte == "Sulfate, Total" ~ "so4_shallow",
+        analyte == "sulfate, filtered" ~ "so4_shallow", # MJ Kirwan pittsburg district
         TRUE ~ analyte
+      ),
+      units = case_when(
+        analyte == "chla_shallow" ~ "ug_l", # ug_l = mg/m3
+        analyte == "doc_shallow" ~ "mg_l",
+        analyte == "so4_shallow" ~ "mg_l",
+        TRUE ~ "FLY YOU FOOLS"
       )
     ) %>% 
     filter(
@@ -140,3 +211,4 @@ get_usace_chem <- function(usace_caesar_file,
   
   return(usace_chem)
 }
+  
