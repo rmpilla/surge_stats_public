@@ -52,6 +52,7 @@ source("R/get_usgs_stations.R") # read in USGS stations for missing data
 source("R/get_usgs_chem.R") # get usgs chem data from WQP
 source("R/get_usgs_chla.R") # get usgs chla data from WQP
 source("R/get_williamson_doc.R") # get DOC for some 2016 lakes
+source("R/get_lake_scale_data.R") # add ag_eco9 to Puerto Rico
 source("R/merge_data.R") # merge data from SuRGE repository
 source("R/define_original_vars.R") # define full list of variables
 source("R/define_modeling_vars.R") # find vars with missing observations
@@ -111,7 +112,7 @@ list(
   tar_file(name = lake_scale_file, "input_data/8_lake_scale.csv"),
   tar_target(
     name = lake_scale_data,
-    command = readr::read_csv(lake_scale_file, guess_max = 5000)),
+    command = get_lake_scale_data(lake_scale_file)),
   
   tar_file(phyto_data_file, "input_data/9_phyto_data.csv"),
   tar_target(
