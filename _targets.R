@@ -119,6 +119,10 @@ list(
     name = phyto_data,
     command = readr::read_csv(phyto_data_file, guess_max = 5000)),
   
+  tar_file(name = bp_data_file, "input_data/10_bp_data.csv"),
+  # tar_target(name = bp_data,
+  #            command = get_bp_data(bp_data_file = bp_data_file)),
+  
   tar_file(lake_cat_file, "input_data/external_data/lake_cat.csv"),
   tar_target(
     name = lake_cat_data,
