@@ -122,6 +122,8 @@ get_usace_chem <- function(usace_caesar_file,
             grepl("SES", site_id) ~ 1029,
             grepl("TAL", site_id) ~ 1030,
             grepl("PES", site_id) ~ 1026,
+            grepl("DIL", site_id) ~ 1014,
+            grepl("TJE", site_id) ~ 1007,
             TRUE ~ 99999999 # error code
           )
         ) %>%
@@ -156,11 +158,13 @@ get_usace_chem <- function(usace_caesar_file,
     mutate(
       analyte = case_when(
         analyte == "Chlorophyll a, Corrected" ~ "chla_shallow",
+        analyte == "Chlorophyll a, corrected" ~ "chla_shallow",
         analyte == "Chlorophyll a, Uncorrected" ~ "chla_shallow", # Cave Run
         analyte == "chlorophyll a" ~ "chla_shallow", # MJ Kirwan pittsburg district
         analyte == "Carbon, Dissolved Organic" ~ "doc_shallow",
         analyte == "Sulfate, Dissolved" ~ "so4_shallow",
         analyte == "Sulfate, Total" ~ "so4_shallow",
+        analyte == "Sulfate, total" ~ "so4_shallow",
         analyte == "sulfate, filtered" ~ "so4_shallow", # MJ Kirwan pittsburg district
         TRUE ~ analyte
       ),
@@ -211,4 +215,6 @@ get_usace_chem <- function(usace_caesar_file,
   
   return(usace_chem)
 }
+
+
   
