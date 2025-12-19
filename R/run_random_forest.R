@@ -20,6 +20,8 @@ run_random_forest <- function(dat_trans,
   
   
   tic() ## ~20 mins to run all random forest models (!!!)
+  
+  set.seed(102322)
   random_forest_object <- map(formula_list, ~ spmodel::splmRF(., 
                                                               data = dat_trans, 
                                                               random = ~ (1 | as.character(lake_id)),
@@ -27,6 +29,7 @@ run_random_forest <- function(dat_trans,
                                                               spcov_type = "exponential",
                                                               quantreg = T,
                                                               keep.inbag = T,
+                                                              na.action = "na.omit",
                                                               importance = "permutation"))
   toc()
   
