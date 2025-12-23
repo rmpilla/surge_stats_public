@@ -2,6 +2,7 @@
 
 get_usace_chem <- function(usace_caesar_file,
                            usace_cave_file,
+                           usace_harsha_file,
                            usace_brookville_buckhorn_carr_file,
                            usace_huntington_file,
                            usace_pittsburg_file) {
@@ -80,6 +81,16 @@ get_usace_chem <- function(usace_caesar_file,
           parameter, units, value, year, month, day, depth_ft
         ) %>%
         mutate(lake_id = 1010)
+    ) %>% # close bind
+    # bind Harsha data
+    bind_rows(
+      read_xlsx(usace_harsha_file, sheet = "Regular Chem Data") %>%
+        clean_names() %>%
+        select(
+          site_id = location,
+          parameter, units, value, year, month, day, depth_ft
+        ) %>%
+        mutate(lake_id = 1031)
     ) %>% # close bind
     # format bound data
     mutate(

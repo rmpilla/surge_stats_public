@@ -75,7 +75,7 @@ source("R/get_final_trophic_vars.R") # restrict trophic vars based on collineari
 source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 
 # models
-source("R/run_gamm.R") # create gam_object, list of gams
+#source("R/run_gamm.R") # create gam_object, list of gams
 source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
 
 # TARGETS PIPELINE------------------
@@ -172,10 +172,12 @@ list(
   
   tar_file(usace_caesar_file, "input_data/external_data/usace/USACE Caesar Creek Data 2009-2025.xlsx"),
   tar_file(usace_cave_file, "input_data/external_data/usace/USACE Cave Run Data_2009-2025.xlsx"),
+  tar_file(usace_harsha_file, "input_data/external_data/usace/USACE Harsha WQ Data - 2009-2025.xlsx"),
   tar_file(usace_brookville_buckhorn_carr_file, "input_data/external_data/usace/USACE_Brookville_Buckhorn_Carr Creek_Data.xlsx"),
   tar_file(usace_huntington_file, "input_data/external_data/usace/USACE_Huntington_District.xlsx"),
   tar_file(usace_pittsburg_file, "input_data/external_data/usace/USACE_Pittsburg_District.xlsx"),
-  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file, 
+  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file,
+                                        usace_harsha_file,
                                         usace_brookville_buckhorn_carr_file,
                                         usace_huntington_file,
                                         usace_pittsburg_file)),
@@ -191,7 +193,8 @@ list(
       ohio_epa_chem_milton_file)
     ),
   
-  tar_file(ohio_wildlife_chem_file, "input_data/external_data/ohio_div_wildlife/ResProdDataRequest_USEPA_20251006.csv"),
+  tar_file(ohio_wildlife_chem_file, 
+           "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251222.xlsx"),
   tar_target(
     name = ohio_wildlife_chem,
     command = get_ohio_wildlife_chem(ohio_wildlife_chem_file = ohio_wildlife_chem_file)
@@ -322,11 +325,11 @@ list(
 #                      dat_trans = dat_trans)
 # ),
 
-  tar_target(
-    name = random_forest_object,
-    command = run_random_forest(modeling_vars_final = modeling_vars_final,
-                                dat_trans = dat_trans)
-  ),
+  # tar_target(
+  #   name = random_forest_object,
+  #   command = run_random_forest(modeling_vars_final = modeling_vars_final,
+  #                               dat_trans = dat_trans)
+  # ),
   
 
   # REPORTS----
