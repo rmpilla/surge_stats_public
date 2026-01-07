@@ -63,6 +63,7 @@ source("R/get_ohio_wildlife_chem.R") # chem from Ohio Div of Wildlife
 source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
+source("R/get_bp_data.R") #format barometric pressure metrics as predictors
 
 # restrict predictor variable list based on collinearity
 source("R/aed_corvif.R") # load vif function
@@ -120,8 +121,10 @@ list(
     command = readr::read_csv(phyto_data_file, guess_max = 5000)),
   
   tar_file(name = bp_data_file, "input_data/10_bp_data.csv"),
-  # tar_target(name = bp_data,
-  #            command = get_bp_data(bp_data_file = bp_data_file)),
+  tar_file(emission_points_file, "input_data/4_emission_rate_points.csv"),
+  tar_target(name = bp_data,
+            command = get_bp_data(bp_data_file = bp_data_file,
+                                  emission_points_file = emission_points_file)),
   
   tar_file(lake_cat_file, "input_data/external_data/lake_cat.csv"),
   tar_target(
