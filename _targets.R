@@ -197,7 +197,7 @@ list(
     ),
   
   tar_file(ohio_wildlife_chem_file, 
-           "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251222.xlsx"),
+           "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251230.xlsx"),
   tar_target(
     name = ohio_wildlife_chem,
     command = get_ohio_wildlife_chem(ohio_wildlife_chem_file = ohio_wildlife_chem_file)
@@ -328,11 +328,11 @@ list(
 #                      dat_trans = dat_trans)
 # ),
 
-  # tar_target(
-  #   name = random_forest_object,
-  #   command = run_random_forest(modeling_vars_final = modeling_vars_final,
-  #                               dat_trans = dat_trans)
-  # ),
+  tar_target(
+    name = random_forest_object,
+    command = run_random_forest(modeling_vars_final = modeling_vars_final,
+                                dat_trans = dat_trans)
+  ),
   
 
   # REPORTS----

@@ -15,12 +15,14 @@ get_ohio_wildlife_chem <- function(ohio_wildlife_chem_file = ohio_wildlife_chem_
                         location == "LAKE MILTON" ~ 1020,
                         location == "ROCKY FORK LAKE" ~ 1028,
                         location == "WINGFOOT LAKE" ~ 1032,
+                        location == "ACTON LAKE" ~ 1001,
                         TRUE ~ 999999999),
     analyte = case_when(measure_type_desc == "Chlorophyll" ~ "chla_shallow",
                         grepl("Sulfate", measure_type_desc) ~ "so4_shallow",
                         TRUE ~ "FLY YOU FOOLS"),
     # extract all characters before white space in trip_date
-    ohio_wildlife_sample_date = as.Date(str_extract(trip_date, "^[^ ]+"), format = "%Y/%m/%d"),
+    ohio_wildlife_sample_date = as.Date(trip_date),
+    #ohio_wildlife_sample_date = as.Date(str_extract(trip_date, "^[^ ]+"), format = "%Y/%m/%d"),
     # replace "/" with"_" in measure unit
     units = gsub("/", "_", measure_unit)
   ) %>%
