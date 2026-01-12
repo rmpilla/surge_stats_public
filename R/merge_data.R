@@ -10,7 +10,8 @@ merge_data <- function(
     lake_scale_data,
     phyto_data,
     lake_cat_data,
-    nla_chem) {
+    nla_chem,
+    bp_data) {
   # pivot from long to wide where needed----
   ## site_data----
   ### pivot----
@@ -24,7 +25,7 @@ merge_data <- function(
     # 411 columns, many are "_comments" columns that are all NA
     # and can be removed. There are likely "_flag" columns with
     # all NA values but we want to keep those.
-    
+
     # exclude any column that has "comment" in the name &
     # all values are NA.
     select(!(contains("comment") & where(~ all(is.na(.))))) %>%
@@ -32,7 +33,7 @@ merge_data <- function(
     rename_with(
       ~ gsub("_value", "", .x), # replace "_value" with ""
       ends_with("_value") # in columns that end with "_value"
-    ) 
+    )
 
   ### fill chemistry----
   # vector of analytes to fill
@@ -53,32 +54,35 @@ merge_data <- function(
     # combine analyte and depth
     mutate(analytes_to_fill = paste0(var2, var1)) %>%
     # extract to vector fro next expand_grid
-    pull(analytes_to_fill) %>% 
+    pull(analytes_to_fill) %>%
     # create flags and units variables
-    expand_grid(var2 = ., 
-                var1 = c("_flags", "_units"),
+    expand_grid(
+      var2 = .,
+      var1 = c("_flags", "_units"),
     ) %>%
     # combine analyte_depth with flag or units
     mutate(var3 = paste0(var2, var1)) %>%
     select(var2, var3) %>%
     # collapse to one column
-    pivot_longer(everything(), 
-                 names_to = "original_column", 
-                 values_to = "combined_values") %>%
+    pivot_longer(everything(),
+      names_to = "original_column",
+      values_to = "combined_values"
+    ) %>%
     select(combined_values) %>%
     # sort for inspection
     arrange(combined_values) %>%
     # remove duplicates
     distinct(combined_values) %>%
     # add lab algae (only shallow)
-    bind_rows(.,
-              tibble(combined_values = c(
-                "chla_lab_shallow", 
-                "chla_lab_shallow_flags",
-                "chla_lab_shallow_units"
-              ))
+    bind_rows(
+      .,
+      tibble(combined_values = c(
+        "chla_lab_shallow",
+        "chla_lab_shallow_flags",
+        "chla_lab_shallow_units"
+      ))
     ) %>%
-    pull # extract to vector
+    pull() # extract to vector
 
 
   # Fill
@@ -115,7 +119,7 @@ merge_data <- function(
     filter(
       # 69 (Oahe) includes two large lagos polygons. Omit both.
       !(lake_id == 69 & name == "lagoslakeid"),
-      # 231 has one small and one large lagos polygon. Omit small.  
+      # 231 has one small and one large lagos polygon. Omit small.
       !(lake_id == 231 & name == "lagoslakeid" & value == 351297)
     ) %>%
     # pivot wider
@@ -124,16 +128,20 @@ merge_data <- function(
       names_glue = "{name}_{.value}",
       values_from = c(value, units)
     ) %>%
-    mutate(across(!c(contains("units"), e_i_type_value, 
-                     ag_eco9_value, ag_eco9_nm_value, 
-                     depth_cat_value, chla_cat_value, 
-                     study_value, nla17_site_id_value, nla22_site_id_value),
-                  as.numeric)) %>% # convert to numeric
+    mutate(across(
+      !c(
+        contains("units"), e_i_type_value,
+        ag_eco9_value, ag_eco9_nm_value,
+        depth_cat_value, chla_cat_value,
+        study_value, nla17_site_id_value, nla22_site_id_value
+      ),
+      as.numeric
+    )) %>% # convert to numeric
     # remove "_value" from column names
     rename_with(
       ~ gsub("_value", "", .x), # replace "_value" with ""
       ends_with("_value") # in columns that end with "_value"
-    ) 
+    )
 
   ### dups----
   dim(lake_scale_data_w) # 146
@@ -167,7 +175,7 @@ merge_data <- function(
       lake_id == 70 & thermdep2 > 9 & thermdep2 < 10 ~ "7_transitional",
       lake_id == 70 & thermdep2 > 15 ~ "6_lacustrine",
       TRUE ~ "FLY YOU FOOLS!" # ERROR CODE
-    )) %>% 
+    )) %>%
     select(-row_id) %>% # remove these columns
     # bring in all site_id values for these lakes. Needed to fill values
     # by lake and reservoir zone
@@ -188,11 +196,11 @@ merge_data <- function(
     tidyr::fill(buoyf, buoyf_units, thermdep2, thermdep2_units,
       .direction = "updown"
     )
-  
+
   # check for error
   if (emissions_lake_data_missouri %>%
-      filter(lake_id == "FLY YOU FOOLS") %>%
-      nrow() > 0) {
+    filter(lake_id == "FLY YOU FOOLS") %>%
+    nrow() > 0) {
     print("Problem with emissions_lake_data_missouri. Check the merge_data function.")
   }
 
@@ -222,6 +230,10 @@ merge_data <- function(
     ) %>%
     # added site_id to Missouri river stratification data (see above)
     dplyr::full_join(emissions_lake_data_missouri,
+      # will naturally join on these, specify for clarity
+      by = c("lake_id", "site_id", "visit")
+    ) %>%
+    dplyr::full_join(bp_data,
       # will naturally join on these, specify for clarity
       by = c("lake_id", "site_id", "visit")
     ) %>%
@@ -267,9 +279,9 @@ merge_data <- function(
 
   # return the merged dataframe
   return(dat)
-  
+
   # PICK UP HERE
-  # 
+  #
   # # impute missing chem with NLA numbers
   # dat <- dat %>%
   #   # NLA  method measures ammonia and ammonium;the relative proportion between these
@@ -290,10 +302,3 @@ merge_data <- function(
   #          shallow_so4 = case_when(is.na(shallow_so4) ~ nla17_sulfate, # mg/l in NLA
   #                                  TRUE ~ shallow_so4))
 }
-
-
-
-
-
-
-

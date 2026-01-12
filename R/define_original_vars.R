@@ -83,7 +83,9 @@ define_original_vars <- function() {
     "precipitation_chamber",
     "precipitation_trap",
     "wind_speed_chamber",
-    "wind_speed_trap"
+    "wind_speed_trap",
+    "delta_bp_ebu",
+    "delta_bp_diff"
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF

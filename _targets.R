@@ -88,122 +88,135 @@ list(
   tar_file(site_descriptors_file, "input_data/3_site_descriptors_data.csv"),
   tar_target(
     name = site_descriptors_data,
-    command = readr::read_csv(site_descriptors_file, guess_max = 5000)),
-  
+    command = readr::read_csv(site_descriptors_file, guess_max = 5000)
+  ),
   tar_file(emission_rate_points_file, "input_data/4_emission_rate_points.csv"),
   tar_target(
     name = emission_rate_points_data,
-    command = readr::read_csv(emission_rate_points_file, guess_max = 5000)),
-  
+    command = readr::read_csv(emission_rate_points_file, guess_max = 5000)
+  ),
   tar_file(emissions_lake_file, "input_data/5_emissions_lake.csv"),
   tar_target(
     name = emissions_lake_data,
-    command = readr::read_csv(emissions_lake_file, guess_max = 5000)),
-  
+    command = readr::read_csv(emissions_lake_file, guess_max = 5000)
+  ),
   tar_file(depth_profiles_file, "input_data/6_depth_profiles.csv"),
   tar_target(
     name = depth_profiles_data,
-    command = readr::read_csv(depth_profiles_file, guess_max = 5000)),
-  
+    command = readr::read_csv(depth_profiles_file, guess_max = 5000)
+  ),
   tar_file(name = site_data_file, command = "input_data/7_site_data.csv"),
   tar_target(
     name = site_data,
-    command = readr::read_csv(site_data_file, guess_max = 5000)),
-  
+    command = readr::read_csv(site_data_file, guess_max = 5000)
+  ),
   tar_file(name = lake_scale_file, "input_data/8_lake_scale.csv"),
   tar_target(
     name = lake_scale_data,
-    command = get_lake_scale_data(lake_scale_file)),
-  
+    command = get_lake_scale_data(lake_scale_file)
+  ),
   tar_file(phyto_data_file, "input_data/9_phyto_data.csv"),
   tar_target(
     name = phyto_data,
-    command = readr::read_csv(phyto_data_file, guess_max = 5000)),
-  
+    command = readr::read_csv(phyto_data_file, guess_max = 5000)
+  ),
   tar_file(name = bp_data_file, "input_data/10_bp_data.csv"),
-  tar_target(name = bp_data,
-            command = get_bp_data(bp_data_file = bp_data_file,
-                                  emission_rate_points_file = emission_rate_points_file)),
-  
+  tar_target(
+    name = bp_data,
+    command = get_bp_data(
+      bp_data_file = bp_data_file,
+      emission_rate_points_data = emission_rate_points_data
+    )
+  ),
   tar_file(lake_cat_file, "input_data/external_data/lake_cat.csv"),
   tar_target(
     name = lake_cat_data,
     command = get_lake_cat_data(
-      lake_cat_file = lake_cat_file)),
-  
+      lake_cat_file = lake_cat_file
+    )
+  ),
   tar_file(nla17_water_chem_file, "input_data/external_data/nla/nla_2017_water_chemistry_chla-data.csv"),
   tar_file(nla17_sed_chem_file, "input_data/external_data/nla/nla_2017_sediment_chemistry-data.csv"),
   tar_file(nla22_water_chem_file, "input_data/external_data/nla/nla22_waterchem_wide.csv"),
   tar_target(
     name = nla_chem,
-    command = get_nla_chem(nla17_water_chem_file = nla17_water_chem_file,
-                           nla17_sed_chem_file = nla17_sed_chem_file,
-                           nla22_water_chem_file = nla22_water_chem_file)),
-  
+    command = get_nla_chem(
+      nla17_water_chem_file = nla17_water_chem_file,
+      nla17_sed_chem_file = nla17_sed_chem_file,
+      nla22_water_chem_file = nla22_water_chem_file
+    )
+  ),
   tar_file(lagos_chem_file, "input_data/external_data/lagos_chem.rds"),
   tar_target(
     name = lagos_chem,
-    command = get_lagos_chem(lagos_chem_file = lagos_chem_file)),
-  
+    command = get_lagos_chem(lagos_chem_file = lagos_chem_file)
+  ),
   tar_file(aquamatch_file, "input_data/external_data/surge_doc-chl_AquaMatch-matchups_2025Sep04.csv"),
   tar_target(
     name = aquamatch_data,
-    command = get_aquamatch_data(aquamatch_file = aquamatch_file)),
-  
+    command = get_aquamatch_data(aquamatch_file = aquamatch_file)
+  ),
   tar_file(usgs_stations_file, "input_data/external_data/usgs/usgs_stations.gpkg"),
   tar_target(
     name = usgs_stations,
-    command = get_usgs_stations(usgs_stations_file = usgs_stations_file)), 
-  
+    command = get_usgs_stations(usgs_stations_file = usgs_stations_file)
+  ),
   tar_file(usgs_chem_file, "input_data/external_data/usgs/usgs_chem.csv"),
   tar_target(
-    name = usgs_chem, 
-    command = get_usgs_chem(usgs_chem_file = usgs_chem_file,
-                            usgs_stations = usgs_stations)), 
-  
+    name = usgs_chem,
+    command = get_usgs_chem(
+      usgs_chem_file = usgs_chem_file,
+      usgs_stations = usgs_stations
+    )
+  ),
   tar_file(usgs_chla_file, "input_data/external_data/national_chlorophyll_corrected_chlorophyll_a_data.zip"),
   tar_target(
     name = usgs_chla,
-    command = get_usgs_chla(usgs_chla_file = usgs_chla_file,
-                            usgs_stations = usgs_stations)),
-  
+    command = get_usgs_chla(
+      usgs_chla_file = usgs_chla_file,
+      usgs_stations = usgs_stations
+    )
+  ),
   tar_file(williamson_doc_file, "input_data/external_data/williamson_2023_doc.csv"),
   tar_target(
     name = williamson_doc,
-    command = get_williamson_doc(williamson_doc_file)),
-  
+    command = get_williamson_doc(williamson_doc_file)
+  ),
   tar_file(usace_caesar_file, "input_data/external_data/usace/USACE Caesar Creek Data 2009-2025.xlsx"),
   tar_file(usace_cave_file, "input_data/external_data/usace/USACE Cave Run Data_2009-2025.xlsx"),
   tar_file(usace_harsha_file, "input_data/external_data/usace/USACE Harsha WQ Data - 2009-2025.xlsx"),
   tar_file(usace_brookville_buckhorn_carr_file, "input_data/external_data/usace/USACE_Brookville_Buckhorn_Carr Creek_Data.xlsx"),
   tar_file(usace_huntington_file, "input_data/external_data/usace/USACE_Huntington_District.xlsx"),
   tar_file(usace_pittsburg_file, "input_data/external_data/usace/USACE_Pittsburg_District.xlsx"),
-  tar_target(usace_chem, get_usace_chem(usace_caesar_file, usace_cave_file,
-                                        usace_harsha_file,
-                                        usace_brookville_buckhorn_carr_file,
-                                        usace_huntington_file,
-                                        usace_pittsburg_file)),
-  
+  tar_target(usace_chem, get_usace_chem(
+    usace_caesar_file, usace_cave_file,
+    usace_harsha_file,
+    usace_brookville_buckhorn_carr_file,
+    usace_huntington_file,
+    usace_pittsburg_file
+  )),
   tar_file(ohio_epa_chem_file, "input_data/external_data/ohio_epa/ohio_epa_lake_data.rds"),
   tar_file(ohio_epa_chem_milton_file, "input_data/external_data/ohio_epa/STORET_historicalWQ.csv"),
   tar_file(ohio_epa_chem_ladue_file, "input_data/external_data/ohio_epa/EA3_Chemistry_F01W75.csv"),
   tar_target(
     name = ohio_epa_chem,
     command = get_ohio_epa_chem(
-      ohio_epa_chem_file, 
-      ohio_epa_chem_ladue_file, 
-      ohio_epa_chem_milton_file)
-    ),
-  
-  tar_file(ohio_wildlife_chem_file, 
-           "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251230.xlsx"),
+      ohio_epa_chem_file,
+      ohio_epa_chem_ladue_file,
+      ohio_epa_chem_milton_file
+    )
+  ),
+  tar_file(
+    ohio_wildlife_chem_file,
+    "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251230.xlsx"
+  ),
   tar_target(
     name = ohio_wildlife_chem,
     command = get_ohio_wildlife_chem(ohio_wildlife_chem_file = ohio_wildlife_chem_file)
   ),
-  
-  
-  
+
+
+
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
     name = dat_raw,
@@ -215,127 +228,146 @@ list(
       lake_scale_data = lake_scale_data,
       phyto_data = phyto_data,
       lake_cat_data = lake_cat_data,
-      nla_chem = nla_chem
+      nla_chem = nla_chem,
+      bp_data = bp_data
     )
   ),
-  
-  
+
+
   ## initial list of predictor variables----
   tar_target(
     name = original_vars,
     command = define_original_vars() # no argument to this function
   ),
-  
+
   ## impute missing chemistry date----
   tar_target(
     name = dat_impute,
-    command = impute_data(dat_raw = dat_raw, 
-                          lagos_chem = lagos_chem, 
-                          aquamatch_data = aquamatch_data,
-                          usgs_chem = usgs_chem,
-                          usgs_chla = usgs_chla,
-                          williamson_doc = williamson_doc,
-                          usace_chem = usace_chem,
-                          ohio_epa_chem = ohio_epa_chem,
-                          ohio_wildlife_chem = ohio_wildlife_chem)
+    command = impute_data(
+      dat_raw = dat_raw,
+      lagos_chem = lagos_chem,
+      aquamatch_data = aquamatch_data,
+      usgs_chem = usgs_chem,
+      usgs_chla = usgs_chla,
+      williamson_doc = williamson_doc,
+      usace_chem = usace_chem,
+      ohio_epa_chem = ohio_epa_chem,
+      ohio_wildlife_chem = ohio_wildlife_chem
+    )
   ),
 
   ## screen vars for missing observations, select subset for modeling-----
   tar_target(
     name = modeling_vars,
-    command = define_modeling_vars(dat_impute = dat_impute,
-                                original_vars = original_vars)
+    command = define_modeling_vars(
+      dat_impute = dat_impute,
+      original_vars = original_vars
+    )
   ),
-  
+
   ## TRANSFORM DATA-----
   tar_target(
     name = dat_trans,
-    command = trans_dat(dat_impute = dat_impute,
-                        modeling_vars = modeling_vars)
+    command = trans_dat(
+      dat_impute = dat_impute,
+      modeling_vars = modeling_vars
+    )
   ),
 
   ## update list of modeling vars to reflect transformations
   tar_target(
     name = modeling_vars_update,
-    command = update_modeling_vars(dat_trans = dat_trans,
-                                   modeling_vars = modeling_vars)
+    command = update_modeling_vars(
+      dat_trans = dat_trans,
+      modeling_vars = modeling_vars
+    )
   ),
-  
+
   # SCREEN FOR COLLINEARITY----
   # morphology vars
   tar_target(
     name = final_morpho_vars,
-    command = get_final_morpho_vars(dat_trans = dat_trans, 
-                                    modeling_vars_update = modeling_vars_update)
+    command = get_final_morpho_vars(
+      dat_trans = dat_trans,
+      modeling_vars_update = modeling_vars_update
+    )
   ),
-  
+
   # hydrology vars
   tar_target(
     name = final_hydrol_vars,
-    command = get_final_hydrol_vars(dat_trans = dat_trans, 
-                                    modeling_vars_update = modeling_vars_update)
+    command = get_final_hydrol_vars(
+      dat_trans = dat_trans,
+      modeling_vars_update = modeling_vars_update
+    )
   ),
-  
+
   # chemistry vars
   ## not needed. Using all vars
   # tar_target(
   #   name = final_chem_vars,
-  #   command = get_final_chem_vars(dat_trans = dat_trans, 
+  #   command = get_final_chem_vars(dat_trans = dat_trans,
   #                                   modeling_vars_update = modeling_vars_update)
   # ),
-  
+
   # climate vars
   ## not needed. Using all vars
   # tar_target(
   #   name = final_clim_vars,
-  #   command = get_final_clim_vars(dat_trans = dat_trans, 
+  #   command = get_final_clim_vars(dat_trans = dat_trans,
   #                                   modeling_vars_update = modeling_vars_update)
   # ),
-  
+
   # temperature vars
   ## not needed. Using all vars
   # tar_target(
   #   name = final_temp_vars,
-  #   command = get_final_temp_vars(dat_trans = dat_trans, 
+  #   command = get_final_temp_vars(dat_trans = dat_trans,
   #                                   modeling_vars_update = modeling_vars_update)
   # ),
-  
+
   # trophic vars
   tar_target(
     name = final_trophic_vars,
-    command = get_final_trophic_vars(dat_trans = dat_trans, 
-                                    modeling_vars_update = modeling_vars_update)
+    command = get_final_trophic_vars(
+      dat_trans = dat_trans,
+      modeling_vars_update = modeling_vars_update
+    )
   ),
-  
+
   # finalize modeling vars
   tar_target(
     name = modeling_vars_final,
-    command = finalize_modeling_vars(modeling_vars_update = modeling_vars_update,
-                                     final_morpho_vars = final_morpho_vars,
-                                     final_hydrol_vars = final_hydrol_vars,
-                                     final_trophic_vars = final_trophic_vars,
-                                     dat_trans = dat_trans
-                                     )
+    command = finalize_modeling_vars(
+      modeling_vars_update = modeling_vars_update,
+      final_morpho_vars = final_morpho_vars,
+      final_hydrol_vars = final_hydrol_vars,
+      final_trophic_vars = final_trophic_vars,
+      dat_trans = dat_trans
+    )
   ),
 
-  
 
-# MODELS----
-# tar_target(
-#   name = gam_object,
-#   command = run_gamm(modeling_vars_final = modeling_vars_final,
-#                      dat_trans = dat_trans)
-# ),
+
+  # MODELS----
+  # tar_target(
+  #   name = gam_object,
+  #   command = run_gamm(modeling_vars_final = modeling_vars_final,
+  #                      dat_trans = dat_trans)
+  # ),
 
   tar_target(
     name = random_forest_object,
-    command = run_random_forest(modeling_vars_final = modeling_vars_final,
-                                dat_trans = dat_trans)
+    command = run_random_forest(
+      modeling_vars_final = modeling_vars_final,
+      dat_trans = dat_trans
+    )
   ),
-  
+
 
   # REPORTS----
-  tar_render(chemistry_and_chla_data_sources_report, 
-             "reports/chemistry_and_chla_data_sources.Rmd")
+  tar_render(
+    chemistry_and_chla_data_sources_report,
+    "reports/chemistry_and_chla_data_sources.Rmd"
+  )
 )
-
