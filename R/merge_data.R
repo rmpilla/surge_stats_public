@@ -9,6 +9,7 @@ merge_data <- function(
     site_data,
     lake_scale_data,
     phyto_data,
+    missouri_river_strat_data,
     lake_cat_data,
     nla_chem,
     bp_data) {
@@ -133,7 +134,7 @@ merge_data <- function(
         contains("units"), e_i_type_value,
         ag_eco9_value, ag_eco9_nm_value,
         depth_cat_value, chla_cat_value,
-        study_value, nla17_site_id_value, nla22_site_id_value
+        lab_value, study_value, nla17_site_id_value, nla22_site_id_value
       ),
       as.numeric
     )) %>% # convert to numeric
@@ -154,57 +155,6 @@ merge_data <- function(
     janitor::get_dupes(.) %>%
     distinct()
 
-  ## emissions_lake_data----
-  ### main issue here is that we have values for each habitat type in
-  ### lakes 69 and 70 (riverine, lacustrine, transitional). If we join
-  ### on lake_id and visit, this creates duplicate rows for these lakes.
-  ### lets address this by adding site_id for these observations.
-  emissions_lake_data_missouri <- emissions_lake_data %>%
-    filter(lake_id %in% c(69, 70)) %>%
-    select(
-      lake_id, visit, buoyf, buoyf_units,
-      thermdep2, thermdep2_units
-    ) %>%
-    # add site_id for these observations
-    mutate(row_id = row_number()) %>% # needed to distinguish records
-    mutate(site_id = case_when(
-      lake_id == 69 & is.na(thermdep2) & row_id == 1 ~ "12_transitional",
-      lake_id == 69 & is.na(thermdep2) & row_id == 2 ~ "7_riverine",
-      lake_id == 69 & !is.na(thermdep2) ~ "4_lacustrine",
-      lake_id == 70 & is.na(thermdep2) ~ "6_riverine",
-      lake_id == 70 & thermdep2 > 9 & thermdep2 < 10 ~ "7_transitional",
-      lake_id == 70 & thermdep2 > 15 ~ "6_lacustrine",
-      TRUE ~ "FLY YOU FOOLS!" # ERROR CODE
-    )) %>%
-    select(-row_id) %>% # remove these columns
-    # bring in all site_id values for these lakes. Needed to fill values
-    # by lake and reservoir zone
-    full_join(
-      site_descriptors_data %>%
-        filter(lake_id %in% c(69, 70)) %>%
-        select(lake_id, site_id, visit)
-    ) %>%
-    # create lake x zone grouping variable. paste lake_id and
-    # all characters after _ in site_id
-    mutate(group = paste(lake_id,
-      sub(".*_", "", site_id),
-      sep = "_"
-    )) %>%
-    arrange(group) %>%
-    # fill by grouping variable
-    group_by(group) %>%
-    tidyr::fill(buoyf, buoyf_units, thermdep2, thermdep2_units,
-      .direction = "updown"
-    )
-
-  # check for error
-  if (emissions_lake_data_missouri %>%
-    filter(lake_id == "FLY YOU FOOLS") %>%
-    nrow() > 0) {
-    print("Problem with emissions_lake_data_missouri. Check the merge_data function.")
-  }
-
-
   ## phyto_data----
   ### aggregate----
   # need to aggregate taxa specific numbers
@@ -216,48 +166,63 @@ merge_data <- function(
       cyano_density = sum(density[algal_group == "CYANOBACTERIA"])
     )
 
-
+  
   # merge the dataframes----
   ## objects with lake_id, site_id, and visit first----
   dat <- dplyr::full_join(site_descriptors_data,
-    emission_rate_points_data,
-    # will naturally join on these, specify for clarity
-    by = c("lake_id", "site_id", "visit")
+                          emission_rate_points_data,
+                          # will naturally join on these, specify for clarity
+                          by = c("lake_id", "site_id", "visit")
   ) %>%
     dplyr::full_join(site_data_w,
-      # will naturally join on these, specify for clarity
-      by = c("lake_id", "site_id", "visit")
-    ) %>%
-    # added site_id to Missouri river stratification data (see above)
-    dplyr::full_join(emissions_lake_data_missouri,
-      # will naturally join on these, specify for clarity
-      by = c("lake_id", "site_id", "visit")
+                     # will naturally join on these, specify for clarity
+                     by = c("lake_id", "site_id", "visit")
     ) %>%
     dplyr::full_join(bp_data,
-      # will naturally join on these, specify for clarity
-      by = c("lake_id", "site_id", "visit")
+                     # will naturally join on these, specify for clarity
+                     by = c("lake_id", "site_id", "visit")
     ) %>%
-    ## now join with objects containing lake_id and visit----
-    # stratification data for all lakes except 69 and 70.
-    # the columns were created when the missouri river data was joined above,
-    # just update the values for all other lakes (currently NA)
-    dplyr::rows_update(
-      emissions_lake_data %>%
-        filter(!(lake_id %in% c(69, 70))) %>%
-        select(
-          lake_id, visit, buoyf, buoyf_units,
-          thermdep2, thermdep2_units
-        ),
-      by = c("lake_id", "visit")
+    # site/zone specific Missouri river stratification data (see above)
+    dplyr::full_join(missouri_river_strat_data,
+                     # will naturally join on these, specify for clarity
+                     by = c("lake_id", "site_id", "visit")
     ) %>%
+    # now fill stratification data for 69 and 70 by zone
+    mutate(
+      # define zones for grouping
+      zone = case_when(
+        grepl("riverine", site_id) ~ "riverine",
+        grepl("transitional", site_id) ~ "transitional",
+        grepl("lacustrine", site_id) ~ "lacustrine",
+        TRUE ~ "placeholder"
+      )
+    ) %>%
+    group_by(lake_id, zone, visit) %>%
+    fill(contains(c("buoyf", "thermdep2")), .direction = "downup") %>%
+    ungroup %>%
+    select(-zone) %>% # no longer needed
+  
+  ## now join with objects containing lake_id and visit----
+  # stratification data for all lakes except 69 and 70.
+  # the columns were created when the missouri river data was joined above,
+  # just update the values for all other lakes (currently NA)
+  dplyr::rows_update(
+    emissions_lake_data %>%
+      filter(!(lake_id %in% c(69, 70))) %>%
+      select(
+        lake_id, visit, buoyf, buoyf_units,
+        thermdep2, thermdep2_units
+      ),
+    by = c("lake_id", "visit")
+  ) %>%
     # phyto data next. Eliminated site_id field so join on lake_id
     # and visit. This eliminates the need to fill values across site_id.
     dplyr::full_join(phyto_data_agg,
-      # will naturally join on these, specify for clarity
-      by = c("lake_id", "visit")
+                     # will naturally join on these, specify for clarity
+                     by = c("lake_id", "visit")
     ) %>%
     ## now join with objects containing lake_id only----
-    full_join(lake_scale_data_w) %>%
+  full_join(lake_scale_data_w) %>%
     full_join(lake_cat_data) %>%
     left_join(nla_chem$nla17_chem) %>%
     left_join(nla_chem$nla22_chem)
@@ -280,25 +245,4 @@ merge_data <- function(
   # return the merged dataframe
   return(dat)
 
-  # PICK UP HERE
-  #
-  # # impute missing chem with NLA numbers
-  # dat <- dat %>%
-  #   # NLA  method measures ammonia and ammonium;the relative proportion between these
-  #   # two analytes depends on pH. Typically, NLA (and other NARS) samples consist of mostly ammonium.
-  #   mutate(shallow_nh4 = case_when(is.na(shallow_nh4) ~ nla17_ammonia_n * 1000, #mg N/L in NLA
-  #                                  TRUE ~ shallow_nh4),
-  #          shallow_chla_lab = case_when(is.na(shallow_chla_lab) ~ nla17_chla, #ug/L in NLA
-  #                                       TRUE ~ shallow_chla_lab),
-  #          shallow_doc = case_when(is.na(shallow_doc) ~ nla17_doc, #mg/L in NLA
-  #                                  TRUE ~ shallow_doc),
-  #          # NLA has very few no2_3 data.  Have to sum no2 and no3.
-  #          shallow_no2_3 = case_when(is.na(shallow_no2_3) ~ (nla17_nitrate_n + nla17_nitrite_n) * 1000, #mg/L in NLA
-  #                                    TRUE ~ shallow_no2_3),
-  #          shallow_tp = case_when(is.na(shallow_tp) ~ nla17_ptl, # assuming ptl = TP, ug/L in NLA
-  #                                 TRUE ~ shallow_tp),
-  #          shallow_tn = case_when(is.na(shallow_tn) ~ nla17_ntl * 1000, # assuming ntl = TN, mg/L in NLA
-  #                                 TRUE ~ shallow_tn),
-  #          shallow_so4 = case_when(is.na(shallow_so4) ~ nla17_sulfate, # mg/l in NLA
-  #                                  TRUE ~ shallow_so4))
 }

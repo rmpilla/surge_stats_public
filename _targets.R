@@ -95,31 +95,37 @@ list(
     name = emission_rate_points_data,
     command = readr::read_csv(emission_rate_points_file, guess_max = 5000)
   ),
+  
   tar_file(emissions_lake_file, "input_data/5_emissions_lake.csv"),
   tar_target(
     name = emissions_lake_data,
     command = readr::read_csv(emissions_lake_file, guess_max = 5000)
   ),
+  
   tar_file(depth_profiles_file, "input_data/6_depth_profiles.csv"),
   tar_target(
     name = depth_profiles_data,
     command = readr::read_csv(depth_profiles_file, guess_max = 5000)
   ),
+  
   tar_file(name = site_data_file, command = "input_data/7_site_data.csv"),
   tar_target(
     name = site_data,
     command = readr::read_csv(site_data_file, guess_max = 5000)
   ),
+  
   tar_file(name = lake_scale_file, "input_data/8_lake_scale.csv"),
   tar_target(
     name = lake_scale_data,
     command = get_lake_scale_data(lake_scale_file)
   ),
+  
   tar_file(phyto_data_file, "input_data/9_phyto_data.csv"),
   tar_target(
     name = phyto_data,
     command = readr::read_csv(phyto_data_file, guess_max = 5000)
   ),
+  
   tar_file(name = bp_data_file, "input_data/10_bp_data.csv"),
   tar_target(
     name = bp_data,
@@ -135,6 +141,11 @@ list(
       lake_cat_file = lake_cat_file
     )
   ),
+  
+  tar_file(name = missouri_river_strat_file, "input_data/69_70_stratification_indices.csv"),
+  tar_target(name = missouri_river_strat_data, 
+             command = read_csv(missouri_river_strat_file)),
+  
   tar_file(nla17_water_chem_file, "input_data/external_data/nla/nla_2017_water_chemistry_chla-data.csv"),
   tar_file(nla17_sed_chem_file, "input_data/external_data/nla/nla_2017_sediment_chemistry-data.csv"),
   tar_file(nla22_water_chem_file, "input_data/external_data/nla/nla22_waterchem_wide.csv"),
@@ -146,21 +157,25 @@ list(
       nla22_water_chem_file = nla22_water_chem_file
     )
   ),
+  
   tar_file(lagos_chem_file, "input_data/external_data/lagos_chem.rds"),
   tar_target(
     name = lagos_chem,
     command = get_lagos_chem(lagos_chem_file = lagos_chem_file)
   ),
+  
   tar_file(aquamatch_file, "input_data/external_data/surge_doc-chl_AquaMatch-matchups_2025Sep04.csv"),
   tar_target(
     name = aquamatch_data,
     command = get_aquamatch_data(aquamatch_file = aquamatch_file)
   ),
+  
   tar_file(usgs_stations_file, "input_data/external_data/usgs/usgs_stations.gpkg"),
   tar_target(
     name = usgs_stations,
     command = get_usgs_stations(usgs_stations_file = usgs_stations_file)
   ),
+  
   tar_file(usgs_chem_file, "input_data/external_data/usgs/usgs_chem.csv"),
   tar_target(
     name = usgs_chem,
@@ -177,24 +192,28 @@ list(
       usgs_stations = usgs_stations
     )
   ),
+  
   tar_file(williamson_doc_file, "input_data/external_data/williamson_2023_doc.csv"),
   tar_target(
     name = williamson_doc,
     command = get_williamson_doc(williamson_doc_file)
   ),
+  
   tar_file(usace_caesar_file, "input_data/external_data/usace/USACE Caesar Creek Data 2009-2025.xlsx"),
   tar_file(usace_cave_file, "input_data/external_data/usace/USACE Cave Run Data_2009-2025.xlsx"),
   tar_file(usace_harsha_file, "input_data/external_data/usace/USACE Harsha WQ Data - 2009-2025.xlsx"),
   tar_file(usace_brookville_buckhorn_carr_file, "input_data/external_data/usace/USACE_Brookville_Buckhorn_Carr Creek_Data.xlsx"),
   tar_file(usace_huntington_file, "input_data/external_data/usace/USACE_Huntington_District.xlsx"),
   tar_file(usace_pittsburg_file, "input_data/external_data/usace/USACE_Pittsburg_District.xlsx"),
-  tar_target(usace_chem, get_usace_chem(
+  tar_target(usace_chem, 
+             command = get_usace_chem(
     usace_caesar_file, usace_cave_file,
     usace_harsha_file,
     usace_brookville_buckhorn_carr_file,
     usace_huntington_file,
     usace_pittsburg_file
   )),
+  
   tar_file(ohio_epa_chem_file, "input_data/external_data/ohio_epa/ohio_epa_lake_data.rds"),
   tar_file(ohio_epa_chem_milton_file, "input_data/external_data/ohio_epa/STORET_historicalWQ.csv"),
   tar_file(ohio_epa_chem_ladue_file, "input_data/external_data/ohio_epa/EA3_Chemistry_F01W75.csv"),
@@ -206,6 +225,7 @@ list(
       ohio_epa_chem_milton_file
     )
   ),
+  
   tar_file(
     ohio_wildlife_chem_file,
     "input_data/external_data/ohio_div_wildlife/DataRequest_USEPA_JakeBeaulieu_20251230.xlsx"
@@ -227,6 +247,7 @@ list(
       site_data = site_data,
       lake_scale_data = lake_scale_data,
       phyto_data = phyto_data,
+      missouri_river_strat_data = missouri_river_strat_data,
       lake_cat_data = lake_cat_data,
       nla_chem = nla_chem,
       bp_data = bp_data

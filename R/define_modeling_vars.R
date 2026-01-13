@@ -74,7 +74,8 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   
   # list of vars to exclude from list
   exclude_trophic_vars <- c(
-    "algal_density", "cyano_density", "chla_sonde_deep" # only SuRGE
+    "algal_density", "cyano_density", "chla_sonde_deep", # only SuRGE
+    "turbidity_deep" # quite a few missing observations
   )
   
   
