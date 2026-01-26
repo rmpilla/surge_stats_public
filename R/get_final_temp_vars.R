@@ -10,7 +10,7 @@ get_final_temp_vars <- function(dat_trans, modeling_vars_update) {
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$temp_vars
+        modeling_vars_update$local_vars_all$temp_vars # same for local_all and local_no_nla
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
@@ -27,7 +27,7 @@ get_final_temp_vars <- function(dat_trans, modeling_vars_update) {
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$temp_vars
+        modeling_vars_update$local_vars_all$temp_vars
       ) # close unname
     )
     ) %>%
@@ -40,17 +40,18 @@ get_final_temp_vars <- function(dat_trans, modeling_vars_update) {
         axis.text = element_blank())
   
   
-  # Assess collinearity useing variance inflation factor (VIF). VIF measuring 
+  # Assess collinearity using variance inflation factor (VIF). VIF measuring 
   # how much a predictor's standard error is inflated due to correlations with 
   # other predictors in the model, providing a more comprehensive view than 
   # simple pairwise correlations. Cutoffs of 10 (Zuur 386) 3 (Zuur 387, 536)
   # are recommended
-  
-  # all VIF < 2, no problem, keep all
+ 
+  ## local 
+  # all VIF < 3, no problem, keep all
 dat_trans %>%
   select(all_of(
     unname( # attributes must be stripped for all_of
-      modeling_vars_update$temp_vars
+      modeling_vars_update$local_vars_all$temp_vars
     ) # close unname
   )) %>%
   # morpho variables are repeated for each site in a lake
@@ -58,10 +59,26 @@ dat_trans %>%
   distinct() %>%
   corvif(.)
 
+## global
+# tmax and lat vif = 3.97
+# exclude lat and use temp
+dat_trans %>%
+  select(all_of(
+    unname( # attributes must be stripped for all_of
+      modeling_vars_update$global_vars$temp_vars
+    ) # close unname
+  )) %>%
+  # morpho variables are repeated for each site in a lake
+  # filter to unique value to simplify the plot
+  distinct() %>%
+  corvif(.)
+  
+temp_vars_global <-  tibble(variable = "tmax8110cat")   
+
+
+return(final_temp_vars = lst(temp_vars_global))
 
 }
-
-
 
 
 

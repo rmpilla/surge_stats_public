@@ -1,5 +1,8 @@
 define_modeling_vars <- function(original_vars, dat_impute) {
   
+  # Here we evaluate extent of missingness among predictor variables.
+  # Those with lots  of missingness will be excluded from modeling
+  
   # CREATE LIST TO HOLD SUBSET OF VARS TO BE USED FOR MODELING----
   modeling_vars <- original_vars
   
@@ -31,8 +34,17 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     "emergent", "aquatic_bed")
   
   # remove excluded vars from original_vars
-  modeling_vars$morpho_vars <- modeling_vars$morpho_vars[!(modeling_vars$morpho_vars %in% exclude_morpho_vars)] 
+  ## local_vars_all
+  modeling_vars$local_vars_all$morpho_vars <- 
+    modeling_vars$local_vars_all$morpho_vars[!( modeling_vars$local_vars_all$morpho_vars %in% exclude_morpho_vars)] 
   
+  ## local_vars_no_nla
+  modeling_vars$local_vars_no_nla$morpho_vars <- 
+    modeling_vars$local_vars_no_nla$morpho_vars[!(modeling_vars$local_vars_no_nla$morpho_vars %in% exclude_morpho_vars)]
+  
+  ## global_vars
+  modeling_vars$global_vars$morpho_vars <- 
+    modeling_vars$global_vars$morpho_vars[!(modeling_vars$global_vars$morpho_vars %in% exclude_morpho_vars)]
   
   # 2. Trophic variables----
   # filter to rows that contain at least one missing trophic variable
@@ -80,7 +92,17 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   
   
   # remove excluded vars from original_vars
-  modeling_vars$trophic_vars <- modeling_vars$trophic_vars[!(modeling_vars$trophic_vars %in% exclude_trophic_vars)] 
+  ## local_vars_all
+  modeling_vars$local_vars_all$trophic_vars <- 
+    modeling_vars$local_vars_all$trophic_vars[!( modeling_vars$local_vars_all$trophic_vars %in% exclude_trophic_vars)] 
+  
+  ## local_vars_no_nla
+  modeling_vars$local_vars_no_nla$trophic_vars <- 
+    modeling_vars$local_vars_no_nla$trophic_vars[!(modeling_vars$local_vars_no_nla$trophic_vars %in% exclude_trophic_vars)]
+  
+  ## global_vars
+  modeling_vars$global_vars$trophic_vars <- 
+    modeling_vars$global_vars$trophic_vars[!(modeling_vars$global_vars$trophic_vars %in% exclude_trophic_vars)]
   
   
   # 3. Climate variables----
@@ -91,7 +113,7 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
-               original_vars$clim_vars
+               original_vars$local_vars_all$clim_vars
              ) # close unname
            ) # close all_of
     ) %>% # close select
@@ -102,12 +124,14 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     arrange(lake_id, site_id, visit)
   
   # 4. temperature variables-----
+  ## local_vars_all and local_vars_no_nla----
   # sonde temperature value
+  
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
-               original_vars$temp_vars
+               original_vars$local_vars_all$temp_vars
              ) # close unname
            ) # close all_of
     ) %>% # close select
@@ -116,28 +140,52 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     select(lake_id, site_id, visit, where(anyNA)) %>%
     distinct()  
   
+  ## global----
+  dat_impute %>% 
+    select(lake_id, site_id, visit, 
+           all_of(
+             unname( # must remove name attribute for all_of
+               original_vars$global_vars$temp_vars
+             ) # close unname
+           ) # close all_of
+    ) %>% # close select
+    # filter missing values
+    filter(rowSums(is.na(.)) > 0) %>%
+    select(lake_id, site_id, visit, where(anyNA)) %>%
+    distinct()  
+  
+  
   # 5. hydrology variables----
+  ## local_all----
   # missing for most 2016 lakes.
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
-               original_vars$hydrol_vars
+               original_vars$local_vars_all$hydrol_vars
              ) # close unname
            ) # close all_of
     ) %>% # close select
     # filter missing values
     filter(rowSums(is.na(.)) > 0) %>%
-    select(lake_id, site_id, visit, where(anyNA)) %>%
-    distinct()  
+    select(lake_id, visit, where(anyNA)) %>%
+    distinct() %>% print(n=Inf)
   
+  ## local_no_nla----
+  # no hydrol vars
+  original_vars$local_vars_no_nla$hydrol_vars
+
+  ## global----
+  # no hydrol vars
+  original_vars$global_vars$hydrol_vars
   
   # 6. Chemistry variables----
+  ## local_all and local_no_nla are identical----
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
              unname( # must remove name attribute for all_of
-               original_vars$chem_vars
+               original_vars$local_vars_all$chem_vars
              ) # close unname
            ) # close all_of
     ) %>% # close select
@@ -147,7 +195,7 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     distinct()
   
   # Restrict list to those we want for modeling
-  modeling_vars$chem_vars <- modeling_vars$chem_vars %>%
+  keep_chem_vars <- modeling_vars$local_vars_all$chem_vars %>%
     # 2016 only has shallow chemistry
     .[!grepl("_deep", .)] %>% # remove deep chemistry
     # add in deep sonde measurement
@@ -166,8 +214,19 @@ define_modeling_vars <- function(original_vars, dat_impute) {
                         "ni", "pb", "p", "sb", "si",
                         "sn", "sr", "s", "v", "zn"),
                       "_shallow"))] %>%
-    set_names("chem_var")
+    unname(.)
 
+  
+  # remove excluded vars from modeling_vars
+  ## local_vars_all
+  modeling_vars$local_vars_all$chem_vars <- 
+    modeling_vars$local_vars_all$chem_vars[(modeling_vars$local_vars_all$chem_vars %in% keep_chem_vars)] 
+  
+  ## local_vars_no_nla
+  modeling_vars$local_vars_no_nla$chem_vars <- 
+    modeling_vars$local_vars_no_nla$chem_vars[(modeling_vars$local_vars_no_nla$chem_vars %in% keep_chem_vars)]
+
+  
   # Review after excluding vars above
   # 250 and 281 visit 1 have no chem, cooler lost is transit
   # resampled on visit 2
@@ -176,9 +235,7 @@ define_modeling_vars <- function(original_vars, dat_impute) {
   dat_impute %>% 
     select(lake_id, site_id, visit, 
            all_of(
-             unname( # must remove name attribute for all_of
-               modeling_vars$chem_vars
-             ) # close unname
+             keep_chem_vars
            ) # close all_of
     ) %>% # close select
     # filter missing values
@@ -191,6 +248,9 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     #        do_shallow, do_deep) %>%
     # print(n=Inf)
   
+  ## global----
+  # no chem vars
+  original_vars$global_vars$chem_vars
   
 return(modeling_vars)
 }

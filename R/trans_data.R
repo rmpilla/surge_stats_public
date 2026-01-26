@@ -12,7 +12,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$morpho_vars
+            modeling_vars$local_vars_all$morpho_vars # doesn't matter which list we use
           )
         )
       ) %>% 
@@ -52,7 +52,7 @@ trans_dat <- function(dat_impute, modeling_vars){
       mutate(
         across(all_of(morpho_to_trans),
                ~ log10(.x), .names = "l_{.col}"),
-        l_buoyf = log10(buoyf + 1e-2) # add small constant to accomodate negative value
+        l_buoyf = log10(buoyf + 1e-2) # add small constant to accommodate negative value
       ) %>%
       select(lake_id, starts_with("l_")) %>% 
       # morpho variables are repeated for each site in a lake
@@ -88,7 +88,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$trophic_vars
+            modeling_vars$local_vars_all$trophic_vars # doesn't matter which list we use
           )
         )
       ) %>% 
@@ -149,15 +149,15 @@ trans_dat <- function(dat_impute, modeling_vars){
   
   
   # 3. climate variables----
-  
+  ## local vars----
   # inspect for outliers
   # interactive cleveland dotplots
-  {dat_trans %>% 
+  {dat_impute %>% 
       select(
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$clim_vars
+            modeling_vars$local_vars_all$clim_vars # doesn't include vars in global_vars
           )
         )
       ) %>% 
@@ -216,8 +216,73 @@ trans_dat <- function(dat_impute, modeling_vars){
     )
   
   
-  # 4. temp variables----
+  ## global vars----
+  # inspect for outliers
+  # interactive cleveland dotplots
+  {dat_impute %>% 
+      select(
+        lake_id, 
+        all_of(
+          unname( # must remove name attribute for all_of
+            modeling_vars$global_vars$clim_vars # 
+          )
+        )
+      ) %>% 
+      # morpho variables are repeated for each site in a lake
+      # filter to unique value to simplify the plot
+      distinct() %>% 
+      pivot_longer(cols = !lake_id, names_to = "climate_var", values_to = "value") %>%
+      mutate(f_lake_id = as.factor(lake_id)) %>% # better spacing along y-axis
+      ggplot(aes(value, f_lake_id)) +
+      geom_point() +
+      facet_wrap(~ climate_var, scales = "free_x") +
+      # suppress y-axis tick labels
+      theme(axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank(),
+            panel.spacing.y = unit(1.5, "cm"))
+    } %>%
+    ggplotly()
   
+  # The following have outliers.
+  # log transform the variables to reduce the influence of outliers.
+  glob_clim_to_trans <- c(
+    "runoffcat", # 263, 99
+    "runoffws" # 263, 99
+  )
+  
+  # log10 transform variables with outliers and inspect distribution
+  {dat_impute %>%
+      mutate(
+        across(all_of(glob_clim_to_trans),
+               ~ log10(.x), .names = "l_{.col}") 
+      ) %>%
+      select(lake_id, starts_with("l_")) %>% 
+      # climate variables are repeated across many/all sites in a lake
+      # filter to unique value to simplify the plot
+      distinct() %>% 
+      pivot_longer(cols = !lake_id, names_to = "climate_var", values_to = "value") %>%
+      mutate(f_lake_id = as.factor(lake_id)) %>% # better spacing along y-axis
+      ggplot(aes(value, f_lake_id)) +
+      geom_point() +
+      facet_wrap(~ climate_var, scales = "free_x") +
+      # suppress y-axis tick labels
+      theme(axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank(),
+            panel.spacing.y = unit(1.5, "cm"))} %>%
+    ggplotly()
+  
+  # better
+  # Implement transformations in main data frame
+  dat_trans <- dat_trans %>%
+    mutate(
+      across(all_of(glob_clim_to_trans),
+             ~ log10(.x), .names = "l_{.col}")
+    )
+  
+  # 4. temp variables----
+  ## local----
   # inspect for outliers
   # interactive cleveland dotplots
   {dat_trans %>% 
@@ -225,7 +290,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$temp_vars
+            modeling_vars$local_vars_all$temp_vars
           )
         )
       ) %>% 
@@ -245,9 +310,36 @@ trans_dat <- function(dat_impute, modeling_vars){
   
   # No outliers notes
  
+  ## global----
+  # inspect for outliers
+  # interactive cleveland dotplots
+  # missing global temp variable. Fix lake_cat.csv and revisit [1/21/2026]
+  {dat_trans %>% 
+      select(
+        lake_id, 
+        all_of(
+          unname( # must remove name attribute for all_of
+            modeling_vars$global_vars$temp_vars
+          )
+        )
+      ) %>% 
+      distinct() %>% 
+      pivot_longer(cols = !lake_id, names_to = "temp_var", values_to = "value") %>%
+      mutate(f_lake_id = as.factor(lake_id)) %>% # better spacing along y-axis
+      ggplot(aes(value, f_lake_id)) +
+      geom_point() +
+      facet_wrap(~ temp_var, scales = "free_x") +
+      # suppress y-axis tick labels
+      theme(axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank(),
+            panel.spacing.y = unit(1.5, "cm"))
+  } %>%
+    ggplotly()
+  
   
   # 5. hydrology variables----
-  
+  ## only local_all----
   # inspect for outliers
   # interactive cleveland dotplots
   {dat_trans %>% 
@@ -255,7 +347,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$hydrol_vars[1:2] # numeric variables
+            modeling_vars$local_vars_all$hydrol_vars # numeric variables
           )
         )
       ) %>% 
@@ -311,6 +403,7 @@ trans_dat <- function(dat_impute, modeling_vars){
     )
   
   # 6. chemical vars----
+  ## local_all and local_no_nla
   # inspect for outliers
   # interactive cleveland dotplots
   {dat_trans %>% 
@@ -318,7 +411,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$chem_vars
+            modeling_vars$local_vars_all$chem_vars
           )
         )
       ) %>% 
@@ -375,8 +468,71 @@ trans_dat <- function(dat_impute, modeling_vars){
              ~ log10(.x), .names = "l_{.col}")
     )
   
+  # 7. landscape vars----
+  ## global only----
+  {dat_impute %>% 
+      select(
+        lake_id, 
+        all_of(
+          unname( # must remove name attribute for all_of
+            modeling_vars$global_vars$landscape_vars
+          )
+        )
+      ) %>% 
+      select(lake_id, where(is.numeric)) %>% # ag_eco9 is factor
+      distinct() %>% 
+      pivot_longer(cols = !lake_id, names_to = "other_var", values_to = "value") %>%
+      mutate(f_lake_id = as.factor(lake_id)) %>% # better spacing along y-axis
+      ggplot(aes(value, f_lake_id)) +
+      geom_point() +
+      facet_wrap(~ other_var, scales = "free_x") +
+      # suppress y-axis tick labels
+      theme(axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank(),
+            panel.spacing.y = unit(1.5, "cm"))
+  } %>%
+    ggplotly()
   
-  # 7. other vars----
+  # The following have outliers.
+  # log transform the variables to reduce the influence of outliers.
+  landscape_to_trans <- c(
+    "rda", # 167
+    "scat", # 204, Beaver Cr Upground in OH
+    "wsareasqkm" # 70, 69, 148
+  )
+  
+  # log10 transform variables with outliers and inspect distribution
+  {dat_impute %>%
+      mutate(
+        across(all_of(landscape_to_trans),
+               ~ log10(.x), .names = "l_{.col}") # small constant for 0
+      ) %>%
+      select(lake_id, starts_with("l_")) %>% 
+      # climate variables are repeated across many/all sites in a lake
+      # filter to unique value to simplify the plot
+      distinct() %>% 
+      pivot_longer(cols = !lake_id, names_to = "chem_var", values_to = "value") %>%
+      mutate(f_lake_id = as.factor(lake_id)) %>% # better spacing along y-axis
+      ggplot(aes(value, f_lake_id)) +
+      geom_point() +
+      facet_wrap(~ chem_var, scales = "free_x") +
+      # suppress y-axis tick labels
+      theme(axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank(),
+            panel.spacing.y = unit(1.5, "cm"))} %>%
+    ggplotly()
+  
+  
+  # better
+  # Implement transformations in main data frame
+  dat_trans <- dat_trans %>%
+    mutate(
+      across(all_of(landscape_to_trans),
+             ~ log10(.x), .names = "l_{.col}"))
+  
+  # 8. other vars----
   # inspect for outliers
   # interactive cleveland dotplots
   {dat_impute %>% 
@@ -384,7 +540,7 @@ trans_dat <- function(dat_impute, modeling_vars){
         lake_id, 
         all_of(
           unname( # must remove name attribute for all_of
-            modeling_vars$other_vars
+            modeling_vars$local_vars_all$other_vars
           )
         )
       ) %>% 
@@ -433,11 +589,11 @@ trans_dat <- function(dat_impute, modeling_vars){
   
   # no improvement. Don't transform
   
-# 8. factors----
+# 9. factors----
   # models require nominal vars as factors.
   dat_trans <- dat_trans %>% 
     mutate(
-      across(c(lake_id, visit, ag_eco9_nm, ag_eco9, e_i_type), as.factor)
+      across(c(lake_id, visit, sample_month, ag_eco9_nm, ag_eco9, e_i_type), as.factor)
     )
   
   return(dat_trans)

@@ -169,23 +169,27 @@ merge_data <- function(
   
   # merge the dataframes----
   ## objects with lake_id, site_id, and visit first----
-  dat <- dplyr::full_join(site_descriptors_data,
-                          emission_rate_points_data,
-                          # will naturally join on these, specify for clarity
-                          by = c("lake_id", "site_id", "visit")
+  dat_raw <- dplyr::full_join(
+    site_descriptors_data,
+    emission_rate_points_data,
+    # will naturally join on these, specify for clarity
+    by = c("lake_id", "site_id", "visit")
   ) %>%
-    dplyr::full_join(site_data_w,
-                     # will naturally join on these, specify for clarity
-                     by = c("lake_id", "site_id", "visit")
+    dplyr::full_join(
+      site_data_w,
+      # will naturally join on these, specify for clarity
+      by = c("lake_id", "site_id", "visit")
     ) %>%
-    dplyr::full_join(bp_data,
-                     # will naturally join on these, specify for clarity
-                     by = c("lake_id", "site_id", "visit")
+    dplyr::full_join(
+      bp_data,
+      # will naturally join on these, specify for clarity
+      by = c("lake_id", "site_id", "visit")
     ) %>%
     # site/zone specific Missouri river stratification data (see above)
-    dplyr::full_join(missouri_river_strat_data,
-                     # will naturally join on these, specify for clarity
-                     by = c("lake_id", "site_id", "visit")
+    dplyr::full_join(
+      missouri_river_strat_data,
+      # will naturally join on these, specify for clarity
+      by = c("lake_id", "site_id", "visit")
     ) %>%
     # now fill stratification data for 69 and 70 by zone
     mutate(
@@ -201,8 +205,8 @@ merge_data <- function(
     fill(contains(c("buoyf", "thermdep2")), .direction = "downup") %>%
     ungroup %>%
     select(-zone) %>% # no longer needed
-  
-  ## now join with objects containing lake_id and visit----
+    
+    ## now join with objects containing lake_id and visit----
   # stratification data for all lakes except 69 and 70.
   # the columns were created when the missouri river data was joined above,
   # just update the values for all other lakes (currently NA)
@@ -225,24 +229,29 @@ merge_data <- function(
   full_join(lake_scale_data_w) %>%
     full_join(lake_cat_data) %>%
     left_join(nla_chem$nla17_chem) %>%
-    left_join(nla_chem$nla22_chem)
-
-
-
+    left_join(nla_chem$nla22_chem) %>%
+    ## derived quantities----
+    # add sampling month
+    mutate(sample_month = format(sample_start, "%B"),
+           rda = wsareasqkm / (surface_area / 1e6)) # m2 -> km2
+    
+  
+  
+  
 
   # inspect dat object
-  if (dat %>%
+  if (dat_raw %>%
     janitor::get_dupes(lake_id, site_id, visit) %>%
     nrow() > 0) {
     print("There are duplicate rows in the dat object. Check the merge_data function.")
   }
   # no dupes
-  if (dat %>% distinct(lake_id) %>% nrow() != 146) {
+  if (dat_raw %>% distinct(lake_id) %>% nrow() != 146) {
     print("There are not 146 lakes in the dat object. Check the merge_data function.")
   } # 146 lakes
 
 
   # return the merged dataframe
-  return(dat)
+  return(dat_raw)
 
 }

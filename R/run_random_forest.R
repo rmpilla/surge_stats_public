@@ -10,12 +10,22 @@ run_random_forest <- function(dat_trans,
   
   formula_list <- modeling_vars_final %>%
     # Combine model variables into string with "+"
-    map(., ~ paste0(., collapse = " + ")) %>%
+    # map_depth applies function to specified level of nested list
+    map_depth(., .depth = 2, ~ paste0(., collapse = " + ")) %>%
     
+    # simplify list structure
+    unlist(., recursive = FALSE) %>%
+  
     # Now add response variables -- use log-transformed version
-    map(., ~ paste0(c("l_ch4_total", "l_ch4_diffusion", "l_ch4_ebullition"), " ~ ", .)) %>%
-    unlist(., use.names = TRUE) %>%  # remove nesting structure, retain names
-    #flatten(.) %>%  
+    # within an imap function, .y is the name of the list element
+    imap(., ~ if (grepl("diffusion", .y)) { # if element name contains diffusion
+      paste0("l_ch4_diffusion ~ ", .) # then paste diffusion as response
+    } else if (grepl("ebullition", .y)) {
+      paste0("l_ch4_ebullition ~ ", .)
+    } else if (grepl("total", .y)) {
+      paste0("l_ch4_total ~ ", .)
+    } 
+    ) %>%
     map(., ~ as.formula(.)) # convert to formula
   
   
@@ -24,7 +34,7 @@ run_random_forest <- function(dat_trans,
   set.seed(102322)
   random_forest_object <- map(formula_list, ~ spmodel::splmRF(., 
                                                               data = dat_trans, 
-                                                              random = ~ (1 | as.character(lake_id)),
+                                                              random = ~ (1 | as.character(lake_id)) + (1 | sample_month),
                                                               xcoord = long, ycoord = lat,
                                                               spcov_type = "exponential",
                                                               quantreg = T,

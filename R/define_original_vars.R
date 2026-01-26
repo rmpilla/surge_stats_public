@@ -40,7 +40,7 @@ define_original_vars <- function() {
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("morpho_var")
+    rlang::set_names("morpho_var")
   
   # 2. TROPHIC VARIABLES--------
   trophic_vars <- c(
@@ -62,7 +62,7 @@ define_original_vars <- function() {
     "chla_sonde_shallow",
     "chla_sonde_deep",
     
-    # LAGOS   
+    # LAGOS
     "chl_predicted_sample_season_visit1",
     "doc_predicted_sample_season_visit1",
     "doc_predicted_sample_season_visit2",
@@ -70,14 +70,16 @@ define_original_vars <- function() {
     "chl_predicted_sample_month_visit1",
     "chl_predicted_sample_month_visit2",
     "doc_predicted_sample_month_visit1",
-    "doc_predicted_sample_month_visit2"
+    "doc_predicted_sample_month_visit2",
+    
+    # NLA sediment chemistry
+    "nla17_sed_c"
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("trophic_var")
+    rlang::set_names("trophic_var")
   
   # 3. CLIMATE VARIABLES--------
-  # what about lake_cat variables?
   clim_vars <- c(
     # ERA 5 variables
     "precipitation_chamber",
@@ -85,11 +87,17 @@ define_original_vars <- function() {
     "wind_speed_chamber",
     "wind_speed_trap",
     "delta_bp_ebu",
-    "delta_bp_diff"
+    "delta_bp_diff",
+    
+    # LakeCat variables
+    "precip8110cat", # 1981-2010 mean precip (mm) catchment
+    "precip8110ws", # 1981-2010 mean precip (mm) watershed
+    "runoffcat", # mean runoff (mm) catchment
+    "runoffws" # mean runoff (mm) watershed
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("clim_var")
+    rlang::set_names("clim_var")
   
   # 4. TEMPERATURE----
   temp_vars <-
@@ -98,34 +106,37 @@ define_original_vars <- function() {
       c("deep", "shallow"),
       sep = "_"
     ) %>%
+    # LakeCat PRISM temperature
+    c("tmax8110cat", # 1981-2010 normal maximum temp catchment
+      "lat") %>% # latitude, a proxy for light, but might correlate with temp
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("temp_var")
+    rlang::set_names("temp_var")
   
   # 5. HYDROLOGY VARIABLES--------
   hydrol_vars <- c(
     "e_i",
-    "residence_time",
-    "e_i_type"
+    "residence_time"
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("hydrol_var")
+    rlang::set_names("hydrol_var")
   
   
   # 6. LANDSCAPE VARIABLES--------
-  landscape_vars <- c("kffactcat", "kffactws", # soil erodibility factor
-                      "omcat", "omws",
-                      "scat", "sws", # Mean % lithological sulfur
-                      "pctcrop2019cat", "pctcrop2019ws",  
-                      "catareasqkm", "wsareasqkm",
-                      "nitrogencat", "nitrogenws", 
-                      "npdesdenscat", "npdesdensws", # Density of NPDES sites
-                      "agkffactcat", "agkffactws", # ag # soil erodibility factor
-                      "elevcat", "elevws") %>%
+  landscape_vars <- c("kffactcat", # soil erodibility factor
+                      "omcat",
+                      "scat", # Mean % lithological sulfur
+                      "pctcrop2019cat",
+                      "wsareasqkm",
+                      "nitrogencat", 
+                      #"npdesdenscat", "npdesdensws", # Density of NPDES sites. all 0 except 1
+                      "agkffactcat",  # ag soil erodibility factor
+                      "elevcat",
+                      "rda") %>% # relative drainage area
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("landscape_var")
+    rlang::set_names("landscape_var")
   
   # 7. CHEMISTRY VARIABLES--------
   chem_vars <- expand.grid(c("_deep", "_shallow"),
@@ -147,7 +158,7 @@ define_original_vars <- function() {
     pull(analytes_to_fill) %>% # extract to vector
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("chem_var")
+    rlang::set_names("chem_var")
   
   # 7. OTHERS--------
   other_vars <- c(
@@ -156,13 +167,62 @@ define_original_vars <- function() {
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
-    set_names("other_var")
+    rlang::set_names("other_var")
   
   # 8. RETURN VALUES----
   return(
     tibble::lst(
-      morpho_vars, trophic_vars, clim_vars, temp_vars, hydrol_vars,
-         chem_vars, other_vars)
+      # first list element
+      local_vars_all = tibble::lst(
+        morpho_vars, 
+        # exclude LAGOS vars
+        trophic_vars = trophic_vars[!grepl("predicted", trophic_vars)], 
+        # exclude global climate variables
+        clim_vars = clim_vars[!grepl(c("runoff|precip8110"), clim_vars)], 
+        # exclude global temp variables
+        temp_vars = temp_vars[!grepl(c("tmax"), temp_vars)], 
+        hydrol_vars,
+        # exclude most landscape vars
+        landscape_vars = landscape_vars[landscape_vars %in% c("wsareasqkm", "rda")], 
+        chem_vars, other_vars
+      ),
+      
+      # second list element
+      local_vars_no_nla = tibble::lst(
+        morpho_vars, 
+        # exclude NLA sediment chemistry
+        trophic_vars = trophic_vars[!grepl(c("nla17_sed_c|predicted"), trophic_vars)], 
+        # exclude global climate variables
+        clim_vars = clim_vars[!grepl(c("runoff|precip"), clim_vars)], 
+        # exclude global temp variables
+        temp_vars = temp_vars[!grepl(c("tmax"), temp_vars)], 
+        # exclude NLA derived hydrology variables
+        #hydrol_vars,
+        # exclude most landscape vars
+        landscape_vars = landscape_vars[landscape_vars %in% c("wsareasqkm", "rda")], 
+        chem_vars, other_vars
+      ),
+      
+      # third list element
+      global_vars = tibble::lst(
+        # exclude on site measurements
+        morpho_vars = morpho_vars[!morpho_vars %in% c("buoyf", "thermdep2", "site_depth")], 
+        # only keep LAGOS predictors
+        trophic_vars = trophic_vars[grepl("predicted", trophic_vars)], 
+        # only keep lakeCat climate variables
+        clim_vars = clim_vars[clim_vars %in% c("precip8110cat", "precip8110ws", "runoffcat", "runoffws")], 
+        # only keep lakeCat temp variables
+        temp_vars = temp_vars[grepl(c("tmax|lat"), temp_vars)], 
+        # exclude NLA derived hydrology variables
+        #hydrol_vars,
+        # keep all landscape vars
+        landscape_vars, 
+        # exclude all chem vars
+        #chem_vars,
+        # only keep ag_eco9_nm
+        other_vars = other_vars[other_vars == "ag_eco9_nm"]
+      )
+    )
   )
 }
 

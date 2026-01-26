@@ -5,28 +5,29 @@
 # get_final_clim_vars.R, get_final_temp_vars.R, get_final_trophic_vars.R for
 # collinearity assessments.
 
-# 2. Create a list of all possible variable combinations. Necessary because
-# we have 3 different collections of morpho vars (morpho_vars_surface_area,
-# morpho_var_shoreline, morpho_var_dynamic) adn 2 different collections of
-# hydrology vars (hydrol_vars_e_i, hydrol_vars_e_i_type)
+# 2. Create a list of predictor variables for each response (total, diffusion,
+# and ebullition) and model (local_vars_all, local_vars_no_nla, global).
 
 # 3. Inspect all groups of predictor variables for collinearity. Remove
 # vars as necessary.
-
-
 
 # Here we create modeling_vars_final which accounts for data transformations
 # and collinearity
 
 finalize_modeling_vars <- function(modeling_vars_update,
-                                   final_morpho_vars,
-                                   final_hydrol_vars,
-                                   final_trophic_vars,
                                    
-                                   # Using all climate, chem and temp vars
-                                   # final_clim_vars,
+                                   # lists, local_all, local_no_nla, global
+                                   final_morpho_vars, 
+                                   final_hydrol_vars, 
+                                   final_trophic_vars, 
+                                   final_landscape_vars, 
+                                   
+                                   # lists, global
+                                   final_clim_vars,
+                                   final_temp_vars,
+                                   
+                                   # Using all chem vars
                                    # final_chem_vars,
-                                   # final_temp_vars
                                    
                                    # need data to assess collinearity among
                                    # all predictors
@@ -36,221 +37,310 @@ finalize_modeling_vars <- function(modeling_vars_update,
   # 1. UPDATE LIST OF MODELING VARS BASED ON COLLINEARITY WITHIN PREDICTOR GROUPS---- 
   # start with modeling_vars_update which is a reduced list of vars after 
   # considering missingness and data transformations. See update_modeling_vars.R
-  modeling_vars_update2 <- modeling_vars_update
+
   
   ## MORPHO----
-  # finalize morpho modeling vars
-  modeling_vars_update2$morpho_vars_surface_area <- final_morpho_vars %>%
-    filter(group == "surface_area_group") %>% pull(variable)
+  ### global group.
+  modeling_vars_update2 <- modeling_vars_update %>%
+    list_modify(
+    ., # list to modify
+              global_vars = list( # list element to modify
+                # nested list element to replace
+                morpho_vars  = final_morpho_vars$surface_area_vars_global %>%
+                                   pull(variable)
+                ) # close list
+    ) %>% # close list
+ 
+  ### local_vars_all group
+  list_modify(
+    ., # list to modify
+    local_vars_all = list( # list element to modify
+      # nested list element to replace
+      morpho_vars  = final_morpho_vars$surface_area_vars_local_all %>%
+        pull(variable)
+    ) # close list
+  ) %>% # close list
   
-  modeling_vars_update2$morpho_var_shoreline <- final_morpho_vars  %>%
-    filter(group == "shoreline_group") %>% pull(variable)
-  
-  modeling_vars_update2$morpho_var_dynamic <- final_morpho_vars  %>%
-    filter(group == "dynamic_ratio_group") %>% pull(variable)
-  
-  # delete $morph_var from modeling_vars_update2. It is replaced with above
-  modeling_vars_update2$morpho_vars <- NULL
+  ### local_vars_no_nla group
+    list_modify(
+      ., # list to modify
+      local_vars_no_nla = list( # list element to modify
+        # nested list element to replace
+        morpho_vars  = final_morpho_vars$surface_area_vars_local_no_nla %>%
+          pull(variable)
+      ) # close list
+    )  %>%
   
   ## HYDROL----
-  # finalize hydrol modeling vars
-  modeling_vars_update2$hydrol_vars_e_i <- final_hydrol_vars %>%
-    filter(group == "e_i_group") %>% pull(variable)
-  
-  modeling_vars_update2$hydrol_vars_e_i_type <- final_hydrol_vars  %>%
-    filter(group == "e_i_type_group") %>% pull(variable)
-  
-  # delete hydrol_vars, replaced with above
-  modeling_vars_update2$hydrol_vars <- NULL
+  ### global group.
+    list_modify(
+      ., # list to modify
+      global_vars = list( # list element to modify
+        # nested list element to replace
+        hydrol_vars  = final_hydrol_vars$hydrol_vars_global
+      ) # close list
+    ) %>% # close list
+    
+    ### local_vars_all group
+    list_modify(
+      ., # list to modify
+      local_vars_all = list( # list element to modify
+        # nested list element to replace
+        hydrol_vars  = final_hydrol_vars$hydrol_vars_local_all %>%
+          pull(variable)
+      ) # close list
+    ) %>% # close list
+    
+    ### local_vars_no_nla group
+    list_modify(
+      ., # list to modify
+      local_vars_no_nla = list( # list element to modify
+        # nested list element to replace
+        hydrol_vars  = final_hydrol_vars$hydrol_vars_local_no_nla
+      ) # close list
+    )  %>%
   
   ## CLIMATE----
-  # using all variables. no action required
+  # global group
+  list_modify(
+    ., # list to modify
+    global_vars = list( # list element to modify
+      # nested list element to replace
+      clim_vars  = final_clim_vars$clim_vars_global %>%
+        pull(variable)
+    ) # close list
+  )  %>%
   
   ## CHEMISTRY----
   # using all variables. No action required
   
   ## TEMPERATURE----
-  # using all variables. No action required
+  # global group
+  list_modify(
+    ., # list to modify
+    global_vars = list( # list element to modify
+      # nested list element to replace
+      temp_vars  = final_temp_vars$temp_vars_global %>%
+        pull(variable)
+    ) # close list
+  )  %>%
   
   ## TROPHIC----
-  modeling_vars_update2$trophic_vars <- final_trophic_vars %>%
-    pull(variable)
+  ### global group.
+  list_modify(
+    ., # list to modify
+    global_vars = list( # list element to modify
+      # nested list element to replace
+      trophic_vars  = final_trophic_vars$trophic_vars_global %>%
+        pull(variable)
+    ) # close list
+  ) %>% # close list
+    
+    ### local_vars_all group
+    list_modify(
+      ., # list to modify
+      local_vars_all = list( # list element to modify
+        # nested list element to replace
+        trophic_vars  = final_trophic_vars$trophic_vars_local_all %>%
+          pull(variable)
+      ) # close list
+    ) %>% # close list
+    
+    ### local_vars_no_nla group
+    list_modify(
+      ., # list to modify
+      local_vars_no_nla = list( # list element to modify
+        # nested list element to replace
+        trophic_vars  = final_trophic_vars$trophic_vars_local_no_nla %>%
+          pull(variable)
+      ) # close list
+    )
   
   ## OTHER VARS----
   # year_completed, ag_eco9_nm, keep both, no action required
   
   
-  # 2. CREATE A LIST OF ALL POSSIBLE VARIABLE COMBINATIONS----
-  all_vars <- lst(
-    # combinations of morpho_SA and both hydrol groups
-    sa_e_i = 
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c( # list elements to include
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_vars_surface_area", "hydrol_vars_e_i"
-        )
-      ] %>%
-      flatten_chr(),
+  # 2. CREATE A LIST OF PREDICTOR BY EMISSION MECHANISM----
+  
+  modeling_vars_by_response <- 
+    lst(
+      ## list of predictors for ch4_tot response----
+      ch4_total = modeling_vars_update2 %>% 
+        # Remove clim_vars fro local_all and local_no_nla but retain clim_vars
+        # for global model
+        
+        # eliminate clim_vars from local_vars_no_nla 
+        list_modify(
+          ., # list to modify
+          local_vars_no_nla = list( # list element to modify
+            # nested list element to eliminate
+            clim_vars = purrr::zap() # zap removes element
+          )
+        ) %>% # close list_modify
+        
+        # eliminate clim_vars from local_vars_all
+        list_modify(
+          ., # list to modify
+          local_vars_all = list( # list element to modify
+            # nested list element to eliminate
+            clim_vars = purrr::zap() # zap removes element
+          )
+        ), # close list_modify
+      
+      ## list of predictors for ch4_diffusion----
+      ch4_diffusion = modeling_vars_update2,
+      
+      ## list of predictors for ch4_ebullition----
+      ch4_ebullition = modeling_vars_update2
+      
+    ) # close parent list 
     
-    sa_e_i_type = 
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c( 
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_vars_surface_area", "hydrol_vars_e_i_type"
-        )
-      ] %>%
-      flatten_chr(),
-    
-    # combinations of morpho_shoreline and both hydrol groups
-    shoreline_e_i_type = 
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c(
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_var_shoreline", "hydrol_vars_e_i_type"
-        )
-      ] %>%
-      flatten_chr(),
-    
-    shoreline_e_i =
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c(
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_var_shoreline", "hydrol_vars_e_i"
-        )
-      ] %>%
-      flatten_chr(),
-    
-    # combinations of morpho_dynamic and both hydrol groups
-    dynamic_e_i_type = 
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c(
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_var_dynamic", "hydrol_vars_e_i_type"
-        )
-      ] %>%
-      flatten_chr(),
-    
-    dynamic_e_i =
-      modeling_vars_update2 %>% 
-      .[
-        names(.) %in% c(
-          "trophic_vars", "clim_vars", "temp_vars", "chem_vars", "other_vars",
-          "morpho_var_dynamic", "hydrol_vars_e_i"
-        )
-      ] %>%
-      flatten_chr()
-  ) 
+# 3. MODIFY LIST----
+  # Attempted to accomplish these manipulations using all kinds of fancy
+  # functions (map_depth, list_modify) but couldn't quite get there.
+  # Using base R. Ugly, but readable and gets the job done.
+  
+  ## Modify diffusion predictors----
+  ## Remove ebullition climate variables from list of diffusion predictors
+  ## must do this for local_vars_all and local_vars_no_nla
+  ### local_vars_all sublist----
+  modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars <- 
+    modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars[
+      !(modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars %in%
+          c("l_precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
+      ]
+  
+  ### local_vars_no_nla sublist----
+  modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars <- 
+    modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars[
+      !(modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars %in%
+          c("l_precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
+    ]
+  
+  ## Modify ebullition predictors----
+  ## Remove diffusion climate variables from list of ebullition predictors
+  ## must do this for local_vars_all and local_vars_no_nla
+  
+  ### local_vars_all sublist----
+  modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars <- 
+    modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars[
+      !(modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars %in%
+          c("l_precipitation_chamber", "l_wind_speed_chamber", "delta_bp_diff"))
+    ]
+  
+  ### local_vars_no_nla sublist----
+  modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars <- 
+    modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars[
+      !(modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars %in%
+          c("l_precipitation_chamber", "l_wind_speed_chamber", "delta_bp_diff"))
+    ]
+  
+  ## Flatten into simpler list
+  modeling_vars_by_response <- map_depth(
+    modeling_vars_by_response, # list to modify
+    .depth = 2, # apply function at depth 2
+    ~ .x %>% flatten_chr(.) # combines variable groups (e.g. morpho, trophic) into a flat vector
+    ) 
   
   
-  # 3. INSPECT ALL GROUPS OF PREDICTOR VARIABLES FOR COLLINEARITY. 
-  # Remove vars as necessary.
   
-  
+  # 4. INSPECT FOR COLLINEARITY.---- 
   # Calculate VIF of all predictors
   # Should used (GVIF^(1/2Df))^2 for categorical values
   # https://stats.stackexchange.com/questions/70679/
   # which-variance-inflation-factor-should-i-be-using-textgvif-or-textgvif
   # ag_eco9_nm = 1.87 (GVIF^(1/2Df))^2
-  vif <- map(all_vars, ~ dat_trans %>% select(all_of(.x)) %>% corvif(.))
   
-  # STEP 1 SELECTION
-  # In all predictor sets, do_deep and do_shallow have VIF > 7
+  # corvif crashes when l_wsareasqkm and l_rda are both included.
+  # these have a high correlation: 0.76
+  # keep l_rda, exclude l_wsareasqkm
+  dat_trans  %>% 
+    select(l_wsareasqkm, l_rda) %>% 
+    drop_na() %>% 
+    summarize(rho = cor(l_wsareasqkm, l_rda))
+
+  ## VIF for tot, diff, and ebu----  
+  vif_ch4_tot <- map(
+    modeling_vars_by_response$ch4_total, 
+    ~ try( # try prevents error from crashing on global_vars, see note above
+      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
+    ))
+
+  vif_ch4_diff <- map(
+    modeling_vars_by_response$ch4_diffusion, 
+    ~ try( # try prevents error from crashing on global_vars, see note above
+      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
+    )) 
+  
+  vif_ch4_ebu <- map(
+      modeling_vars_by_response$ch4_ebullition, 
+    ~ try( # try prevents error from crashing on global_vars, see note above
+      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
+    )) 
+  
+  ## ch4_tot selection----
+  # STEP 1 Selection
+  # do_deep and do_shallow have VIF > 7 in local_vars_all set
   # I think do_deep is more likely to be related to CH4, so 
   # exclude do_shallow and see what happens
-  vif <- map(all_vars, ~ .[!(. == "do_shallow")]) %>%
-    map(., ~ dat_trans %>% select(all_of(.x)) %>% corvif(.)) 
+  vif_ch4_tot
   
-  # STEP 2 SELECTION
-  # OK, after removing do_shallow, littoral_fraction has a VIF>5 in all groups
-  # remove and see what happens
-  # sa_e_i group: littoral_fraction = 6
-  # sa_e_i_type group: littoral_fraction = 6
-  # shoreline_e_i_type group: littoral_fraction = 5.1
-  # shoreline_e_i_type group: littoral_fraction = 5.5
-  # dynamic_e_i_type group: littoral_fraction = 5.2
-  # dynamic_e_i_type group: littoral_fraction = 5.4
-  vif <- map(all_vars, ~ .[!(. %in%  c("do_shallow", "littoral_fraction"))]) %>%
-    map(., ~ dat_trans %>% select(all_of(.x)) %>% corvif(.)) 
+  # all vif <3 when do_shallow excluded
+  dat_trans %>% select(
+    all_of(modeling_vars_by_response$ch4_total$local_vars_all), 
+    -l_wsareasqkm, -do_shallow
+    ) %>%
+    drop_na %>%
+    corvif(.)
+      
+  # STEP 2 Omit vars from list
+  modeling_vars_by_response$ch4_total$local_vars_all %<>%
+    .[!(. %in% c("do_shallow", "l_wsareasqkm"))]
+
+    
+  ## ch4_diff selection----
+  # STEP 1 Selection
+  # do_deep and do_shallow have VIF > 15 in local_vars_all set
+  # I think do_deep is more likely to be related to CH4, so 
+  # exclude do_shallow and see what happens
+  vif_ch4_diff
   
-  # STEP 3 SELECTION
-  # After remove do_shallow and littoral_fraction, everything except the below
-  # have a VIF < 4
-  # shoreline_e_i_type group: mean_depth = 4.5, l_shoreline_development = 4.4
-  # shoreline_e_i group: mean_depth = 4.3, l_shoreline_development = 4.4
-  # dynamic_e_i_type group: l_dynamic_ratio = 4.2, wind_speed_trap = 4.1
-  # remove mean_depth from shoreline groups and wind speed_trap from dynamic_e_i_type
-  vif <- map(all_vars, ~ .[!(. %in%  c("do_shallow", "littoral_fraction"))]) %>%
-    map_if(., 
-           grepl("shoreline_e_i", names(.)), # condition 
-           ~ .[!(. == "mean_depth")] # if TRUE, then omit mean_depth
-    ) %>%
-    map_if(., 
-           grepl("dynamic_e_i_type", names(.)), # condition 
-           ~ .[!(. == "wind_speed_trap")] # if TRUE, then omit wind_speed_trap
-    ) %>%
-    map(., ~ dat_trans %>% select(all_of(.x)) %>% corvif(.)) 
-  vif
-  
-  # STEP 4 SELECTION
-  # l_dynamic_ratio is borderline at VIF ~= 4. will retain.
-  # will get rid of the other two offending variables below 
-  # sa_e_i_type group: wind_speed_trap = 4.087493 
-  # shoreline_e_i_type group: l_max_length = 4.05
-  # dynamic_e_i_type group: l_dynamic_ratio = 4.087
-  # dynamic_e_i_ group: l_dynamic_ratio = 3.95
-  vif <- map(all_vars, ~ .[!(. %in%  c("do_shallow", "littoral_fraction"))]) %>%
-    map_if(., 
-           grepl("shoreline_e_i", names(.)), # condition 
-           ~ .[!(. == "mean_depth")] # if TRUE, then omit mean_depth
-    ) %>%
-    map_if(., 
-           grepl("dynamic_e_i_type", names(.)), # condition 
-           ~ .[!(. == "wind_speed_trap")] # if TRUE, then omit wind_speed_trap
-    ) %>%
-    map_if(., 
-           grepl("sa_e_i_type", names(.)), # condition 
-           ~ .[!(. == "wind_speed_trap")] # if TRUE, then omit wind_speed_trap
-    ) %>%
-    map_if(., 
-           grepl("shoreline_e_i_type", names(.)), # condition 
-           ~ .[!(. == "l_max_length")] # if TRUE, then omit wind_speed_trap
-    ) %>% 
-    map(., ~ dat_trans %>% select(all_of(.x)) %>% corvif(.)) 
-  vif
-  
-  # STEP 6, UPDATE LIST OF VARIABLES
-  # Good, all variables < 4 except below. Will we proceed with this.
-  # dynamic_e_i_type group: l_dynamic_ratio = 4.087
-modeling_vars_final <- map(
-  # exclude do_shallow and littoral_fraction from all groups
-  all_vars, ~ .[!(. %in%  c("do_shallow", "littoral_fraction"))]
+  # all vif <3 when do_shallow excluded
+  dat_trans %>% select(
+    all_of(modeling_vars_by_response$ch4_diffusion$local_vars_all), 
+    -l_wsareasqkm, -do_shallow
   ) %>%
-  # exclude mean_depth from shoreline_e_i group
-    map_if(., 
-           grepl("shoreline_e_i", names(.)), # condition 
-           ~ .[!(. == "mean_depth")] # if TRUE, then omit mean_depth
-    ) %>%
-  # exclude wind_speed_trap from dynamic_e_i_type group
-    map_if(., 
-           grepl("dynamic_e_i_type", names(.)), # condition 
-           ~ .[!(. == "wind_speed_trap")] # if TRUE, then omit wind_speed_trap
-    ) %>%
-  # exclude wind_speed_trap from sa_e_i_type group
-    map_if(., 
-           grepl("sa_e_i_type", names(.)), # condition 
-           ~ .[!(. == "wind_speed_trap")] # if TRUE, then omit wind_speed_trap
-    ) %>%
-  # exclude l_max_length from shoreline_e_i_type group
-    map_if(., 
-           grepl("shoreline_e_i_type", names(.)), # condition 
-           ~ .[!(. == "l_max_length")] # if TRUE, then omit wind_speed_trap
-    ) 
+    drop_na %>%
+    corvif(.)
   
-    return(modeling_vars_final)
+  # STEP 2 Omit vars from list
+  modeling_vars_by_response$ch4_diffusion$local_vars_all %<>%
+    .[!(. %in% c("do_shallow", "l_wsareasqkm"))]
+  
+  
+  ## ch4_ebullition selection----
+  # STEP 1 Selection
+  # do_deep and do_shallow have VIF > 15 in local_vars_all set
+  # I think do_deep is more likely to be related to CH4, so 
+  # exclude do_shallow and see what happens
+  vif_ch4_ebu
+  
+  # all vif <3 when do_shallow excluded
+  dat_trans %>% select(
+    all_of(modeling_vars_by_response$ch4_ebullition$local_vars_all), 
+    -l_wsareasqkm, -do_shallow
+  ) %>%
+    drop_na %>%
+    corvif(.)
+  
+  # STEP 2 Omit vars from list
+  modeling_vars_by_response$ch4_ebullition$local_vars_all %<>%
+    .[!(. %in% c("do_shallow", "l_wsareasqkm"))] 
+  
+  
+  
+  modeling_vars_final <- modeling_vars_by_response
+  
+  return(modeling_vars_final)
   
 }

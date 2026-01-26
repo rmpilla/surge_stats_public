@@ -6,11 +6,11 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
 # 1. RELATIONSHIPS----------
 # Lets see which of these variables are related to CH4. This can help
 # inform which variables to retain when assessing collinearity in next step.
-
+## local
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$clim_vars
+        modeling_vars_update$local_vars_all$clim_vars # local_vars_all and local_vars_all_no_nla are the same
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
@@ -20,37 +20,70 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
     )
 
-# No noteable correlations
-
-# 2. INSPECT VARIABLES FOR COLLINEARITY-------------
-# yes, some correlation
+# 0.113, CH4 ebu and delta_bp_ebu
+  
+## global
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$clim_vars
+        modeling_vars_update$global_vars$clim_vars # 
       ) # close unname
+    ), # close all_of
+    ch4_diffusion, ch4_ebullition, ch4_total) %>% 
+    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    theme(
+      axis.text = element_blank(),
+      strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
     )
-    ) %>%
-  # chem variables are repeated for each site in a lake
-  # filter to unique value to simplify the plot
-  distinct() %>%
-  #cor(use = "pairwise.complete.obs") %>%
-  GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
-  theme(strip.text = element_text(size = 5),
-        axis.text = element_blank())
-
+# no much 
+    
+# 2. INSPECT VARIABLES FOR COLLINEARITY----
+  # local. These will be further broken up by mechanism
   
-
+  ## local diffusion----
   # VIF < 2, all good
-  dat_trans %>%
+  dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$clim_vars
+        modeling_vars_update$local_vars_all$clim_vars # local_vars_all and local_vars_all_no_nla are the same
       ) # close unname
-    )) %>%
-    # filter to unique values
-    distinct() %>%
+    ), # close all_of
+    -l_precipitation_trap, -wind_speed_trap, -delta_bp_ebu # exclude ebullition vars
+    ) %>%
     corvif(.)
+    
+  ## local ebullition----
+  # VIF < 2, all good
+  dat_trans %>% 
+    select(all_of(
+      unname( # attributes must be stripped for all_of
+        modeling_vars_update$local_vars_all$clim_vars # local_vars_all and local_vars_all_no_nla are the same
+      ) # close unname
+    ), # close all_of
+    -l_precipitation_chamber, -l_wind_speed_chamber, -delta_bp_diff # exclude diffusion vars
+    ) %>%
+    corvif(.)    
 
-# no action required, use all vars
+  
+  ## global----
+  # strong correlation among catchment and watershed variables.
+  # go with catchment
+  clim_vars_global <- dat_trans %>% 
+    select(all_of(
+      unname( # attributes must be stripped for all_of
+        modeling_vars_update$global_vars$clim_vars #
+      ) # close unname
+    ) # close all_of
+    ) %>% # close select
+    # exclude variables to achieve VIF < 3
+    select(
+      -contains("ws") # exclude watershed / select catchment variables
+    ) %>%
+    corvif(.) %>%
+    rownames_to_column(var = "variable") # corvif assigns variable names to row names   
+
+return(final_clim_vars = lst(clim_vars_global))
+  
+  
+  
 }

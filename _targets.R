@@ -20,7 +20,8 @@ library(pacman) # load packages outside of tar_make
 #   readxl,
 #   kableExtra,
 #   tictoc,
-#   mgcv
+#   mgcv,
+#   magrittr
 # )
 
 # Set target options:
@@ -38,7 +39,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "readxl",
                  "tictoc",
                  "mgcv",
-                 "spmodel"
+                 "spmodel",
+                 "magrittr" # %<>% in finalize_modeling_vars.R
                  )
   )
 })
@@ -73,6 +75,7 @@ source("R/get_final_clim_vars.R") # restrict clim vars based on collinearity
 source("R/get_final_temp_vars.R") # restrict temp vars based on collinearity
 source("R/get_final_hydrol_vars.R") # restrict hydrol vars based on collinearity
 source("R/get_final_trophic_vars.R") # restrict trophic vars based on collinearity
+source("R/get_final_landscape_vars.R") # restrict landscape vars based on collinearity
 source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 
 # models
@@ -332,20 +335,18 @@ list(
   # ),
 
   # climate vars
-  ## not needed. Using all vars
-  # tar_target(
-  #   name = final_clim_vars,
-  #   command = get_final_clim_vars(dat_trans = dat_trans,
-  #                                   modeling_vars_update = modeling_vars_update)
-  # ),
+  tar_target(
+    name = final_clim_vars,
+    command = get_final_clim_vars(dat_trans = dat_trans,
+                                    modeling_vars_update = modeling_vars_update)
+  ),
 
   # temperature vars
-  ## not needed. Using all vars
-  # tar_target(
-  #   name = final_temp_vars,
-  #   command = get_final_temp_vars(dat_trans = dat_trans,
-  #                                   modeling_vars_update = modeling_vars_update)
-  # ),
+  tar_target(
+    name = final_temp_vars,
+    command = get_final_temp_vars(dat_trans = dat_trans,
+                                    modeling_vars_update = modeling_vars_update)
+  ),
 
   # trophic vars
   tar_target(
@@ -356,6 +357,15 @@ list(
     )
   ),
 
+  # landscape vars
+  tar_target(
+    name = final_landscape_vars,
+    command = get_final_landscape_vars(
+      dat_trans = dat_trans,
+      modeling_vars_update = modeling_vars_update
+    )
+  ),
+  
   # finalize modeling vars
   tar_target(
     name = modeling_vars_final,
@@ -364,6 +374,9 @@ list(
       final_morpho_vars = final_morpho_vars,
       final_hydrol_vars = final_hydrol_vars,
       final_trophic_vars = final_trophic_vars,
+      final_landscape_vars = final_landscape_vars,
+      final_clim_vars = final_clim_vars,
+      final_temp_vars = final_temp_vars,
       dat_trans = dat_trans
     )
   ),

@@ -9,7 +9,7 @@ get_final_morpho_vars <- function(dat_trans, modeling_vars_update) {
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$morpho_vars
+        modeling_vars_update$local_vars_all$morpho_vars # doesn't matter which list we use
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
@@ -27,7 +27,7 @@ get_final_morpho_vars <- function(dat_trans, modeling_vars_update) {
   dat_trans %>% 
     select(all_of(
       unname( # attributes must be stripped for all_of
-        modeling_vars_update$morpho_vars
+        modeling_vars_update$local_vars_all$morpho_vars # doesn't matter which list we use
       ) # close unname
     )
     ) %>%
@@ -50,7 +50,7 @@ get_final_morpho_vars <- function(dat_trans, modeling_vars_update) {
 dat_trans %>%
   select(all_of(
     unname( # attributes must be stripped for all_of
-      modeling_vars_update$morpho_vars
+      modeling_vars_update$local_vars_all$morpho_vars
     ) # close unname
   )) %>%
   # morpho variables are repeated for each site in a lake
@@ -58,45 +58,51 @@ dat_trans %>%
   distinct() %>%
   corvif(.)
 
-#-#-#-#
-# Given the strong correlations across many variables, we need to decide
-# which to keep and which to omit. Since we have site-specific depth, retaining
-# lake-scale depth estimates (mean_depth, max_depth) may not be necessary.
-# Use variance inflation factor to assess collinearity across all variables
-dat_trans %>%
-  select(all_of(
-    unname( # attributes must be stripped for all_of
-      modeling_vars_update$morpho_vars
-    ) # close unname
-  )) %>%
-  select(-mean_depth, -max_depth) %>% # remove these predictors
-  # morpho variables are repeated for each site in a lake
-  # filter to unique value to simplify the plot
-  distinct() %>%
-  corvif(.)
 
-# SURFACE AREA----
-# Define predictors that inlcude surface area
+# SURFACE AREA: LOCAL MODEL----
+# Define predictors that include surface area
 # sequentially remove predictors with VIF > 3
-# l_surface_area, site_depth, littoral_fraction, circularity, l_buoyf
 
-surface_area_vif <- dat_trans %>%
+surface_area_vif_local <- dat_trans %>%
   # start with all predictors
   select(all_of(
     unname( # attributes must be stripped for all_of
-      modeling_vars_update$morpho_vars
+      modeling_vars_update$local_vars_all$morpho_vars
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
-   select(-l_shoreline_length, -l_volume, -l_mean_width,
-          -l_dynamic_ratio, -l_max_length, -l_max_width,
-          -max_depth, -l_shoreline_development) %>%
+    select(-l_shoreline_length, -l_volume, -l_mean_width,
+           -l_dynamic_ratio, -l_max_length, -l_max_width,
+           -max_depth, -l_shoreline_development) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
   distinct() %>%
   corvif(.)
 
-surface_area_vif
+surface_area_vif_local
+
+# SURFACE AREA: GLOBAL MODEL----
+# Define predictors that include surface area
+# sequentially remove predictors with VIF > 3
+
+surface_area_vif_global <- dat_trans %>%
+  # start with all predictors
+  select(all_of(
+    unname( # attributes must be stripped for all_of
+      modeling_vars_update$global_vars$morpho_vars
+    ) # close unname
+  )) %>%
+  # sequentially remove predictors with greatest VIF, but keep surface area
+  select(-l_shoreline_length, -l_volume, -l_mean_width,
+         -l_dynamic_ratio, -l_max_length, -l_max_width,
+         -max_depth, -l_shoreline_development
+  ) %>%
+  # morpho variables are repeated for each site in a lake
+  # filter to unique value to simplify the plot
+  distinct() %>%
+  corvif(.)
+
+surface_area_vif_global
 
 # SHORELINE COMPLEXITY----
 # Define predictors that include shoreline complexity
@@ -107,7 +113,7 @@ shoreline_vif <- dat_trans %>%
   # start with all predictors
   select(all_of(
     unname( # attributes must be stripped for all_of
-      modeling_vars_update$morpho_vars
+      modeling_vars_update$local_vars_all$morpho_vars
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
@@ -131,7 +137,7 @@ dynamic_ratio_vif <- dat_trans %>%
   # start with all predictors
   select(all_of(
     unname( # attributes must be stripped for all_of
-      modeling_vars_update$morpho_vars
+      modeling_vars_update$local_vars_all$morpho_vars
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
@@ -186,24 +192,31 @@ dat_trans %>%
 
 
 # FINAL OPTIONS----
-surface_area_vif
+surface_area_vif_local
+surface_area_vif_global
 shoreline_vif
 dynamic_ratio_vif
 
-# create dataframe containing the three options.
-# this will be used to finalize the list of modeling vars
 
-final_morpho_vars <- imap( # imap to conveniently access list element name
-  lst( # lst conveniently assigns object name to list element
-    surface_area_vif, shoreline_vif, dynamic_ratio_vif
-  ), 
-  ~.x %>% 
-    rownames_to_column(var = "variable") %>% # corvif assigns variable names to row names
-    mutate(group = .y) # add name of variable group (e.g. surface_area_vif)
+# After reviewing the model results with all three groups, 
+# we are going to proceed with the surface area group. Circularity
+# showed up as an important predictor, but the partial dependence plot
+# revealed decreasing emissions with increasing circularity, which is
+# counterintuitive. This is likely due to the negative relationship 
+# between circularity and surface area (smaller reservoirs are more 
+# round than larger reservoirs). While circularity has a relatively 
+# low variance inflation factor score of 1.4, its correlation with 
+# surface area has a rho of 0.5. I propose that we exclude this 
+# variable from the surface area morphometry group. 
+
+
+final_morpho_vars <- lst(
+  surface_area_vars_local_all = surface_area_vif_local,
+  surface_area_vars_local_no_nla = surface_area_vif_local,
+  surface_area_vars_global = surface_area_vif_global
 ) %>%
-  bind_rows %>% # collapse into single df
-  mutate(
-    group = str_replace(group, "vif", "group")
+  map(., ~ rownames_to_column(., var = "variable") %>%
+  filter(variable != "circularity")
   )
 
 return(final_morpho_vars)

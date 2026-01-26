@@ -58,6 +58,11 @@ lake_cat_data <- readr::read_csv(lake_cat_file, guess_max = 5000) %>%
                           15, # landowner denial 
                           1033 # Falls Lake
                           ))) %>%
+  # data fix
+  # watershed area for lake_id 1 is incorrect.
+  # see 1_basin in ArcGIS project surgeLakeDesignMaps, map ch4_001
+  mutate(wsareasqkm = case_when(lake_id == 1 ~ 36.2,
+                                TRUE ~ wsareasqkm)) %>%
 # Aggregate and select variables of interest
   mutate(nitrogencat = manurecat + cbnfcat + fertcat) %>%
   mutate(nitrogenws = manurews + cbnfws + fertws) %>%
@@ -68,6 +73,10 @@ lake_cat_data <- readr::read_csv(lake_cat_file, guess_max = 5000) %>%
     kffactws,
     runoffcat,
     runoffws,
+    precip8110cat, # 1991 - 2020 unavailable 1/26/26
+    precip8110ws, # 1991 - 2020 unavailable 1/26/26
+    tmax8110cat, # 1991 - 2020 unavailable 1/26/26
+    tmax8110ws, # 1991 - 2020 unavailable 1/26/26
     omcat,
     omws,
     scat,
