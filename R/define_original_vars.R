@@ -88,6 +88,7 @@ define_original_vars <- function() {
     "wind_speed_trap",
     "delta_bp_ebu",
     "delta_bp_diff",
+    "shortwave_radiation_sum_mj_m2", # see solar data
     
     # LakeCat variables
     "precip8110cat", # 1981-2010 mean precip (mm) catchment
