@@ -124,8 +124,9 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     arrange(lake_id, site_id, visit)
   
   # 4. temperature variables-----
-  ## local_vars_all and local_vars_no_nla----
-  # sonde temperature value
+  ## local_vars_all and local_vars_no_nla are identical----
+  # sonde temperature value and latitude. Decided to exclude
+  # latitude and use solar irradiance instead.
   
   dat_impute %>% 
     select(lake_id, site_id, visit, 
@@ -139,6 +140,19 @@ define_modeling_vars <- function(original_vars, dat_impute) {
     filter(rowSums(is.na(.)) > 0) %>%
     select(lake_id, site_id, visit, where(anyNA)) %>%
     distinct()  
+  
+  # omit latitude from local predictors
+  modeling_vars$local_vars_all$temp_vars <- 
+    modeling_vars$local_vars_all$temp_vars[!(modeling_vars$local_vars_all$temp_vars == "lat")]
+  
+  modeling_vars$local_vars_no_nla$temp_vars <- 
+    modeling_vars$local_vars_no_nla$temp_vars[!(modeling_vars$local_vars_no_nla$temp_vars == "lat")]
+  
+  ## global_vars
+  modeling_vars$global_vars$morpho_vars <- 
+    modeling_vars$global_vars$morpho_vars[!(modeling_vars$global_vars$morpho_vars %in% exclude_morpho_vars)]
+  
+  
   
   ## global----
   dat_impute %>% 

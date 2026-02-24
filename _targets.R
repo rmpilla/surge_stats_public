@@ -401,13 +401,13 @@ list(
   #                      dat_trans = dat_trans)
   # ),
 
-  # tar_target(
-  #   name = random_forest_object,
-  #   command = run_random_forest(
-  #     modeling_vars_final = modeling_vars_final,
-  #     dat_trans = dat_trans
-  #   )
-  # ),
+  tar_target(
+    name = random_forest_object,
+    command = run_random_forest(
+      modeling_vars_final = modeling_vars_final,
+      dat_trans = dat_trans
+    )
+  ),
 
 
   # REPORTS----
