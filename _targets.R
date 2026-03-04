@@ -15,12 +15,14 @@ library(pacman) # load packages outside of tar_make
 #   GGally, # pairs plots with rho
 #   plotly, # interactive plots
 #   tidymodels, # modeling framework
+#   kableExtra,
 #   sf,
 #   leaflet, # nla_chem_comparison
 #   readxl,
 #   kableExtra,
 #   tictoc,
 #   mgcv,
+#   spmodel,
 #   magrittr
 # )
 
