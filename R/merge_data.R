@@ -12,7 +12,8 @@ merge_data <- function(
     missouri_river_strat_data,
     lake_cat_data,
     nla_chem,
-    bp_data) {
+    bp_data,
+    solar_data) {
   # pivot from long to wide where needed----
   ## site_data----
   ### pivot----
@@ -182,6 +183,11 @@ merge_data <- function(
     ) %>%
     dplyr::full_join(
       bp_data,
+      # will naturally join on these, specify for clarity
+      by = c("lake_id", "site_id", "visit")
+    ) %>%
+    dplyr::full_join(
+      solar_data,
       # will naturally join on these, specify for clarity
       by = c("lake_id", "site_id", "visit")
     ) %>%

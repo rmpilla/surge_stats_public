@@ -66,6 +66,7 @@ source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
 source("R/get_bp_data.R") #format barometric pressure metrics as predictors
+source("R/get_solar_data.R") # ERA5 solar irradiance data
 
 # restrict predictor variable list based on collinearity
 source("R/aed_corvif.R") # load vif function
@@ -237,6 +238,15 @@ list(
     name = ohio_wildlife_chem,
     command = get_ohio_wildlife_chem(ohio_wildlife_chem_file = ohio_wildlife_chem_file)
   ),
+  
+  tar_file(
+    solar_data_file,
+    "input_data/external_data/shortwave_radiation.csv"
+  ),
+  tar_target(
+    name = solar_data,
+             command = get_solar_data(solar_data_file = solar_data_file)
+  ),
 
 
 
@@ -253,7 +263,8 @@ list(
       missouri_river_strat_data = missouri_river_strat_data,
       lake_cat_data = lake_cat_data,
       nla_chem = nla_chem,
-      bp_data = bp_data
+      bp_data = bp_data,
+      solar_data = solar_data
     )
   ),
 
