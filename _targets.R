@@ -2,7 +2,8 @@
 # libraries for _targets.R
 library(targets)
 library(tarchetypes) # for tar_file
-library(visNetwork) # for tar_visnetwork)
+library(visNetwork) # for tar_visnetwork
+library(quarto) # for tar_quarto
 library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
@@ -23,7 +24,9 @@ library(pacman) # load packages outside of tar_make
 #   tictoc,
 #   mgcv,
 #   spmodel,
-#   magrittr
+#   magrittr,
+#   english,
+#   flextable
 # )
 
 # Set target options:
@@ -411,10 +414,24 @@ list(
     )
   ),
 
-
+  tar_target(
+    refs, 
+    "R/references.bib", 
+    format = "file"
+  ),
+  
   # REPORTS----
   tar_render(
     chemistry_and_chla_data_sources_report,
     "reports/chemistry_and_chla_data_sources.Rmd"
+  ),
+  
+# tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 
+# on other targets. It also tracks changes in references.bib
+  tar_quarto(
+    surge_stats_paper, 
+    "R/SuRGE_stats_paper.qmd",
+    quiet = FALSE,
+    output_file = paste0("SuRGE stats paper [version ", Sys.Date(), "]",".docx")
   )
 )

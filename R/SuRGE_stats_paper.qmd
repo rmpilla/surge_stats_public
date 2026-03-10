@@ -1,0 +1,180 @@
+---
+title: "SuRGE stats paper"
+format: docx
+editor: visual
+bibliography: references.bib
+csl: ecosystems.csl # define bib style https://www.zotero.org/styles
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# libraries specified in tar_quarto call in _targets.R. Annoyingly,
+# tar_quarto ignores tar_option_set
+library(targets)
+library(tidyverse)
+library(flextable) # tables
+library(english) # numeric to text
+```
+
+```{r data, message=FALSE}
+# load whatever data objects are needed
+targets::tar_load(dat_raw)
+targets::tar_load(dat_trans)
+targets::tar_load(modeling_vars)
+```
+
+## Introduction
+
+Hello
+
+## Methods
+
+### Data sources
+
+We used a data set from the multiagency Survey of Reservoir Greenhouse gas Emissions (SuRGE) project containing methane emission rates measured at `r dat_trans %>% group_by(lake_id) %>% summarize(n_site = n()) %>% {min(.$n_site)}` to `r dat_trans %>% group_by(lake_id) %>% summarize(n_site = n()) %>% {max(.$n_site)}` locations within 146 US reservoirs [@beaulieu_et_al_in_press]. One hundred and eight reservoirs were selected using a generalized random-tessellation (GRTS) design [@stevens_et_al_2004] and represent a spatially balanced and representative sample of reservoirs across the conterminous United States (CONUS). Thirty two of the reservoirs were selected to encompass a land use and maximum depth gradient across Ohio, Kentucky, and Indiana [@beaulieu_et_al_2020]. The remaining `r 146-108-32 %>% as.english(.)` reservoirs were selected based on special interest (e.g. reference sites, location of related research). Sampling sites within each reservoir were selected using a GRTS design. In some cases the GRTS design included stratification to ensure the placement of sampling sites in areas where high emission rates were expected (e.g. river inflow regions). All reservoirs were sampled once during the summers of 2016-2023, with `r dat_trans %>% filter(visit == 2) %>% distinct(lake_id) %>% {nrow(.)} %>% as.english(.)` reservoirs revisited a second time.
+
+Diffusive CH~4~ emission rates were measured using short-term (`r min(dat_trans$ch4_deployment_length, na.rm = TRUE)` - `r max(dat_trans$ch4_deployment_length, na.rm = TRUE)` seconds) floating chamber deployments. Ebullitive CH~4~ emissions were measured using inverted funnels deployed for `r dat_trans %>% mutate(duration = trap_rtrvl_date_time - trap_deply_date_time) %>% {min(.$duration, na.rm = TRUE)} %>% as.numeric(.) %>% round(., digits = 1)` - `r dat_trans %>% mutate(duration = trap_rtrvl_date_time - trap_deply_date_time) %>% {max(.$duration, na.rm = TRUE)} %>% as.numeric(.) %>% round(., digits = 1)` hours. Vertically resolved temperature and dissolved oxygen profiles, nutrient concentrations (nitrogen, phosphorus, carbon, sulfate), and chlorophyll-*a* (extraction-based) were measured at the deepest sampling site in each reservoir. Basic physicochemistry parameters (temperature, dissolved oxygen, pH, optical sensor based chlorophyll-*a*) and water depth were measured at all sites. See Beaulieu et al (In Press) for full methodological details.
+
+In addition to variables measured during the sampling campaign, the SuRGE dataset contains numerous predictor variables derived from external sources. Reservoir age was derived from the National Inventory of Dams [@usace_2025], sediment carbon content and water residence time were retrieved from the 2017 National Lakes Assessment [@usepa_2022], landscape and mean annual climate variables (e.g. watershed size, soil organic matter content, mean annual precipitation) were retrieved from lakeCat [@hill_et_al_2018], meteorology variables corresponding to the time and location of the emission rate observation were retrieved from ERA5 [@era5_2021], and remotely sensed trophic status estimates were retrieved from LAGOS [@hanly_et_al_2025].
+
+Missing sulfate (n = `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% {nrow(.)}`) and extraction-based chlorophyll-*a* (n = `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% {nrow(.)}`) concentrations were replaced with values obtained from state (e.g. Ohio Department of Natural Resources) or federal (US Army Corps of Engineers, EPA's National Lakes Assessment) monitoring programs. Preference was given to values measured during the same month and year of the emission rate measurements, else the mean of all available data was used. Potential error from imputing missing observations with values from external data sources was assessed by comparing values measured during the SuRGE campaign to those measured during the 2017 and 2022 National Lakes Assessments [@usepa_2022; @usepa_2024. The pearson correlation coefficient (*r*) among chlorophyll-*a* measurements was `r dat_raw %>% select(chla_lab_shallow, nla17_chla, nla22_chla) %>% distinct %>% pivot_longer(!chla_lab_shallow) %>% {cor(.$chla_lab_shallow, .$value, use = "complete.obs") %>% round(digits = 2)}`. Sulfate showed much less temporal variability with an *r* value of `r dat_raw %>% select(so4_shallow, nla17_sulfate, nla22_sulfate) %>% distinct %>% pivot_longer(!so4_shallow) %>% {cor(.$so4_shallow, .$value, use = "complete.obs") %>% round(digits = 2)}`.
+
+### Predictor variables and modeling approach
+Predictor variables representing reservoir morphometry, tropic status, climate, hydrology, watershed, and chemical patterns were selected for use in modeling (Table 1). Variables within each group were assessed for collinearity using the greatest variance inflation factor (VIF). Variables with the greatest VIF were removed until all variables had a VIF less than three [@montgomery_peck_1992]. The final collection of variables used in each model were screened for collinearity using the same approach.  The final set of variables used in the models are presented in Table 1.
+
+Models were constructed for each response variable (diffusive, ebullitive, and total CH~4~ emission rates) using predictors that are consistently available in national databases. Another set of models were constructed that supplemented, or replaced, the national predictors with those directly measured during the sampling campaign. For example, the national model included remote sensing estimates of chlorophyll-*a*, which are widely available for the US [@hanly_et_al_2025], whereas the local-measurement model used direct measurements of chlorophyll-*a*. Comparison of these two sets of models was used to determine how much prediction accuracy improves when investigators expend the resources to conduct an "on the ground" investigation, rather than relying exclusively on widely available data. 
+
+
+
+```{r}
+#| label: table_1
+#| tbl-cap: "Table 1. Variables used in Random Forest model."
+
+
+
+# code to print variables. Manually compiled into list below.
+# Couldn't figure out elegant coding solution.
+# bind_rows(
+#   # local_vars first
+#   modeling_vars$local_vars_all %>%
+#     imap(., ~ tibble(group = .y, variable = .x, scale = "local")) %>%
+#     list_rbind() %>%
+#     filter(group == "clim_vars"),
+#   # global vars
+#   modeling_vars$global_vars %>%
+#     imap(., ~ tibble(group = .y, variable = .x, scale = "global")) %>%
+#     list_rbind()%>%
+#     filter(group == "clim_vars")
+# )
+
+
+table1_dat <- tribble(
+  ~Variable_Group, ~Variable, ~Scale, ~Response,
+  
+  # morphometry
+  "morphometry", "buoyancy frequency", "local", "diffusion/ebullition/total",
+  "morphometry", "site_depth", "local", "diffusion/ebullition/total",
+  "morphometry", "circularity", "local/global", "diffusion/ebullition/total",      
+  "morphometry","dynamic_ratio", "local/global", "diffusion/ebullition/total",        
+  "morphometry","littoral_fraction", "local/global", "diffusion/ebullition/total",    
+  "morphometry","max_depth", "local/global", "diffusion/ebullition/total",           
+  "morphometry",  "max_length", "local/global", "diffusion/ebullition/total",           
+  "morphometry",  "max_width", "local/global", "diffusion/ebullition/total",            
+  "morphometry",  "mean_depth", "local/global", "diffusion/ebullition/total",           
+  "morphometry",  "mean_width", "local/global", "diffusion/ebullition/total",           
+  "morphometry",  "shoreline_development", "local/global", "diffusion/ebullition/total",
+  "morphometry", "shoreline_length", "local/global", "diffusion/ebullition/total",     
+  "morphometry", "surface_area", "local/global", "diffusion/ebullition/total",        
+  "morphometry", "volume", "local/global", "diffusion/ebullition/total",
+  
+  # climate
+  "climate", "temp_deep", "local", "diffusion/ebullition/total",
+  "climate", "temp_shallow", "local", "diffusion/ebullition/total",
+  "climate", "precipitation_chamber", "local", "diffusion",
+  "climate", "precipitation_trap", "local", "ebullition",
+  "climate", "wind_speed_chamber", "local", "diffusion",
+  "climate", "wind_speed_trap", "local", "ebullition",
+  "climate", "delta_bp_ebu", "local", "ebullition",
+  "climate", "delta_bp_diff", "local", "diffusion",
+  "climate", "shortwave_radiation_sum_mj_m2", "local", "diffusion",
+  "climate", "precip8110cat", "global", "diffusion/ebullition/total",
+  "climate", "precip8110ws", "global", "diffusion/ebullition/total",
+  "climate", "runoffcat", "global", "diffusion/ebullition/total",
+  "climate", "runoffws", "global", "diffusion/ebullition/total",
+  "climate", "max temperature 1981 - 2010", "global", "diffusion/ebullition/total",
+  
+  
+  # trophic
+  "trophic", "chla_lab_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "no2_3_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "tp_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "tn_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "op_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "toc_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "chla_sonde_shallow", "local", "diffusion/ebullition/total",
+  "trophic", "nla17_sed_c", "local", "diffusion/ebullition/total",
+  "trophic", "chl_predicted_sample_month_visit1", "global", "diffusion/ebullition/total",
+  "trophic", "doc_predicted_sample_month_visit1", "global", "diffusion/ebullition/total",
+  
+  # hydrology
+  "hydrology", "evaporation:inflow", "local", "diffusion/ebullition/total",
+  "hydrology", "sidence_time", "local", "diffusion/ebullition/total",
+  
+  # landscape
+  "landscape", "wsareasqkm", "local/global", "diffusion/ebullition/total",
+  "landscape", "rda", "local/global", "diffusion/ebullition/total",
+  "landscape", "kffactcat", "global",  "diffusion/ebullition/total",
+  "landscape", "omcat", "global",  "diffusion/ebullition/total",
+  "landscape", "scat", "global",  "diffusion/ebullition/total",
+  "landscape", "pctcrop2019cat", "global",  "diffusion/ebullition/total",
+  "landscape", "wsareasqkm", "global",  "diffusion/ebullition/total",
+  "landscape", "nitrogencat", "global",  "diffusion/ebullition/total",
+  "landscape", "agkffactcat", "global",  "diffusion/ebullition/total",
+  "landscape", "elevcat", "global",  "diffusion/ebullition/total",
+  
+  # chemistry
+  "chemistry", "NH4+", "local", "diffusion/ebullition/total",
+  "chemistry", "SO42-", "local", "diffusion/ebullition/total",
+  "chemistry", "TOC", "local", "diffusion/ebullition/total",
+  "chemistry", "DO deep", "local", "diffusion/ebullition/total",
+  "chemistry", "DO shallow", "local", "diffusion/ebullition/total",
+  
+  # other
+  "other", "reservoir age", "local", "diffusion/ebullition/total",
+  "other", "ecoregion", "local/global", "diffusion/ebullition/total"
+)
+
+# see top of code chunk for caption
+flextable(table1_dat) %>%
+  theme_booktabs() %>%
+  autofit() %>%
+  fontsize(size = 8, part = "all") %>%
+  padding(padding = 0, part = "all") %>% # Set all padding to 0 points
+  line_spacing(space = 1, part = "all")   # Set line spacing to single space (1)
+
+
+
+
+```
+
+Random forests [@breiman_2001], a machine learning technique, were used to relate CH~4~ emission rates (diffusive, ebullitive, total) to predictor variables (Table 1). This method was chosen because it can accommodate non-linear relationships, interactions, and collinearity among predictor variables, all of which are present in the data. Random forests are a collection of regression trees, where each tree is trained on a bootstrapped sample of the data and predictors. Predictions from the random forest model are an average of the predictions across the individual trees. Model error for each  tree in the random forest is quantified by comparing the observations that were withheld from each tree by the bootstrap sampling procedure, to the value predicted for those observations. These prediction errors are averaged across the ensemble of trees and reported as the out-of-bag (OOB) model error.
+
+The relative importance of predictor variables was ranked using the permutation variable importance method [@breiman_2001; @wright_et_al_2016]. Permutation variable importance is calculated using a two-step method. In the first step, the OOB performance is calculated for each tree. In the second step, the values for the predictor variable of interest are randomly permuted, and the OOB performance recalculated. The difference between the two OOB values is the permuted importance for the variable of interest. This procedure is repeated for each variable and the permuted importance values averaged across all trees. Relationships between response and predictor values were further investigated using partial dependence plots (PDPs) which show the marignal effect of a single predictor on the response while accounting for the average effect of the other predictors in the model [@friedman_2001].
+
+Response variables were log transformed to optimize model fitting and prediction because non-constant variation across regression tree residuals gives greater weight to higher variance data [@death_fabricius_2000]. Random forest modeling was conducted using the ranger package [@wright_ziegler_2017] in R [@r_core_team_2025] with four predictor variables randomly sampled at each split (mtry argument), a minimum of five observations per node (min.node.size argument), and a total of 500 trees per random forest (num.trees argument).
+
+
+## Results
+
+
+```{r table_2}
+
+
+
+```
+
+
+
+
+
+## References
