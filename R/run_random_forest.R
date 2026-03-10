@@ -42,7 +42,7 @@ run_random_forest <- function(dat_trans,
   set.seed(102322)
   random_forest_object <- map(formula_list, ~ spmodel::splmRF(., 
                                                               data = dat_trans, 
-                                                              random = ~ (1 | as.character(lake_id)) + (1 | sample_month),
+                                                              random = ~ (1 | lake_id) + (1 | sample_month),
                                                               spcov_type = "exponential", # coords inherited from sf object
                                                               quantreg = T,
                                                               keep.inbag = T,
