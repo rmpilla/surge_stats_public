@@ -48,9 +48,6 @@ Models were constructed for each response variable (diffusive, ebullitive, and t
 ```{r}
 #| label: table_1
 #| tbl-cap: "Table 1. Variables used in Random Forest model."
-
-
-
 # code to print variables. Manually compiled into list below.
 # Couldn't figure out elegant coding solution.
 # bind_rows(
@@ -65,8 +62,6 @@ Models were constructed for each response variable (diffusive, ebullitive, and t
 #     list_rbind()%>%
 #     filter(group == "clim_vars")
 # )
-
-
 table1_dat <- tribble(
   ~Variable_Group, ~Variable, ~Scale, ~Response,
   
@@ -142,7 +137,6 @@ table1_dat <- tribble(
   "other", "reservoir age", "local", "diffusion/ebullition/total",
   "other", "ecoregion", "local/global", "diffusion/ebullition/total"
 )
-
 # see top of code chunk for caption
 flextable(table1_dat) %>%
   theme_booktabs() %>%
@@ -150,9 +144,6 @@ flextable(table1_dat) %>%
   fontsize(size = 8, part = "all") %>%
   padding(padding = 0, part = "all") %>% # Set all padding to 0 points
   line_spacing(space = 1, part = "all")   # Set line spacing to single space (1)
-
-
-
 
 ```
 
@@ -165,9 +156,6 @@ Response variables were log transformed to optimize model fitting and prediction
 ## Results
 
 ```{r table_2}
-
-
-
 ```
 
 ## Discussion

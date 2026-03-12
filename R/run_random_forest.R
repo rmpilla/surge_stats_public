@@ -48,9 +48,9 @@ run_random_forest <- function(dat_trans,
                                                               keep.inbag = T,
                                                               na.action = "na.omit",
                                                               importance = "permutation",
-                                                              local = TRUE, # faster performance, omit for final model
-                                                              partition_factor = ~ lake_id)) # This restricts covariance to within lakes
-  
+                                                              local = TRUE # faster performance, omit for final model
+                                                              ) 
+  )
   
   
   

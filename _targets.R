@@ -7,7 +7,7 @@ library(quarto) # for tar_quarto
 library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
-
+library(trackdown) # manage interaction with google docs
 
 # # for development
 # pacman::p_load(
