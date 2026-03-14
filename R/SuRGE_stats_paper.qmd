@@ -29,7 +29,7 @@ Hello
 
 ## Methods
 
-### Data sources
+### Data sources\[a\]
 
 We used a data set from the multiagency Survey of Reservoir Greenhouse gas Emissions (SuRGE) project containing methane emission rates measured at `r dat_trans %>% group_by(lake_id) %>% summarize(n_site = n()) %>% {min(.$n_site)}` to `r dat_trans %>% group_by(lake_id) %>% summarize(n_site = n()) %>% {max(.$n_site)}` locations within 146 US reservoirs [@beaulieu_et_al_in_press]. One hundred and eight reservoirs were selected using a generalized random-tessellation (GRTS) design [@stevens_et_al_2004] and represent a spatially balanced and representative sample of reservoirs across the conterminous United States (CONUS). Thirty two of the reservoirs were selected to encompass a land use and maximum depth gradient across Ohio, Kentucky, and Indiana [@beaulieu_et_al_2020]. The remaining `r 146-108-32 %>% as.english(.)` reservoirs were selected based on special interest (e.g. reference sites, location of related research). Sampling sites within each reservoir were selected using a GRTS design. In some cases the GRTS design included stratification to ensure the placement of sampling sites in areas where high emission rates were expected (e.g. river inflow regions). All reservoirs were sampled once during the summers of 2016-2023, with `r dat_trans %>% filter(visit == 2) %>% distinct(lake_id) %>% {nrow(.)} %>% as.english(.)` reservoirs revisited a second time.
 
@@ -48,9 +48,6 @@ Models were constructed for each response variable (diffusive, ebullitive, and t
 ```{r}
 #| label: table_1
 #| tbl-cap: "Table 1. Variables used in Random Forest model."
-
-
-
 # code to print variables. Manually compiled into list below.
 # Couldn't figure out elegant coding solution.
 # bind_rows(
@@ -65,8 +62,6 @@ Models were constructed for each response variable (diffusive, ebullitive, and t
 #     list_rbind()%>%
 #     filter(group == "clim_vars")
 # )
-
-
 table1_dat <- tribble(
   ~Variable_Group, ~Variable, ~Scale, ~Response,
   
@@ -142,7 +137,6 @@ table1_dat <- tribble(
   "other", "reservoir age", "local", "diffusion/ebullition/total",
   "other", "ecoregion", "local/global", "diffusion/ebullition/total"
 )
-
 # see top of code chunk for caption
 flextable(table1_dat) %>%
   theme_booktabs() %>%
@@ -150,9 +144,6 @@ flextable(table1_dat) %>%
   fontsize(size = 8, part = "all") %>%
   padding(padding = 0, part = "all") %>% # Set all padding to 0 points
   line_spacing(space = 1, part = "all")   # Set line spacing to single space (1)
-
-
-
 
 ```
 
@@ -165,14 +156,15 @@ Response variables were log transformed to optimize model fitting and prediction
 ## Results
 
 ```{r table_2}
-
-
-
 ```
 
 ## Discussion
 
-The negative relationship between depth and reservoir methane emissions is consistent with previous work at global [@deemer_2021], regional [@west_2016], and site-specific scales [@desrosiers_2022]. At the global scale, previous work has found maximum depth to be a more informative predictor of total emissions, but this was based on a very small sample size (n=9 reservoirs, [@deemer_2021]). For ebullition, deeper depths result in more methane dissolution as bubbles rise further distances before eventually reaching the atmosphere. Together with initial bubble size, the water depth determines the fraction of methane in the original bubble that ultimately reaches the atmosphere [@mcginnis_2006]. The random forest predicts a steep decline in ebullition, with very minimal bubbling at depths deeper than \~10m, corresponding to bubble sizes \<2mm in the McGinnis et al. model [@mcginnis_2006]. Reservoirs with a shallow depth may also lead to more diffusive flux due to disproportionate emissions from vegetated littoral zones [@delsontro_2018; @desrosiers_2022]. For diffusion, one global study estimated that 85% of diffusive methane fluxes originate from lakes with a mean depth \<5m [@li_2020]. Our random forest predicts the sharpest reductions in methane diffusion at a depth threshold of about 2.5 m, with very low emissions beyond depths of about 12 m. For total emissions, our random forest model predicts the sharpest reduction in emissions for lakes with mean depths \<5 m. A maximum depth of 5 m was recently proposed as a threshold above or below which lakes, ponds and wetlands show non-linear changes in a variety of ecosystem metrics, although no such threshold was found for methane [@richardson_2022].
+Measures of lake morphometry were important predictors of CH~4~ emission rates across all models, which is consistent with previous work at global [@deemer_2021], regional [@west_2016], and site-specific scales [@desrosiers_2022]. The models utilizing predictors measured on-site (“local models” hereafter) identified mean reservoir depth as the second most important predictor \[CITE VIP PLOTS HERE\], with all emission pathways (diffusion, ebullition, total) exhibiting a steep, non-linear decline in emission rates with increasing depth. Diffusive emission rates fell sharply as mean reservoir depth increased from a minimum of \[INSERT CODE HERE\], the shallowest waterbody in the dataset, to about 2.5 m, with very low emission rates beyond depths of about 12 m (CITE PDP FIG HERE). These depth thresholds roughly align with a recent global study that estimated 85% of diffusive CH~4~ fluxes originate from lakes with a mean depth \<5 m [@li_2020]. This pattern may reflect the relatively greater abundance of vegetated littoral zones, a known hot spot for CH~4~ production \[CITATION\], in shallower reservoirs [@delsontro_2018; @desrosiers_2022]. This explanation is supported by the random forest models which identified the fraction of the waterbody \<3 m deep, a functional definition of the littoral zone, as the single most important predictor of CH~4~ emission rates. \[b\]While mean reservoir depth was an important predictor of diffusive emission rates, site-specific depth measurements were not. This may be because dissolved CH~4~, which drives diffusive emissions, can be widely advected throughout a waterbody. For example, CH~4~ produced in littoral sediment can be advected to the center of deep waterbodies before diffusing across the air-water interface [@delsontro_2018], thereby decoupling the depth of CH~4~ production from the depth of CH~4~ emission. By contrast, ebullitive emissions occur at the site of CH~4~ production and the random forest identified site-depth as the third most important predictor for this emission pathway. Deeper depths result in more methane dissolution as bubbles rise further distances before eventually reaching the atmosphere. Together with initial bubble size, the water depth determines the fraction of methane in the original bubble that ultimately reaches the atmosphere [@mcginnis_2006]. The random forest predicts a steep decline in ebullition, with very minimal bubbling at depths deeper than \~10m. , corresponding to bubble sizes \<2mm in the McGinnis et al. model [@mcginnis_2006].
+
+Total CH~4~ emission rates reflect the sum of diffusive and ebullitive emission rates, thus the factors controlling total emission rates are a blend of those controlling diffusion and ebullition. Site depth was not identified as an important predictor of total CH~4~ emission rates, likely because, on average, diffusion contributed more to total emissions than ebullition \[VERIFY THIS\]. Our random forest model predicts a steep decline in total emission rates as depth increases to approximately 5 m. 5 m was recently proposed as a threshold above or below which lakes, ponds and wetlands show non-linear changes in a variety of ecosystem metrics, although no such threshold was found for methane [@richardson_2022] . The importance of mean reservoir depth was also apparent in the models restricted to predictor variables that are widely available across the US (“national model” hereafter). Estimates of mean depth are available for many US waterbodies in the NHDPlusV2 database\[c\] and across the globe in the GLOBathy data set [@khazaei_2022]. At the global scale, previous work has found maximum depth to be a more informative predictor of total emissions, but this was based on a very small sample size (n=9 reservoirs, [@deemer_2021]). Due to strong collinearity among morphological variables, maximum depth was excluded from our national models.
+
+##I think it makes sense to continue with the morphology theme in the next paragraph. We ##already mentioned littoral_fraction above. RDA and surface area show up in some models, so ##perhaps worth mentioning here?
 
 The relationship between total and diffusive methane emissions and sediment carbon is consistent with the notion that most methane is produced within reservoir sediments [@bastviken_2008] and that higher concentrations of sediment carbon will fuel methanogenesis [@bodmer_2025]. One study across 72 aquatic systems found that sediment methane production potential was strongly related to the percent organic carbon in the sediments, while also noting that reservoirs tended to have higher sediment methane production potential than natural lakes [@bodmer_2025]. Another recent study showed how phytoplankton-derived acidic polysaccharides can promote very high rates of particulate organic carbon sedimentation which may directly fuel methanogenesis on a \~2 week lag [@martinez_2024]. While sediment C concentrations may be highly variable within a reservoir [@berberich_2019], the National Lakes Assessment measurements used here specified that sediment carbon be collected from the index site, which is defined as the deepest point near the middle of the reservoir \<50m. Thus, the NLA sediment C represents a spatially consistent metric of sediment C availability.
 
@@ -181,3 +173,9 @@ There were relatively fewer strong predictors of methane ebullition, which is co
 We were surprised that age was not identified as a top predictor of methane emission.
 
 ## References
+
+\[a\]Add n for each pathway \[b\]@rachelmpilla@gmail.com
+
+This seems like the natural spot to discuss the littoral fraction x mean depth interaction, but I'm having a tough time coming up with a reasonable explanation. For diffusion, the interaction says that as depth increases, rates will drop more quickly in lakes with lots of littoral vs those with little littoral? \[c\]@hollister.jeff@epa.gov
+
+Jeff, can you recommend a citation for your lakeMorpho estimates that have been integrated in NHDPlusV2? Feel free to rewrite this statement as you see fit. *Assigned to hollister.jeff*
