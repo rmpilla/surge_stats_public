@@ -45,7 +45,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "tictoc",
                  "mgcv",
                  "spmodel",
-                 "magrittr" # %<>% in finalize_modeling_vars.R
+                 "magrittr", # %<>% in finalize_modeling_vars.R
+                 "patchwork" # multiple ggplot panels
                  )
   )
 })
@@ -87,6 +88,10 @@ source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 # models
 #source("R/run_gamm.R") # create gam_object, list of gams
 source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
+
+# manuscript
+source("R/get_table2_dat.R") # data for table 2
+source("R/make_predicted_observed_plot_main_text.R")
 
 # TARGETS PIPELINE------------------
 
@@ -414,16 +419,33 @@ list(
     )
   ),
 
-  tar_target(
-    refs, 
-    "R/references.bib", 
-    format = "file"
-  ),
   
   # REPORTS----
   tar_render(
     chemistry_and_chla_data_sources_report,
     "reports/chemistry_and_chla_data_sources.Rmd"
+  ),
+  
+  # MANUSCRIPT----
+  tar_target(
+    name = table2_dat,
+    command = get_table2_dat(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans)
+  ),
+  
+  tar_target(
+    name = predicted_observed_plot,
+    command = make_predicted_observed_plot_main_text(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans
+    )
+  ),
+  
+  tar_target(
+    refs, 
+    "R/references.bib", 
+    format = "file"
   ),
   
 # tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 

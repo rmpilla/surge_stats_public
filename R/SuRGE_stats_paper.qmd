@@ -23,6 +23,8 @@ targets::tar_load(dat_raw)
 targets::tar_load(dat_trans)
 targets::tar_load(modeling_vars)
 targets::tar_load(random_forest_object)
+targets::tar_load(table2_dat)
+targets::tar_load(predicted_observed_plot)
 ```
 
 ## Introduction
@@ -43,7 +45,7 @@ While sulfate and chlorophyll-*a* samples were collected for the majority of nat
 
 ### Predictor variables and modeling approach
 
-Predictor variables representing reservoir morphometry, tropic status, climate, hydrology, watershed, and chemical patterns were selected for use in modeling **(Table 1)**. Variables within each group were assessed for collinearity using variance inflation factor (VIF) values [a][@montgomery_peck_1992]. Variables with the greatest VIF were removed until all variables had a VIF less than three. The final collection of variables used in each model were screened for collinearity using the same approach. Several morphological variables were collinear and we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF \> 3 including dynamic ratio and shoreline complexity. We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (pearson correlation coefficient = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021]. The final set of variables used in the models are presented in **Table 1**.
+Predictor variables representing reservoir morphometry, tropic status, climate, hydrology, watershed, and chemical patterns were selected for use in modeling **(Table 1)**. Variables within each group were assessed for collinearity using variance inflation factor (VIF) values \[a\][@montgomery_peck_1992]. Variables with the greatest VIF were removed until all variables had a VIF less than three. The final collection of variables used in each model were screened for collinearity using the same approach. Several morphological variables were collinear and we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF \> 3 including dynamic ratio and shoreline complexity. We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (pearson correlation coefficient = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021]. The final set of variables used in the models are presented in **Table 1**.
 
 Models were constructed for each response variable (diffusive, ebullitive, and total CH~4~ emission rates) using predictors that are consistently available in national databases. Another set of models were constructed that supplemented, or replaced, the national predictors with those directly measured during the sampling campaign. For example, the national model included remote sensing estimates of chlorophyll-*a*, which are widely available for the US [@hanly_et_al_2025], whereas the local-measurement model used direct measurements of chlorophyll-*a*. Comparison of these two sets of models was used to determine how much prediction accuracy improves when investigators expend the resources to conduct an "on the ground" investigation, rather than relying exclusively on widely available data. **Table 2** reports the total number of observations included in each model.
 
@@ -150,7 +152,6 @@ flextable(table1_dat) %>%
   fix_border_issues() 
 ```
 
-
 Random forests [@breiman_2001], a machine learning technique, were used to relate CH~4~ emission rates (diffusive, ebullitive, total) to predictor variables **(Table 1)**. This method was chosen because it can accommodate non-linear relationships, interactions, and collinearity among predictor variables, all of which are present in the data. Random forests are a collection of regression trees, where each tree is trained on a bootstrapped sample of the data and predictors. Predictions from the random forest model are an average of the predictions across the individual trees. Model error for each tree in the random forest is quantified by comparing the observations that were withheld from each tree by the bootstrap sampling procedure, to the value predicted for those observations. These prediction errors are averaged across the ensemble of trees and reported as the out-of-bag (OOB) model error.
 
 The relative importance of predictor variables was ranked using the permutation variable importance method [@breiman_2001; @wright_et_al_2016]. Permutation variable importance is calculated using a two-step method. In the first step, the OOB performance is calculated for each tree. In the second step, the values for the predictor variable of interest are randomly permuted, and the OOB performance recalculated. The difference between the two OOB values is the permuted importance for the variable of interest. This procedure is repeated for each variable and the permuted importance values averaged across all trees. Relationships between response and predictor values were further investigated using partial dependence plots (PDPs) which show the marginal effect of a single predictor on the response while accounting for the average effect of the other predictors in the model [@friedman_2001].
@@ -160,106 +161,9 @@ Response variables were log transformed to optimize model fitting and prediction
 ## Results
 
 Table of model results.
+
 ```{r model_performance, echo=FALSE, warning=FALSE, message=FALSE}
-# PLOT PREDICTED VS OBSERVED AND REPORT ERROR METRICS----
-# get OOB predictions and training data
-rf_dat <- c()
-for(i in 1:length(random_forest_object)){
-  # extract OOB predictions from model
-  predicted_log = random_forest_object[[i]]$ranger$predictions
-  
-  # extract response variable
-  ## \\.: Matches a literal period (.). The backslash is escaped with another backslash for R.
-  ## .*: Matches any character (except a newline) zero or more times.
-  ## "": Replaces the matched pattern (the first . and everything after) with an empty string. 
-  response = sub("\\..*", "", names(random_forest_object)[i])
-  
-  # extract model_var name
-  ## Matches the start (^) followed by the fewest characters (.*?) 
-  ## and a literal dot (\\.) and replaces them with an empty string ("")
-  model_var_set = sub("^.*?\\.", "", names(random_forest_object)[i])
-  
-  # extract predictor variables
-  predictor_vars = names(random_forest_object[[i]]$ranger$variable.importance)
-  
-  # use response and predictor names to extract the training data
-  observed_linear = dat_trans %>%
-    select(
-      response, all_of(predictor_vars) # vars in model
-    ) %>%
-    drop_na() %>% # omit any rows with NA
-    pull(response)
-  
-  rf_dat_i <- tibble(
-    predicted_log,
-    observed_linear,
-    response,
-    model_var_set
-  ) %>%
-    mutate(predicted_linear = expm1(predicted_log),
-           observed_log = log1p(observed_linear))
-  
-  rf_dat <- bind_rows(rf_dat_i, rf_dat)
-}
-
-# now get model OOB r2
-rf_r2_ranger <- c()
-for(i in 1:length(random_forest_object)){
-  # extract response variable
-  ## \\.: Matches a literal period (.). The backslash is escaped with another backslash for R.
-  ## .*: Matches any character (except a newline) zero or more times.
-  ## "": Replaces the matched pattern (the first . and everything after) with an empty string. 
-  response = sub("\\..*", "", names(random_forest_object)[i])
-  
-  # extract model_var name
-  ## Matches the start (^) followed by the fewest characters (.*?) 
-  ## and a literal dot (\\.) and replaces them with an empty string ("")
-  model_var_set = sub("^.*?\\.", "", names(random_forest_object)[i])
-  
-  # extract r2
-  ranger_r2_log = random_forest_object[[i]]$ranger$r.squared
-  
-  rf_r2_i <- tibble(
-    response,
-    model_var_set,
-    ranger_r2_log
-  ) 
-  rf_r2_ranger <- bind_rows(rf_r2_ranger, rf_r2_i)
-}
-# now calculate OOB r2 for linear and log
-# log should be same as extracted from ranger
-rf_r2_manual <- 
-  rf_dat %>% 
-  group_by(response, model_var_set) %>%
-  summarize(
-    manual_r2_log = glance(lm(predicted_log ~ observed_log))$r.squared,
-    manual_r2_linear = glance(lm(predicted_linear ~ observed_linear))$r.squared,
-    nobs = glance(lm(predicted_log ~ observed_log))$nobs  
-  )
-
-
-# Calculate and merge performance metrics
-rf_dat %>% 
-  group_by(response, model_var_set) %>%
-  summarize(
-    mae_log = abs(observed_log - predicted_log) %>% mean(.),
-    mse_log = (observed_log - predicted_log)^2 %>% mean(.),
-    rmse_log = sqrt(mse_log),
-    mae_linear = (observed_linear - predicted_linear) %>% mean(.),
-    mse_linear = (observed_linear - predicted_linear)^2 %>% mean(.),
-    rmse_linear = sqrt(mse_linear)
-  ) %>%
-  full_join(
-    rf_r2_ranger) %>%
-  full_join(
-    rf_r2_manual
-  ) %>%
-  select(
-    response, model_var_set,
-    mse_log, rmse_log, mae_log, r2_log = ranger_r2_log,
-    mse_linear, rmse_linear, mae_linear, r2_linear = manual_r2_linear,
-    nobs
-  ) %>%
+table2_dat %>%
   flextable(.) %>%
   theme_booktabs() %>%
   fontsize(size = 8, part = "all") %>%
@@ -283,47 +187,31 @@ rf_dat %>%
   autofit()
 ```
 
-
 Predicted vs observed
 
 ```{r pred_obs, echo=FALSE, warning=FALSE, message=FALSE}
+#| fig-width: 6
+#| fig-height: 3
+#| fig-align: "center"
+#| out-width: "80%"
+#| fig-cap: "Figure 2. Predicted versus observed diffusive emission rates in A) log and b) linear scales."
+#| fig-cap-location: bottom
+
 # plot predicted vs observed
-rf_dat %>%
-  filter(
-    observed_linear < 20000, # omit Comins lake outlier
-    model_var_set != "local_vars_no_nla", # simplify by omitting no_nla model
-    response == "ch4_diffusion" # one response to simplify plot
-  ) %>%
-  tibble::rowid_to_column("row_id") %>%
-  pivot_longer(!c(row_id, response, model_var_set)) %>%
-  mutate(pred_obs = case_when(
-    grepl("observed", name) ~ "observed",
-    grepl("predicted", name) ~ "predicted"
-  ),
-  scale = case_when(
-    grepl("log", name) ~ "log",
-    grepl("linear", name) ~ "linear"
-  )) %>%
-  select(-name) %>%
-  filter(!is.na(value)) %>%
-  pivot_wider(
-    names_from = c("pred_obs"),
-    values_from = "value"
-  ) %>%
-  ggplot(aes(observed, predicted)) +
-  geom_point() +
-  geom_abline(slope = 1, intercept = 0) +
-  facet_wrap(~scale + response + model_var_set, scales = "free")
+predicted_observed_plot
 
 
 
 ```
 
+
+
+
 ## Discussion
 
 ### Morphometry
 
-Measures of reservoir morphometry were important predictors of CH~4~ emission rates across all models, which is consistent with previous work at global [@deemer_2021], regional [@west_2016], and site-specific scales [@desrosiers_2022]. The models utilizing predictors measured on-site (“local models” hereafter) identified mean reservoir depth as the second most important predictor **\[CITE VIP PLOTS HERE\]**, with all emission pathways (diffusion, ebullition, total) exhibiting a steep, non-linear decline in emission rates with increasing depth. Diffusive emission rates fell sharply as mean reservoir depth increased from a minimum of `r dat_trans %>% {min(.$mean_depth, na.rm = TRUE)}`, the shallowest waterbody in the dataset, to about 2.5 m, with very low emission rates beyond depths of about 12 m **(CITE PDP FIG HERE)**. These depth thresholds roughly align with a recent global study that estimated 85% of diffusive CH~4~ fluxes originate from lakes with a mean depth \<5 m [@li_2020]. This pattern may reflect the relatively greater abundance of vegetated littoral zones, a known hot spot for CH~4~ production **\[CITATION\]**, in shallower reservoirs [@delsontro_2018; @desrosiers_2022]. This explanation is supported by the random forest models which identified the fraction of the waterbody \<3 m deep, a functional definition of the littoral zone, as the single most important predictor of CH~4~ emission rates. [b][c]While mean reservoir depth was an important predictor of diffusive emission rates, site-specific depth measurements were not. This may be because dissolved CH~4~, which drives diffusive emissions, can be widely advected throughout a waterbody. For example, CH~4~ produced in littoral sediment can be advected to the center of deep waterbodies before diffusing across the air-water interface [@delsontro_2018], thereby decoupling the depth of CH~4~ production from the depth of CH~4~ emission. By contrast, ebullitive emissions occur at the site of CH~4~ production and the random forest identified site-depth as the third most important predictor for this emission pathway. Deeper depths result in more methane dissolution as bubbles rise further distances before eventually reaching the atmosphere. Together with initial bubble size, the water depth determines the fraction of methane in the original bubble that ultimately reaches the atmosphere [@mcginnis_2006]. The random forest predicts a steep decline in ebullition, with very minimal bubbling at depths deeper than \~10m.
+Measures of reservoir morphometry were important predictors of CH~4~ emission rates across all models, which is consistent with previous work at global [@deemer_2021], regional [@west_2016], and site-specific scales [@desrosiers_2022]. The models utilizing predictors measured on-site (“local models” hereafter) identified mean reservoir depth as the second most important predictor **\[CITE VIP PLOTS HERE\]**, with all emission pathways (diffusion, ebullition, total) exhibiting a steep, non-linear decline in emission rates with increasing depth. Diffusive emission rates fell sharply as mean reservoir depth increased from a minimum of `r dat_trans %>% {min(.$mean_depth, na.rm = TRUE)}`, the shallowest waterbody in the dataset, to about 2.5 m, with very low emission rates beyond depths of about 12 m **(CITE PDP FIG HERE)**. These depth thresholds roughly align with a recent global study that estimated 85% of diffusive CH~4~ fluxes originate from lakes with a mean depth \<5 m [@li_2020]. This pattern may reflect the relatively greater abundance of vegetated littoral zones, a known hot spot for CH~4~ production **\[CITATION\]**, in shallower reservoirs [@delsontro_2018; @desrosiers_2022]. This explanation is supported by the random forest models which identified the fraction of the waterbody \<3 m deep, a functional definition of the littoral zone, as the single most important predictor of CH~4~ emission rates. \[b\]\[c\]While mean reservoir depth was an important predictor of diffusive emission rates, site-specific depth measurements were not. This may be because dissolved CH~4~, which drives diffusive emissions, can be widely advected throughout a waterbody. For example, CH~4~ produced in littoral sediment can be advected to the center of deep waterbodies before diffusing across the air-water interface [@delsontro_2018], thereby decoupling the depth of CH~4~ production from the depth of CH~4~ emission. By contrast, ebullitive emissions occur at the site of CH~4~ production and the random forest identified site-depth as the third most important predictor for this emission pathway. Deeper depths result in more methane dissolution as bubbles rise further distances before eventually reaching the atmosphere. Together with initial bubble size, the water depth determines the fraction of methane in the original bubble that ultimately reaches the atmosphere [@mcginnis_2006]. The random forest predicts a steep decline in ebullition, with very minimal bubbling at depths deeper than \~10m.
 
 Total CH~4~ emission rates reflect the sum of diffusive and ebullitive emission rates, thus the factors controlling total emission rates are a blend of those controlling diffusion and ebullition. Site depth was not identified as an important predictor of total CH~4~ emission rates, likely because, on average, diffusion contributed more to total emissions than ebullition **\[VERIFY THIS\]**. Our random forest model predicts a steep decline in total emission rates as depth increases to approximately 5 m. 5 m was recently proposed as a threshold above or below which lakes, ponds and wetlands show non-linear changes in a variety of ecosystem metrics, although no such threshold was found for methane [@richardson_2022].
 
@@ -333,24 +221,25 @@ All emission pathways exhibited a non-linear, negative relationship with reservo
 
 Relative drainage area (RDA), calculated as the ratio of watershed to reservoir surface area, serves as a proxy for the per-unit-area loading rate of watershed derived sediment into a reservoir (i.e., g sediment m^-2^ d^-1^) and has been shown to correlate with reservoir CH~4~ emission rates [@beaulieu_et_al_2020]. RDA was identified as the fourth most important predictor in the global models of CH~4~ total and diffusion, but was not selected as an important variable in any of the local models, possibly because the local models also include measurements of sediment organic matter (third most important predictor in the total and diffusive local models) which may serve as a stronger index of carbon availability than RDA.
 
-
 ### Carbon
-The relationship between total and diffusive methane emissions and sediment carbon is consistent with the notion that most methane is produced within reservoir sediments [@bastviken_2008] and that higher concentrations of sediment carbon will fuel methanogenesis [@bodmer_2025]. One study across 72 aquatic systems found that sediment methane production potential was strongly related to the percent organic carbon in the sediments, while also noting that reservoirs tended to have higher sediment methane production potential than natural lakes [@bodmer_2025]. While sediment C concentrations may be highly variable within a reservoir [@berberich_2019], the National Lakes Assessment (NLA) measurements used here specified that sediment carbon be collected from the index site, which is defined as the deepest point near the middle of the reservoir \<50m. Thus, the NLA sediment C represents a spatially consistent metric of sediment C availability. The response of CH~4~ emission rates to increasing sediment carbon availability is constrained by depth, however, with shallow reservoirs responding more strongly than deep systems[d][e] **\[insert interaction figure here\]**. This is likely because only a fraction of sediment-produced CH~4~ is emitted to the atmosphere, with the balance being oxidized in the water column or stored in the sediment, more readily to occur in deeper lakes due to greater vertical distance and hydrostatic pressure. Presumably, the water residence time of dissolved CH~4~ scales with mean depth, with longer residence times and vertical distance to the water surface allowing for a greater fraction of the dissolved CH~4~ to be oxidized. It is also possible that lower water temperatures in the hypolimnion of deeper reservoirs constrain the response of methanogenesis, a temperature dependent process, to carbon loading [@yvon-durocher_2014]. 
+
+The relationship between total and diffusive methane emissions and sediment carbon is consistent with the notion that most methane is produced within reservoir sediments [@bastviken_2008] and that higher concentrations of sediment carbon will fuel methanogenesis [@bodmer_2025]. One study across 72 aquatic systems found that sediment methane production potential was strongly related to the percent organic carbon in the sediments, while also noting that reservoirs tended to have higher sediment methane production potential than natural lakes [@bodmer_2025]. While sediment C concentrations may be highly variable within a reservoir [@berberich_2019], the National Lakes Assessment (NLA) measurements used here specified that sediment carbon be collected from the index site, which is defined as the deepest point near the middle of the reservoir \<50m. Thus, the NLA sediment C represents a spatially consistent metric of sediment C availability. The response of CH~4~ emission rates to increasing sediment carbon availability is constrained by depth, however, with shallow reservoirs responding more strongly than deep systems\[d\]\[e\] **\[insert interaction figure here\]**. This is likely because only a fraction of sediment-produced CH~4~ is emitted to the atmosphere, with the balance being oxidized in the water column or stored in the sediment, more readily to occur in deeper lakes due to greater vertical distance and hydrostatic pressure. Presumably, the water residence time of dissolved CH~4~ scales with mean depth, with longer residence times and vertical distance to the water surface allowing for a greater fraction of the dissolved CH~4~ to be oxidized. It is also possible that lower water temperatures in the hypolimnion of deeper reservoirs constrain the response of methanogenesis, a temperature dependent process, to carbon loading [@yvon-durocher_2014].
 
 Phytoplankton biomass can directly and indirectly influence the availability of carbon to methanogens. Algal derived carbon may sink to the sediments where it can be directly converted to CH~4~ via methanogens [@west_et_al_2015]. Phytoplankton can indirectly promote carbon delivery to sediments by releasing acidic polysaccharides into the water column which bind carbon particulates, both autochthonous and allochthonous, into flocs that settle into the sediment and stimulate methanogenesis [@martinez_2024]. Despite the well documented correlation between chlorophyll-*a* [@west_2016; @deemer_et_al_2016], a proxy for phytoplankton abundance, and CH~4~ emission rates, the random forest did not identify chlorophyll-*a* as an important predictor, despite the broad range of chlorophyll-*a* concentrations across the 146 reservoirs in the SuRGE dataset (`r dat_trans %>% {min(.$chla_lab_shallow, na.rm = TRUE)}` - `r dat_trans %>% {max(.$chla_lab_shallow, na.rm = TRUE)}` $\mu$g L^-1^). This is a surprising finding and may have more to do with temporal variability in chlorophyll-*a* abundance than the relationship between methanogenesis and algal derived carbon. Chlorophyll-*a* can exhibit strong temporal at the daily time-scale in response to patterns in wind and precipitation that can cause phytoplankton biomass to accumulate near the water surface, where the SuRGE chlorophyll-*a* samples were collected, or mix throughout the epilimnion, effectively diluting the chlorophyll-*a* concentration near the water surface. The “snapshot-in-time” style of sampling used in the SuRGE project could not account for these patterns and may not reflect the availability of algal derived carbon in the sediments which integrates across the short-term temporal variation in phytoplankton abundance observed at the water surface.
 
 ### Sulfate
+
 Methane ebullition rates showed a negative non-linear relationship with sulfate (SO~4~^2-^) concentration, the fourth most important predictor in the local model. This finding joins similar reports from waterbodies in the North American Prairies region [@bansal_2023; @soued_2024] and is likely linked to competition for labile carbon between methanogens and SO~4~^2-^ reducers, and/or CH~4~ oxidation coupled with SO~4~^2-^ reduction [@zhou_2024]. The partial dependence plot reveals that ebullition rates fall rapidly up to approximately 500 mg L^-1^, and beyond 1500 mg L^-1^ CH~4~ ebullition is negligible, suggesting that rising SO~4~^2-^ concentrations in freshwaters, driven by a range of human activities [@zak_2021], could ameliorate expected increases in future freshwater CH~4~ emissions [@bastviken_2025].
 
 The diffusive CH~4~ model did not identify SO~4~^2-^ as an important predictor, which aligns with reports from the North American Prairies that ebullition rates are far more sensitive to SO~4~^2-^ than diffusive emission rates [@soued_2024], likely because ebullition rates are directly linked to CH~4~ production and anaerobic oxidation in the sediments, which can be affected by SO~4~^2-^, whereas the effect of sediment processes on diffusive emission rates may be obscured by thermal stratification, which isolates profundal sediments from the epilimnion, horizontal advection of dissolved methane, and CH~4~ oxidation in the water column.
 
 ### Reservoir age
+
 The relationships between CH~4~ emission rates and environmental drivers identified by the RF models are consistent with the literature, but a few previously reported relationships were not evident in the SuRGE data. For example, previous work demonstrated that CH~4~ emission rates tend to decline as reservoirs age because terrestrial carbon that was inundated when the dam was built, a potential carbon source for methanogens, is progressively depleted. This pattern has been demonstrated with time-series investigations of individual reservoirs [@prairie_2021], metanalysis of published data from 89 globally distributed hydroelectric reservoirs [@barros_2011], and is integrated into a well-known model of reservoir GHG emission rates [@prairie_2021] that has been used to construct a timeline of global reservoir GHG emissions from 1900 - 2060 [@soued_2022]. While the SuRGE data includes reservoirs built between `r dat_trans %>% mutate(age = 2006 - year_completed) %>% {min(.$age)}` and `r dat_trans %>% mutate(age = 2006 - year_completed) %>% {max(.$age)}` years ago, relationships between age and CH~4~ emission rates were extremely weak (pearson correlation coefficient = `r dat_trans %>% {cor(.$year_completed, .$ch4_ebullition, use = "pairwise.complete.obs")} %>% round(.,2)`, `r dat_trans %>% {cor(.$year_completed, .$ch4_diffusion, use = "pairwise.complete.obs")} %>% round(.,2)`, and `r dat_trans %>% {cor(.$year_completed, .$ch4_total, use = "pairwise.complete.obs")} %>% round(.,2)` for ebullition, diffusion, and total, respectively) and reservoir age was not identified as an important predictor in any of the RF models. It is unclear why this pattern isn’t evident in the SuRGE data, but it may be related to the relative importance of different carbon sources through time. While soil organic matter may fuel methanogenesis immediately after flooding, the progressive loss of this carbon could be offset by sediment loading from the watershed and the production of autochthonous carbon, particularly in systems with high watershed soil-erodibility and reservoir productivity. Projections of future emissions could be improved through a better understanding of the temporal evolution of reservoir CH~4~ emissions.
 
 ## Section on predictive accuracy?
 
 We could compare models for different pathways:\
-
 
 We can compare global vs local models
 
@@ -358,87 +247,36 @@ Predicted vs observed in log and linear space? Include error bars in plot.
 
 How much uncertainty in inventory predictions from this model? Is this model good enough? How much better than existing models? Where do we go from here? Does more data mean better models? Are statistical/machine learning models the way to go? Should we be moving toward improved mechanistic models?
 
-
 ### Other ideas
+
 There were relatively fewer strong predictors of methane ebullition, which is consistent with the episodic nature of ebullition in both time and space.
-
-
 
 ## References
 
-[a]Bridget Deemer
-1:15 PM Mar 13
-Didn't we have a cutoff rho for the other variables that was higher than this? Probably want to include that in this paragraph.
+\[a\]Bridget Deemer 1:15 PM Mar 13 Didn't we have a cutoff rho for the other variables that was higher than this? Probably want to include that in this paragraph.
 
+Bridget Deemer 1:17 PM Mar 13 Also, Rachel suggested maybe we don't need this text about circularity... but I do kind of like it as it shows an example of how we used our knowledge of the systems we are modeling to not let the random forest give us black box type output. Another way to get at this is a more generic statement that just says that we verified that partial dependence plots were predicting relationships consistent with known mechanisms.
 
+Jake Beaulieu 7:58 AM Mar 16 We did not adopt a rho threshold. We relied exclusively on the VIF values.
 
-Bridget Deemer
-1:17 PM Mar 13
-Also, Rachel suggested maybe we don't need this text about circularity... but I do kind of like it as it shows an example of how we used our knowledge of the systems we are modeling to not let the random forest give us black box type output. Another way to get at this is a more generic statement that just says that we verified that partial dependence plots were predicting relationships consistent with known mechanisms.
+Jake Beaulieu 8:15 AM Mar 16 I concur with the inclusion of the circularity discussion. Casas-Ruiz investigate CH4\~morphology relationships and include similar text in the Methods section.
 
-
-
-Jake Beaulieu
-7:58 AM Mar 16
-We did not adopt a rho threshold. We relied exclusively on the VIF values.
-
-
-
-Jake Beaulieu
-8:15 AM Mar 16
-I concur with the inclusion of the circularity discussion. Casas-Ruiz investigate CH4~morphology relationships and include similar text in the Methods section.
-
-
-
-
-
-
-Casas-Ruiz, J. P., Jakobsson, J. & del Giorgio, P. A. The role of lake morphometry in modulating surface water carbon concentrations in boreal lakes. Environ. Res. Lett. 16, 074037, doi:10.1088/1748-9326/ac0be3 (2021).
-[b]Jake Beaulieu
-12:55 PM Mar 13
-@rachelmpilla@gmail.com
+Casas-Ruiz, J. P., Jakobsson, J. & del Giorgio, P. A. The role of lake morphometry in modulating surface water carbon concentrations in boreal lakes. Environ. Res. Lett. 16, 074037, doi:10.1088/1748-9326/ac0be3 (2021). \[b\]Jake Beaulieu 12:55 PM Mar 13 @rachelmpilla@gmail.com
 
 This seems like the natural spot to discuss the littoral fraction x mean depth interaction, but I'm having a tough time coming up with a reasonable explanation. For diffusion, the interaction says that as depth increases, rates will drop more quickly in lakes with lots of littoral vs those with little littoral?
 
+Rachel Pilla 11:29 AM Yesterday Correct, that's the right interpretation of the interactions. I haven't had time to really think about the explanations for these yet, but here's a go. Lake with high littoral area are mostly \<3 m, and we see a pretty fast decline in diffusive emissions by the time mean depth reaches even \~5 m. I think there's the biggest morphological changes when littoral area is high that influence the production/oxidation/emissions rates (vs when it's already low to begin with -- increasing depth isn't actually affecting low littoral area that's already \>3 m).
 
-Rachel Pilla
-11:29 AM Yesterday
-Correct, that's the right interpretation of the interactions. I haven't had time to really think about the explanations for these yet, but here's a go. Lake with high littoral area are mostly <3 m, and we see a pretty fast decline in diffusive emissions by the time mean depth reaches even ~5 m. I think there's the biggest morphological changes when littoral area is high that influence the production/oxidation/emissions rates (vs when it's already low to begin with -- increasing depth isn't actually affecting low littoral area that's already >3 m).
+Rachel Pilla 11:31 AM Yesterday I'm also quite curious now how we might be able to show what lakes with high/low littoral area and shallow/deep mean depths are. The one that's tripping me up a bit is high littoral area + deep mean depth, perhaps indicating there's only a small portion of the lake with a deep hole or something?
 
+Jake Beaulieu 1:47 PM Yesterday Agreed, hard to envision a waterbody that meets these criteria. A plot of mean_depth vs littoral fraction shows a strong negative relationship. The bivariate response surface is extrapolating well beyond the range of our observations. It would be cool to trim the response surface to reflect the range of our observations.
 
-Rachel Pilla
-11:31 AM Yesterday
-I'm also quite curious now how we might be able to show what lakes with high/low littoral area and shallow/deep mean depths are. The one that's tripping me up a bit is high littoral area + deep mean depth, perhaps indicating there's only a small portion of the lake with a deep hole or something?
+The extrapolation probably doesn't invalidate the interaction, however, as most of the action occurs within a range of 0-7.5m of depth. \[c\]Rachel Pilla I like that idea! Would help us home in on the areas with the most rapid changes in fluxes. Even just for visualization/plots, we can definitely trim the response surface to those within our data range OR even further to specific regions of interest like the 0-7.5 m range
 
+Jake Beaulieu I think we have a similar issue with reservoirs that have low mean_depth AND low littoral zone. Littoral zone is the proportion less than 2.5m, so how can we have a mean depth of 2m and a small littoral zone?
 
-Jake Beaulieu
-1:47 PM Yesterday
-Agreed, hard to envision a waterbody that meets these criteria. A plot of mean_depth vs littoral fraction shows a strong negative relationship. The bivariate response surface is extrapolating well beyond the range of our observations. It would be cool to trim the response surface to reflect the range of our observations.
-
-
-The extrapolation probably doesn't invalidate the interaction, however, as most of the action occurs within a range of 0-7.5m of depth.
-[c]Rachel Pilla
-I like that idea! Would help us home in on the areas with the most rapid changes in fluxes. Even just for visualization/plots, we can definitely trim the response surface to those within our data range OR even further to specific regions of interest like the 0-7.5 m range
-
-
-
-Jake Beaulieu
-I think we have a similar issue with reservoirs that have low mean_depth AND low littoral zone. Littoral zone is the proportion less than 2.5m, so how can we have a mean depth of 2m and a small littoral zone?
-
-
-
-Rachel Pilla
-Do we have lakes that low mean depth + low littoral zone (or with high/high)? Might be useful to look at the bathymetry/morphology of those to wrap our heads around. My gut is that low mean depth + low littoral might have a deeper portion of the lake but that is fairly small, and with steep sides. I think the exact 3 m boundary for littoral zone adds some complexity since it's discrete despite the littoral fraction being continuous. I may also ask ChatGPT for some help describing these types of unusual lakes 😅
-[d]Jake Beaulieu
-2:46 PM Yesterday
-@rachelmpilla@gmail.com
-
+Rachel Pilla Do we have lakes that low mean depth + low littoral zone (or with high/high)? Might be useful to look at the bathymetry/morphology of those to wrap our heads around. My gut is that low mean depth + low littoral might have a deeper portion of the lake but that is fairly small, and with steep sides. I think the exact 3 m boundary for littoral zone adds some complexity since it's discrete despite the littoral fraction being continuous. I may also ask ChatGPT for some help describing these types of unusual lakes 😅 \[d\]Jake Beaulieu 2:46 PM Yesterday @rachelmpilla@gmail.com
 
 What do you think of this explanation for the sediment C x mean depth interaction?
 
-
-
-Rachel Pilla
-12:39 PM Today
-Added a couple suggestions, but this makes a lot of sense to me, and follows what I'd generally expect. One other potential explanation might be if sediment C is more readily metabolized into CH4 in shallower lakes due to perhaps warmer bottom temperatures or higher bottom DO? Not sure if there's evidence to support this per se, but more of that sed C in deeper lakes could be buried before converted to CH4 in cold, anoxic conditions.
-[e]Bottom temperature isn't showing up as important predictor in the RF models, so I don't want to make too much of this idea, although I think it makes perfect sense and I tried to find evidence for it with the gamm. I added a sentence to the end of the paragraph.
+Rachel Pilla 12:39 PM Today Added a couple suggestions, but this makes a lot of sense to me, and follows what I'd generally expect. One other potential explanation might be if sediment C is more readily metabolized into CH4 in shallower lakes due to perhaps warmer bottom temperatures or higher bottom DO? Not sure if there's evidence to support this per se, but more of that sed C in deeper lakes could be buried before converted to CH4 in cold, anoxic conditions. \[e\]Bottom temperature isn't showing up as important predictor in the RF models, so I don't want to make too much of this idea, although I think it makes perfect sense and I tried to find evidence for it with the gamm. I added a sentence to the end of the paragraph.
