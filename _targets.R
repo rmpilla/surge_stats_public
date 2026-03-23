@@ -88,10 +88,14 @@ source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
 # models
 #source("R/run_gamm.R") # create gam_object, list of gams
 source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
+source("R/get_variable_importance.R")
 
 # manuscript
 source("R/get_table2_dat.R") # data for table 2
 source("R/make_predicted_observed_plot_main_text.R")
+source("R/make_variable_importance_plot.R")
+source("R/make_partial_dependence_plots.R")
+source("R/make_interaction_plots.R")
 
 # TARGETS PIPELINE------------------
 
@@ -418,7 +422,14 @@ list(
       dat_trans = dat_trans
     )
   ),
-
+  
+  tar_target(
+    name = variable_importance,
+    command = get_variable_importance(
+      random_forest_object = random_forest_object
+    )
+  ),
+  
   
   # REPORTS----
   tar_render(
@@ -437,6 +448,32 @@ list(
   tar_target(
     name = predicted_observed_plot,
     command = make_predicted_observed_plot_main_text(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans
+    )
+  ),
+  
+  
+  tar_target(
+    name = variable_importance_plot,
+    command = make_variable_importance_plot(
+      variable_importance = variable_importance
+    )
+  ),
+  
+  tar_target(
+    name = partial_dependence_plots,
+    command = make_partial_dependence_plots(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans,
+      variable_importance = variable_importance
+    )
+  ),
+  
+  
+  tar_target(
+    name = interaction_plots,
+    command = make_interaction_plots(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans
     )

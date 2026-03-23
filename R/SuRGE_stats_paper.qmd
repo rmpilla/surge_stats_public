@@ -25,6 +25,9 @@ targets::tar_load(modeling_vars)
 targets::tar_load(random_forest_object)
 targets::tar_load(table2_dat)
 targets::tar_load(predicted_observed_plot)
+targets::tar_load(variable_importance_plot)
+targets::tar_load(partial_dependence_plots)
+targets::tar_load(interaction_plots)
 ```
 
 ## Introduction
@@ -216,6 +219,55 @@ predicted_observed_plot
 
 ```
 
+Variable importance plots
+
+```{r var_imp, echo=FALSE, warning=FALSE, message=FALSE}
+#| fig-width: 8 
+#| fig-height: 5
+#| fig-align: "center"
+#| out-width: "80%"
+#| fig-cap: "Figure 3. Relative variable importance for random forest models for CH[4] total, CH[4] diffusion, and CH[4] ebullition."
+#| fig-cap-location: bottom
+
+# plot variable_importance_plot
+variable_importance_plot
+
+
+
+```
+
+Partial dependence plots
+
+```{r pdp, echo=FALSE, warning=FALSE, message=FALSE}
+#| fig-width: 8
+#| fig-height: 3
+#| fig-align: "center"
+#| out-width: "80%" 
+#| fig-cap: "Figure 4. Partial dependence plots for most important explanatory variables for CH[4] total (purple), CH[4] diffusion (green), and CH[4] ebullition (orange)."
+#| fig-cap-location: bottom
+
+# plot partial dependence plot   
+partial_dependence_plots
+
+
+
+```
+
+Interaction plots
+
+```{r interaction_plots, warning=FALSE, message= FALSE}
+#| fig-width: 8
+#| fig-height: 3
+#| fig-align: "center"
+#| out-width: "80%" 
+#| fig-cap: "Figure 5. Interaction plots for top variables for CH[4] total."
+#| fig-cap-location: bottom
+
+# plot interaction plots (3)   
+interaction_plots
+
+```
+
 ## Discussion
 
 ### Morphometry
@@ -247,21 +299,22 @@ The diffusive CH~4~ model did not identify SO~4~^2-^ as an important predictor, 
 The relationships between CH~4~ emission rates and environmental drivers identified by the RF models are consistent with the literature, but a few previously reported relationships were not evident in the SuRGE data. For example, previous work demonstrated that CH~4~ emission rates tend to decline as reservoirs age because terrestrial carbon that was inundated when the dam was built, a potential carbon source for methanogens, is progressively depleted. This pattern has been demonstrated with time-series investigations of individual reservoirs [@prairie_2021], metanalysis of published data from 89 globally distributed hydroelectric reservoirs [@barros_2011], and is integrated into a well-known model of reservoir GHG emission rates [@prairie_2021] that has been used to construct a timeline of global reservoir GHG emissions from 1900 - 2060 [@soued_2022]. While the SuRGE data includes reservoirs built between `r dat_trans %>% mutate(age = 2006 - year_completed) %>% {min(.$age)}` and `r dat_trans %>% mutate(age = 2006 - year_completed) %>% {max(.$age)}` years ago, relationships between age and CH~4~ emission rates were extremely weak (pearson correlation coefficient = `r dat_trans %>% {cor(.$year_completed, .$ch4_ebullition, use = "pairwise.complete.obs")} %>% round(.,2)`, `r dat_trans %>% {cor(.$year_completed, .$ch4_diffusion, use = "pairwise.complete.obs")} %>% round(.,2)`, and `r dat_trans %>% {cor(.$year_completed, .$ch4_total, use = "pairwise.complete.obs")} %>% round(.,2)` for ebullition, diffusion, and total, respectively) and reservoir age was not identified as an important predictor in any of the RF models. It is unclear why this pattern isn’t evident in the SuRGE data, but it may be related to the relative importance of different carbon sources through time. While soil organic matter may fuel methanogenesis immediately after flooding, the progressive loss of this carbon could be offset by sediment loading from the watershed and the production of autochthonous carbon, particularly in systems with high watershed soil-erodibility and reservoir productivity. Projections of future emissions could be improved through a better understanding of the temporal evolution of reservoir CH~4~ emissions.
 
 ## Section on predictive accuracy?
+
 ### ebullition vs diffusion
+
 Model r^2^ was generally lowest for the ebullition rate models, consistent with the well documented episodic nature of ebullition in both time and space. This is also reflected in the spatial linear models which captured much less spatially dependent error in ebullition rates than diffusion **(Table ??)**. Diffusive emissions are derived from CH~4~ that dissolves in the water column and is subject to advection and diffusion, which tends to create broad spatial patterns in dissolved CH~4~ concentrations [@hoffman_2013]. Spatially dependent model error for total emission rates was intermediate to that of ebullition and diffusion because it is composed of the sum of the two emission pathways and therefore reflects characteristics of each.
 
 ### implications for survey designs
-Differences in spatial patterning between CH~4~ ebullition and diffusion in reservoirs has implications for optimal survey design specifications. The goal of reservoir CH~4~ emission surveys is to yield a well constrained estimate of the reservoir-scale total CH~4~ emission rate (ebullition + diffusion). Since diffusive emissions exhibit stronger spatial patterning than ebullition, diffusion requires less sampling effort to yield emission estimates with relative confidence intervals similar to that of ebullition. This pattern is rarely reflected in survey designs, however, which typically entail the measurement of ebullition and diffusion at all sampling sites, likely as a matter of convenience [@beaulieu_et_al_2020;@beaulieu_et_al_2026]. To minimize uncertainty in the reservoir-scale total CH~4~ emission rate estimate, investigators should consider the relative importance of diffusion and ebullition when designing surveys. In systems where ebullition is more important than diffusion, the reservoir-scale total emission rate estimate will be more constrained if the survey design specifies that limited sampling resources (e.g. personnel hours) are biased toward more ebullition measurements at the expense of fewer diffusion estimates.
+
+Differences in spatial patterning between CH~4~ ebullition and diffusion in reservoirs has implications for optimal survey design specifications. The goal of reservoir CH~4~ emission surveys is to yield a well constrained estimate of the reservoir-scale total CH~4~ emission rate (ebullition + diffusion). Since diffusive emissions exhibit stronger spatial patterning than ebullition, diffusion requires less sampling effort to yield emission estimates with relative confidence intervals similar to that of ebullition. This pattern is rarely reflected in survey designs, however, which typically entail the measurement of ebullition and diffusion at all sampling sites, likely as a matter of convenience [@beaulieu_et_al_2020; @beaulieu_et_al_2026]. To minimize uncertainty in the reservoir-scale total CH~4~ emission rate estimate, investigators should consider the relative importance of diffusion and ebullition when designing surveys. In systems where ebullition is more important than diffusion, the reservoir-scale total emission rate estimate will be more constrained if the survey design specifies that limited sampling resources (e.g. personnel hours) are biased toward more ebullition measurements at the expense of fewer diffusion estimates.
 
 ### local vs national models
+
 Model performance metrics were marginally better for all local models, as compared to national models, when assessed at the log10 scale. At the linear scale of the response variable, differences in performance metrics between local and national models were smaller, and in some cases the national model actually outperformed the local model. These findings suggest that the accuracy of emission rate estimates derived from models that only require widely available data is similar to that of predictions from models which require on-the-ground measurements to quantify predictor variables. We anticipate that the accuracy of models based on nationally available datasets will only improve as new technology makes it possible to estimate aquatic physicochemical parameters with increasing accuracy and spatial resolution **\[need a citation here. a general one about aquatic remote sensing, or a collection of citations, each of which discusses one metric (e.g. water temp citation, primary prodction, DOC, bathymetry?)\]**. Inventory compilers should weigh the costs of generating the data required for local models against the accuracy gain when choosing the most appropriate modeling approach for their application.
 
 ### comparison to other models
-G-Res r2 0.47 diffusion, 0.37 diffusion, 165 reservoirs [@prairie_2017]
-DelSonto r2 0.29 diffusion, 0.317 ebullition, 0.376 total [@delsontro_2018]
-Leon-Palmero r2 0.59, 12 spanish reservoirs. [@leon_palmero_2020]
-beaulieu r2 0.90 diffusion, 0.99 ebullition [@beaulieu_et_al_2020] linear
 
+G-Res r2 0.47 diffusion, 0.37 diffusion, 165 reservoirs [@prairie_2017] DelSonto r2 0.29 diffusion, 0.317 ebullition, 0.376 total [@delsontro_2018] Leon-Palmero r2 0.59, 12 spanish reservoirs. [@leon_palmero_2020] beaulieu r2 0.90 diffusion, 0.99 ebullition [@beaulieu_et_al_2020] linear
 
 Predicted vs observed in log and linear space? Include error bars in plot.
 
