@@ -46,7 +46,10 @@ suppressPackageStartupMessages({ # cleaner output
                  "mgcv",
                  "spmodel",
                  "magrittr", # %<>% in finalize_modeling_vars.R
-                 "patchwork" # multiple ggplot panels
+                 "patchwork", # multiple ggplot panels
+                 "plotly", # 3-D interaction plots
+                 "htmlwidgets", # render 3-D image as PNG
+                 "webshot2" # render 3-D image as PNG
                  )
   )
 })

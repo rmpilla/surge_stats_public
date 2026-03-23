@@ -256,8 +256,8 @@ partial_dependence_plots
 Interaction plots
 
 ```{r interaction_plots, warning=FALSE, message= FALSE}
-#| fig-width: 8
-#| fig-height: 3
+#| fig-width: 15
+#| fig-height: 5
 #| fig-align: "center"
 #| out-width: "80%" 
 #| fig-cap: "Figure 5. Interaction plots for top variables for CH[4] total."
