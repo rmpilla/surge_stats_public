@@ -100,6 +100,7 @@ table2_dat <- rf_dat %>%
     mse_linear, rmse_linear, mae_linear, r2_linear = manual_r2_linear,
     nobs
   ) %>%
+  filter(model_var_set != "local_vars_no_nla") %>%
   ungroup()
 
 return(table2_dat)
