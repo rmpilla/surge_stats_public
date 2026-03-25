@@ -49,7 +49,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "patchwork", # multiple ggplot panels
                  "plotly", # 3-D interaction plots
                  "htmlwidgets", # render 3-D image as PNG
-                 "webshot2" # render 3-D image as PNG
+                 "webshot2", # render 3-D image as PNG
+                 "magick"
                  )
   )
 })
