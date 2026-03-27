@@ -88,6 +88,7 @@ source("R/get_final_hydrol_vars.R") # restrict hydrol vars based on collinearity
 source("R/get_final_trophic_vars.R") # restrict trophic vars based on collinearity
 source("R/get_final_landscape_vars.R") # restrict landscape vars based on collinearity
 source("R/finalize_modeling_vars.R") # finalize_modeling_vars()
+source("R/clean_predictor_variable_names.R")
 
 # models
 #source("R/run_gamm.R") # create gam_object, list of gams
@@ -410,7 +411,10 @@ list(
     )
   ),
 
-
+  tar_target(
+    name = clean_predictor_names_crosswalk,
+    command = clean_predictor_variable_names(modeling_vars_final)
+  ),
 
   # MODELS----
   # tar_target(
@@ -461,7 +465,8 @@ list(
   tar_target(
     name = variable_importance_plot,
     command = make_variable_importance_plot(
-      variable_importance = variable_importance
+      variable_importance = variable_importance,
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk
     )
   ),
   
@@ -470,7 +475,8 @@ list(
     command = make_partial_dependence_plots(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans,
-      variable_importance = variable_importance
+      variable_importance = variable_importance,
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk
     )
   ),
   

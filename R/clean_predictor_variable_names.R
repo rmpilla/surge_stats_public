@@ -1,0 +1,67 @@
+clean_predictor_variable_names <- function(modeling_vars_final){
+  
+  clean_predictor_variable_names = modeling_vars_final %>%
+    unlist() %>%
+    as.data.frame() %>%
+    remove_rownames() %>%
+    rename(variable = 1) %>%
+    distinct() %>%
+    mutate(variable = gsub(pattern = "^l_", replacement = "", x = variable),
+           
+           variable_clean = case_when(variable == "surface_area" ~ "surface~area",
+                                      variable == "mean_depth" ~ "mean~depth",
+                                      variable == "site_depth" ~ "site~depth",
+                                      variable == "littoral_fraction" ~ "littoral~fraction",
+                                      variable == "buoyf" ~ "buoyancy~frequency",
+                                      variable == "chla_lab_shallow" ~ "chl-a~extracted~(shallow)",
+                                      variable == "tp_shallow" ~ "TP~(shallow)",
+                                      variable == "tn_shallow" ~ "TN~(shallow)",
+                                      variable == "op_shallow" ~ "OP~(shallow)",
+                                      variable == "toc_shallow" ~ "TOC~(shallow)",
+                                      variable == "turbidity_shallow" ~ "turbidity~(shallow)",
+                                      variable == "chla_sonde_shallow" ~ "chl-a~sonde~(shallow)",
+                                      variable == "nla17_sed_c" ~ "sediment~C",
+                                      variable == "temp_deep" ~ "water~temperature~(deep)",
+                                      variable == "temp_shallow" ~ "water~temperature~(shallow)",
+                                      variable == "e_i" ~ "E:I",
+                                      variable == "residence_time" ~ "residence~time",
+                                      variable == "rda" ~ "relative~drainage~area",
+                                      variable == "nh4_shallow" ~ "NH[4]~(shallow)",
+                                      variable == "so4_shallow" ~ "SO[4]~(shallow)",
+                                      variable == "do_deep" ~ "DO~(deep)",
+                                      variable == "year_completed" ~ "year~completed",
+                                      variable == "ag_eco9_nm" ~ "eco-region",
+                                      variable == "wsareasqkm" ~ "watershed~area",
+                                      variable == "do_shallow" ~ "DO~(shallow)",
+                                      variable == "chl_predicted_sample_month_visit1" ~ "chl-a~remotely~sensed",
+                                      variable == "doc_predicted_sample_month_visit1" ~ "DOC~remotely~sensed",
+                                      variable == "precip8110cat" ~ "precip8110cat",
+                                      variable == "runoffcat" ~ "runoffcat",
+                                      variable == "tmax8110cat" ~ "tmax8110cat",
+                                      variable == "kffactcat" ~ "kffactcat",
+                                      variable == "omcat" ~ "omcat",
+                                      variable == "scat" ~ "scat",
+                                      variable == "pctcrop2019cat" ~ "pctcrop2019cat",
+                                      variable == "nitrogencat" ~ "nitrogencat",
+                                      variable == "agkffactcat" ~ "agkffactcat",
+                                      variable == "elevcat" ~ "elevcat",
+                                      variable == "precipitation_chamber" ~ "precipitation~(chamber~deployment)",
+                                      variable == "wind_speed_chamber" ~ "wind~speed~(chamber~deployment)",
+                                      variable == "delta_bp_diff" ~ "pressure~change~(chamber~deployment)",
+                                      variable == "shortwave_radiation_sum_mj_m2" ~ "shortwave~radiation",
+                                      variable == "precipitation_trap" ~ "precipitation~(trap~deployment)",
+                                      variable == "wind_speed_trap" ~ "wind~speed~(trap~deployment)",
+                                      variable == "delta_bp_ebu" ~ "pressure~change~(trap~deployment)"
+           ),
+           
+           superscript = case_when(variable %in% c("shortwave_radiation_sum_mj_m2") ~ "^a",
+                                   variable %in% c("precipitation_chamber",
+                                                   "wind_speed_chamber",
+                                                   "delta_bp_diff") ~ "^b",
+                                   variable %in% c("precipitation_trap",
+                                                   "wind_speed_trap",
+                                                   "delta_bp_ebu") ~ "^c",
+                                   TRUE ~ ""))
+  
+  return(clean_predictor_variable_names)
+}

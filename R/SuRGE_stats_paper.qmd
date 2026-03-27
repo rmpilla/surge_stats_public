@@ -221,13 +221,13 @@ predicted_observed_plot
 
 Variable importance plots
 
-```{r var_imp, echo=FALSE, warning=FALSE, message=FALSE}
-#| fig-width: 8 
-#| fig-height: 5
+```{r var_imp, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: "center"
-#| out-width: "80%"
-#| fig-cap: "Figure 3. Relative variable importance for random forest models for CH[4] total, CH[4] diffusion, and CH[4] ebullition."
+#| fig-cap: "Figure 3. Relative variable importance for random forest models for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables on the y-axis are presented in descending order of importance from the CH~4~ total model. Note that some explanatory variables are not used in all models, and lines are empty when not included. ^a^only used in CH~4~ diffusion and CH~4~ ebullition models, ^b^only used in CH~4~ diffusion model, and ^c^only used in CH~4~ ebullition model."
 #| fig-cap-location: bottom
+#| fig-height: 5
+#| fig-width: 8
+#| out-width: "80%"
 
 # plot variable_importance_plot
 variable_importance_plot
@@ -240,10 +240,10 @@ Partial dependence plots
 
 ```{r pdp, echo=FALSE, warning=FALSE, message=FALSE}
 #| fig-width: 8
-#| fig-height: 3
+#| fig-height: 6
 #| fig-align: "center"
 #| out-width: "80%" 
-#| fig-cap: "Figure 4. Partial dependence plots for most important explanatory variables for CH[4] total (purple), CH[4] diffusion (green), and CH[4] ebullition (orange)."
+#| fig-cap: "Figure 4. Partial dependence plots for most important and additional selected explanatory variables for CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple). Note that surface area is presented with a log-transformed x-axis."
 #| fig-cap-location: bottom
 
 # plot partial dependence plot   
@@ -256,11 +256,11 @@ partial_dependence_plots
 Interaction plots
 
 ```{r interaction_plots, warning=FALSE, message= FALSE}
-#| fig-width: 15
-#| fig-height: 5
+#| fig-width: 5
+#| fig-height: 4
 #| fig-align: "center"
 #| out-width: "80%" 
-#| fig-cap: "Figure 5. Interaction plots for top variables for CH[4] total."
+#| fig-cap: "Figure 5. Interaction plot for mean depth x sediment C for CH~4~ total. Interaction strength was estimated as the difference in emission rate range across the range of sediment C when mean depth was low versus high (difference emission rate range between red lines), and similarly the difference in emission rate range across the range of mean depth with sediment C was low versus high (difference in emission rate range between blue lines)."
 #| fig-cap-location: bottom
 
 # plot interaction plots (3)   

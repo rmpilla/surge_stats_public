@@ -3,6 +3,11 @@
 run_random_forest <- function(dat_trans,
                               modeling_vars_final){
   
+  modeling_vars_untrans = modeling_vars_final %>%
+    unlist() %>%
+    gsub(pattern = "^l_", replacement = "") %>%
+    relist(modeling_vars_final)
+  
   # transform response variables given skewness
   dat_trans$l_ch4_total = log1p(dat_trans$ch4_total)
   dat_trans$l_ch4_diffusion = log1p(dat_trans$ch4_diffusion)
@@ -16,7 +21,7 @@ run_random_forest <- function(dat_trans,
   ) %>%
     st_transform(crs = 5070) # Albers equal area conus
   
-  formula_list <- modeling_vars_final %>%
+  formula_list <- modeling_vars_untrans %>%
     # Combine model variables into string with "+"
     # map_depth applies function to specified level of nested list
     map_depth(., .depth = 2, ~ paste0(., collapse = " + ")) %>%
