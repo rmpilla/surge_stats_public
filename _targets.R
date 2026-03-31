@@ -50,7 +50,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "plotly", # 3-D interaction plots
                  "htmlwidgets", # render 3-D image as PNG
                  "webshot2", # render 3-D image as PNG
-                 "magick"
+                 "magick",
+                 "tigris"
                  )
   )
 })
@@ -94,9 +95,11 @@ source("R/clean_predictor_variable_names.R")
 #source("R/run_gamm.R") # create gam_object, list of gams
 source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
 source("R/get_variable_importance.R")
+source("R/get_interaction_results.R")
 
 # manuscript
 source("R/get_table2_dat.R") # data for table 2
+source("R/make_map_figure.R")
 source("R/make_predicted_observed_plot_main_text.R")
 source("R/make_variable_importance_plot.R")
 source("R/make_partial_dependence_plots.R")
@@ -108,6 +111,12 @@ list(
   ## get data-----
   ## tar_file initiates tracking of data in each file. targets will
   ## notice if an input file has changed and will re-run the affected targets.
+  tar_file(lake_polygons_file, "input_data/2_lake_polygons.gpkg"),
+  tar_target(
+    name = lake_polygons,
+    command = sf::read_sf(lake_polygons_file)
+  ),
+  
   tar_file(site_descriptors_file, "input_data/3_site_descriptors_data.csv"),
   tar_target(
     name = site_descriptors_data,
@@ -438,6 +447,14 @@ list(
     )
   ),
   
+  tar_target(
+    name = interaction_results,
+    command = get_interaction_results(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans
+    )
+  ),
+  
   
   # REPORTS----
   tar_render(
@@ -451,6 +468,14 @@ list(
     command = get_table2_dat(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans)
+  ),
+  
+  tar_target(
+    name = map_figure,
+    command = make_map_figure(
+      emissions_lake_data = emissions_lake_data,
+      lake_polygons = lake_polygons
+    )
   ),
   
   tar_target(
@@ -484,8 +509,7 @@ list(
   tar_target(
     name = interaction_plots,
     command = make_interaction_plots(
-      random_forest_object = random_forest_object,
-      dat_trans = dat_trans
+      interaction_results = interaction_results
     )
   ),
   
