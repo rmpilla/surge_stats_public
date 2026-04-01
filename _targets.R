@@ -491,7 +491,8 @@ list(
     name = variable_importance_plot,
     command = make_variable_importance_plot(
       variable_importance = variable_importance,
-      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk,
+      var_group_use = "local_vars_all"
     )
   ),
   
@@ -501,7 +502,15 @@ list(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans,
       variable_importance = variable_importance,
-      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk,
+      models = c("ch4_total.local_vars_all",
+                 "ch4_diffusion.local_vars_all",
+                 "ch4_ebullition.local_vars_all"),
+      explanatory_vars = c("littoral_fraction",
+                           "mean_depth",
+                           "nla17_sed_c",
+                           "so4_shallow",
+                           "surface_area")
     )
   ),
   
@@ -519,12 +528,44 @@ list(
     format = "file"
   ),
   
-# tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 
-# on other targets. It also tracks changes in references.bib
+  
+  ## SI material
+  tar_target(
+    name = SI_variable_importance_globalvars,
+    command = make_variable_importance_plot(
+      variable_importance = variable_importance,
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk,
+      var_group_use = "global_vars"
+    )
+  ),
+  
+  tar_target(
+    name = SI_partial_dependence_plots,
+    command = make_partial_dependence_plots(
+      random_forest_object = random_forest_object,
+      dat_trans = dat_trans,
+      variable_importance = variable_importance,
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk,
+      models = c("ch4_total.local_vars_all",
+                 "ch4_diffusion.local_vars_all",
+                 "ch4_ebullition.local_vars_all"),
+      explanatory_vars = c("year_completed")
+    )
+  ),
+  
+  # tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 
+  # on other targets. It also tracks changes in references.bib
   tar_quarto(
     surge_stats_paper, 
     "R/SuRGE_stats_paper.qmd",
     quiet = FALSE,
     output_file = paste0("SuRGE stats paper [version ", Sys.Date(), "]",".docx")
+  ),
+  
+  tar_quarto(
+    surge_supplementary_doc, 
+    "R/SuRGE_supplementary_doc.qmd",
+    quiet = FALSE,
+    output_file = paste0("SuRGE supplementary [version ", Sys.Date(), "]",".docx")
   )
 )

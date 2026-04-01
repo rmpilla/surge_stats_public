@@ -1,0 +1,55 @@
+---
+title: "SuRGE supplementary materials"
+format: docx
+editor: visual
+bibliography: references.bib
+csl: ecosystems.csl # define bib style https://www.zotero.org/styles
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# libraries specified in tar_quarto call in _targets.R. Annoyingly,
+# tar_quarto ignores tar_option_set
+library(targets)
+library(tidyverse)
+#library(tidymodels) # glance
+#library(flextable) # tables
+library(english) # numeric to text
+```
+
+```{r data, message=FALSE}
+# load whatever data objects are needed
+targets::tar_load(SI_variable_importance_globalvars)
+targets::tar_load(SI_partial_dependence_plots)
+
+```
+
+## Partial dependence: Reservoir age
+
+```{r SI_partial_dependence_plots, echo=FALSE, message=FALSE, warning=FALSE}
+#| fig-align: center 
+#| fig-cap: "Figure S1. Partial dependence plot for reservoir age (year of dam construction completion) for CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
+#| fig-cap-location: bottom 
+#| fig-height: 5 
+#| fig-width: 5.5 
+#| out-width: 60%  
+ 
+# plot year_completed vs CH4 emission rates
+SI_partial_dependence_plots
+
+```
+
+## Variable importance: National models
+
+```{r SI_variable_importance_globalvars, echo=FALSE, message=FALSE, warning=FALSE}
+#| fig-align: center
+#| fig-cap: "Figure S2. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
+#| fig-cap-location: bottom  
+#| fig-height: 4
+#| fig-width: 8
+#| out-width: 80%     
+
+# plot global_vars variable importance
+SI_variable_importance_globalvars
+
+```

@@ -1,22 +1,11 @@
 make_partial_dependence_plots <- function(random_forest_object,
                                           dat_trans,
                                           variable_importance,
-                                          clean_predictor_names_crosswalk){
+                                          clean_predictor_names_crosswalk,
+                                          models,
+                                          explanatory_vars){
+  
 
-  models = c("ch4_total.local_vars_all",
-             "ch4_diffusion.local_vars_all",
-             "ch4_ebullition.local_vars_all"
-             #"ch4_total.global_vars",
-             #"ch4_diffusion.global_vars",
-             #"ch4_ebullition.global_vars"
-             )
-  
-  explanatory_vars = c("littoral_fraction",
-                       "mean_depth",
-                       "nla17_sed_c",
-                       "so4_shallow",
-                       "surface_area")
-  
   library(ranger)
   partial_df_all = c()
   for(m in models){
