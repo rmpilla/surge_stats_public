@@ -58,6 +58,7 @@ make_partial_dependence_plots <- function(random_forest_object,
     left_join(clean_predictor_names_crosswalk)
   
   
+  
   partial_dependence_plots <- ggplot() +
     geom_line(data = partial_df_final_all, 
               aes(x = var_value_SAtrans, y = untrans_resp, color = response_print), linewidth = 1) +

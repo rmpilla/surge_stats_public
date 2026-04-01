@@ -3,8 +3,8 @@ make_variable_importance_plot <- function(variable_importance,
 
   
   variable_importance_plot <- ggplot() +
-    geom_hline(yintercept = seq(2, 42, by = 2), linetype = 2) +
-    geom_hline(yintercept = seq(1, 42, by = 2), color = "grey80") +
+    geom_hline(yintercept = seq(2, 30, by = 2), linetype = 2) +
+    geom_hline(yintercept = seq(1, 30, by = 2), color = "grey80") +
     geom_point(data = variable_importance %>% filter(var_group %in% c("local_vars_all")) %>%
                  left_join(clean_predictor_names_crosswalk) %>%
                  mutate(variable_clean_superscript = fct_reorder(paste0(variable_clean, superscript), 
