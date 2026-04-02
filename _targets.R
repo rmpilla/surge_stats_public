@@ -549,7 +549,8 @@ list(
       models = c("ch4_total.local_vars_all",
                  "ch4_diffusion.local_vars_all",
                  "ch4_ebullition.local_vars_all"),
-      explanatory_vars = c("year_completed")
+      explanatory_vars = c("year_completed",
+                           "buoyf")
     )
   ),
   

@@ -44,7 +44,11 @@ make_partial_dependence_plots <- function(random_forest_object,
                                               "CH[4]~ebullition")),
            var_value_SAtrans = case_when(variable == "surface_area" ~ log10(var_value),
                                          TRUE ~ var_value)) %>%
-    left_join(clean_predictor_names_crosswalk)
+    left_join(clean_predictor_names_crosswalk) %>%
+    mutate(variable_clean_units = case_when(units == "" ~ variable_clean,
+                                            endsWith(")", x = variable_clean) ~ 
+                                              paste0(str_sub(variable_clean, end = -2), "*';'~", units, ")"),
+                                            TRUE ~ paste0(variable_clean, "~(", units, ")")))
   
   
   
@@ -56,12 +60,17 @@ make_partial_dependence_plots <- function(random_forest_object,
                             cols = 2:ncol(.)) %>% select(-ch4_total) %>% distinct() %>%
                mutate(use_resp = case_when(variable == "surface_area" ~ log10(untrans_resp),
                                            TRUE ~ untrans_resp)) %>%
-               left_join(clean_predictor_names_crosswalk),
+               left_join(clean_predictor_names_crosswalk) %>%
+               mutate(variable_clean_units = case_when(units == "" ~ variable_clean,
+                                                       endsWith(")", x = variable_clean) ~ 
+                                                         paste0(str_sub(variable_clean, end = -2), "*';'~", units, ")"),
+                                                       TRUE ~ paste0(variable_clean, "~(", units, ")"))),
              aes(x = use_resp), alpha = 0.3) +
-    facet_wrap(~ variable_clean, scales = "free_x", labeller = label_parsed) +
+    facet_wrap(~ variable_clean_units, scales = "free_x", labeller = label_parsed) +
     scale_y_continuous(trans = "log1p") +
     scale_color_brewer(palette = "Dark2", name = "emission mechanism:", labels = scales::label_parse()) +
-    labs(x = "explanatory variable value", y = bquote(mean~predicted~CH[4]~emission~rate)) +
+    labs(x = "explanatory variable value", 
+         y = bquote(atop(mean~predicted~total~CH[4]~emission~rate, (mg~CH[4]~m^-2~h^-1)))) +
     theme_bw() +
     theme(panel.grid = element_blank(),
           legend.position = "top")

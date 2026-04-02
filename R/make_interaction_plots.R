@@ -61,11 +61,11 @@ make_interaction_plots <- function(interaction_results){
               )) %>%
     layout(#title =  "B)",
       scene = list(
-        xaxis = list(title = "sediment C"),
-        yaxis = list(title = "mean depth"),
-        zaxis = list(title = "CH<sub>4</sub> emission rate"),
+        xaxis = list(title = "   sediment C<br>(% dry weight)"),
+        yaxis = list(title = "mean depth<br>     (m)"),
+        zaxis = list(title = "Total CH<sub>4</sub> emission rate<br>     (mg CH<sub>4</sub> m<sup>-2</sup> h<sup>-1</sup>)"),
         camera = list(
-          eye = list(x = -1, y = 2, z = 1) # Adjust x, y, z for different angles/zoom
+          eye = list(x = -1.75, y = 2, z = 1) # Adjust x, y, z for different angles/zoom
         )),
       showlegend = FALSE)
   
@@ -108,7 +108,7 @@ make_interaction_plots <- function(interaction_results){
   # interaction_1_png <- magick::image_read("interaction_1.png")
   
   htmlwidgets::saveWidget(interaction_2, "interaction_2.html")
-  webshot2::webshot("interaction_2.html", "interaction_2.png", cliprect = c(225, 100, 525, 650))
+  webshot2::webshot("interaction_2.html", "interaction_2.png", zoom = 2, cliprect = c(225, 100, 525, 650))
   interaction_2_png <- magick::image_read("interaction_2.png")
   
   # htmlwidgets::saveWidget(interaction_3, "interaction_3.html")
