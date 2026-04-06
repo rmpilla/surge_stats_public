@@ -51,7 +51,9 @@ suppressPackageStartupMessages({ # cleaner output
                  "htmlwidgets", # render 3-D image as PNG
                  "webshot2", # render 3-D image as PNG
                  "magick",
-                 "tigris"
+                 "tigris",
+                 "ggnewscale",
+                 "scatterpie"
                  )
   )
 })

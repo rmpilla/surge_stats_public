@@ -108,7 +108,7 @@ make_interaction_plots <- function(interaction_results){
   # interaction_1_png <- magick::image_read("interaction_1.png")
   
   htmlwidgets::saveWidget(interaction_2, "interaction_2.html")
-  webshot2::webshot("interaction_2.html", "interaction_2.png", zoom = 2, cliprect = c(225, 100, 525, 650))
+  webshot2::webshot("interaction_2.html", "interaction_2.png", zoom = 1, cliprect = c(225, 100, 525, 650))
   interaction_2_png <- magick::image_read("interaction_2.png")
   
   # htmlwidgets::saveWidget(interaction_3, "interaction_3.html")

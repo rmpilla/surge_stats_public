@@ -46,9 +46,9 @@ We used a data set from the Survey of Reservoir Greenhouse gas Emissions (SuRGE)
 #| fig-align: center
 #| fig-cap: "Figure 1. Locations of reservoirs included in this study across the conterminous United States and Puerto Rico (a). Inset shows higher density of waterbodies sampled in Ohio, Indiana, and Kentucky (b). In both panels, color and size of points indicate total lake-wide CH~4~ emission rates."
 #| fig-cap-location: bottom
-#| fig-height: 4
-#| fig-width: 8
-#| out-width: 80%
+#| fig-height: 6
+#| fig-width: 11
+#| out-width: 100%
 
 # plot variable_importance_plot
 map_figure
