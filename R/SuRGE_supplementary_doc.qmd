@@ -24,14 +24,14 @@ targets::tar_load(SI_partial_dependence_plots)
 
 ```
 
-## Partial dependence: Reservoir age
+## Partial dependence: Additional variables of interest
 
 ```{r SI_partial_dependence_plots, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center 
-#| fig-cap: "Figure S1. Partial dependence plot for reservoir age (year of dam construction completion) for CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
+#| fig-cap: "Figure S1. Partial dependence plot for reservoir age (year of dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
 #| fig-cap-location: bottom 
 #| fig-height: 5 
-#| fig-width: 5.5 
+#| fig-width: 8 
 #| out-width: 60%  
  
 # plot year_completed vs CH4 emission rates
