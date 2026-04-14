@@ -14,13 +14,13 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
     )
 
-# 0.113, CH4 ebu and delta_bp_ebu
+# 0.088, CH4 ebu and delta_bp_ebu
   
 ## global
   dat_trans %>% 
@@ -30,7 +30,7 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -48,7 +48,7 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
         modeling_vars_update$local_vars_all$clim_vars # local_vars_all and local_vars_all_no_nla are the same
       ) # close unname
     ), # close all_of
-    -l_precipitation_trap, -wind_speed_trap, -delta_bp_ebu # exclude ebullition vars
+    -precipitation_trap, -wind_speed_trap, -delta_bp_ebu # exclude ebullition vars
     ) %>%
     corvif(.)
     
@@ -60,7 +60,7 @@ get_final_clim_vars <- function(dat_trans, modeling_vars_update) {
         modeling_vars_update$local_vars_all$clim_vars # local_vars_all and local_vars_all_no_nla are the same
       ) # close unname
     ), # close all_of
-    -l_precipitation_chamber, -l_wind_speed_chamber, -delta_bp_diff # exclude diffusion vars
+    -precipitation_chamber, -wind_speed_chamber, -delta_bp_diff # exclude diffusion vars
     ) %>%
     corvif(.)    
 

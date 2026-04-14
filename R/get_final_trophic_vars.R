@@ -15,7 +15,7 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -31,7 +31,7 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -53,7 +53,7 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
     # filter to unique value to simplify the plot
     distinct() %>%
     #cor(use = "pairwise.complete.obs") %>%
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(strip.text = element_text(size = 5),
           axis.text = element_blank())
   
@@ -70,7 +70,7 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
     # filter to unique value to simplify the plot
     distinct() %>%
     #cor(use = "pairwise.complete.obs") %>%
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(strip.text = element_text(size = 5),
           axis.text = element_blank())
   
@@ -89,9 +89,9 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     )) %>%
     # sequentially remove predictors with greatest VIF,
-    select(-contains("visit2"), # these are mostly NA and break corvif
-           # TN is highest at 6.2 (>3.0 threshold), but TN is a better
-           # trophic status predictor than no2_3 which has a VIF of 3.6.
+    select(
+           # TN is highest at 8.6 (>3.0 threshold), but TN is a better
+           # trophic status predictor than no2_3 which has a VIF of 3.9.
            # Choosing to omit no2_3 and retain TN
            -no2_3_shallow
     ) %>%
@@ -109,9 +109,9 @@ get_final_trophic_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     )) %>%
     # sequentially remove predictors with greatest VIF,
-    select(-contains("visit2"), # these are mostly NA and break corvif
-           # TN is highest at 6.2 (>3.0 threshold), but TN is a better
-           # trophic status predictor than no2_3 which has a VIF of 3.6.
+    select(
+           # TN is highest at 4.7 (>3.0 threshold), but TN is a better
+           # trophic status predictor than no2_3 which has a VIF of 2.9.
            # Choosing to omit no2_3 and retain TN
            -no2_3_shallow
     ) %>%

@@ -6,7 +6,7 @@ clean_predictor_variable_names <- function(modeling_vars_final){
     remove_rownames() %>%
     rename(variable = 1) %>%
     distinct() %>%
-    mutate(variable = gsub(pattern = "^l_", replacement = "", x = variable),
+    mutate(
            
            variable_clean = case_when(variable == "surface_area" ~ "surface~area",
                                       variable == "mean_depth" ~ "mean~depth",

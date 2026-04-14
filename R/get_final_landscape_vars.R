@@ -15,7 +15,7 @@ get_final_landscape_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -31,7 +31,7 @@ get_final_landscape_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -53,7 +53,7 @@ get_final_landscape_vars <- function(dat_trans, modeling_vars_update) {
     # filter to unique value to simplify the plot
     distinct() %>%
     #cor(use = "pairwise.complete.obs") %>%
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(strip.text = element_text(size = 5),
           axis.text = element_blank())
   
@@ -69,7 +69,7 @@ get_final_landscape_vars <- function(dat_trans, modeling_vars_update) {
     # filter to unique value to simplify the plot
     distinct() %>%
     #cor(use = "pairwise.complete.obs") %>%
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(strip.text = element_text(size = 5),
           axis.text = element_blank())
   

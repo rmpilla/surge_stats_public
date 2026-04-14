@@ -13,7 +13,7 @@ get_final_morpho_vars <- function(dat_trans, modeling_vars_update) {
       ) # close unname
     ), # close all_of
     ch4_diffusion, ch4_ebullition, ch4_total) %>% 
-    GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+    GGally::ggpairs(upper = list(continuous = "cor")) +
     theme(
       axis.text = element_blank(),
       strip.text = element_text(size = 5) # Strip text (e.g., variable names in diagonal)
@@ -35,7 +35,7 @@ get_final_morpho_vars <- function(dat_trans, modeling_vars_update) {
   # filter to unique value to simplify the plot
   distinct() %>%
   #cor(use = "pairwise.complete.obs") %>%
-  GGally::ggpairs(upper = list(continuous = wrap("cor", size = 2.5))) +
+  GGally::ggpairs(upper = list(continuous = "cor")) +
   theme(strip.text = element_text(size = 5),
         axis.text = element_blank())
   
@@ -71,9 +71,9 @@ surface_area_vif_local <- dat_trans %>%
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
-    select(-l_shoreline_length, -l_volume, -l_mean_width,
-           -l_dynamic_ratio, -l_max_length, -l_max_width,
-           -max_depth, -l_shoreline_development) %>%
+    select(-shoreline_length, -mean_width, -volume,
+           -max_width, -dynamic_ratio, -max_depth,
+           -shoreline_development, -max_length) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
   distinct() %>%
@@ -93,10 +93,9 @@ surface_area_vif_global <- dat_trans %>%
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
-  select(-l_shoreline_length, -l_volume, -l_mean_width,
-         -l_dynamic_ratio, -l_max_length, -l_max_width,
-         -max_depth, -l_shoreline_development
-  ) %>%
+  select(-shoreline_length, -mean_width, -volume,
+         -max_width, -max_depth, -dynamic_ratio,
+         -shoreline_development, -max_length) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
   distinct() %>%
@@ -117,9 +116,9 @@ shoreline_vif <- dat_trans %>%
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
-  select(-l_shoreline_length, -l_surface_area, -l_volume,
-         -l_dynamic_ratio, -l_mean_width, -max_depth,
-         -l_max_width, -circularity) %>%
+  select(-shoreline_length, -surface_area, -mean_width,
+         -dynamic_ratio, -max_width, -max_depth, -volume,
+         -max_length) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
   distinct() %>%
@@ -141,9 +140,12 @@ dynamic_ratio_vif <- dat_trans %>%
     ) # close unname
   )) %>%
   # sequentially remove predictors with greatest VIF, but keep surface area
-  select(-l_shoreline_length, -l_surface_area, -l_volume,
-         -mean_depth, -l_mean_width, -l_shoreline_development,
-         -l_max_width, -l_max_length) %>%
+  select(-shoreline_length, -surface_area, -mean_width,
+         -max_width, -max_depth, -shoreline_development,
+         -max_length, -volume
+    #      -mean_depth, , ,
+    #      , -l_max_length
+    ) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot
   distinct() %>%
@@ -184,8 +186,8 @@ dynamic_ratio_vif
 # here are the morpho variables used in Casas-Ruiz, plus littoral fraction
 # everything is correlated
 dat_trans %>%
-  select(l_surface_area, l_volume, l_shoreline_development, circularity,
-         l_dynamic_ratio, littoral_fraction, site_depth) %>%
+  select(surface_area, volume, shoreline_development, circularity,
+         dynamic_ratio, littoral_fraction, site_depth) %>%
   distinct() %>%
   corvif(.)
 

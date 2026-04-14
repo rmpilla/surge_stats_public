@@ -207,14 +207,14 @@ finalize_modeling_vars <- function(modeling_vars_update,
   modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars <- 
     modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars[
       !(modeling_vars_by_response$ch4_diffusion$local_vars_all$clim_vars %in%
-          c("l_precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
+          c("precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
       ]
   
   ### local_vars_no_nla sublist----
   modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars <- 
     modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars[
       !(modeling_vars_by_response$ch4_diffusion$local_vars_no_nla$clim_vars %in%
-          c("l_precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
+          c("precipitation_trap", "wind_speed_trap", "delta_bp_ebu"))
     ]
   
   ## Modify ebullition predictors----
@@ -225,14 +225,14 @@ finalize_modeling_vars <- function(modeling_vars_update,
   modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars <- 
     modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars[
       !(modeling_vars_by_response$ch4_ebullition$local_vars_all$clim_vars %in%
-          c("l_precipitation_chamber", "l_wind_speed_chamber", "delta_bp_diff"))
+          c("precipitation_chamber", "wind_speed_chamber", "delta_bp_diff"))
     ]
   
   ### local_vars_no_nla sublist----
   modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars <- 
     modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars[
       !(modeling_vars_by_response$ch4_ebullition$local_vars_no_nla$clim_vars %in%
-          c("l_precipitation_chamber", "l_wind_speed_chamber", "delta_bp_diff"))
+          c("precipitation_chamber", "wind_speed_chamber", "delta_bp_diff"))
     ]
   
   ## Flatten into simpler list
@@ -251,51 +251,46 @@ finalize_modeling_vars <- function(modeling_vars_update,
   # which-variance-inflation-factor-should-i-be-using-textgvif-or-textgvif
   # ag_eco9_nm = 1.87 (GVIF^(1/2Df))^2
   
-  # corvif crashes when l_wsareasqkm and l_rda are both included.
-  # these have a high correlation: 0.76
-  # keep l_rda, exclude l_wsareasqkm
-  dat_trans  %>% 
-    select(l_wsareasqkm, l_rda) %>% 
-    drop_na() %>% 
-    summarize(rho = cor(l_wsareasqkm, l_rda))
 
   ## VIF for tot, diff, and ebu----  
   vif_ch4_tot <- map(
     modeling_vars_by_response$ch4_total, 
-    ~ try( # try prevents error from crashing on global_vars, see note above
-      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
-    ))
+    ~ dat_trans %>% select(all_of(unname(.x))) %>% drop_na %>% corvif(.) 
+    )
 
   vif_ch4_diff <- map(
     modeling_vars_by_response$ch4_diffusion, 
-    ~ try( # try prevents error from crashing on global_vars, see note above
-      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
-    )) 
+    ~ dat_trans %>% select(all_of(unname(.x))) %>% drop_na %>% corvif(.) 
+    ) 
   
   vif_ch4_ebu <- map(
       modeling_vars_by_response$ch4_ebullition, 
-    ~ try( # try prevents error from crashing on global_vars, see note above
-      dat_trans %>% select(all_of(.x), -l_wsareasqkm) %>% drop_na %>% corvif(.) 
-    )) 
+    ~ dat_trans %>% select(all_of(unname(.x))) %>% drop_na %>% corvif(.) 
+    ) 
   
   ## ch4_tot selection----
   # STEP 1 Selection
-  # do_deep and do_shallow have VIF > 7 in local_vars_all set
+  ## local_vars_all
+  # do_deep and do_shallow have VIF > 17 in local_vars_all set
   # I think do_deep is more likely to be related to CH4, so 
   # exclude do_shallow and see what happens
   vif_ch4_tot
   
   # all vif <3 when do_shallow excluded
   dat_trans %>% select(
-    all_of(modeling_vars_by_response$ch4_total$local_vars_all), 
-    -l_wsareasqkm, -do_shallow
+    all_of(
+      unname(
+        modeling_vars_by_response$ch4_total$local_vars_all
+        )
+      ), 
+     -do_shallow
     ) %>%
     drop_na %>%
     corvif(.)
       
   # STEP 2 Omit vars from list
   modeling_vars_by_response$ch4_total$local_vars_all %<>%
-    .[!(. %in% c("do_shallow", "l_wsareasqkm"))]
+    .[!(. %in% c("do_shallow"))]
 
     
   ## ch4_diff selection----
@@ -307,15 +302,19 @@ finalize_modeling_vars <- function(modeling_vars_update,
   
   # all vif <3 when do_shallow excluded
   dat_trans %>% select(
-    all_of(modeling_vars_by_response$ch4_diffusion$local_vars_all), 
-    -l_wsareasqkm, -do_shallow
+    all_of(
+      unname(
+        modeling_vars_by_response$ch4_diffusion$local_vars_all
+      )
+    ), 
+    -do_shallow
   ) %>%
     drop_na %>%
     corvif(.)
   
   # STEP 2 Omit vars from list
   modeling_vars_by_response$ch4_diffusion$local_vars_all %<>%
-    .[!(. %in% c("do_shallow", "l_wsareasqkm"))]
+    .[!(. %in% c("do_shallow"))]
   
   
   ## ch4_ebullition selection----
@@ -327,15 +326,19 @@ finalize_modeling_vars <- function(modeling_vars_update,
   
   # all vif <3 when do_shallow excluded
   dat_trans %>% select(
-    all_of(modeling_vars_by_response$ch4_ebullition$local_vars_all), 
-    -l_wsareasqkm, -do_shallow
+    all_of(
+      unname(
+        modeling_vars_by_response$ch4_ebullition$local_vars_all
+        )
+      ), 
+    -do_shallow
   ) %>%
     drop_na %>%
     corvif(.)
   
   # STEP 2 Omit vars from list
   modeling_vars_by_response$ch4_ebullition$local_vars_all %<>%
-    .[!(. %in% c("do_shallow", "l_wsareasqkm"))] 
+    .[!(. %in% c("do_shallow"))] 
   
   
   
