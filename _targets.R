@@ -79,6 +79,7 @@ source("R/impute_data.R") # impute missing data
 source("R/trans_data.R") # transform data
 source("R/update_modeling_vars.R") # update list of vars to reflect transformations
 source("R/get_bp_data.R") #format barometric pressure metrics as predictors
+source("R/get_national_morpho_data.R") #format national scale morphology data as predictors
 source("R/get_solar_data.R") # ERA5 solar irradiance data
 
 # restrict predictor variable list based on collinearity
@@ -168,6 +169,16 @@ list(
       emission_rate_points_data = emission_rate_points_data
     )
   ),
+  
+  tar_file(name = national_morpho_file, "input_data/surge_res_morpho_all.csv"),
+  tar_target(
+    name = national_morpho_data,
+    command = get_national_morpho_data(
+      national_morpho_file = national_morpho_file,
+      lake_scale_data = lake_scale_data
+    )
+    ),
+  
   tar_file(lake_cat_file, "input_data/external_data/lake_cat.csv"),
   tar_target(
     name = lake_cat_data,
