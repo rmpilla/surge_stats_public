@@ -26,7 +26,8 @@ library(trackdown) # manage interaction with google docs
 #   spmodel,
 #   magrittr,
 #   english,
-#   flextable
+#   flextable,
+#   patchwork
 # )
 
 # Set target options:
