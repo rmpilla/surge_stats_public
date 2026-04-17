@@ -100,6 +100,7 @@ source("R/clean_predictor_variable_names.R")
 source("R/run_random_forest.R") # create random_forest_object, list of spatial random forest models
 source("R/get_variable_importance.R")
 source("R/get_interaction_results.R")
+source("R/get_ebul_percent.R")
 
 # manuscript
 source("R/get_table2_dat.R") # data for table 2
@@ -108,6 +109,7 @@ source("R/make_predicted_observed_plot_main_text.R")
 source("R/make_variable_importance_plot.R")
 source("R/make_partial_dependence_plots.R")
 source("R/make_interaction_plots.R")
+source("R/make_ebul_percent_figure.R")
 
 # TARGETS PIPELINE------------------
 
@@ -469,6 +471,13 @@ list(
     )
   ),
   
+  tar_target(
+    name = lake_scale_percent_ebul,
+    command = get_ebul_percent(emissions_lake_data = emissions_lake_data,
+                                  lake_polygons = lake_polygons, 
+                                  dat_trans = dat_trans)
+  ),
+  
   
   # REPORTS----
   tar_render(
@@ -566,6 +575,10 @@ list(
       explanatory_vars = c("year_completed",
                            "buoyf")
     )
+  ),
+  
+  tar_target(name = SI_ebul_percent_plot,
+             command = make_ebul_percent_figure(lake_scale_percent_ebul = lake_scale_percent_ebul)
   ),
   
   # tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 

@@ -19,16 +19,33 @@ library(english) # numeric to text
 
 ```{r data, message=FALSE}
 # load whatever data objects are needed
+targets::tar_load(SI_ebul_percent_plot)
 targets::tar_load(SI_variable_importance_globalvars)
 targets::tar_load(SI_partial_dependence_plots)
 
 ```
 
+## Spatial patterns in ebullition versus diffusion and SO\[4\]
+
+```{r SI_ebul_percent_plot, echo=FALSE, message=FALSE, warning=FALSE}
+#| fig-align: center  
+#| fig-cap: "Figure S1. Percent of lake-scale total CH~4~ emission as ebullition as a function of (A) longitude and (B) SO~4~. In (A), points are colored by SO~4~, with dark purple showing low concentrations and yellow showing high concentrations."
+#| fig-cap-location: bottom 
+#| fig-height: 5
+#| fig-width: 8 
+#| out-width: 80%
+
+#  plots of % ebullition versus longitude & versus SO[4] 
+SI_ebul_percent_plot 
+```
+
+## 
+
 ## Partial dependence: Additional variables of interest
 
 ```{r SI_partial_dependence_plots, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center 
-#| fig-cap: "Figure S1. Partial dependence plot for reservoir age (year of dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
+#| fig-cap: "Figure S2. Partial dependence plot for reservoir age (year of dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
 #| fig-cap-location: bottom 
 #| fig-height: 5 
 #| fig-width: 8 
@@ -43,7 +60,7 @@ SI_partial_dependence_plots
 
 ```{r SI_variable_importance_globalvars, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center
-#| fig-cap: "Figure S2. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
+#| fig-cap: "Figure S3. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
 #| fig-cap-location: bottom  
 #| fig-height: 4
 #| fig-width: 8
