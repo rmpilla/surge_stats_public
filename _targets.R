@@ -61,7 +61,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "terra", # used in make_harsha_pred_map.R
                  "tidyterra", # used in make_harsha_pred_map.R
                  "ranger", # used in make_harsha_pred_map.R
-                 "flextable" #moving from QMD to this file for Table 1 target
+                 "flextable", #moving from QMD to this file for Table 1 target
+                 "ftExtra"
                  )
   )
 })

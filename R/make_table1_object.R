@@ -79,15 +79,15 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
               by = c("Variable" = "variable")) %>%
     mutate(variable_clean_flextable = str_replace_all(variable_clean, pattern = "~", replacement = " "),
            variable_clean_flextable = case_when(Variable == "e_i" ~ "evaporation:inflow",
-                                                Variable == "nh4_shallow" ~ "ammonium (shallow)",
-                                                Variable == "so4_shallow" ~ "sulfate (shallow)",
+                                                Variable == "nh4_shallow" ~ "NH~4~ (shallow)",
+                                                Variable == "so4_shallow" ~ "SO~4~ (shallow)",
                                                 TRUE ~ variable_clean_flextable),
            Variable_Group = factor(Variable_Group, levels = c("morphometry", "climate", "trophic",
                                                               "hydrology", "landscape", "chemistry", "other")),
            Response = factor(Response, levels = c("diffusion, ebullition, total",
                                                   "diffusion", "ebullition"))) %>%
     filter(!is.na(variable_clean)) %>%
-    select(Variable_Group, variable_clean_flextable, #units, 
+    select(Variable_Group, variable_clean_flextable, flextable_units, 
            Scale, Response) %>%
     arrange(Variable_Group, Scale, Response, variable_clean_flextable)
   
@@ -102,9 +102,10 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
   
   
   table1_object <- flextable(table1_dat) %>%
+    ftExtra::colformat_md() %>%
     theme_booktabs() %>%
-    autofit() %>%
-    fontsize(size = 8, part = "all") %>%
+    autofit(add_w = 0) %>%
+    fontsize(size = 7.5, part = "all") %>%
     padding(padding = 0, part = "all") %>% # Set all padding to 0 points
     line_spacing(space = 1, part = "all") %>%  # Set line spacing to single space (1)
     merge_v(j = c("Variable_Group"#, "Scale", "Response"
@@ -113,7 +114,8 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
     hline(i = which(bottom_varGroup_borders$is_last),
           border = officer::fp_border(width = 1)) %>%
     flextable::set_header_labels(Variable_Group = "Variable Group",
-                      variable_clean_flextable = "Variable Name")
+                      variable_clean_flextable = "Variable Name",
+                      flextable_units = "Units")
   
   
   return(table1_object)
