@@ -15,6 +15,8 @@ library(tidyverse)
 library(tidymodels) # glance
 library(flextable) # tables
 library(english) # numeric to text
+library(tidyterra) # harsha lake map
+library(terra) # harsha lake map
 ```
 
 ```{r data, message=FALSE}
@@ -31,6 +33,7 @@ targets::tar_load(predicted_observed_plot)
 targets::tar_load(variable_importance_plot)
 targets::tar_load(partial_dependence_plots)
 targets::tar_load(interaction_plots)
+targets::tar_load(harsha_pred_map)
 ```
 
 ## Introduction
@@ -286,6 +289,11 @@ Interaction plots
 interaction_plots
 
 ```
+
+Harsha prediction map:
+
+
+![Figure 6. Predicted CH~4~ total emission rate (A) and standard error (B) at Harsha Lake (lake_id == 1031).](../harsha_pred_map.png)
 
 ## Discussion
 

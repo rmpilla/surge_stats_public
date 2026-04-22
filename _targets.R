@@ -27,7 +27,10 @@ library(trackdown) # manage interaction with google docs
 #   magrittr,
 #   english,
 #   flextable,
-#   patchwork
+#   patchwork,
+#   terra, # used in make_harsha_pred_map.R
+#   tidyterra, # used in make_harsha_pred_map.R
+#   ranger # used in make_harsha_pred_map.R
 # )
 
 # Set target options:
@@ -54,7 +57,10 @@ suppressPackageStartupMessages({ # cleaner output
                  "magick",
                  "tigris",
                  "ggnewscale",
-                 "scatterpie"
+                 "scatterpie",
+                 "terra", # used in make_harsha_pred_map.R
+                 "tidyterra", # used in make_harsha_pred_map.R
+                 "ranger" # used in make_harsha_pred_map.R
                  )
   )
 })
@@ -82,6 +88,7 @@ source("R/update_modeling_vars.R") # update list of vars to reflect transformati
 source("R/get_bp_data.R") #format barometric pressure metrics as predictors
 source("R/get_national_morpho_data.R") #format national scale morphology data as predictors
 source("R/get_solar_data.R") # ERA5 solar irradiance data
+# source("R/make_harsha_pred_map.R") # this is run outside of targets and writes harsha_pred_map.png
 
 # restrict predictor variable list based on collinearity
 source("R/aed_corvif.R") # load vif function
@@ -180,7 +187,7 @@ list(
       national_morpho_file = national_morpho_file,
       lake_scale_data = lake_scale_data
     )
-    ),
+  ),
   
   tar_file(lake_cat_file, "input_data/external_data/lake_cat.csv"),
   tar_target(
@@ -255,12 +262,12 @@ list(
   tar_file(usace_pittsburg_file, "input_data/external_data/usace/USACE_Pittsburg_District.xlsx"),
   tar_target(usace_chem, 
              command = get_usace_chem(
-    usace_caesar_file, usace_cave_file,
-    usace_harsha_file,
-    usace_brookville_buckhorn_carr_file,
-    usace_huntington_file,
-    usace_pittsburg_file
-  )),
+               usace_caesar_file, usace_cave_file,
+               usace_harsha_file,
+               usace_brookville_buckhorn_carr_file,
+               usace_huntington_file,
+               usace_pittsburg_file
+             )),
   
   tar_file(ohio_epa_chem_file, "input_data/external_data/ohio_epa/ohio_epa_lake_data.rds"),
   tar_file(ohio_epa_chem_milton_file, "input_data/external_data/ohio_epa/STORET_historicalWQ.csv"),
@@ -287,13 +294,13 @@ list(
     solar_data_file,
     "input_data/external_data/shortwave_radiation.csv"
   ),
+  
   tar_target(
     name = solar_data,
-             command = get_solar_data(solar_data_file = solar_data_file)
+    command = get_solar_data(solar_data_file = solar_data_file)
   ),
-
-
-
+  
+  
   ## recreate `dat` object from SuRGE repository-----
   tar_target(
     name = dat_raw,
@@ -311,14 +318,14 @@ list(
       solar_data = solar_data
     )
   ),
-
-
+  
+  
   ## initial list of predictor variables----
   tar_target(
     name = original_vars,
     command = define_original_vars() # no argument to this function
   ),
-
+  
   ## impute missing chemistry date----
   tar_target(
     name = dat_impute,
@@ -334,7 +341,7 @@ list(
       ohio_wildlife_chem = ohio_wildlife_chem
     )
   ),
-
+  
   ## screen vars for missing observations, select subset for modeling-----
   tar_target(
     name = modeling_vars,
@@ -343,7 +350,7 @@ list(
       original_vars = original_vars
     )
   ),
-
+  
   ## TRANSFORM DATA-----
   tar_target(
     name = dat_trans,
@@ -352,7 +359,7 @@ list(
       modeling_vars = modeling_vars
     )
   ),
-
+  
   ## update list of modeling vars to reflect transformations
   tar_target(
     name = modeling_vars_update,
@@ -361,7 +368,7 @@ list(
       modeling_vars = modeling_vars
     )
   ),
-
+  
   # SCREEN FOR COLLINEARITY----
   # morphology vars
   tar_target(
@@ -371,7 +378,7 @@ list(
       modeling_vars_update = modeling_vars_update
     )
   ),
-
+  
   # hydrology vars
   tar_target(
     name = final_hydrol_vars,
@@ -380,7 +387,7 @@ list(
       modeling_vars_update = modeling_vars_update
     )
   ),
-
+  
   # chemistry vars
   ## not needed. Using all vars
   # tar_target(
@@ -388,21 +395,21 @@ list(
   #   command = get_final_chem_vars(dat_trans = dat_trans,
   #                                   modeling_vars_update = modeling_vars_update)
   # ),
-
+  
   # climate vars
   tar_target(
     name = final_clim_vars,
     command = get_final_clim_vars(dat_trans = dat_trans,
-                                    modeling_vars_update = modeling_vars_update)
+                                  modeling_vars_update = modeling_vars_update)
   ),
-
+  
   # temperature vars
   tar_target(
     name = final_temp_vars,
     command = get_final_temp_vars(dat_trans = dat_trans,
-                                    modeling_vars_update = modeling_vars_update)
+                                  modeling_vars_update = modeling_vars_update)
   ),
-
+  
   # trophic vars
   tar_target(
     name = final_trophic_vars,
@@ -411,7 +418,7 @@ list(
       modeling_vars_update = modeling_vars_update
     )
   ),
-
+  
   # landscape vars
   tar_target(
     name = final_landscape_vars,
@@ -435,19 +442,19 @@ list(
       dat_trans = dat_trans
     )
   ),
-
+  
   tar_target(
     name = clean_predictor_names_crosswalk,
     command = clean_predictor_variable_names(modeling_vars_final)
   ),
-
+  
   # MODELS----
   # tar_target(
   #   name = gam_object,
   #   command = run_gamm(modeling_vars_final = modeling_vars_final,
   #                      dat_trans = dat_trans)
   # ),
-
+  
   tar_target(
     name = random_forest_object,
     command = run_random_forest(
@@ -474,8 +481,8 @@ list(
   tar_target(
     name = lake_scale_percent_ebul,
     command = get_ebul_percent(emissions_lake_data = emissions_lake_data,
-                                  lake_polygons = lake_polygons, 
-                                  dat_trans = dat_trans)
+                               lake_polygons = lake_polygons, 
+                               dat_trans = dat_trans)
   ),
   
   
@@ -537,7 +544,6 @@ list(
     )
   ),
   
-  
   tar_target(
     name = interaction_plots,
     command = make_interaction_plots(
@@ -546,11 +552,17 @@ list(
   ),
   
   tar_target(
+    name = harsha_pred_map,
+    command = "harsha_pred_map.png",
+    format = "file"
+  ),
+  
+  tar_target(
     refs, 
     "R/references.bib", 
     format = "file"
   ),
-  
+
   
   ## SI material
   tar_target(
