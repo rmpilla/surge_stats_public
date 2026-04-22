@@ -780,26 +780,7 @@
     "flextable": {
       "Package": "flextable",
       "Version": "0.9.11",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "data.table",
-        "gdtools",
-        "grDevices",
-        "graphics",
-        "grid",
-        "htmltools",
-        "knitr",
-        "officer",
-        "ragg",
-        "rlang",
-        "rmarkdown",
-        "stats",
-        "utils",
-        "uuid",
-        "xml2"
-      ],
-      "Hash": "016c4b282f7dbb621fa30560924a4085"
+      "Source": "Repository"
     },
     "fontBitstreamVera": {
       "Package": "fontBitstreamVera",
