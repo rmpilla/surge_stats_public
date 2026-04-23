@@ -61,7 +61,9 @@ suppressPackageStartupMessages({ # cleaner output
                  "scatterpie",
                  "terra", # used in make_harsha_pred_map.R
                  "tidyterra", # used in make_harsha_pred_map.R
-                 "ranger" # used in make_harsha_pred_map.R
+                 "ranger", # used in make_harsha_pred_map.R
+                 "flextable", #moving from QMD to this file for Table 1 target
+                 "ftExtra"
                  )
   )
 })
@@ -111,6 +113,7 @@ source("R/get_interaction_results.R")
 source("R/get_ebul_percent.R")
 
 # manuscript
+source("R/make_table1_object.R")
 source("R/get_table2_dat.R") # data for table 2
 source("R/make_map_figure.R")
 source("R/make_predicted_observed_plot_main_text.R")
@@ -494,6 +497,12 @@ list(
   ),
   
   # MANUSCRIPT----
+  tar_target(
+    name = table1_object,
+    command = make_table1_object(
+      clean_predictor_names_crosswalk = clean_predictor_names_crosswalk)
+  ),
+  
   tar_target(
     name = table2_dat,
     command = get_table2_dat(

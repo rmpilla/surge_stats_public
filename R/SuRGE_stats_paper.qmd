@@ -24,6 +24,7 @@ library(terra) # harsha lake map
 targets::tar_load(dat_raw)
 targets::tar_load(dat_trans)
 targets::tar_load(modeling_vars)
+targets::tar_load(table1_object)
 targets::tar_load(lake_scale_percent_ebul)
 targets::tar_load(random_forest_object)
 targets::tar_load(interaction_results)
@@ -75,104 +76,8 @@ Random forest models were constructed for each response variable (diffusive, ebu
 ```{r}
 #| label: table_1
 #| tbl-cap: "Table 1. Variables used in Random Forest model."
-# code to print variables. Manually compiled into list below.
-# Couldn't figure out elegant coding solution.
-# bind_rows(
-#   # local_vars first
-#   modeling_vars$local_vars_all %>%
-#     imap(., ~ tibble(group = .y, variable = .x, scale = "local")) %>%
-#     list_rbind() %>%
-#     filter(group == "clim_vars"),
-#   # global vars
-#   modeling_vars$global_vars %>%
-#     imap(., ~ tibble(group = .y, variable = .x, scale = "global")) %>%
-#     list_rbind()%>%
-#     filter(group == "clim_vars")
-# )
-table1_dat <- tribble(
-  ~Variable_Group, ~Variable, ~Scale, ~Response,
-  
-  # morphometry
-  "morphometry", "buoyancy frequency", "local", "diffusion/ebullition/total",
-  "morphometry", "site_depth", "local", "diffusion/ebullition/total",
-  "morphometry", "circularity", "local/global", "diffusion/ebullition/total",      
-  "morphometry","dynamic_ratio", "local/global", "diffusion/ebullition/total",        
-  "morphometry","littoral_fraction", "local/global", "diffusion/ebullition/total",    
-  "morphometry","max_depth", "local/global", "diffusion/ebullition/total",           
-  "morphometry",  "max_length", "local/global", "diffusion/ebullition/total",           
-  "morphometry",  "max_width", "local/global", "diffusion/ebullition/total",            
-  "morphometry",  "mean_depth", "local/global", "diffusion/ebullition/total",           
-  "morphometry",  "mean_width", "local/global", "diffusion/ebullition/total",           
-  "morphometry",  "shoreline_development", "local/global", "diffusion/ebullition/total",
-  "morphometry", "shoreline_length", "local/global", "diffusion/ebullition/total",     
-  "morphometry", "surface_area", "local/global", "diffusion/ebullition/total",        
-  "morphometry", "volume", "local/global", "diffusion/ebullition/total",
-  
-  # climate
-  "climate", "temp_deep", "local", "diffusion/ebullition/total",
-  "climate", "temp_shallow", "local", "diffusion/ebullition/total",
-  "climate", "precipitation_chamber", "local", "diffusion",
-  "climate", "precipitation_trap", "local", "ebullition",
-  "climate", "wind_speed_chamber", "local", "diffusion",
-  "climate", "wind_speed_trap", "local", "ebullition",
-  "climate", "delta_bp_ebu", "local", "ebullition",
-  "climate", "delta_bp_diff", "local", "diffusion",
-  "climate", "shortwave_radiation_sum_mj_m2", "local", "diffusion",
-  "climate", "precip8110cat", "global", "diffusion/ebullition/total",
-  "climate", "precip8110ws", "global", "diffusion/ebullition/total",
-  "climate", "runoffcat", "global", "diffusion/ebullition/total",
-  "climate", "runoffws", "global", "diffusion/ebullition/total",
-  "climate", "max temperature 1981 - 2010", "global", "diffusion/ebullition/total",
-  
-  
-  # trophic
-  "trophic", "chla_lab_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "no2_3_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "tp_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "tn_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "op_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "toc_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "chla_sonde_shallow", "local", "diffusion/ebullition/total",
-  "trophic", "nla17_sed_c", "local", "diffusion/ebullition/total",
-  "trophic", "chl_predicted_sample_month_visit1", "global", "diffusion/ebullition/total",
-  "trophic", "doc_predicted_sample_month_visit1", "global", "diffusion/ebullition/total",
-  
-  # hydrology
-  "hydrology", "evaporation:inflow", "local", "diffusion/ebullition/total",
-  "hydrology", "sidence_time", "local", "diffusion/ebullition/total",
-  
-  # landscape
-  "landscape", "wsareasqkm", "local/global", "diffusion/ebullition/total",
-  "landscape", "rda", "local/global", "diffusion/ebullition/total",
-  "landscape", "kffactcat", "global",  "diffusion/ebullition/total",
-  "landscape", "omcat", "global",  "diffusion/ebullition/total",
-  "landscape", "scat", "global",  "diffusion/ebullition/total",
-  "landscape", "pctcrop2019cat", "global",  "diffusion/ebullition/total",
-  "landscape", "wsareasqkm", "global",  "diffusion/ebullition/total",
-  "landscape", "nitrogencat", "global",  "diffusion/ebullition/total",
-  "landscape", "agkffactcat", "global",  "diffusion/ebullition/total",
-  "landscape", "elevcat", "global",  "diffusion/ebullition/total",
-  
-  # chemistry
-  "chemistry", "NH4+", "local", "diffusion/ebullition/total",
-  "chemistry", "SO42-", "local", "diffusion/ebullition/total",
-  "chemistry", "TOC", "local", "diffusion/ebullition/total",
-  "chemistry", "DO deep", "local", "diffusion/ebullition/total",
-  "chemistry", "DO shallow", "local", "diffusion/ebullition/total",
-  
-  # other
-  "other", "reservoir age", "local", "diffusion/ebullition/total",
-  "other", "ecoregion", "local/global", "diffusion/ebullition/total"
-)
-# see top of code chunk for caption
-flextable(table1_dat) %>%
-  theme_booktabs() %>%
-  autofit() %>%
-  fontsize(size = 8, part = "all") %>%
-  padding(padding = 0, part = "all") %>% # Set all padding to 0 points
-  line_spacing(space = 1, part = "all") %>%  # Set line spacing to single space (1)
-  merge_v(j = c("Variable_Group", "Scale", "Response")) %>%
-  fix_border_issues() 
+
+table1_object 
 ```
 
 Random forests [@breiman_2001], a machine learning technique, were used to relate CH~4~ emission rates (diffusive, ebullitive, total) to predictor variables **(Table 1)**. This method was chosen because it can accommodate non-linear relationships, interactions, and collinearity among predictor variables, all of which are present in the data. Random forests are a collection of regression trees, where each tree is trained on a bootstrapped sample of the data and predictors. Predictions from the random forest model are an average of the predictions across the individual trees. Model error for each tree in the random forest is quantified by comparing the observations that were withheld from each tree by the bootstrap sampling procedure, to the value predicted for those observations. These prediction errors are averaged across the ensemble of trees and reported as the out-of-bag (OOB) model error.
@@ -291,7 +196,6 @@ interaction_plots
 ```
 
 Harsha prediction map:
-
 
 ![Figure 6. Predicted CH~4~ total emission rate (A) and standard error (B) at Harsha Lake (lake_id == 1031).](../harsha_pred_map.png)
 
