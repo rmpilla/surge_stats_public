@@ -39,6 +39,7 @@ suppressPackageStartupMessages({ # cleaner output
     # Packages that your targets need for their tasks.
     packages = c("tidyverse", 
                  "janitor", # enforce naming conventions
+                 "lubridate", # calculate day of year with yday
                  "GGally", # pairs plots with rho 
                  "plotly",
                  "tidymodels",

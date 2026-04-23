@@ -157,7 +157,7 @@ finalize_modeling_vars <- function(modeling_vars_update,
     )
   
   ## OTHER VARS----
-  # year_completed, ag_eco9_nm, keep both, no action required
+  # year_completed, ag_eco9_nm, doy, keep all, no action required
   
   
   # 2. CREATE A LIST OF PREDICTOR BY EMISSION MECHANISM----

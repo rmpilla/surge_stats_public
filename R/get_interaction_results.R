@@ -17,7 +17,7 @@ get_interaction_results <- function(random_forest_object,
     #"littoral_fraction"
   )
   
-  library(ranger)
+
   partial_interaction_all = c()
   for(i in 1:nrow(int_var_combos)){
     pdp_data = pdp::partial(object = #random_forest_object_rangerOnly[[int_var_combos$model_name[i]]],

@@ -237,8 +237,9 @@ merge_data <- function(
     left_join(nla_chem$nla17_chem) %>%
     left_join(nla_chem$nla22_chem) %>%
     ## derived quantities----
-    # add sampling month
+    # add sampling month and day of year (DOY)
     mutate(sample_month = format(sample_start, "%B"),
+           doy = lubridate::yday(sample_start),
            rda = wsareasqkm / (surface_area / 1e6)) # m2 -> km2
     
   

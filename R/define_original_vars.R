@@ -164,7 +164,8 @@ define_original_vars <- function() {
   # 7. OTHERS--------
   other_vars <- c(
     "year_completed",
-    "ag_eco9_nm"
+    "ag_eco9_nm",
+    "doy"
   ) %>%
     # name vector elements. This format is handy when joining
     # all these vectors into a DF
@@ -221,7 +222,7 @@ define_original_vars <- function() {
         # exclude all chem vars
         #chem_vars,
         # only keep ag_eco9_nm
-        other_vars = other_vars[other_vars == "ag_eco9_nm"]
+        other_vars = other_vars[other_vars %in% c("ag_eco9_nm", "doy")]
       )
     )
   )
