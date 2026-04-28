@@ -21,7 +21,7 @@ tar_load(random_forest_object)
 ### get bathymetry data----
 
 
-harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "eastfork_ras") %>%
+harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "high_res_bathy") %>%
   terra::project("ESRI:102008") # CONUS ALBERS
 class(harsha_bathy_ras) # terra SpatRaster
 names(harsha_bathy_ras) <- "site_depth" # fix attribute name in raster
@@ -30,9 +30,6 @@ harsha_bathy_ras$id <- 1:ncell(harsha_bathy_ras) # ras cell ids. required for jo
 
 # plot bathymetry data
 plot(harsha_bathy_ras$site_depth)
-
-# convert bathymetry ras to tibble for join with other predictor values
-harsha_bathy_df <- as_tibble(harsha_bathy_ras, xy = TRUE) 
 
 # convert bathymetry raster to sf point object based on raster cell centers
 # this will be used to krige other predictor values to grid.
@@ -181,7 +178,7 @@ pred_dat3 <- readxl::read_xlsx(
   # now bring in latitude and longitude from different sheet in same file
   left_join(
     readxl::read_xlsx(
-      path = "input_data/external_datased_ea_site_information.xlsx"
+      path = "input_data/external_data/harsha/sed_ea_site_information.xlsx"
     ) %>%
       janitor::clean_names() %>%
       select(
@@ -223,7 +220,11 @@ pred_mod <- map(
 )
 
 ### predict values of predictors across the bathymetry grid----
-pred_preds <- imap(
+library(furrr)
+# Set up parallel workers (multisession is recommended for compatibility)
+plan(multisession, workers = availableCores() - 1) 
+tic()
+pred_preds <- future_imap(
   pred_mod, \(x, y) # x is list, y is list element name
   predict(x, newdata = harsha_grid) %>%
     as_tibble %>%
@@ -240,6 +241,11 @@ pred_preds <- imap(
   list_cbind() %>%
   # now bind harsha_grid (site_depth, id, and geometry)
   cbind(harsha_grid, .) # creates sf object
+toc() # 1.5 hours
+plan(sequential) # turn off furrr parallel processing
+
+## remove large objects from environment
+rm(harsha_grid)
 
 ### map predictor values across bathymetry grid----
 # Get column names excluding the geometry column
@@ -287,6 +293,7 @@ all_pred_grid <- bind_cols(pred_preds, static_preds)
 
 ### predict emissions----
 # predict() generates a list
+# could not allocate memory error
 pred_ranger_harsha <- predict(
   object = random_forest_object$ch4_total.local_vars_all$ranger, 
   data = all_pred_grid %>%
@@ -319,7 +326,7 @@ harsha_pred_ras <- tibble(
   ) %>%
   # put coordinates in first two columns to allign with xycols arguments in as_spatraster
   relocate(x, y) %>%
-  tidyterra::as_spatraster(xycols = 1:2, crs = crs(harsha_bathy_ras))
+  tidyterra::as_spatraster(xycols = 1:2, crs = crs("ESRI:102008")) # CONUS ALBERS
 
 
 # linear plots

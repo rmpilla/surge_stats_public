@@ -2,16 +2,20 @@ define_original_vars <- function() {
   # 1. MORPHO VARIABLES--------
   morpho_vars <- c(
     "surface_area",
+    "surface_area_global",
     "shoreline_length",
     "shoreline_development",
     "max_width", # Max distance perpendicular to max lake length
     "mean_width", # Lake surface area divided by fetch
     "max_length", # longest open water distance of a lake (fetch)
     "mean_depth",
+    "mean_depth_global",
     "max_depth",
+    "max_depth_global",
     "site_depth", # point specific sample depth
     "volume",
     "littoral_fraction",
+    "littoral_fraction_global",
     "circularity", # circular (value approaches 1) vs elongated (value approaches 0).
     "dynamic_ratio", # SA:mean depth. Low values = bowl shaped, high values = dish-like
     
@@ -176,7 +180,8 @@ define_original_vars <- function() {
     tibble::lst(
       # first list element
       local_vars_all = tibble::lst(
-        morpho_vars, 
+        # exclude global morpho vars
+        morpho_vars = morpho_vars[!grepl("_global", morpho_vars)], 
         # exclude LAGOS vars
         trophic_vars = trophic_vars[!grepl("predicted", trophic_vars)], 
         # exclude global climate variables
@@ -191,7 +196,8 @@ define_original_vars <- function() {
       
       # second list element
       local_vars_no_nla = tibble::lst(
-        morpho_vars, 
+        # exclude global morpho vars
+        morpho_vars = morpho_vars[!grepl("_global", morpho_vars)], 
         # exclude NLA sediment chemistry
         trophic_vars = trophic_vars[!grepl(c("nla17_sed_c|predicted"), trophic_vars)], 
         # exclude global climate variables
@@ -208,7 +214,9 @@ define_original_vars <- function() {
       # third list element
       global_vars = tibble::lst(
         # exclude on site measurements
-        morpho_vars = morpho_vars[!morpho_vars %in% c("buoyf", "thermdep2", "site_depth")], 
+        morpho_vars = morpho_vars[!morpho_vars %in% c("buoyf", "thermdep2", "site_depth",
+                                                      "max_depth", "mean_depth", "surface_area",
+                                                      "littoral_fraction")], 
         # only keep LAGOS predictors
         trophic_vars = trophic_vars[grepl("predicted", trophic_vars)], 
         # only keep lakeCat climate variables
