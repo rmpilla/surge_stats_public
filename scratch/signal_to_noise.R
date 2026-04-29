@@ -3,7 +3,7 @@
 get_signal_to_noise <- function(emission_rate_points_data) {
   
   among_var<- emission_rate_points_data %>%
-    filter(lake_id %in% c(147,148,250,281))%>%
+    #filter(lake_id %in% c(147,148,250,281))%>%
     filter(visit==1)%>%
     #group_by(lake_id)%>%
     summarise(diff_var=var(ch4_diffusion,na.rm=TRUE),ebu_var=var(ch4_ebullition,na.rm=TRUE),
