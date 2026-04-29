@@ -83,7 +83,10 @@ surface_area_vif_local
 
 # SURFACE AREA: GLOBAL MODEL----
 # Define predictors that include surface area
-# sequentially remove predictors with VIF > 3
+# For the global model, we are using the same variables fed into local
+# models, but derived from a global source. We are no longer testing for
+# correlation because the global model is simply the local model with different
+# data sources.
 
 surface_area_vif_global <- dat_trans %>%
   # start with all predictors
@@ -92,9 +95,9 @@ surface_area_vif_global <- dat_trans %>%
       modeling_vars_update$global_vars$morpho_vars
     ) # close unname
   )) %>%
-  # sequentially remove predictors with greatest VIF, but keep surface area
+  # remove same predictors as above for local model
   select(-shoreline_length, -mean_width, -volume,
-         -max_width, -max_depth, -dynamic_ratio,
+         -max_width, -max_depth_global, -dynamic_ratio,
          -shoreline_development, -max_length) %>%
   # morpho variables are repeated for each site in a lake
   # filter to unique value to simplify the plot

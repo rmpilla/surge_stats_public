@@ -63,7 +63,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "tidyterra", # used in make_harsha_pred_map.R
                  "ranger", # used in make_harsha_pred_map.R
                  "flextable", #moving from QMD to this file for Table 1 target
-                 "ftExtra"
+                 "ftExtra",
+                 "tictoc" # timing Harsha Lake heat map
                  )
   )
 })
@@ -318,6 +319,7 @@ list(
       lake_cat_data = lake_cat_data,
       nla_chem = nla_chem,
       bp_data = bp_data,
+      national_morpho_data = national_morpho_data,
       solar_data = solar_data
     )
   ),

@@ -13,6 +13,7 @@ merge_data <- function(
     lake_cat_data,
     nla_chem,
     bp_data,
+    national_morpho_data,
     solar_data) {
   # pivot from long to wide where needed----
   ## site_data----
@@ -236,14 +237,12 @@ merge_data <- function(
     full_join(lake_cat_data) %>%
     left_join(nla_chem$nla17_chem) %>%
     left_join(nla_chem$nla22_chem) %>%
+    left_join(national_morpho_data) %>%
     ## derived quantities----
     # add sampling month and day of year (DOY)
     mutate(sample_month = format(sample_start, "%B"),
            doy = lubridate::yday(sample_start),
            rda = wsareasqkm / (surface_area / 1e6)) # m2 -> km2
-    
-  
-  
   
 
   # inspect dat object

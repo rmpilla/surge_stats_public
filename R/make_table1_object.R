@@ -73,7 +73,8 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
     
     # other
     "other", "year_completed", "local", "diffusion, ebullition, total",
-    "other", "ag_eco9_nm", "local, national", "diffusion, ebullition, total"
+    "other", "ag_eco9_nm", "local, national", "diffusion, ebullition, total",
+    "other", "doy", "local", "diffusion, ebullition, total"
   ) %>%
     left_join(clean_predictor_names_crosswalk,
               by = c("Variable" = "variable")) %>%
