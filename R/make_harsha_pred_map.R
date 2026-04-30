@@ -12,6 +12,10 @@ library(tidyterra)
 library(tidyverse)
 library(ranger)
 library(patchwork)
+library(sf)
+library(spmodel)
+library(tictoc)
+library(furrr)
 
 # data
 tar_load(dat_trans)
@@ -19,9 +23,12 @@ tar_load(modeling_vars_final)
 tar_load(random_forest_object)
 
 ### get bathymetry data----
-
-
-harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "high_res_bathy") %>%
+# not enough memory on laptop for high resolution bathymetry map. Code chokes on
+# line 298
+# harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "high_res_bathy") %>%
+#   terra::project("ESRI:102008") # CONUS ALBERS
+# lower resolution map works
+harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "eastfork_ras") %>%
   terra::project("ESRI:102008") # CONUS ALBERS
 class(harsha_bathy_ras) # terra SpatRaster
 names(harsha_bathy_ras) <- "site_depth" # fix attribute name in raster
@@ -220,11 +227,10 @@ pred_mod <- map(
 )
 
 ### predict values of predictors across the bathymetry grid----
-library(furrr)
 # Set up parallel workers (multisession is recommended for compatibility)
-plan(multisession, workers = availableCores() - 1) 
+future::plan(multisession, workers = availableCores() - 1) 
 tic()
-pred_preds <- future_imap(
+pred_preds <- furrr::future_imap(
   pred_mod, \(x, y) # x is list, y is list element name
   predict(x, newdata = harsha_grid) %>%
     as_tibble %>%
@@ -241,30 +247,32 @@ pred_preds <- future_imap(
   list_cbind() %>%
   # now bind harsha_grid (site_depth, id, and geometry)
   cbind(harsha_grid, .) # creates sf object
-toc() # 1.5 hours
+toc() # 18 seconds with low resolution data
 plan(sequential) # turn off furrr parallel processing
 
 ## remove large objects from environment
 rm(harsha_grid)
 
 ### map predictor values across bathymetry grid----
-# Get column names excluding the geometry column
-cols_to_plot <- setdiff(names(pred_preds), c("geometry", "id"))
-
-# Loop and save
-for (col in cols_to_plot) {
-  # Create filename
-  filename <- paste0("input_data/external_data/harsha/", col, ".png") #width = 800, height = 600)
-  
-  # Start PNG device
-  png(filename)
-  
-  # Plot attribute column
-  plot(pred_preds[col], main = paste("Map of", col))
-  
-  # Close device
-  dev.off()
-}
+# this isn't necessary but kinda nice to see how values for the predictors
+# are distributed across the lake
+# # Get column names excluding the geometry column
+# cols_to_plot <- setdiff(names(pred_preds), c("geometry", "id"))
+# 
+# # Loop and save
+# for (col in cols_to_plot) {
+#   # Create filename
+#   filename <- paste0("input_data/external_data/harsha/", col, ".png") #width = 800, height = 600)
+#   
+#   # Start PNG device
+#   png(filename)
+#   
+#   # Plot attribute column
+#   plot(pred_preds[col], main = paste("Map of", col))
+#   
+#   # Close device
+#   dev.off()
+# }
 
 ### gather other predictors needed for model----
 # these predictors are invariant across space
@@ -310,14 +318,35 @@ pred_ranger_harsha <- predict(
 resid_var <- random_forest_object$ch4_total.local_vars_all$splm$obdata$.ranger_resid %>%
   var
 
-harsha_pred_ras <- tibble(
+harsha_preds <- tibble(
   ch4_tot_log =  pred_ranger_harsha$predictions,
   ch4_tot_corrected =  exp(pred_ranger_harsha$predictions + (resid_var/2)) - 1,
   ch4_tot_uncorrected =  expm1(pred_ranger_harsha$predictions),
   ch4_tot_se_log = pred_ranger_harsha$se,
   ch4_tot_se_uncorrected = pred_ranger_harsha$se * ch4_tot_uncorrected,
   ch4_tot_se_corrected = pred_ranger_harsha$se * ch4_tot_corrected, 
-) %>%
+) 
+
+# now simulate emission rates based on mean and SE
+set.seed(31551)
+n <- 10000
+harsha_preds_sim <- numeric(n) 
+
+for (i in 1:n){
+  #z.i <- rnorm(n = nrow(harsha_preds), mean = 0, sd = 1)
+  z.i <- rnorm(n = 1, mean = 0, sd = 1)
+  harsha_preds_sim[i] <- (harsha_preds$ch4_tot_corrected + 
+    (harsha_preds$ch4_tot_se_corrected * z.i)) |>
+    mean()
+}
+
+mean_ch4 <- mean(harsha_preds_sim) # 89.05
+l95_ci_ch4 <- quantile(harsha_preds_sim, 0.05) # 72.5
+u95_ci_ch4 <- quantile(harsha_preds_sim, 0.95) # 105.9
+
+### map emissions and SE----
+# convert to raster for plotting
+harsha_preds_ras <- harsha_preds%>%
   bind_cols(
     all_pred_grid %>%
       mutate(x = st_coordinates(.)[, 1],
@@ -370,4 +399,6 @@ p.se <- ggplot() +
 combined <- p.mean + p.se +
    plot_annotation(tag_levels = 'A') 
 ggsave("harsha_pred_map.png", combined, width = 10, height = 6, dpi = 300)
+
+
 
