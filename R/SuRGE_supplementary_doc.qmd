@@ -22,6 +22,7 @@ library(english) # numeric to text
 targets::tar_load(SI_ebul_percent_plot)
 targets::tar_load(SI_variable_importance_globalvars)
 targets::tar_load(SI_partial_dependence_plots)
+targets::tar_load(chla_lab_shallow)
 
 ```
 
@@ -69,4 +70,18 @@ SI_partial_dependence_plots
 # plot global_vars variable importance
 SI_variable_importance_globalvars
 
+```
+
+Harsha Lake emission driver maps
+
+```{r emission_driver_map, echo=FALSE, message=FALSE, warning=FALSE}
+#| fig-align: center
+#| fig-cap: "Figure S3. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
+#| fig-cap-location: bottom  
+#| fig-height: 4
+#| fig-width: 8
+#| out-width: 80% 
+
+# plot chla heat map
+chla_lab_shallow
 ```

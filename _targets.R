@@ -499,6 +499,7 @@ list(
   ),
   
   # MANUSCRIPT----
+  ## main text elements----
   tar_target(
     name = table1_object,
     command = make_table1_object(
@@ -576,7 +577,7 @@ list(
   ),
 
   
-  ## SI material
+  ## SI material----
   tar_target(
     name = SI_variable_importance_globalvars,
     command = make_variable_importance_plot(
@@ -605,6 +606,34 @@ list(
              command = make_ebul_percent_figure(lake_scale_percent_ebul = lake_scale_percent_ebul)
   ),
   
+  ### harsha lake emission driver heat maps----
+  tar_target(name = chla_lab_shallow,
+             command = "chla_lab_shallow.png",
+             format = "file"),
+  
+  tar_target(name = do_deep,
+             command = "do_deep.png",
+             format = "file"),
+  
+  tar_target(name = site_depth,
+             command = "site_depth.png",
+             format = "file"),
+  
+  tar_target(name = temp_deep,
+             command = "temp_deep.png",
+             format = "file"),
+  
+  tar_target(name = temp_shallow,
+             command = "temp_shallow.png",
+             format = "file"),
+  
+  tar_target(name = turbidity_shallow,
+             command = "turbidity_shallow.png",
+             format = "file"),
+  
+  
+  
+  ## quarto targets----
   # tar_quarto looks at the tar_load calls inside the .qmd to define dependencies 
   # on other targets. It also tracks changes in references.bib
   tar_quarto(
