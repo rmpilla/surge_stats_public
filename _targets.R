@@ -122,6 +122,7 @@ source("R/make_variable_importance_plot.R")
 source("R/make_partial_dependence_plots.R")
 source("R/make_interaction_plots.R")
 source("R/make_ebul_percent_figure.R")
+source("R/get_signal_to_noise.R")
 
 # TARGETS PIPELINE------------------
 
@@ -566,6 +567,13 @@ list(
     name = harsha_pred_map,
     command = "harsha_pred_map.png",
     format = "file"
+  ),
+  
+  tar_target(
+    name = s_n,
+    command= get_signal_to_noise(
+      emission_rate_points_data = emission_rate_points_data
+    )
   ),
   
   tar_target(

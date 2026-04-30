@@ -57,7 +57,9 @@ get_national_morpho_data <- function(national_morpho_file) {
   
   #look at how many surface area estimates we have in nhd
   sanhd<-nhd%>%
-    filter(variable=="surface_area")
+    filter(variable=="surface_area")%>%
+    #filter out lake 1 which has unreasonably high surface area
+    filter(lake_id != 1)
   
   #fill in the rest with hydrolakes
   sanlmd<-nm2%>%
