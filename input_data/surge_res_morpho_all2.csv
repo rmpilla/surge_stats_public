@@ -1,0 +1,1759 @@
+"","lake_id","source","units","variable","value"
+"1",1,"globathy","m","max_depth",16.3339748382568
+"2",1,"globathy","m","mean_depth",6.0040544901269
+"3",1,"hydrolakes","km2","surface_area",1.20000004768372
+"4",1,"hydrolakes","m","shoreline_length",8.69999980926514
+"5",1,"hydrolakes","mcm","volume",2.30999994277954
+"6",1,"hydrolakes","m","mean_depth",1.89999997615814
+"7",1,"nhdplus","km2","surface_area",47.315
+"8",1,"nhdplus","m","max_depth",0
+"9",1,"nhdplus","m","mean_depth",0.206910638
+"10",2,"globathy","m","max_depth",22.6573829650879
+"11",2,"globathy","m","mean_depth",7.24359753114377
+"12",2,"hydrolakes","km2","surface_area",39.4199981689453
+"13",2,"hydrolakes","m","shoreline_length",79.8899993896484
+"14",2,"hydrolakes","mcm","volume",1706.90002441406
+"15",2,"hydrolakes","m","mean_depth",43.2999992370605
+"16",2,"nhdplus","km2","surface_area",39.078
+"17",2,"nhdplus","m","max_depth",5.470326621
+"18",2,"nhdplus","m","mean_depth",1.602612224
+"19",2,"nhdplus","m3","volume",62627538.33
+"20",2,"lagos","m","max_depth",5.2
+"21",2,"lagos","ha","surface_area",4609.147
+"22",2,"nla index and nla phab","m","mean_depth",1.86428571428571
+"23",2,"nla17 index","m","max_depth",7
+"24",3,"globathy","m","max_depth",15.2704801559448
+"25",3,"globathy","m","mean_depth",4.59405080418744
+"26",3,"hydrolakes","km2","surface_area",69.8899993896484
+"27",3,"hydrolakes","m","shoreline_length",148.600006103516
+"28",3,"hydrolakes","mcm","volume",2465.39990234375
+"29",3,"hydrolakes","m","mean_depth",35.2999992370605
+"30",3,"nhdplus","km2","surface_area",71.874
+"31",3,"nhdplus","m","max_depth",19.18470984
+"32",3,"nhdplus","m","mean_depth",3.3335197565
+"33",3,"nhdplus","m3","volume",394189427.359
+"34",3,"lagos","m","max_depth",5.1
+"35",3,"lagos","ha","surface_area",7345.959
+"36",3,"nla index and nla phab","m","mean_depth",2.47330769230769
+"37",3,"nla07 index","m","max_depth",10.1
+"38",4,"globathy","m","max_depth",14.8895483016968
+"39",4,"globathy","m","mean_depth",4.15045337889751
+"40",4,"hydrolakes","km2","surface_area",6.67000007629395
+"41",4,"hydrolakes","m","shoreline_length",25.5100002288818
+"42",4,"hydrolakes","mcm","volume",60.7000007629395
+"43",4,"hydrolakes","m","mean_depth",9.10000038146973
+"44",4,"nhdplus","km2","surface_area",6.523
+"45",4,"nhdplus","m","max_depth",7.490698613
+"46",4,"nhdplus","m","mean_depth",2.111195903
+"47",4,"nhdplus","m3","volume",13771762.13
+"48",4,"lagos","m","max_depth",2
+"49",4,"lagos","ha","surface_area",649.2414
+"50",4,"nla index and nla phab","m","mean_depth",2.43
+"51",4,"nla07 index","m","max_depth",6.5
+"52",10,"nhdplus","km2","surface_area",0.27
+"53",10,"nla index and nla phab","m","mean_depth",3.20384615384615
+"54",10,"nla22 index","m","max_depth",7.3
+"55",11,"globathy","m","max_depth",16.7639999389648
+"56",11,"globathy","m","mean_depth",4.77498978905064
+"57",11,"hydrolakes","km2","surface_area",4.11999988555908
+"58",11,"hydrolakes","m","shoreline_length",24.8500003814697
+"59",11,"hydrolakes","mcm","volume",69.1999969482422
+"60",11,"hydrolakes","m","mean_depth",16.7999992370605
+"61",11,"nhdplus","km2","surface_area",4.814
+"62",11,"nhdplus","m","max_depth",8.943008986
+"63",11,"nhdplus","m","mean_depth",2.342867695
+"64",11,"nhdplus","m3","volume",11279492.52
+"65",11,"lagos","m","max_depth",12.8
+"66",11,"lagos","ha","surface_area",485.7555
+"67",11,"nla index and nla phab","m","mean_depth",3.17944444444444
+"68",11,"nla17 index","m","max_depth",13.23
+"69",13,"globathy","m","max_depth",4.54929065704346
+"70",13,"globathy","m","mean_depth",2.10206670888135
+"71",13,"hydrolakes","km2","surface_area",0.180000007152557
+"72",13,"hydrolakes","m","shoreline_length",2.61999988555908
+"73",13,"hydrolakes","mcm","volume",0.379999995231628
+"74",13,"hydrolakes","m","mean_depth",2.09999990463257
+"75",13,"nhdplus","km2","surface_area",0.624
+"76",13,"lagos","m","max_depth",1.7
+"77",13,"lagos","ha","surface_area",31.4431599
+"78",13,"nla index and nla phab","m","mean_depth",1.12222222222222
+"79",13,"nla12 index","m","max_depth",1.7
+"80",14,"globathy","m","max_depth",11.9647731781006
+"81",14,"globathy","m","mean_depth",4.89984708766525
+"82",14,"hydrolakes","km2","surface_area",0.340000003576279
+"83",14,"hydrolakes","m","shoreline_length",2.75
+"84",14,"hydrolakes","mcm","volume",1.42999994754791
+"85",14,"hydrolakes","m","mean_depth",4.19999980926514
+"86",14,"nhdplus","km2","surface_area",0.355
+"87",14,"nhdplus","m","max_depth",1.379880486
+"88",14,"nhdplus","m","mean_depth",0.547885132
+"89",14,"nhdplus","m3","volume",194492.5732
+"90",14,"nla index and nla phab","m","mean_depth",2.525
+"91",14,"nla12 index","m","max_depth",6.2
+"92",16,"nhdplus","km2","surface_area",0.184
+"93",16,"lagos","m","max_depth",2.3
+"94",16,"lagos","ha","surface_area",16.45983905
+"95",16,"nla index and nla phab","m","mean_depth",1.65714285714286
+"96",16,"nla12 index","m","max_depth",2.3
+"97",17,"nhdplus","km2","surface_area",0.112
+"98",17,"nla index and nla phab","m","mean_depth",1.758
+"99",17,"nla17 index","m","max_depth",2.3
+"100",18,"globathy","m","max_depth",13.2608671188354
+"101",18,"globathy","m","mean_depth",4.53383410556655
+"102",18,"hydrolakes","km2","surface_area",1.30999994277954
+"103",18,"hydrolakes","m","shoreline_length",9.22000026702881
+"104",18,"hydrolakes","mcm","volume",5.19999980926514
+"105",18,"hydrolakes","m","mean_depth",4
+"106",18,"nhdplus","km2","surface_area",1.498
+"107",18,"lagos","m","max_depth",3.4
+"108",18,"lagos","ha","surface_area",160.4585
+"109",18,"nla index and nla phab","m","mean_depth",1.02857142857143
+"110",18,"nla12 index","m","max_depth",3.4
+"111",44,"globathy","m","max_depth",14.2414560317993
+"112",44,"globathy","m","mean_depth",5.67019212132887
+"113",44,"hydrolakes","km2","surface_area",0.740000009536743
+"114",44,"hydrolakes","m","shoreline_length",5.69000005722046
+"115",44,"hydrolakes","mcm","volume",3.5699999332428
+"116",44,"hydrolakes","m","mean_depth",4.80000019073486
+"117",44,"nhdplus","km2","surface_area",0.894
+"118",44,"nhdplus","m","max_depth",1.804623692
+"119",44,"nhdplus","m","mean_depth",0.643100622
+"120",44,"nhdplus","m3","volume",575218.1232
+"121",44,"nla index and nla phab","m","mean_depth",1.88
+"122",44,"nla17 index","m","max_depth",4.2
+"123",45,"nhdplus","km2","surface_area",0.105
+"124",45,"nla index and nla phab","m","mean_depth",2.44357142857143
+"125",45,"nla17 index","m","max_depth",4.5
+"126",46,"globathy","m","max_depth",11.2459230422974
+"127",46,"globathy","m","mean_depth",5.2712166670597
+"128",46,"hydrolakes","km2","surface_area",0.100000001490116
+"129",46,"hydrolakes","m","shoreline_length",1.72000002861023
+"130",46,"hydrolakes","mcm","volume",0.180000007152557
+"131",46,"hydrolakes","m","mean_depth",1.89999997615814
+"132",46,"nhdplus","km2","surface_area",0.119
+"133",46,"nhdplus","m","max_depth",1.085809121
+"134",46,"nhdplus","m","mean_depth",0.592046699
+"135",46,"nhdplus","m3","volume",70268.86555
+"136",46,"lagos","m","max_depth",1.8
+"137",46,"lagos","ha","surface_area",12.5399809
+"138",46,"nla index and nla phab","m","mean_depth",1.305
+"139",46,"nla 12 phab","m","max_depth",2
+"140",47,"globathy","m","max_depth",3.83367395401001
+"141",47,"globathy","m","mean_depth",1.56298785373359
+"142",47,"hydrolakes","km2","surface_area",0.209999993443489
+"143",47,"hydrolakes","m","shoreline_length",2.74000000953674
+"144",47,"hydrolakes","mcm","volume",0.540000021457672
+"145",47,"hydrolakes","m","mean_depth",2.59999990463257
+"146",47,"nhdplus","km2","surface_area",0.423
+"147",47,"nhdplus","m","max_depth",1.675681662
+"148",47,"nhdplus","m","mean_depth",0.424486986
+"149",47,"nhdplus","m3","volume",242058.236418
+"150",47,"lagos","m","max_depth",2.3
+"151",47,"lagos","ha","surface_area",49.61646877
+"152",47,"nla index and nla phab","m","mean_depth",1.49375
+"153",47,"nla17 index","m","max_depth",3.9
+"154",49,"nhdplus","km2","surface_area",0.287
+"155",49,"nhdplus","m","max_depth",1.21575065
+"156",49,"nhdplus","m","mean_depth",0.499627122
+"157",49,"nhdplus","m3","volume",143380.2271
+"158",49,"lagos","m","max_depth",4
+"159",49,"lagos","ha","surface_area",11.06126095
+"160",49,"nla index and nla phab","m","mean_depth",1.2125
+"161",49,"nla12 index","m","max_depth",2.1
+"162",51,"globathy","m","max_depth",14.3921318054199
+"163",51,"globathy","m","mean_depth",5.38288320554814
+"164",51,"hydrolakes","km2","surface_area",0.740000009536743
+"165",51,"hydrolakes","m","shoreline_length",3.98000001907349
+"166",51,"hydrolakes","mcm","volume",4.07999992370605
+"167",51,"hydrolakes","m","mean_depth",5.5
+"168",51,"nhdplus","km2","surface_area",0.983
+"169",51,"nhdplus","m","max_depth",12.18652936
+"170",51,"nhdplus","m","mean_depth",3.89593397
+"171",51,"nhdplus","m3","volume",3829800.187
+"172",51,"lagos","m","max_depth",7
+"173",51,"lagos","ha","surface_area",86.4757102
+"174",51,"nla index and nla phab","m","mean_depth",2.31333333333333
+"175",51,"nla17 index","m","max_depth",12.6
+"176",52,"nhdplus","km2","surface_area",10.364
+"177",52,"nhdplus","m","max_depth",23.76951603
+"178",52,"nhdplus","m","mean_depth",6.976293192
+"179",52,"nhdplus","m3","volume",72303713.54
+"180",52,"lagos","m","max_depth",21.94452911
+"181",52,"lagos","ha","surface_area",302.5661288
+"182",52,"nla index and nla phab","m","mean_depth",5.14166666666667
+"183",52,"nla22 index","m","max_depth",21.4
+"184",53,"globathy","m","max_depth",11.0645799636841
+"185",53,"globathy","m","mean_depth",4.2298770154485
+"186",53,"hydrolakes","km2","surface_area",0.46000000834465
+"187",53,"hydrolakes","m","shoreline_length",4.30000019073486
+"188",53,"hydrolakes","mcm","volume",3.6800000667572
+"189",53,"hydrolakes","m","mean_depth",8.10000038146973
+"190",53,"nhdplus","km2","surface_area",0.562
+"191",53,"nhdplus","m","max_depth",15.40653313
+"192",53,"nhdplus","m","mean_depth",5.606132579
+"193",53,"nhdplus","m3","volume",3150627.966
+"194",53,"lagos","m","max_depth",25.3
+"195",53,"lagos","ha","surface_area",52.90486431
+"196",53,"nla index and nla phab","m","mean_depth",7.48055555555556
+"197",53,"nla07 index","m","max_depth",25.3
+"198",54,"globathy","m","max_depth",5.2094612121582
+"199",54,"globathy","m","mean_depth",2.33340448287123
+"200",54,"hydrolakes","km2","surface_area",0.319999992847443
+"201",54,"hydrolakes","m","shoreline_length",2.70000004768372
+"202",54,"hydrolakes","mcm","volume",1.17999994754791
+"203",54,"hydrolakes","m","mean_depth",3.70000004768372
+"204",54,"nhdplus","km2","surface_area",0.21
+"205",54,"nhdplus","m","max_depth",2.875041957
+"206",54,"nhdplus","m","mean_depth",1.090861267
+"207",54,"nhdplus","m3","volume",229314.012
+"208",54,"lagos","m","max_depth",2.3
+"209",54,"lagos","ha","surface_area",36.09098375
+"210",54,"nla index and nla phab","m","mean_depth",1.13888888888889
+"211",54,"nla 12 phab","m","max_depth",3.5
+"212",55,"nhdplus","km2","surface_area",0.162
+"213",55,"nhdplus","m","max_depth",3.849877597
+"214",55,"nhdplus","m","mean_depth",1.526724704
+"215",55,"nhdplus","m3","volume",247722.1729
+"216",55,"nla index and nla phab","m","mean_depth",2.85
+"217",55,"nla22 index","m","max_depth",3.2
+"218",57,"globathy","m","max_depth",6.6136622428894
+"219",57,"globathy","m","mean_depth",2.82556129844522
+"220",57,"hydrolakes","km2","surface_area",0.209999993443489
+"221",57,"hydrolakes","m","shoreline_length",2.25999999046326
+"222",57,"hydrolakes","mcm","volume",0.769999980926514
+"223",57,"hydrolakes","m","mean_depth",3.70000004768372
+"224",57,"nhdplus","km2","surface_area",0.564
+"225",57,"nhdplus","m","max_depth",6.819418843
+"226",57,"nhdplus","m","mean_depth",2.6765761225
+"227",57,"nhdplus","m3","volume",1483099.2128
+"228",57,"lagos","m","max_depth",5.5
+"229",57,"lagos","ha","surface_area",58.1437019
+"230",57,"nla index and nla phab","m","mean_depth",2.83333333333333
+"231",57,"nla07 index","m","max_depth",5.3
+"232",64,"globathy","m","max_depth",12.202052116394
+"233",64,"globathy","m","mean_depth",4.80479818814761
+"234",64,"hydrolakes","km2","surface_area",0.270000010728836
+"235",64,"hydrolakes","m","shoreline_length",2.73000001907349
+"236",64,"hydrolakes","mcm","volume",1.45000004768372
+"237",64,"hydrolakes","m","mean_depth",5.30000019073486
+"238",64,"nhdplus","km2","surface_area",0.339
+"239",64,"nhdplus","m","max_depth",9.120976017
+"240",64,"nhdplus","m","mean_depth",3.932373564
+"241",64,"nhdplus","m3","volume",1333805.423
+"242",64,"lagos","m","max_depth",4.266991771
+"243",64,"lagos","ha","surface_area",32.83974265
+"244",64,"nla index and nla phab","m","mean_depth",1.840625
+"245",64,"nla12 index","m","max_depth",3.9
+"246",65,"nhdplus","km2","surface_area",0.127
+"247",65,"nhdplus","m","max_depth",8.584014594
+"248",65,"nhdplus","m","mean_depth",5.335367069
+"249",65,"nhdplus","m3","volume",679660.1688
+"250",65,"lagos","m","max_depth",3.048
+"251",65,"lagos","m","mean_depth",1.524
+"252",65,"lagos","ha","surface_area",12.47534565
+"253",65,"nla index and nla phab","m","mean_depth",1.28809523809524
+"254",65,"nla 17 phab","m","max_depth",2.2
+"255",66,"nhdplus","km2","surface_area",2.024
+"256",66,"nhdplus","m","max_depth",2.427013638
+"257",66,"nhdplus","m","mean_depth",0.768615088
+"258",66,"nhdplus","m3","volume",1555906.912
+"259",66,"lagos","m","max_depth",2
+"260",66,"lagos","ha","surface_area",192.0301459
+"261",66,"nla index and nla phab","m","mean_depth",1.26666666666667
+"262",66,"nla07 index","m","max_depth",2.2
+"263",67,"globathy","m","max_depth",5.04387521743774
+"264",67,"globathy","m","mean_depth",1.53104904829597
+"265",67,"hydrolakes","km2","surface_area",2.03999996185303
+"266",67,"hydrolakes","m","shoreline_length",11.7200002670288
+"267",67,"hydrolakes","mcm","volume",5.6100001335144
+"268",67,"hydrolakes","m","mean_depth",2.79999995231628
+"269",67,"nhdplus","km2","surface_area",0.214
+"270",67,"lagos","m","max_depth",6.8
+"271",67,"lagos","ha","surface_area",23.61632
+"272",67,"nla index and nla phab","m","mean_depth",3.9
+"273",67,"nla17 index","m","max_depth",7
+"274",67,"nla17 index","m","max_depth",7
+"275",68,"globathy","m","max_depth",24.2314586639404
+"276",68,"globathy","m","mean_depth",7.00190679652492
+"277",68,"hydrolakes","km2","surface_area",10.4099998474121
+"278",68,"hydrolakes","m","shoreline_length",35.7999992370605
+"279",68,"hydrolakes","mcm","volume",530.400024414062
+"280",68,"hydrolakes","m","mean_depth",50.9000015258789
+"281",68,"nhdplus","km2","surface_area",13.282
+"282",68,"nhdplus","m","max_depth",15.45335861
+"283",68,"nhdplus","m","mean_depth",4.159415365
+"284",68,"nhdplus","m3","volume",55246577.69
+"285",68,"lagos","m","max_depth",15
+"286",68,"lagos","ha","surface_area",1349.507
+"287",68,"nla index and nla phab","m","mean_depth",1.93333333333333
+"288",68,"nla12 index","m","max_depth",15
+"289",69,"nhdplus","km2","surface_area",1258.755
+"290",69,"nhdplus","m","max_depth",0
+"291",69,"nhdplus","m","mean_depth",5.03333333333333
+"292",69,"lagos","m","max_depth",62.484
+"293",69,"lagos","ha","surface_area",125417.17
+"294",69,"nla index and nla phab","m","mean_depth",9.04625
+"295",69,"nla17 index","m","max_depth",28.9
+"296",70,"nhdplus","km2","surface_area",342.198
+"297",70,"nhdplus","m","max_depth",56.23031642
+"298",70,"nhdplus","m","mean_depth",16.65269975
+"299",70,"nhdplus","m3","volume",5713364564
+"300",70,"lagos","m","max_depth",7
+"301",70,"lagos","ha","surface_area",33251.77
+"302",70,"nla index and nla phab","m","mean_depth",9.4
+"303",70,"nla17 index","m","max_depth",19.2
+"304",71,"globathy","m","max_depth",22.1890697479248
+"305",71,"globathy","m","mean_depth",7.33571701568308
+"306",71,"hydrolakes","km2","surface_area",5.46999979019165
+"307",71,"hydrolakes","m","shoreline_length",15
+"308",71,"hydrolakes","mcm","volume",49.0999984741211
+"309",71,"hydrolakes","m","mean_depth",9
+"310",71,"nhdplus","km2","surface_area",5.322
+"311",71,"nhdplus","m","max_depth",12.62497683
+"312",71,"nhdplus","m","mean_depth",4.08080772
+"313",71,"nhdplus","m3","volume",21718356.41
+"314",71,"lagos","m","max_depth",8.9
+"315",71,"lagos","ha","surface_area",535.5346
+"316",71,"nla index and nla phab","m","mean_depth",10.7
+"317",71,"nla07 index","m","max_depth",15.9
+"318",72,"globathy","m","max_depth",28.4319515228271
+"319",72,"globathy","m","mean_depth",7.63066224183187
+"320",72,"hydrolakes","km2","surface_area",14.0100002288818
+"321",72,"hydrolakes","m","shoreline_length",36.6599998474121
+"322",72,"hydrolakes","mcm","volume",97.6999969482422
+"323",72,"hydrolakes","m","mean_depth",7
+"324",72,"nhdplus","km2","surface_area",16.66
+"325",72,"nhdplus","m","max_depth",9.182638454
+"326",72,"nhdplus","m","mean_depth",2.492580963
+"327",72,"nhdplus","m3","volume",41526136.22
+"328",72,"lagos","m","max_depth",7.8
+"329",72,"lagos","ha","surface_area",1664.272
+"330",72,"nla index and nla phab","m","mean_depth",9.5
+"331",72,"nla17 index","m","max_depth",10.5
+"332",75,"nhdplus","km2","surface_area",0.221
+"333",75,"nhdplus","m","max_depth",0.774814709
+"334",75,"nhdplus","m","mean_depth",0.35669296
+"335",75,"nhdplus","m3","volume",78813.54956
+"336",75,"lagos","m","max_depth",2.8
+"337",75,"lagos","ha","surface_area",20.23486
+"338",75,"nla index and nla phab","m","mean_depth",1.725
+"339",75,"nla17 index","m","max_depth",3.3
+"340",76,"globathy","m","max_depth",4.99173212051392
+"341",76,"globathy","m","mean_depth",1.67708999331478
+"342",76,"hydrolakes","km2","surface_area",1.67999994754791
+"343",76,"hydrolakes","m","shoreline_length",7.48999977111816
+"344",76,"hydrolakes","mcm","volume",5.67999982833862
+"345",76,"hydrolakes","m","mean_depth",3.40000009536743
+"346",76,"nhdplus","km2","surface_area",1.483
+"347",76,"nhdplus","m","max_depth",3.406753998
+"348",76,"nhdplus","m","mean_depth",1.325128643
+"349",76,"nhdplus","m3","volume",1964823.084
+"350",76,"lagos","m","max_depth",5.8
+"351",76,"lagos","ha","surface_area",169.9724
+"352",76,"nla index and nla phab","m","mean_depth",7
+"353",76,"nla07 index","m","max_depth",8.2
+"354",77,"globathy","m","max_depth",3.7870147228241
+"355",77,"globathy","m","mean_depth",1.34093520811296
+"356",77,"hydrolakes","km2","surface_area",0.680000007152557
+"357",77,"hydrolakes","m","shoreline_length",4.1399998664856
+"358",77,"hydrolakes","mcm","volume",1.85000002384186
+"359",77,"hydrolakes","m","mean_depth",2.70000004768372
+"360",77,"nhdplus","km2","surface_area",0.967
+"361",77,"nhdplus","m","max_depth",3.341454225
+"362",77,"nhdplus","m","mean_depth",1.043227968
+"363",77,"nhdplus","m3","volume",1008443.344
+"364",77,"lagos","m","max_depth",3.7
+"365",77,"lagos","ha","surface_area",86.74805
+"366",77,"nla index and nla phab","m","mean_depth",2.3
+"367",77,"nla12 index","m","max_depth",3.7
+"368",78,"globathy","m","max_depth",2.3002302646637
+"369",78,"globathy","m","mean_depth",0.942786804182018
+"370",78,"hydrolakes","km2","surface_area",0.340000003576279
+"371",78,"hydrolakes","m","shoreline_length",3.5
+"372",78,"hydrolakes","mcm","volume",0.899999976158142
+"373",78,"hydrolakes","m","mean_depth",2.70000004768372
+"374",78,"nhdplus","km2","surface_area",0.55
+"375",78,"nhdplus","m","max_depth",1.961556851
+"376",78,"nhdplus","m","mean_depth",0.820036336
+"377",78,"nhdplus","m3","volume",451070.89
+"378",78,"lagos","m","max_depth",4.8
+"379",78,"lagos","ha","surface_area",55.22427
+"380",78,"nla index and nla phab","m","mean_depth",1.36190476190476
+"381",78,"nla12 index","m","max_depth",4.8
+"382",79,"globathy","m","max_depth",3.3525710105896
+"383",79,"globathy","m","mean_depth",1.15969975761483
+"384",79,"hydrolakes","km2","surface_area",0.25
+"385",79,"hydrolakes","m","shoreline_length",3.4300000667572
+"386",79,"hydrolakes","mcm","volume",0.639999985694885
+"387",79,"hydrolakes","m","mean_depth",2.59999990463257
+"388",79,"nhdplus","km2","surface_area",0.378
+"389",79,"nhdplus","m","max_depth",2.635051254
+"390",79,"nhdplus","m","mean_depth",1.046404052
+"391",79,"nhdplus","m3","volume",395765.7279
+"392",79,"lagos","m","max_depth",4.7
+"393",79,"lagos","ha","surface_area",35.00476
+"394",79,"nla index and nla phab","m","mean_depth",1.77368421052632
+"395",79,"nla17 index","m","max_depth",5.1
+"396",82,"globathy","m","max_depth",5.91834259033203
+"397",82,"globathy","m","mean_depth",2.63508778200092
+"398",82,"hydrolakes","km2","surface_area",0.25
+"399",82,"hydrolakes","m","shoreline_length",3.14000010490417
+"400",82,"hydrolakes","mcm","volume",0.870000004768372
+"401",82,"hydrolakes","m","mean_depth",3.5
+"402",82,"nhdplus","km2","surface_area",0.397
+"403",82,"nhdplus","m","max_depth",5.549855114
+"404",82,"nhdplus","m","mean_depth",2.176619419
+"405",82,"nhdplus","m3","volume",863886.6493
+"406",82,"lagos","m","max_depth",12
+"407",82,"lagos","ha","surface_area",41.92079501
+"408",82,"nla index and nla phab","m","mean_depth",5.45714285714286
+"409",82,"nla12 index","m","max_depth",12
+"410",83,"globathy","m","max_depth",22.8748531341553
+"411",83,"globathy","m","mean_depth",4.89471219331224
+"412",83,"hydrolakes","km2","surface_area",40.189998626709
+"413",83,"hydrolakes","m","shoreline_length",127.220001220703
+"414",83,"hydrolakes","mcm","volume",544
+"415",83,"hydrolakes","m","mean_depth",13.5
+"416",83,"nhdplus","km2","surface_area",43.349
+"417",83,"nhdplus","m","max_depth",54.97957416
+"418",83,"nhdplus","m","mean_depth",12.274287745
+"419",83,"nhdplus","m3","volume",558848031.7
+"420",83,"lagos","m","max_depth",16.8
+"421",83,"lagos","m","mean_depth",4.6
+"422",83,"lagos","ha","surface_area",4293.302643
+"423",83,"nla index and nla phab","m","mean_depth",3.29333333333333
+"424",83,"nla 12 phab","m","max_depth",7
+"425",83,"nla17 index","m","max_depth",7
+"426",84,"nhdplus","km2","surface_area",0.251
+"427",84,"nhdplus","m","max_depth",8.861340811
+"428",84,"nhdplus","m","mean_depth",3.677528135
+"429",84,"nhdplus","m3","volume",923659.2364
+"430",84,"lagos","m","max_depth",10.8
+"431",84,"lagos","ha","surface_area",23.64747
+"432",84,"nla index and nla phab","m","mean_depth",4.17777777777778
+"433",84,"nla12 index","m","max_depth",10.8
+"434",98,"globathy","m","max_depth",20.7518882751465
+"435",98,"globathy","m","mean_depth",4.84815947658993
+"436",98,"hydrolakes","km2","surface_area",2.77999997138977
+"437",98,"hydrolakes","m","shoreline_length",20.4899997711182
+"438",98,"hydrolakes","mcm","volume",55.4000015258789
+"439",98,"hydrolakes","m","mean_depth",19.8999996185303
+"440",98,"nhdplus","km2","surface_area",0.186
+"441",98,"nhdplus","m","max_depth",8.975495595
+"442",98,"nhdplus","m","mean_depth",3.835694779
+"443",98,"nhdplus","m3","volume",713975.432
+"444",98,"nla index and nla phab","m","mean_depth",3.6
+"445",98,"nla17 index","m","max_depth",6.8
+"446",99,"globathy","m","max_depth",21.0700168609619
+"447",99,"globathy","m","mean_depth",4.93544035352412
+"448",99,"hydrolakes","km2","surface_area",21.0699996948242
+"449",99,"hydrolakes","m","shoreline_length",126.839996337891
+"450",99,"hydrolakes","mcm","volume",225.899993896484
+"451",99,"hydrolakes","m","mean_depth",10.6999998092651
+"452",99,"nhdplus","km2","surface_area",24.289
+"453",99,"nhdplus","m","max_depth",0
+"454",99,"nhdplus","m","mean_depth",0.925766181
+"455",99,"nla index and nla phab","m","mean_depth",9.258
+"456",99,"nla07 index","m","max_depth",30
+"457",100,"globathy","m","max_depth",8.86589622497559
+"458",100,"globathy","m","mean_depth",3.38491409040035
+"459",100,"hydrolakes","km2","surface_area",0.5
+"460",100,"hydrolakes","m","shoreline_length",2.74000000953674
+"461",100,"hydrolakes","mcm","volume",1.87000000476837
+"462",100,"hydrolakes","m","mean_depth",3.70000004768372
+"463",100,"nhdplus","km2","surface_area",0.706
+"464",100,"nhdplus","m","max_depth",0.979195406
+"465",100,"nhdplus","m","mean_depth",0.374727196
+"466",100,"nhdplus","m3","volume",264734.6835
+"467",100,"lagos","m","max_depth",8.6
+"468",100,"lagos","ha","surface_area",65.97446102
+"469",100,"nla index and nla phab","m","mean_depth",2.8625
+"470",100,"nla07 index","m","max_depth",8.6
+"471",100,"nla07 index","m","max_depth",8.6
+"472",101,"globathy","m","max_depth",9.30404186248779
+"473",101,"globathy","m","mean_depth",3.43053991426557
+"474",101,"hydrolakes","km2","surface_area",0.550000011920929
+"475",101,"hydrolakes","m","shoreline_length",6.44999980926514
+"476",101,"hydrolakes","mcm","volume",2.82999992370605
+"477",101,"hydrolakes","m","mean_depth",5.19999980926514
+"478",101,"nhdplus","km2","surface_area",0.651
+"479",101,"lagos","m","max_depth",15
+"480",101,"lagos","ha","surface_area",65.82615387
+"481",101,"nla index and nla phab","m","mean_depth",4.58
+"482",101,"nla17 index","m","max_depth",12.4
+"483",102,"globathy","m","max_depth",4.64729309082031
+"484",102,"globathy","m","mean_depth",2.09285669775713
+"485",102,"hydrolakes","km2","surface_area",0.310000002384186
+"486",102,"hydrolakes","m","shoreline_length",3.44000005722046
+"487",102,"hydrolakes","mcm","volume",1.70000004768372
+"488",102,"hydrolakes","m","mean_depth",5.5
+"489",102,"nhdplus","km2","surface_area",0.339
+"490",102,"lagos","m","max_depth",8.6
+"491",102,"lagos","ha","surface_area",33.6548
+"492",102,"nla index and nla phab","m","mean_depth",3.41428571428571
+"493",102,"nla12 index","m","max_depth",8.6
+"494",103,"globathy","m","max_depth",14.2249946594238
+"495",103,"globathy","m","mean_depth",5.3454007873472
+"496",103,"hydrolakes","km2","surface_area",0.899999976158142
+"497",103,"hydrolakes","m","shoreline_length",7.5
+"498",103,"hydrolakes","mcm","volume",5.03000020980835
+"499",103,"hydrolakes","m","mean_depth",5.59999990463257
+"500",103,"nhdplus","km2","surface_area",1.139
+"501",103,"nhdplus","m","max_depth",3.011720388
+"502",103,"nhdplus","m","mean_depth",1.156842132
+"503",103,"nhdplus","m3","volume",1317438.77
+"504",103,"lagos","m","max_depth",15.24
+"505",103,"lagos","ha","surface_area",113.8823289
+"506",103,"nla index and nla phab","m","mean_depth",5.41428571428571
+"507",103,"nla07 index","m","max_depth",9.1
+"508",103,"nla22 index","m","max_depth",9.1
+"509",116,"nhdplus","km2","surface_area",0.057
+"510",116,"lagos","m","max_depth",2.5
+"511",116,"lagos","ha","surface_area",9.411228
+"512",116,"nla index and nla phab","m","mean_depth",1.796875
+"513",116,"nla12 index","m","max_depth",2.5
+"514",117,"globathy","m","max_depth",21.7841415405273
+"515",117,"globathy","m","mean_depth",5.09706379127906
+"516",117,"hydrolakes","km2","surface_area",36.2099990844727
+"517",117,"hydrolakes","m","shoreline_length",187.800003051758
+"518",117,"hydrolakes","mcm","volume",826.5
+"519",117,"hydrolakes","m","mean_depth",22.7999992370605
+"520",117,"nhdplus","km2","surface_area",1.2
+"521",117,"nhdplus","m","max_depth",7.396864267
+"522",117,"nhdplus","m","mean_depth",2.784223248
+"523",117,"nhdplus","m3","volume",3340032.189
+"524",117,"nla index and nla phab","m","mean_depth",1.85
+"525",117,"nla17 index","m","max_depth",5
+"526",117,"nla22 index","m","max_depth",5
+"527",119,"nhdplus","km2","surface_area",0.288
+"528",119,"nhdplus","m","max_depth",4.191167956
+"529",119,"nhdplus","m","mean_depth",1.590704171
+"530",119,"nhdplus","m3","volume",458729.0757
+"531",119,"nla index and nla phab","m","mean_depth",1.62
+"532",119,"nla07 index","m","max_depth",2.5
+"533",136,"globathy","m","max_depth",11.7620534896851
+"534",136,"globathy","m","mean_depth",4.62227799356446
+"535",136,"hydrolakes","km2","surface_area",0.200000002980232
+"536",136,"hydrolakes","m","shoreline_length",2.16000008583069
+"537",136,"hydrolakes","mcm","volume",0.589999973773956
+"538",136,"hydrolakes","m","mean_depth",3
+"539",136,"nhdplus","km2","surface_area",0.213
+"540",136,"nhdplus","m","max_depth",2.272193333
+"541",136,"nhdplus","m","mean_depth",0.897699714
+"542",136,"nhdplus","m3","volume",190961.8988
+"543",136,"lagos","m","max_depth",4.8
+"544",136,"lagos","ha","surface_area",22.06421428
+"545",136,"nla index and nla phab","m","mean_depth",2.31578947368421
+"546",136,"nla 12 phab","m","max_depth",6.1
+"547",137,"globathy","m","max_depth",20.0674419403076
+"548",137,"globathy","m","mean_depth",5.06640155303661
+"549",137,"hydrolakes","km2","surface_area",2.74000000953674
+"550",137,"hydrolakes","m","shoreline_length",27.3500003814697
+"551",137,"hydrolakes","mcm","volume",81.3000030517578
+"552",137,"hydrolakes","m","mean_depth",29.7000007629395
+"553",137,"nhdplus","km2","surface_area",3.343
+"554",137,"nhdplus","m","max_depth",21.19560118
+"555",137,"nhdplus","m","mean_depth",5.985546104
+"556",137,"nhdplus","m3","volume",20011569.76
+"557",137,"lagos","m","max_depth",9.9
+"558",137,"lagos","ha","surface_area",334.3316
+"559",137,"nla index and nla phab","m","mean_depth",4.1125
+"560",137,"nla12 index","m","max_depth",9.9
+"561",138,"globathy","m","max_depth",11.6719055175781
+"562",138,"globathy","m","mean_depth",5.00399118229963
+"563",138,"hydrolakes","km2","surface_area",0.170000001788139
+"564",138,"hydrolakes","m","shoreline_length",2.15000009536743
+"565",138,"hydrolakes","mcm","volume",0.490000009536743
+"566",138,"hydrolakes","m","mean_depth",2.90000009536743
+"567",138,"nhdplus","km2","surface_area",0.237
+"568",138,"nhdplus","m","max_depth",3.177192728
+"569",138,"nhdplus","m","mean_depth",1.353242358
+"570",138,"nhdplus","m3","volume",321214.8606
+"571",138,"nla index and nla phab","m","mean_depth",2.4625
+"572",138,"nla17 index","m","max_depth",5.5
+"573",138,"nla22 index","m","max_depth",5.5
+"574",146,"globathy","m","max_depth",23.0718479156494
+"575",146,"globathy","m","mean_depth",7.26521691776224
+"576",146,"hydrolakes","km2","surface_area",27.2900009155273
+"577",146,"hydrolakes","m","shoreline_length",33.8899993896484
+"578",146,"hydrolakes","mcm","volume",473.399993896484
+"579",146,"hydrolakes","m","mean_depth",17.2999992370605
+"580",146,"nhdplus","km2","surface_area",32.548
+"581",146,"nhdplus","m","max_depth",6.522566075
+"582",146,"nhdplus","m","mean_depth",2.08867011
+"583",146,"nhdplus","m3","volume",67981747.58
+"584",146,"lagos","m","max_depth",3.5
+"585",146,"lagos","ha","surface_area",2878.35
+"586",146,"nla index and nla phab","m","mean_depth",1.645
+"587",146,"nla07 index","m","max_depth",7.5
+"588",146,"nla17 index","m","max_depth",7.5
+"589",147,"globathy","m","max_depth",9.73622989654541
+"590",147,"globathy","m","mean_depth",3.6986337522358
+"591",147,"hydrolakes","km2","surface_area",1.42999994754791
+"592",147,"hydrolakes","m","shoreline_length",9.94999980926514
+"593",147,"hydrolakes","mcm","volume",2.80999994277954
+"594",147,"hydrolakes","m","mean_depth",2
+"595",147,"nhdplus","km2","surface_area",1.607
+"596",147,"nhdplus","m","max_depth",2.154743312
+"597",147,"nhdplus","m","mean_depth",0.836448279
+"598",147,"nhdplus","m3","volume",1344482.95
+"599",147,"lagos","m","max_depth",7.5
+"600",147,"lagos","ha","surface_area",185.834
+"601",147,"nla index and nla phab","m","mean_depth",2.83333333333333
+"602",147,"nla07 index","m","max_depth",9.3
+"603",148,"globathy","m","max_depth",30.099084854126
+"604",148,"globathy","m","mean_depth",7.50450010027497
+"605",148,"hydrolakes","km2","surface_area",79.629997253418
+"606",148,"hydrolakes","m","shoreline_length",247.690002441406
+"607",148,"hydrolakes","mcm","volume",2063.10009765625
+"608",148,"hydrolakes","m","mean_depth",25.8999996185303
+"609",148,"nhdplus","km2","surface_area",103.515
+"610",148,"nhdplus","m","max_depth",0
+"611",148,"nhdplus","m","mean_depth",3.922451635
+"612",148,"nla index and nla phab","m","mean_depth",6.14615384615385
+"613",148,"nla07 index","m","max_depth",20.6
+"614",149,"globathy","m","max_depth",19.2024002075195
+"615",149,"globathy","m","mean_depth",6.10459572476022
+"616",149,"hydrolakes","km2","surface_area",8.5600004196167
+"617",149,"hydrolakes","m","shoreline_length",30.6900005340576
+"618",149,"hydrolakes","mcm","volume",114.300003051758
+"619",149,"hydrolakes","m","mean_depth",13.3999996185303
+"620",149,"nhdplus","km2","surface_area",11.205
+"621",149,"nhdplus","m","max_depth",18.09459568
+"622",149,"nhdplus","m","mean_depth",4.744934946
+"623",149,"nhdplus","m3","volume",53041466.73
+"624",149,"lagos","m","max_depth",19.20146
+"625",149,"lagos","ha","surface_area",985.2449
+"626",149,"nla index and nla phab","m","mean_depth",3.07105263157895
+"627",149,"nla22 index","m","max_depth",14.7
+"628",155,"globathy","m","max_depth",14.6303997039795
+"629",155,"globathy","m","mean_depth",4.60777415783725
+"630",155,"hydrolakes","km2","surface_area",6.92999982833862
+"631",155,"hydrolakes","m","shoreline_length",14.3500003814697
+"632",155,"hydrolakes","mcm","volume",76.6999969482422
+"633",155,"hydrolakes","m","mean_depth",11.1000003814697
+"634",155,"nhdplus","km2","surface_area",7.851
+"635",155,"lagos","m","max_depth",14.62969
+"636",155,"lagos","ha","surface_area",792.4804
+"637",155,"nla index and nla phab","m","mean_depth",2.92266666666667
+"638",155,"nla17 index","m","max_depth",13.34
+"639",157,"globathy","m","max_depth",19.2016792297363
+"640",157,"globathy","m","mean_depth",7.31444245960168
+"641",157,"hydrolakes","km2","surface_area",3.84999990463257
+"642",157,"hydrolakes","m","shoreline_length",8.30000019073486
+"643",157,"hydrolakes","mcm","volume",29
+"644",157,"hydrolakes","m","mean_depth",7.5
+"645",157,"nhdplus","km2","surface_area",4.375
+"646",157,"nhdplus","m","max_depth",12.43269185
+"647",157,"nhdplus","m","mean_depth",4.648449902
+"648",157,"nhdplus","m3","volume",20336683.45
+"649",157,"lagos","m","max_depth",3.4
+"650",157,"lagos","ha","surface_area",203.2185
+"651",157,"nla index and nla phab","m","mean_depth",2.4
+"652",157,"nla17 index","m","max_depth",7.5
+"653",159,"globathy","m","max_depth",5.09277629852295
+"654",159,"globathy","m","mean_depth",2.09593458976372
+"655",159,"hydrolakes","km2","surface_area",0.239999994635582
+"656",159,"hydrolakes","m","shoreline_length",2.27999997138977
+"657",159,"hydrolakes","mcm","volume",0.670000016689301
+"658",159,"hydrolakes","m","mean_depth",2.70000004768372
+"659",159,"nhdplus","km2","surface_area",0.129
+"660",159,"nla index and nla phab","m","mean_depth",2.45555555555556
+"661",159,"nla22 index","m","max_depth",10
+"662",165,"globathy","m","max_depth",4.21940469741821
+"663",165,"globathy","m","mean_depth",1.73278711788385
+"664",165,"hydrolakes","km2","surface_area",0.370000004768372
+"665",165,"hydrolakes","m","shoreline_length",3.79999995231628
+"666",165,"hydrolakes","mcm","volume",0.800000011920929
+"667",165,"hydrolakes","m","mean_depth",2.20000004768372
+"668",165,"nhdplus","km2","surface_area",0.158
+"669",165,"nla index and nla phab","m","mean_depth",1.74285714285714
+"670",165,"nla17 index","m","max_depth",3.4
+"671",166,"nhdplus","km2","surface_area",0.102
+"672",166,"lagos","m","max_depth",1.7
+"673",166,"lagos","ha","surface_area",3.998939
+"674",166,"nla index and nla phab","m","mean_depth",1.07
+"675",166,"nla07 index","m","max_depth",3.1
+"676",166,"nla17 index","m","max_depth",3.1
+"677",167,"globathy","m","max_depth",23.7435779571533
+"678",167,"globathy","m","mean_depth",8.58847127447734
+"679",167,"hydrolakes","km2","surface_area",6.05999994277954
+"680",167,"hydrolakes","m","shoreline_length",10.1999998092651
+"681",167,"hydrolakes","mcm","volume",38.4000015258789
+"682",167,"hydrolakes","m","mean_depth",6.30000019073486
+"683",167,"nhdplus","km2","surface_area",6.371
+"684",167,"nhdplus","m","max_depth",2.060534482
+"685",167,"nhdplus","m","mean_depth",0.815915389
+"686",167,"nhdplus","m3","volume",5198604.055
+"687",167,"lagos","m","max_depth",1.7
+"688",167,"lagos","ha","surface_area",640.0566
+"689",167,"nla index and nla phab","m","mean_depth",1.42307692307692
+"690",167,"nla 17 phab","m","max_depth",3
+"691",167,"nla07 index","m","max_depth",3
+"692",184,"nhdplus","km2","surface_area",0.145
+"693",184,"nhdplus","m","max_depth",1.743774889
+"694",184,"nhdplus","m","mean_depth",0.843011553
+"695",184,"nhdplus","m3","volume",122168.9162
+"696",184,"lagos","m","max_depth",2.6
+"697",184,"lagos","ha","surface_area",10.24463
+"698",184,"nla index and nla phab","m","mean_depth",2.54
+"699",184,"nla07 index","m","max_depth",4.7
+"700",186,"globathy","m","max_depth",7.00485849380493
+"701",186,"globathy","m","mean_depth",2.22096314431725
+"702",186,"hydrolakes","km2","surface_area",2.92000007629395
+"703",186,"hydrolakes","m","shoreline_length",10.1000003814697
+"704",186,"hydrolakes","mcm","volume",21.7999992370605
+"705",186,"hydrolakes","m","mean_depth",7.5
+"706",186,"nhdplus","km2","surface_area",2.175
+"707",186,"nhdplus","m","max_depth",5.233323059
+"708",186,"nhdplus","m","mean_depth",1.987568251
+"709",186,"nhdplus","m3","volume",4322723.85
+"710",186,"lagos","m","max_depth",6
+"711",186,"lagos","ha","surface_area",217.1461
+"712",186,"nla index and nla phab","m","mean_depth",4.62
+"713",186,"nla07 index","m","max_depth",7
+"714",188,"globathy","m","max_depth",7.67260885238647
+"715",188,"globathy","m","mean_depth",2.85228788555597
+"716",188,"hydrolakes","km2","surface_area",2.70000004768372
+"717",188,"hydrolakes","m","shoreline_length",10.1499996185303
+"718",188,"hydrolakes","mcm","volume",4.69999980926514
+"719",188,"hydrolakes","m","mean_depth",1.70000004768372
+"720",188,"nhdplus","km2","surface_area",3.674
+"721",188,"nhdplus","m","max_depth",1.722218311
+"722",188,"nhdplus","m","mean_depth",0.639104509
+"723",188,"nhdplus","m3","volume",2348338.103
+"724",188,"lagos","m","max_depth",7.1
+"725",188,"lagos","ha","surface_area",148.7982
+"726",188,"nla index and nla phab","m","mean_depth",1.42222222222222
+"727",188,"nla07 index","m","max_depth",7.1
+"728",190,"globathy","m","max_depth",13.9406156539917
+"729",190,"globathy","m","mean_depth",4.29987222265337
+"730",190,"hydrolakes","km2","surface_area",2.90000009536743
+"731",190,"hydrolakes","m","shoreline_length",17.7800006866455
+"732",190,"hydrolakes","mcm","volume",44.2000007629395
+"733",190,"hydrolakes","m","mean_depth",15.1999998092651
+"734",190,"nhdplus","km2","surface_area",3.254
+"735",190,"nhdplus","m","max_depth",6.892505596
+"736",190,"nhdplus","m","mean_depth",2.079632989
+"737",190,"nhdplus","m3","volume",6766539.415
+"738",190,"lagos","m","max_depth",4.6
+"739",190,"lagos","ha","surface_area",322.2075
+"740",190,"nla index and nla phab","m","mean_depth",5.2
+"741",190,"nla17 index","m","max_depth",14.9
+"742",191,"globathy","m","max_depth",8.51737880706787
+"743",191,"globathy","m","mean_depth",3.62441988811698
+"744",191,"hydrolakes","km2","surface_area",0.330000013113022
+"745",191,"hydrolakes","m","shoreline_length",4.23999977111816
+"746",191,"hydrolakes","mcm","volume",1.21000003814697
+"747",191,"hydrolakes","m","mean_depth",3.59999990463257
+"748",191,"nhdplus","km2","surface_area",0.288
+"749",191,"nhdplus","m","max_depth",7.229242374
+"750",191,"nhdplus","m","mean_depth",3.244311757
+"751",191,"nhdplus","m3","volume",935218.9067
+"752",191,"lagos","m","max_depth",6.705272783
+"753",191,"lagos","ha","surface_area",29.38319452
+"754",191,"nla index and nla phab","m","mean_depth",2.41
+"755",191,"nla12 index","m","max_depth",6.6
+"756",195,"nhdplus","km2","surface_area",0.167
+"757",195,"nhdplus","m","max_depth",1.324848192
+"758",195,"nhdplus","m","mean_depth",0.564283843
+"759",195,"nhdplus","m3","volume",94183.41837
+"760",195,"lagos","m","max_depth",7.3152
+"761",195,"lagos","m","mean_depth",3.048
+"762",195,"lagos","ha","surface_area",16.79285729
+"763",195,"nla index and nla phab","m","mean_depth",2.87
+"764",195,"nla17 index","m","max_depth",6.5
+"765",204,"globathy","m","max_depth",14.9412870407104
+"766",204,"globathy","m","mean_depth",5.98114566164357
+"767",204,"hydrolakes","km2","surface_area",0.400000005960464
+"768",204,"hydrolakes","m","shoreline_length",2.42000007629395
+"769",204,"hydrolakes","mcm","volume",0.879999995231628
+"770",204,"hydrolakes","m","mean_depth",2.20000004768372
+"771",204,"nhdplus","km2","surface_area",0.466
+"772",204,"lagos","m","max_depth",7.9
+"773",204,"lagos","ha","surface_area",41.35112058
+"774",204,"nla index and nla phab","m","mean_depth",3.125
+"775",204,"nla17 index","m","max_depth",9.7
+"776",205,"globathy","m","max_depth",14.7416009902954
+"777",205,"globathy","m","mean_depth",6.55137600320758
+"778",205,"hydrolakes","km2","surface_area",0.119999997317791
+"779",205,"hydrolakes","m","shoreline_length",1.87999999523163
+"780",205,"hydrolakes","mcm","volume",0.270000010728836
+"781",205,"hydrolakes","m","mean_depth",2.29999995231628
+"782",205,"nhdplus","km2","surface_area",0.086
+"783",205,"nla index and nla phab","m","mean_depth",2.825
+"784",205,"nla17 index","m","max_depth",9
+"785",206,"globathy","m","max_depth",20.1047325134277
+"786",206,"globathy","m","mean_depth",7.72242201867121
+"787",206,"hydrolakes","km2","surface_area",1.37999999523163
+"788",206,"hydrolakes","m","shoreline_length",10.1400003433228
+"789",206,"hydrolakes","mcm","volume",18.1000003814697
+"790",206,"hydrolakes","m","mean_depth",13.1000003814697
+"791",206,"nhdplus","km2","surface_area",1.246
+"792",206,"nhdplus","m","max_depth",13.06935333
+"793",206,"nhdplus","m","mean_depth",4.524024826
+"794",206,"nhdplus","m3","volume",5635623.317
+"795",206,"lagos","m","max_depth",16.76318196
+"796",206,"lagos","ha","surface_area",136.8853816
+"797",206,"nla index and nla phab","m","mean_depth",4.60833333333333
+"798",206,"nla12 index","m","max_depth",15
+"799",207,"globathy","m","max_depth",11.1323833465576
+"800",207,"globathy","m","mean_depth",5.53731122085352
+"801",207,"hydrolakes","km2","surface_area",0.150000005960464
+"802",207,"hydrolakes","m","shoreline_length",2.46000003814697
+"803",207,"hydrolakes","mcm","volume",0.340000003576279
+"804",207,"hydrolakes","m","mean_depth",2.20000004768372
+"805",207,"nhdplus","km2","surface_area",0.729
+"806",207,"lagos","m","max_depth",12.8016
+"807",207,"lagos","m","mean_depth",4.8768
+"808",207,"lagos","ha","surface_area",65.29126922
+"809",207,"nla index and nla phab","m","mean_depth",5.60142857142857
+"810",207,"nla12 index","m","max_depth",15
+"811",208,"nhdplus","km2","surface_area",0.191
+"812",208,"nhdplus","m","max_depth",8.054878621
+"813",208,"nhdplus","m","mean_depth",3.813122358
+"814",208,"nhdplus","m3","volume",728254.613
+"815",208,"lagos","m","max_depth",9.5
+"816",208,"lagos","ha","surface_area",18.21285115
+"817",208,"nla index and nla phab","m","mean_depth",3.20272727272727
+"818",208,"nla07 index","m","max_depth",9.5
+"819",209,"globathy","m","max_depth",13.7019691467285
+"820",209,"globathy","m","mean_depth",6.26072459902082
+"821",209,"hydrolakes","km2","surface_area",0.159999996423721
+"822",209,"hydrolakes","m","shoreline_length",2.28999996185303
+"823",209,"hydrolakes","mcm","volume",0.509999990463257
+"824",209,"hydrolakes","m","mean_depth",3.20000004768372
+"825",209,"nhdplus","km2","surface_area",0.115
+"826",209,"nhdplus","m","max_depth",3.904836736
+"827",209,"nhdplus","m","mean_depth",1.818531262
+"828",209,"nhdplus","m3","volume",208826.0312
+"829",209,"nla index and nla phab","m","mean_depth",1.97857142857143
+"830",209,"nla22 index","m","max_depth",6.5
+"831",210,"globathy","m","max_depth",9.20870494842529
+"832",210,"globathy","m","mean_depth",3.23633768920805
+"833",210,"hydrolakes","km2","surface_area",0.589999973773956
+"834",210,"hydrolakes","m","shoreline_length",7.40999984741211
+"835",210,"hydrolakes","mcm","volume",1.94000005722046
+"836",210,"hydrolakes","m","mean_depth",3.29999995231628
+"837",210,"nhdplus","km2","surface_area",0.599
+"838",210,"nhdplus","m","max_depth",3.760478353
+"839",210,"nhdplus","m","mean_depth",1.377579958
+"840",210,"nhdplus","m3","volume",825305.6427
+"841",210,"nla index and nla phab","m","mean_depth",1.16666666666667
+"842",210,"nla17 index","m","max_depth",1.6
+"843",211,"globathy","m","max_depth",16.1561412811279
+"844",211,"globathy","m","mean_depth",7.3694586335567
+"845",211,"hydrolakes","km2","surface_area",0.330000013113022
+"846",211,"hydrolakes","m","shoreline_length",4.09999990463257
+"847",211,"hydrolakes","mcm","volume",0.959999978542328
+"848",211,"hydrolakes","m","mean_depth",2.90000009536743
+"849",211,"nhdplus","km2","surface_area",0.388
+"850",211,"nhdplus","m","max_depth",2.443923071
+"851",211,"nhdplus","m","mean_depth",0.97148
+"852",211,"nhdplus","m3","volume",376990.9764
+"853",211,"lagos","m","max_depth",1.8288
+"854",211,"lagos","ha","surface_area",42.24776103
+"855",211,"nla index and nla phab","m","mean_depth",1.03666666666667
+"856",211,"nla22 index","m","max_depth",2.1
+"857",214,"nhdplus","km2","surface_area",0.115
+"858",214,"nhdplus","m","max_depth",2.298921626
+"859",214,"nhdplus","m","mean_depth",1.162260819
+"860",214,"nhdplus","m3","volume",133468.8364
+"861",214,"lagos","m","max_depth",6.7056
+"862",214,"lagos","m","mean_depth",2.9566
+"863",214,"lagos","ha","surface_area",11.62580237
+"864",214,"nla index and nla phab","m","mean_depth",1.23076923076923
+"865",214,"nla17 index","m","max_depth",3.4
+"866",230,"globathy","m","max_depth",14.1605291366577
+"867",230,"globathy","m","mean_depth",6.06400077085237
+"868",230,"hydrolakes","km2","surface_area",0.109999999403954
+"869",230,"hydrolakes","m","shoreline_length",1.75999999046326
+"870",230,"hydrolakes","mcm","volume",0.310000002384186
+"871",230,"hydrolakes","m","mean_depth",2.70000004768372
+"872",230,"nhdplus","km2","surface_area",0.109
+"873",230,"nhdplus","m","max_depth",2.21074117
+"874",230,"nhdplus","m","mean_depth",0.969870447
+"875",230,"nhdplus","m3","volume",105862.7641
+"876",230,"lagos","m","max_depth",7
+"877",230,"lagos","ha","surface_area",12.20313802
+"878",230,"nla index and nla phab","m","mean_depth",2.9
+"879",230,"nla12 index","m","max_depth",7
+"880",231,"globathy","m","max_depth",15.43812084198
+"881",231,"globathy","m","mean_depth",5.99807137002209
+"882",231,"hydrolakes","km2","surface_area",2.44000005722046
+"883",231,"hydrolakes","m","shoreline_length",21.2600002288818
+"884",231,"hydrolakes","mcm","volume",23.3999996185303
+"885",231,"hydrolakes","m","mean_depth",9.60000038146973
+"886",231,"nhdplus","km2","surface_area",2.856
+"887",231,"nhdplus","m","max_depth",1.239043925
+"888",231,"nhdplus","m","mean_depth",0.51446038
+"889",231,"nhdplus","m3","volume",1411725.3691
+"890",231,"lagos","m","max_depth",8.5344
+"891",231,"lagos","ha","surface_area",281.9543
+"892",231,"nla index and nla phab","m","mean_depth",1.45
+"893",231,"nla17 index","m","max_depth",6
+"894",232,"globathy","m","max_depth",14.2366676330566
+"895",232,"globathy","m","mean_depth",5.95605510364368
+"896",232,"hydrolakes","km2","surface_area",1.0900000333786
+"897",232,"hydrolakes","m","shoreline_length",12.7700004577637
+"898",232,"hydrolakes","mcm","volume",4.73000001907349
+"899",232,"hydrolakes","m","mean_depth",4.30000019073486
+"900",232,"nhdplus","km2","surface_area",0.558
+"901",232,"nhdplus","m","max_depth",6.298293235
+"902",232,"nhdplus","m","mean_depth",2.38605997333333
+"903",232,"nhdplus","m3","volume",1394405.20544
+"904",232,"lagos","m","max_depth",6.97992
+"905",232,"lagos","m","mean_depth",2.40792
+"906",232,"lagos","ha","surface_area",109.4255
+"907",232,"nla index and nla phab","m","mean_depth",2.92857142857143
+"908",232,"nla22 index","m","max_depth",4.5
+"909",233,"globathy","m","max_depth",10.6680002212524
+"910",233,"globathy","m","mean_depth",3.33688011742976
+"911",233,"hydrolakes","km2","surface_area",1.9099999666214
+"912",233,"hydrolakes","m","shoreline_length",17.1000003814697
+"913",233,"hydrolakes","mcm","volume",18.7000007629395
+"914",233,"hydrolakes","m","mean_depth",9.80000019073486
+"915",233,"nhdplus","km2","surface_area",2.425
+"916",233,"nhdplus","m","max_depth",26.25502323
+"917",233,"nhdplus","m","mean_depth",7.110371867
+"918",233,"nhdplus","m3","volume",17244696.95
+"919",233,"lagos","m","max_depth",10.9728
+"920",233,"lagos","m","mean_depth",4.2672
+"921",233,"lagos","ha","surface_area",244.8460668
+"922",233,"nla index and nla phab","m","mean_depth",2.47941176470588
+"923",233,"nla17 index","m","max_depth",11
+"924",234,"globathy","m","max_depth",10.8331928253174
+"925",234,"globathy","m","mean_depth",3.47941028972781
+"926",234,"hydrolakes","km2","surface_area",1.79999995231628
+"927",234,"hydrolakes","m","shoreline_length",9.97000026702881
+"928",234,"hydrolakes","mcm","volume",5.21999979019165
+"929",234,"hydrolakes","m","mean_depth",2.90000009536743
+"930",234,"nhdplus","km2","surface_area",2.917
+"931",234,"nhdplus","m","max_depth",2.816903779
+"932",234,"nhdplus","m","mean_depth",0.871909422
+"933",234,"nhdplus","m3","volume",2543625.005
+"934",234,"lagos","m","max_depth",12.19140506
+"935",234,"lagos","ha","surface_area",294.5937822
+"936",234,"nla index and nla phab","m","mean_depth",3.53333333333333
+"937",234,"nla17 index","m","max_depth",13.1
+"938",234,"nla12 index","m","max_depth",13.1
+"939",235,"globathy","m","max_depth",15.7128601074219
+"940",235,"globathy","m","mean_depth",5.17772892695867
+"941",235,"hydrolakes","km2","surface_area",2.27999997138977
+"942",235,"hydrolakes","m","shoreline_length",16.25
+"943",235,"hydrolakes","mcm","volume",10.3000001907349
+"944",235,"hydrolakes","m","mean_depth",4.5
+"945",235,"nhdplus","km2","surface_area",2.547
+"946",235,"nhdplus","m","max_depth",7.206631467
+"947",235,"nhdplus","m","mean_depth",2.31434758
+"948",235,"nhdplus","m3","volume",5895747.088
+"949",235,"lagos","m","max_depth",9.1
+"950",235,"lagos","m","mean_depth",4.3
+"951",235,"lagos","ha","surface_area",254.5758505
+"952",235,"nla index and nla phab","m","mean_depth",2.42105263157895
+"953",235,"nla17 index","m","max_depth",9.4
+"954",236,"globathy","m","max_depth",7.10932397842407
+"955",236,"globathy","m","mean_depth",3.31072287092504
+"956",236,"hydrolakes","km2","surface_area",0.140000000596046
+"957",236,"hydrolakes","m","shoreline_length",2.27999997138977
+"958",236,"hydrolakes","mcm","volume",0.540000021457672
+"959",236,"hydrolakes","m","mean_depth",4
+"960",236,"nhdplus","km2","surface_area",0.122
+"961",236,"nhdplus","m","max_depth",10.66282716
+"962",236,"nhdplus","m","mean_depth",5.444983906
+"963",236,"nhdplus","m3","volume",662945.1982
+"964",236,"lagos","m","max_depth",7.924413289
+"965",236,"lagos","m","mean_depth",3.54
+"966",236,"lagos","ha","surface_area",13.07076442
+"967",236,"nla index and nla phab","m","mean_depth",2.36666666666667
+"968",236,"nla17 index","m","max_depth",4.6
+"969",237,"globathy","m","max_depth",6.01362752914429
+"970",237,"globathy","m","mean_depth",2.89819765227182
+"971",237,"hydrolakes","km2","surface_area",0.119999997317791
+"972",237,"hydrolakes","m","shoreline_length",2.66000008583069
+"973",237,"hydrolakes","mcm","volume",0.9200000166893
+"974",237,"hydrolakes","m","mean_depth",7.59999990463257
+"975",237,"nhdplus","km2","surface_area",0.148
+"976",237,"nhdplus","m","max_depth",23.5663336
+"977",237,"nhdplus","m","mean_depth",11.02468325
+"978",237,"nhdplus","m3","volume",1634889.49
+"979",237,"lagos","m","max_depth",6.7056
+"980",237,"lagos","m","mean_depth",3.3528
+"981",237,"lagos","ha","surface_area",14.20086382
+"982",237,"nla index and nla phab","m","mean_depth",2.65714285714286
+"983",237,"nla12 index","m","max_depth",5.7
+"984",238,"globathy","m","max_depth",20.5749950408936
+"985",238,"globathy","m","mean_depth",7.29555462516558
+"986",238,"hydrolakes","km2","surface_area",5.82999992370605
+"987",238,"hydrolakes","m","shoreline_length",10.9700002670288
+"988",238,"hydrolakes","mcm","volume",73.9000015258789
+"989",238,"hydrolakes","m","mean_depth",12.6999998092651
+"990",238,"nhdplus","km2","surface_area",7.168
+"991",238,"nhdplus","m","max_depth",33.72669735
+"992",238,"nhdplus","m","mean_depth",11.94224294
+"993",238,"nhdplus","m3","volume",85600574.73
+"994",238,"lagos","m","max_depth",8.6
+"995",238,"lagos","ha","surface_area",746.1102
+"996",238,"nla index and nla phab","m","mean_depth",4.15454545454545
+"997",238,"nla17 index","m","max_depth",11.7
+"998",239,"globathy","m","max_depth",22.4211769104004
+"999",239,"globathy","m","mean_depth",7.55657809814091
+"1000",239,"hydrolakes","km2","surface_area",5.32999992370605
+"1001",239,"hydrolakes","m","shoreline_length",16.2000007629395
+"1002",239,"hydrolakes","mcm","volume",90.6999969482422
+"1003",239,"hydrolakes","m","mean_depth",17
+"1004",239,"nhdplus","km2","surface_area",9.118
+"1005",239,"nhdplus","m","max_depth",10.69631837
+"1006",239,"nhdplus","m","mean_depth",3.619460044
+"1007",239,"nhdplus","m3","volume",33002888.92
+"1008",239,"nla index and nla phab","m","mean_depth",12.2
+"1009",239,"nla12 index","m","max_depth",12.8
+"1010",240,"globathy","m","max_depth",4.13080024719238
+"1011",240,"globathy","m","mean_depth",1.43612264031104
+"1012",240,"hydrolakes","km2","surface_area",0.419999986886978
+"1013",240,"hydrolakes","m","shoreline_length",4.51000022888184
+"1014",240,"hydrolakes","mcm","volume",2.51999998092651
+"1015",240,"hydrolakes","m","mean_depth",6
+"1016",240,"nhdplus","km2","surface_area",0.46
+"1017",240,"nhdplus","m","max_depth",6.733340951
+"1018",240,"nhdplus","m","mean_depth",2.651901954
+"1019",240,"nhdplus","m3","volume",1218791.315
+"1020",240,"lagos","m","max_depth",6.4
+"1021",240,"lagos","ha","surface_area",50.72891
+"1022",240,"nla index and nla phab","m","mean_depth",3.6047619047619
+"1023",240,"nla 12 phab","m","max_depth",9
+"1024",247,"globathy","m","max_depth",51.1813926696777
+"1025",247,"globathy","m","mean_depth",15.0696913453242
+"1026",247,"hydrolakes","km2","surface_area",23.0900001525879
+"1027",247,"hydrolakes","m","shoreline_length",43.8199996948242
+"1028",247,"hydrolakes","mcm","volume",493.399993896484
+"1029",247,"hydrolakes","m","mean_depth",21.3999996185303
+"1030",247,"nhdplus","km2","surface_area",19.19
+"1031",247,"nhdplus","m","max_depth",40.05067406
+"1032",247,"nhdplus","m","mean_depth",13.11496129
+"1033",247,"nhdplus","m3","volume",251673686.2
+"1034",247,"nla index and nla phab","m","mean_depth",45
+"1035",247,"nla07 index","m","max_depth",45
+"1036",249,"globathy","m","max_depth",25.1318244934082
+"1037",249,"globathy","m","mean_depth",8.42510073401156
+"1038",249,"hydrolakes","km2","surface_area",2.21000003814697
+"1039",249,"hydrolakes","m","shoreline_length",14.1599998474121
+"1040",249,"hydrolakes","mcm","volume",48.0999984741211
+"1041",249,"hydrolakes","m","mean_depth",21.7999992370605
+"1042",249,"nhdplus","km2","surface_area",2.565
+"1043",249,"nhdplus","m","max_depth",8.635275936
+"1044",249,"nhdplus","m","mean_depth",2.907080516
+"1045",249,"nhdplus","m3","volume",7456506.964
+"1046",249,"lagos","m","max_depth",23.4
+"1047",249,"lagos","ha","surface_area",315.6633
+"1048",249,"nla index and nla phab","m","mean_depth",17.22
+"1049",249,"nla17 index","m","max_depth",33
+"1050",250,"globathy","m","max_depth",6.83312273025513
+"1051",250,"globathy","m","mean_depth",2.72086079926035
+"1052",250,"hydrolakes","km2","surface_area",1.23000001907349
+"1053",250,"hydrolakes","m","shoreline_length",6.84000015258789
+"1054",250,"hydrolakes","mcm","volume",24.5
+"1055",250,"hydrolakes","m","mean_depth",19.8999996185303
+"1056",250,"nhdplus","km2","surface_area",1.523
+"1057",250,"nhdplus","m","max_depth",23.94711107
+"1058",250,"nhdplus","m","mean_depth",9.115056279
+"1059",250,"nhdplus","m3","volume",13885384.98
+"1060",250,"lagos","m","max_depth",13.1
+"1061",250,"lagos","ha","surface_area",153.8161
+"1062",250,"nla index and nla phab","m","mean_depth",6.56666666666667
+"1063",250,"nla17 index","m","max_depth",16
+"1064",253,"globathy","m","max_depth",19.2144527435303
+"1065",253,"globathy","m","mean_depth",7.40523524166724
+"1066",253,"hydrolakes","km2","surface_area",2.41000008583069
+"1067",253,"hydrolakes","m","shoreline_length",7.96999979019165
+"1068",253,"hydrolakes","mcm","volume",31.1499996185303
+"1069",253,"hydrolakes","m","mean_depth",12.8999996185303
+"1070",253,"nhdplus","km2","surface_area",2.114
+"1071",253,"nhdplus","m","max_depth",18.03638012
+"1072",253,"nhdplus","m","mean_depth",6.56525516
+"1073",253,"nhdplus","m3","volume",13880907.45
+"1074",253,"lagos","m","max_depth",6.5
+"1075",253,"lagos","ha","surface_area",293.8417
+"1076",253,"nla index and nla phab","m","mean_depth",2.76578947368421
+"1077",253,"nla12 index","m","max_depth",6.5
+"1078",263,"globathy","m","max_depth",19.3649005889893
+"1079",263,"globathy","m","mean_depth",7.59539815212818
+"1080",263,"hydrolakes","km2","surface_area",0.800000011920929
+"1081",263,"hydrolakes","m","shoreline_length",4.71999979019165
+"1082",263,"hydrolakes","mcm","volume",4.96999979019165
+"1083",263,"hydrolakes","m","mean_depth",6.19999980926514
+"1084",263,"nhdplus","km2","surface_area",0.84
+"1085",263,"nhdplus","m","max_depth",8.095822321
+"1086",263,"nhdplus","m","mean_depth",2.909271048
+"1087",263,"nhdplus","m3","volume",2444746.857
+"1088",263,"lagos","m","max_depth",4.65
+"1089",263,"lagos","ha","surface_area",87.64177
+"1090",263,"nla index and nla phab","m","mean_depth",4.55
+"1091",263,"nla12 index","m","max_depth",4.65
+"1092",264,"globathy","m","max_depth",3.70592927932739
+"1093",264,"globathy","m","mean_depth",1.61350942109998
+"1094",264,"hydrolakes","km2","surface_area",0.159999996423721
+"1095",264,"hydrolakes","m","shoreline_length",1.6599999666214
+"1096",264,"hydrolakes","mcm","volume",0.879999995231628
+"1097",264,"hydrolakes","m","mean_depth",5.5
+"1098",264,"nhdplus","km2","surface_area",0.239
+"1099",264,"nhdplus","m","max_depth",7.522907272
+"1100",264,"nhdplus","m","mean_depth",2.975760969
+"1101",264,"nhdplus","m3","volume",710675.1109
+"1102",264,"nla index and nla phab","m","mean_depth",1.075
+"1103",264,"nla22 index","m","max_depth",1.6
+"1104",265,"globathy","m","max_depth",2.99741625785828
+"1105",265,"globathy","m","mean_depth",1.33003288120418
+"1106",265,"hydrolakes","km2","surface_area",0.349999994039536
+"1107",265,"hydrolakes","m","shoreline_length",3.73000001907349
+"1108",265,"hydrolakes","mcm","volume",2.66000008583069
+"1109",265,"hydrolakes","m","mean_depth",7.59999990463257
+"1110",265,"nhdplus","km2","surface_area",0.306
+"1111",265,"nhdplus","m","max_depth",6.647366524
+"1112",265,"nhdplus","m","mean_depth",2.875866192
+"1113",265,"nhdplus","m3","volume",880702.4913
+"1114",265,"nla index and nla phab","m","mean_depth",2.28333333333333
+"1115",265,"nla 17 phab","m","max_depth",4
+"1116",275,"globathy","m","max_depth",3.08180284500122
+"1117",275,"globathy","m","mean_depth",1.1326277740699
+"1118",275,"hydrolakes","km2","surface_area",0.509999990463257
+"1119",275,"hydrolakes","m","shoreline_length",3.96000003814697
+"1120",275,"hydrolakes","mcm","volume",1.69000005722046
+"1121",275,"hydrolakes","m","mean_depth",3.29999995231628
+"1122",275,"nhdplus","km2","surface_area",1.192
+"1123",275,"nhdplus","m","max_depth",5.189181382
+"1124",275,"nhdplus","m","mean_depth",1.598072117
+"1125",275,"nhdplus","m3","volume",1904579.484
+"1126",275,"lagos","m","max_depth",1.6
+"1127",275,"lagos","ha","surface_area",112.9671
+"1128",275,"nla index and nla phab","m","mean_depth",1.97272727272727
+"1129",275,"nla 12 phab","m","max_depth",4.8
+"1130",276,"globathy","m","max_depth",3.66509652137756
+"1131",276,"globathy","m","mean_depth",1.61814002568523
+"1132",276,"hydrolakes","km2","surface_area",0.280000001192093
+"1133",276,"hydrolakes","m","shoreline_length",3.29999995231628
+"1134",276,"hydrolakes","mcm","volume",1.03999996185303
+"1135",276,"hydrolakes","m","mean_depth",3.70000004768372
+"1136",276,"nhdplus","km2","surface_area",0.315
+"1137",276,"nhdplus","m","max_depth",2.622457912
+"1138",276,"nhdplus","m","mean_depth",1.217672829
+"1139",276,"nhdplus","m3","volume",382971.4498
+"1140",276,"lagos","m","max_depth",4.1
+"1141",276,"lagos","ha","surface_area",27.56228
+"1142",276,"nla index and nla phab","m","mean_depth",1.85333333333333
+"1143",276,"nla17 index","m","max_depth",4.5
+"1144",281,"globathy","m","max_depth",6.86319541931152
+"1145",281,"globathy","m","mean_depth",2.93340748048011
+"1146",281,"hydrolakes","km2","surface_area",0.170000001788139
+"1147",281,"hydrolakes","m","shoreline_length",2.02999997138977
+"1148",281,"hydrolakes","mcm","volume",1.0900000333786
+"1149",281,"hydrolakes","m","mean_depth",6.30000019073486
+"1150",281,"nhdplus","km2","surface_area",0.089
+"1151",281,"lagos","m","max_depth",7.62
+"1152",281,"lagos","ha","surface_area",10.19836
+"1153",281,"nla index and nla phab","m","mean_depth",2.17
+"1154",281,"nla22 index","m","max_depth",7.6
+"1155",287,"globathy","m","max_depth",36
+"1156",287,"globathy","m","mean_depth",8.44076315615565
+"1157",287,"hydrolakes","km2","surface_area",40.4900016784668
+"1158",287,"hydrolakes","m","shoreline_length",168.839996337891
+"1159",287,"hydrolakes","mcm","volume",881.900024414062
+"1160",287,"hydrolakes","m","mean_depth",21.7999992370605
+"1161",287,"nhdplus","km2","surface_area",46.572
+"1162",287,"nhdplus","m","max_depth",36.08880909
+"1163",287,"nhdplus","m","mean_depth",9.540415635
+"1164",287,"nhdplus","m3","volume",444317909.5
+"1165",287,"nla index and nla phab","m","mean_depth",11.95
+"1166",287,"nla17 index","m","max_depth",36.2
+"1167",288,"globathy","m","max_depth",22.374755859375
+"1168",288,"globathy","m","mean_depth",6.37385917860266
+"1169",288,"hydrolakes","km2","surface_area",4.09999990463257
+"1170",288,"hydrolakes","m","shoreline_length",22.9599990844727
+"1171",288,"hydrolakes","mcm","volume",84.9000015258789
+"1172",288,"hydrolakes","m","mean_depth",20.7000007629395
+"1173",288,"nhdplus","km2","surface_area",3.735
+"1174",288,"nhdplus","m","max_depth",24.54339575
+"1175",288,"nhdplus","m","mean_depth",6.841986223
+"1176",288,"nhdplus","m3","volume",25554025.87
+"1177",288,"lagos","m","max_depth",27
+"1178",288,"lagos","ha","surface_area",226.6815
+"1179",288,"nla index and nla phab","m","mean_depth",9.41428571428572
+"1180",288,"nla 17 phab","m","max_depth",25.2
+"1181",291,"globathy","m","max_depth",20.7730827331543
+"1182",291,"globathy","m","mean_depth",6.97998672231856
+"1183",291,"hydrolakes","km2","surface_area",1.4099999666214
+"1184",291,"hydrolakes","m","shoreline_length",14.3400001525879
+"1185",291,"hydrolakes","mcm","volume",51.7999992370605
+"1186",291,"hydrolakes","m","mean_depth",36.7000007629395
+"1187",291,"nhdplus","km2","surface_area",3.097
+"1188",291,"nhdplus","m","max_depth",24.76803233
+"1189",291,"nhdplus","m","mean_depth",7.440198811
+"1190",291,"nhdplus","m3","volume",23044168.69
+"1191",291,"nla index and nla phab","m","mean_depth",14.14
+"1192",291,"nla12 index","m","max_depth",29
+"1193",296,"globathy","m","max_depth",5.3561372756958
+"1194",296,"globathy","m","mean_depth",1.99494963687546
+"1195",296,"hydrolakes","km2","surface_area",0.319999992847443
+"1196",296,"hydrolakes","m","shoreline_length",2.8199999332428
+"1197",296,"hydrolakes","mcm","volume",1.08000004291534
+"1198",296,"hydrolakes","m","mean_depth",3.29999995231628
+"1199",296,"nhdplus","km2","surface_area",0.27
+"1200",296,"lagos","m","max_depth",15.8496
+"1201",296,"lagos","ha","surface_area",36.08283
+"1202",296,"nla index and nla phab","m","mean_depth",4.91818181818182
+"1203",296,"nla17 index","m","max_depth",16
+"1204",297,"globathy","m","max_depth",65.8142929077148
+"1205",297,"globathy","m","mean_depth",15.5448873321928
+"1206",297,"hydrolakes","km2","surface_area",43.2099990844727
+"1207",297,"hydrolakes","m","shoreline_length",142.529998779297
+"1208",297,"hydrolakes","mcm","volume",2985
+"1209",297,"hydrolakes","m","mean_depth",69.0999984741211
+"1210",297,"nhdplus","km2","surface_area",7.313
+"1211",297,"nhdplus","m","max_depth",7.633740426
+"1212",297,"nhdplus","m","mean_depth",2.241677537
+"1213",297,"nhdplus","m3","volume",184284.411395
+"1214",297,"lagos","m","max_depth",33
+"1215",297,"lagos","ha","surface_area",4470.735
+"1216",297,"nla index and nla phab","m","mean_depth",10.2714285714286
+"1217",297,"nla12 index","m","max_depth",33
+"1218",298,"globathy","m","max_depth",49.1715660095215
+"1219",298,"globathy","m","mean_depth",13.4166380851669
+"1220",298,"hydrolakes","km2","surface_area",10.039999961853
+"1221",298,"hydrolakes","m","shoreline_length",28.4500007629395
+"1222",298,"hydrolakes","mcm","volume",117.5
+"1223",298,"hydrolakes","m","mean_depth",11.6999998092651
+"1224",298,"nhdplus","km2","surface_area",8.978
+"1225",298,"nhdplus","m","max_depth",13.14693181
+"1226",298,"nhdplus","m","mean_depth",3.658081886
+"1227",298,"nhdplus","m3","volume",32843261.2
+"1228",298,"lagos","m","max_depth",21.336
+"1229",298,"lagos","m","mean_depth",12.192
+"1230",298,"lagos","ha","surface_area",532.3429
+"1231",298,"nla index and nla phab","m","mean_depth",3.84166666666667
+"1232",298,"nla17 index","m","max_depth",16
+"1233",302,"globathy","m","max_depth",16.1863460540771
+"1234",302,"globathy","m","mean_depth",5.53361033779001
+"1235",302,"hydrolakes","km2","surface_area",3.04999995231628
+"1236",302,"hydrolakes","m","shoreline_length",17.7000007629395
+"1237",302,"hydrolakes","mcm","volume",68.4599990844727
+"1238",302,"hydrolakes","m","mean_depth",22.5
+"1239",302,"nhdplus","km2","surface_area",4.074
+"1240",302,"nhdplus","m","max_depth",19.37021515
+"1241",302,"nhdplus","m","mean_depth",6.515730336
+"1242",302,"nhdplus","m3","volume",26544767.87
+"1243",302,"lagos","m","max_depth",5.9
+"1244",302,"lagos","ha","surface_area",344.8715
+"1245",302,"nla index and nla phab","m","mean_depth",5.77272727272727
+"1246",302,"nla 12 phab","m","max_depth",10
+"1247",308,"globathy","m","max_depth",14.602147102356
+"1248",308,"globathy","m","mean_depth",6.32734573603299
+"1249",308,"hydrolakes","km2","surface_area",0.730000019073486
+"1250",308,"hydrolakes","m","shoreline_length",4.07000017166138
+"1251",308,"hydrolakes","mcm","volume",5.1100001335144
+"1252",308,"hydrolakes","m","mean_depth",7
+"1253",308,"nhdplus","km2","surface_area",0.767
+"1254",308,"nhdplus","m","max_depth",6.355213314
+"1255",308,"nhdplus","m","mean_depth",2.661881486
+"1256",308,"nhdplus","m3","volume",2040408.806
+"1257",308,"lagos","m","max_depth",19.05
+"1258",308,"lagos","ha","surface_area",78.95439
+"1259",308,"nla index and nla phab","m","mean_depth",7.41666666666667
+"1260",308,"nla17 index","m","max_depth",19.3
+"1261",316,"globathy","m","max_depth",15.6942844390869
+"1262",316,"globathy","m","mean_depth",5.77473732737862
+"1263",316,"hydrolakes","km2","surface_area",0.629999995231628
+"1264",316,"hydrolakes","m","shoreline_length",5.69000005722046
+"1265",316,"hydrolakes","mcm","volume",1.72000002861023
+"1266",316,"hydrolakes","m","mean_depth",2.70000004768372
+"1267",316,"nhdplus","km2","surface_area",1.552
+"1268",316,"nhdplus","m","max_depth",0.315394803
+"1269",316,"nhdplus","m","mean_depth",0.093944021
+"1270",316,"nhdplus","m3","volume",145778.9953
+"1271",316,"nla index and nla phab","m","mean_depth",2.24285714285714
+"1272",316,"nla 22 phab","m","max_depth",3.8
+"1273",317,"nhdplus","km2","surface_area",0.214
+"1274",317,"lagos","m","max_depth",4.3
+"1275",317,"lagos","ha","surface_area",22.09927
+"1276",317,"nla index and nla phab","m","mean_depth",1.81818181818182
+"1277",317,"nla12 index","m","max_depth",4.3
+"1278",323,"globathy","m","max_depth",18.3738822937012
+"1279",323,"globathy","m","mean_depth",4.60062502348939
+"1280",323,"hydrolakes","km2","surface_area",6.76000022888184
+"1281",323,"hydrolakes","m","shoreline_length",27.3299999237061
+"1282",323,"hydrolakes","mcm","volume",31.0900001525879
+"1283",323,"hydrolakes","m","mean_depth",4.59999990463257
+"1284",323,"nhdplus","km2","surface_area",6.414
+"1285",323,"nhdplus","m","max_depth",3.504061031
+"1286",323,"nhdplus","m","mean_depth",0.901531268
+"1287",323,"nhdplus","m3","volume",5782467.252
+"1288",326,"globathy","m","max_depth",8.53330230712891
+"1289",326,"globathy","m","mean_depth",3.33544742724588
+"1290",326,"hydrolakes","km2","surface_area",0.180000007152557
+"1291",326,"hydrolakes","m","shoreline_length",1.98000001907349
+"1292",326,"hydrolakes","mcm","volume",0.509999990463257
+"1293",326,"hydrolakes","m","mean_depth",2.79999995231628
+"1294",326,"nhdplus","km2","surface_area",0.524
+"1295",326,"nhdplus","m","max_depth",1.583979087
+"1296",326,"nhdplus","m","mean_depth",0.6535559455
+"1297",326,"nhdplus","m3","volume",348335.21902
+"1298",326,"lagos","m","max_depth",4.2672
+"1299",326,"lagos","m","mean_depth",2.4384
+"1300",326,"lagos","ha","surface_area",122.2328
+"1301",326,"nla index and nla phab","m","mean_depth",1.66666666666667
+"1302",326,"nla17 index","m","max_depth",2.7
+"1303",327,"globathy","m","max_depth",4.40449571609497
+"1304",327,"globathy","m","mean_depth",1.83632921150752
+"1305",327,"hydrolakes","km2","surface_area",0.5
+"1306",327,"hydrolakes","m","shoreline_length",4.78000020980835
+"1307",327,"hydrolakes","mcm","volume",1.25
+"1308",327,"hydrolakes","m","mean_depth",2.5
+"1309",327,"nhdplus","km2","surface_area",0.723
+"1310",327,"nhdplus","m","max_depth",0.651613266
+"1311",327,"nhdplus","m","mean_depth",0.261245184
+"1312",327,"nhdplus","m3","volume",188839.0624
+"1313",327,"lagos","m","max_depth",2
+"1314",327,"lagos","ha","surface_area",75.07034
+"1315",327,"nla index and nla phab","m","mean_depth",1.635
+"1316",327,"nla07 index","m","max_depth",2.4
+"1317",328,"globathy","m","max_depth",6.44483804702759
+"1318",328,"globathy","m","mean_depth",2.46666124580327
+"1319",328,"hydrolakes","km2","surface_area",0.779999971389771
+"1320",328,"hydrolakes","m","shoreline_length",4.65000009536743
+"1321",328,"hydrolakes","mcm","volume",4.65000009536743
+"1322",328,"hydrolakes","m","mean_depth",6
+"1323",328,"nhdplus","km2","surface_area",0.762
+"1324",328,"nhdplus","m","max_depth",8.963710413
+"1325",328,"nhdplus","m","mean_depth",3.416644384
+"1326",328,"nhdplus","m3","volume",2603447.172
+"1327",328,"lagos","m","max_depth",3.5
+"1328",328,"lagos","ha","surface_area",71.4177
+"1329",328,"nla index and nla phab","m","mean_depth",1.36923076923077
+"1330",328,"nla17 index","m","max_depth",4.8
+"1331",331,"globathy","m","max_depth",4.07430505752563
+"1332",331,"globathy","m","mean_depth",1.60881391977486
+"1333",331,"hydrolakes","km2","surface_area",0.259999990463257
+"1334",331,"hydrolakes","m","shoreline_length",2.96000003814697
+"1335",331,"hydrolakes","mcm","volume",0.720000028610229
+"1336",331,"hydrolakes","m","mean_depth",2.79999995231628
+"1337",331,"nhdplus","km2","surface_area",0.213
+"1338",331,"nhdplus","m","max_depth",0.38202361
+"1339",331,"nhdplus","m","mean_depth",0.18385401
+"1340",331,"nhdplus","m3","volume",39084.68741
+"1341",331,"lagos","m","max_depth",3.6
+"1342",331,"lagos","ha","surface_area",23.23455
+"1343",331,"nla index and nla phab","m","mean_depth",1.05833333333333
+"1344",331,"nla12 index","m","max_depth",3.6
+"1345",999,"globathy","m","max_depth",20.9553031921387
+"1346",999,"globathy","m","mean_depth",6.91458824672379
+"1347",999,"hydrolakes","km2","surface_area",17.5599994659424
+"1348",999,"hydrolakes","m","shoreline_length",40.0699996948242
+"1349",999,"hydrolakes","mcm","volume",352.100006103516
+"1350",999,"hydrolakes","m","mean_depth",20.1000003814697
+"1351",999,"nhdplus","km2","surface_area",19.418
+"1352",999,"nhdplus","m","max_depth",40.85146344
+"1353",999,"nhdplus","m","mean_depth",14.36422322
+"1354",999,"nhdplus","m3","volume",278917686.5
+"1355",999,"lagos","m","max_depth",58.5
+"1356",999,"lagos","ha","surface_area",1914.024
+"1357",999,"nla index and nla phab","m","mean_depth",9.6375
+"1358",999,"nla12 index","m","max_depth",58.5
+"1359",1000,"globathy","m","max_depth",11.8894510269165
+"1360",1000,"globathy","m","mean_depth",5.93545198227678
+"1361",1000,"hydrolakes","km2","surface_area",0.100000001490116
+"1362",1000,"hydrolakes","m","shoreline_length",1.87000000476837
+"1363",1000,"hydrolakes","mcm","volume",0.349999994039536
+"1364",1000,"hydrolakes","m","mean_depth",3.5
+"1365",1001,"globathy","m","max_depth",15.4034261703491
+"1366",1001,"globathy","m","mean_depth",6.140840074432
+"1367",1001,"hydrolakes","km2","surface_area",2.36999988555908
+"1368",1001,"hydrolakes","m","shoreline_length",8.77999973297119
+"1369",1001,"hydrolakes","mcm","volume",24.8600006103516
+"1370",1001,"hydrolakes","m","mean_depth",10.5
+"1371",1001,"nhdplus","km2","surface_area",2.439
+"1372",1001,"nhdplus","m","max_depth",9.503024354
+"1373",1001,"nhdplus","m","mean_depth",3.788743992
+"1374",1001,"nhdplus","m3","volume",9241363.364
+"1375",1001,"lagos","m","max_depth",9.39
+"1376",1001,"lagos","ha","surface_area",238.8867009
+"1377",1002,"globathy","m","max_depth",19.861967086792
+"1378",1002,"globathy","m","mean_depth",6.19503422297318
+"1379",1002,"hydrolakes","km2","surface_area",10.4300003051758
+"1380",1002,"hydrolakes","m","shoreline_length",36.6699981689453
+"1381",1002,"hydrolakes","mcm","volume",166.300003051758
+"1382",1002,"hydrolakes","m","mean_depth",15.8999996185303
+"1383",1002,"nhdplus","km2","surface_area",12.277
+"1384",1002,"nhdplus","m","max_depth",5.944175343
+"1385",1002,"nhdplus","m","mean_depth",1.74496358
+"1386",1002,"nhdplus","m3","volume",21422952.73
+"1387",1002,"lagos","m","max_depth",19.32
+"1388",1002,"lagos","ha","surface_area",1296.017835
+"1389",1003,"globathy","m","max_depth",13.697642326355
+"1390",1003,"globathy","m","mean_depth",4.53774069117149
+"1391",1003,"hydrolakes","km2","surface_area",1.8400000333786
+"1392",1003,"hydrolakes","m","shoreline_length",12.25
+"1393",1003,"hydrolakes","mcm","volume",27.7000007629395
+"1394",1003,"hydrolakes","m","mean_depth",15
+"1395",1003,"nhdplus","km2","surface_area",2.048
+"1396",1003,"nhdplus","m","max_depth",10.90439494
+"1397",1003,"nhdplus","m","mean_depth",3.538545357
+"1398",1003,"nhdplus","m3","volume",7245787.615
+"1399",1004,"globathy","m","max_depth",15.1430740356445
+"1400",1004,"globathy","m","mean_depth",4.69301403676652
+"1401",1004,"hydrolakes","km2","surface_area",5.53999996185303
+"1402",1004,"hydrolakes","m","shoreline_length",27.6700000762939
+"1403",1004,"hydrolakes","mcm","volume",61.2999992370605
+"1404",1004,"hydrolakes","m","mean_depth",11.1000003814697
+"1405",1004,"nhdplus","km2","surface_area",6.261
+"1406",1004,"nhdplus","m","max_depth",16.15756312
+"1407",1004,"nhdplus","m","mean_depth",2.387976144
+"1408",1004,"nhdplus","m3","volume",31405549.58643
+"1409",1004,"lagos","m","max_depth",10.09
+"1410",1004,"lagos","ha","surface_area",613.0539251
+"1411",1004,"nla index and nla phab","m","mean_depth",5.85
+"1412",1004,"nla07 index","m","max_depth",6.2
+"1413",1005,"globathy","m","max_depth",22.1638889312744
+"1414",1005,"globathy","m","mean_depth",6.56336762059498
+"1415",1005,"hydrolakes","km2","surface_area",19.8400001525879
+"1416",1005,"hydrolakes","m","shoreline_length",63.6800003051758
+"1417",1005,"hydrolakes","mcm","volume",443.600006103516
+"1418",1005,"hydrolakes","m","mean_depth",22.3999996185303
+"1419",1005,"nhdplus","km2","surface_area",20.888
+"1420",1005,"nhdplus","m","max_depth",24.53707369
+"1421",1005,"nhdplus","m","mean_depth",7.188144613
+"1422",1005,"nhdplus","m3","volume",150147492.1
+"1423",1006,"globathy","m","max_depth",21.6139717102051
+"1424",1006,"globathy","m","mean_depth",7.22579317803113
+"1425",1006,"hydrolakes","km2","surface_area",2.25
+"1426",1006,"hydrolakes","m","shoreline_length",40.189998626709
+"1427",1006,"hydrolakes","mcm","volume",207.100006103516
+"1428",1006,"hydrolakes","m","mean_depth",91.9000015258789
+"1429",1006,"nhdplus","km2","surface_area",2.074
+"1430",1006,"nhdplus","m","max_depth",14.57535244
+"1431",1006,"nhdplus","m","mean_depth",5.352572916
+"1432",1006,"nhdplus","m3","volume",11100365.04
+"1433",1006,"lagos","m","max_depth",15.24
+"1434",1006,"lagos","ha","surface_area",545.9409
+"1435",1007,"globathy","m","max_depth",13.6955671310425
+"1436",1007,"globathy","m","mean_depth",4.11281936650565
+"1437",1007,"hydrolakes","km2","surface_area",2.36999988555908
+"1438",1007,"hydrolakes","m","shoreline_length",20.8199996948242
+"1439",1007,"hydrolakes","mcm","volume",33.2000007629395
+"1440",1007,"hydrolakes","m","mean_depth",14
+"1441",1007,"nhdplus","km2","surface_area",2.565
+"1442",1007,"nhdplus","m","max_depth",18.84009086
+"1443",1007,"nhdplus","m","mean_depth",5.550768502
+"1444",1007,"nhdplus","m3","volume",14235614.99
+"1445",1007,"lagos","m","max_depth",10.73
+"1446",1007,"lagos","ha","surface_area",255.7169304
+"1447",1008,"globathy","m","max_depth",20.0571517944336
+"1448",1008,"globathy","m","mean_depth",6.01129958719596
+"1449",1008,"hydrolakes","km2","surface_area",10.4399995803833
+"1450",1008,"hydrolakes","m","shoreline_length",39.1800003051758
+"1451",1008,"hydrolakes","mcm","volume",298.700012207031
+"1452",1008,"hydrolakes","m","mean_depth",28.6000003814697
+"1453",1008,"nhdplus","km2","surface_area",10.758
+"1454",1008,"nhdplus","m","max_depth",9.978261449
+"1455",1008,"nhdplus","m","mean_depth",2.648378532
+"1456",1008,"nhdplus","m3","volume",28490576.81
+"1457",1008,"lagos","m","max_depth",33.528
+"1458",1008,"lagos","ha","surface_area",1075.009754
+"1459",1009,"globathy","m","max_depth",20.5653209686279
+"1460",1009,"globathy","m","mean_depth",6.8841814537241
+"1461",1009,"hydrolakes","km2","surface_area",1.80999994277954
+"1462",1009,"hydrolakes","m","shoreline_length",26.6100006103516
+"1463",1009,"hydrolakes","mcm","volume",58.7999992370605
+"1464",1009,"hydrolakes","m","mean_depth",32.5999984741211
+"1465",1010,"globathy","m","max_depth",24.1415786743164
+"1466",1010,"globathy","m","mean_depth",6.55043708289139
+"1467",1010,"hydrolakes","km2","surface_area",27.8500003814697
+"1468",1010,"hydrolakes","m","shoreline_length",128.699996948242
+"1469",1010,"hydrolakes","mcm","volume",757.5
+"1470",1010,"hydrolakes","m","mean_depth",27.2000007629395
+"1471",1010,"nhdplus","km2","surface_area",33.683
+"1472",1010,"nhdplus","m","max_depth",83.09836404
+"1473",1010,"nhdplus","m","mean_depth",17.99468683
+"1474",1010,"nhdplus","m3","volume",606123571.7
+"1475",1011,"globathy","m","max_depth",10.5866460800171
+"1476",1011,"globathy","m","mean_depth",2.72371277561192
+"1477",1011,"hydrolakes","km2","surface_area",4.82999992370605
+"1478",1011,"hydrolakes","m","shoreline_length",29.2199993133545
+"1479",1011,"hydrolakes","mcm","volume",24.6200008392334
+"1480",1011,"hydrolakes","m","mean_depth",5.09999990463257
+"1481",1011,"nhdplus","km2","surface_area",5.404
+"1482",1011,"nhdplus","m","max_depth",8.847052011
+"1483",1011,"nhdplus","m","mean_depth",2.370415771
+"1484",1011,"nhdplus","m3","volume",12809006.03
+"1485",1011,"lagos","m","max_depth",8.41
+"1486",1011,"lagos","ha","surface_area",527.0098236
+"1487",1012,"globathy","m","max_depth",11.0393486022949
+"1488",1012,"globathy","m","mean_depth",4.09940108058436
+"1489",1012,"hydrolakes","km2","surface_area",2.55999994277954
+"1490",1012,"hydrolakes","m","shoreline_length",13.6400003433228
+"1491",1012,"hydrolakes","mcm","volume",30.7999992370605
+"1492",1012,"hydrolakes","m","mean_depth",12
+"1493",1012,"nhdplus","km2","surface_area",2.622
+"1494",1012,"nhdplus","m","max_depth",9.656919683
+"1495",1012,"nhdplus","m","mean_depth",3.146233735
+"1496",1012,"nhdplus","m3","volume",8250307.664
+"1497",1012,"lagos","m","max_depth",10.94
+"1498",1012,"lagos","ha","surface_area",281.502092
+"1499",1013,"globathy","m","max_depth",20.2171192169189
+"1500",1013,"globathy","m","mean_depth",6.24616071081687
+"1501",1013,"hydrolakes","km2","surface_area",3.55999994277954
+"1502",1013,"hydrolakes","m","shoreline_length",24.2399997711182
+"1503",1013,"hydrolakes","mcm","volume",162.800003051758
+"1504",1013,"hydrolakes","m","mean_depth",45.7000007629395
+"1505",1013,"nhdplus","km2","surface_area",3.916
+"1506",1013,"nhdplus","m","max_depth",3.12174266
+"1507",1013,"nhdplus","m","mean_depth",0.924980176
+"1508",1013,"nhdplus","m3","volume",3622493.037
+"1509",1013,"lagos","m","max_depth",10.03
+"1510",1013,"lagos","ha","surface_area",454.1452265
+"1511",1013,"nla index and nla phab","m","mean_depth",1.8625
+"1512",1013,"nla07 index","m","max_depth",5.4
+"1513",1014,"globathy","m","max_depth",15.2820568084717
+"1514",1014,"globathy","m","mean_depth",4.82656166456436
+"1515",1014,"hydrolakes","km2","surface_area",4.94000005722046
+"1516",1014,"hydrolakes","m","shoreline_length",25.6399993896484
+"1517",1014,"hydrolakes","mcm","volume",338
+"1518",1014,"hydrolakes","m","mean_depth",68.4000015258789
+"1519",1014,"nhdplus","km2","surface_area",5.265
+"1520",1014,"nhdplus","m","max_depth",20.89536663
+"1521",1014,"nhdplus","m","mean_depth",6.698848882
+"1522",1014,"nhdplus","m3","volume",35266527.34
+"1523",1014,"lagos","m","max_depth",9.69
+"1524",1014,"lagos","ha","surface_area",528.9576754
+"1525",1015,"globathy","m","max_depth",16.112735748291
+"1526",1015,"globathy","m","mean_depth",6.07709047734602
+"1527",1015,"hydrolakes","km2","surface_area",1.28999996185303
+"1528",1015,"hydrolakes","m","shoreline_length",9.88000011444092
+"1529",1015,"hydrolakes","mcm","volume",10.1199998855591
+"1530",1015,"hydrolakes","m","mean_depth",7.80000019073486
+"1531",1015,"nhdplus","km2","surface_area",1.198
+"1532",1015,"nhdplus","m","max_depth",8.033295966
+"1533",1015,"nhdplus","m","mean_depth",2.990431602
+"1534",1015,"nhdplus","m3","volume",3582102.327
+"1535",1015,"lagos","m","max_depth",5
+"1536",1015,"lagos","ha","surface_area",125.8893561
+"1537",1016,"globathy","m","max_depth",12.4802570343018
+"1538",1016,"globathy","m","mean_depth",5.31100114643257
+"1539",1016,"hydrolakes","km2","surface_area",1.50999999046326
+"1540",1016,"hydrolakes","m","shoreline_length",7.61999988555908
+"1541",1016,"hydrolakes","mcm","volume",10.75
+"1542",1016,"hydrolakes","m","mean_depth",7.09999990463257
+"1543",1016,"nhdplus","km2","surface_area",1.527
+"1544",1016,"nhdplus","m","max_depth",9.81100055
+"1545",1016,"nhdplus","m","mean_depth",4.064103163
+"1546",1016,"nhdplus","m3","volume",6204343.491
+"1547",1016,"lagos","m","max_depth",4.08
+"1548",1016,"lagos","ha","surface_area",156.616708
+"1549",1016,"nla index and nla phab","m","mean_depth",4
+"1550",1016,"nla07 index","m","max_depth",4
+"1551",1017,"globathy","m","max_depth",11.5983619689941
+"1552",1017,"globathy","m","mean_depth",3.93088599880985
+"1553",1017,"hydrolakes","km2","surface_area",1.78999996185303
+"1554",1017,"hydrolakes","m","shoreline_length",12.1199998855591
+"1555",1017,"hydrolakes","mcm","volume",7.21999979019165
+"1556",1017,"hydrolakes","m","mean_depth",4
+"1557",1017,"nhdplus","km2","surface_area",1.953
+"1558",1017,"nhdplus","m","max_depth",6.017502166
+"1559",1017,"nhdplus","m","mean_depth",1.930958108
+"1560",1017,"nhdplus","m3","volume",3771388.666
+"1561",1017,"lagos","m","max_depth",11.92
+"1562",1017,"lagos","ha","surface_area",187.5780914
+"1563",1018,"globathy","m","max_depth",20.7164058685303
+"1564",1018,"globathy","m","mean_depth",6.64160478209412
+"1565",1018,"hydrolakes","km2","surface_area",5.55999994277954
+"1566",1018,"hydrolakes","m","shoreline_length",22.4500007629395
+"1567",1018,"hydrolakes","mcm","volume",50.9000015258789
+"1568",1018,"hydrolakes","m","mean_depth",9.19999980926514
+"1569",1018,"nhdplus","km2","surface_area",5.752
+"1570",1018,"nhdplus","m","max_depth",13.17861144
+"1571",1018,"nhdplus","m","mean_depth",2.610572897
+"1572",1018,"nhdplus","m3","volume",23078508.39263
+"1573",1018,"lagos","m","max_depth",8
+"1574",1018,"lagos","ha","surface_area",575.3118112
+"1575",1018,"nla index and nla phab","m","mean_depth",6.4
+"1576",1018,"nla07 index","m","max_depth",6.4
+"1577",1019,"globathy","m","max_depth",8.19553375244141
+"1578",1019,"globathy","m","mean_depth",2.29891874482123
+"1579",1019,"hydrolakes","km2","surface_area",2.46000003814697
+"1580",1019,"hydrolakes","m","shoreline_length",23.6200008392334
+"1581",1019,"hydrolakes","mcm","volume",4.15000009536743
+"1582",1019,"hydrolakes","m","mean_depth",1.70000004768372
+"1583",1019,"nhdplus","km2","surface_area",3.271
+"1584",1019,"nhdplus","m","max_depth",1.080465869
+"1585",1019,"nhdplus","m","mean_depth",0.292527778
+"1586",1019,"nhdplus","m3","volume",956914.9978
+"1587",1019,"lagos","m","max_depth",1
+"1588",1019,"lagos","ha","surface_area",345.7064839
+"1589",1019,"nla index and nla phab","m","mean_depth",0.953846153846154
+"1590",1019,"nla 12 phab","m","max_depth",1.3
+"1591",1020,"globathy","m","max_depth",14.4473886489868
+"1592",1020,"globathy","m","mean_depth",4.82932453053976
+"1593",1020,"hydrolakes","km2","surface_area",6.32999992370605
+"1594",1020,"hydrolakes","m","shoreline_length",22.4200000762939
+"1595",1020,"hydrolakes","mcm","volume",57.5
+"1596",1020,"hydrolakes","m","mean_depth",9.10000038146973
+"1597",1020,"nhdplus","km2","surface_area",6.9
+"1598",1020,"nhdplus","m","max_depth",5.370160327
+"1599",1020,"nhdplus","m","mean_depth",1.562874539
+"1600",1020,"nhdplus","m3","volume",10783440.9
+"1601",1020,"lagos","m","max_depth",10.88
+"1602",1020,"lagos","ha","surface_area",669.9656028
+"1603",1021,"globathy","m","max_depth",15.9914846420288
+"1604",1021,"globathy","m","mean_depth",4.8094761950747
+"1605",1021,"hydrolakes","km2","surface_area",2.08999991416931
+"1606",1021,"hydrolakes","m","shoreline_length",13.1599998474121
+"1607",1021,"hydrolakes","mcm","volume",16.2000007629395
+"1608",1021,"hydrolakes","m","mean_depth",7.69999980926514
+"1609",1021,"nhdplus","km2","surface_area",2.091
+"1610",1021,"nhdplus","m","max_depth",20.34691461
+"1611",1021,"nhdplus","m","mean_depth",6.557504168
+"1612",1021,"nhdplus","m3","volume",13710332.5
+"1613",1022,"globathy","m","max_depth",13.8582763671875
+"1614",1022,"globathy","m","mean_depth",4.74750223886252
+"1615",1022,"hydrolakes","km2","surface_area",1.32000005245209
+"1616",1022,"hydrolakes","m","shoreline_length",11.4799995422363
+"1617",1022,"hydrolakes","mcm","volume",3.95000004768372
+"1618",1022,"hydrolakes","m","mean_depth",3
+"1619",1022,"nhdplus","km2","surface_area",1.842
+"1620",1022,"nhdplus","m","max_depth",2.595650299
+"1621",1022,"nhdplus","m","mean_depth",0.853211704
+"1622",1022,"nhdplus","m3","volume",1572016.741
+"1623",1023,"globathy","m","max_depth",13.5876207351685
+"1624",1023,"globathy","m","mean_depth",4.95099912999987
+"1625",1023,"hydrolakes","km2","surface_area",0.819999992847443
+"1626",1023,"hydrolakes","m","shoreline_length",10.4799995422363
+"1627",1023,"hydrolakes","mcm","volume",2.09999990463257
+"1628",1023,"hydrolakes","m","mean_depth",2.59999990463257
+"1629",1023,"nhdplus","km2","surface_area",1.266
+"1630",1023,"nhdplus","m","max_depth",1.108531649
+"1631",1023,"nhdplus","m","mean_depth",0.314782223
+"1632",1023,"nhdplus","m3","volume",398439.4909
+"1633",1023,"lagos","m","max_depth",7
+"1634",1023,"lagos","ha","surface_area",119.0799903
+"1635",1023,"nla index and nla phab","m","mean_depth",7
+"1636",1023,"nla07 index","m","max_depth",7
+"1637",1024,"globathy","m","max_depth",18.0540027618408
+"1638",1024,"globathy","m","mean_depth",5.32949539924157
+"1639",1024,"hydrolakes","km2","surface_area",9
+"1640",1024,"hydrolakes","m","shoreline_length",37.0499992370605
+"1641",1024,"hydrolakes","mcm","volume",153
+"1642",1024,"hydrolakes","m","mean_depth",17
+"1643",1024,"nhdplus","km2","surface_area",10.646
+"1644",1024,"nhdplus","m","max_depth",10.38743355
+"1645",1024,"nhdplus","m","mean_depth",2.464289492
+"1646",1024,"nhdplus","m3","volume",26235973.01
+"1647",1024,"lagos","m","max_depth",12.8
+"1648",1024,"lagos","ha","surface_area",1054.110793
+"1649",1024,"nla index and nla phab","m","mean_depth",12.8
+"1650",1024,"nla07 index","m","max_depth",12.8
+"1651",1025,"globathy","m","max_depth",15.981258392334
+"1652",1025,"globathy","m","mean_depth",3.82235132546239
+"1653",1025,"hydrolakes","km2","surface_area",4.6399998664856
+"1654",1025,"hydrolakes","m","shoreline_length",29.5400009155273
+"1655",1025,"hydrolakes","mcm","volume",178.899993896484
+"1656",1025,"hydrolakes","m","mean_depth",38.5
+"1657",1025,"nhdplus","km2","surface_area",4.705
+"1658",1025,"nhdplus","m","max_depth",11.2097739
+"1659",1025,"nhdplus","m","mean_depth",3.016750461
+"1660",1025,"nhdplus","m3","volume",14194016.95
+"1661",1025,"lagos","m","max_depth",12.68
+"1662",1025,"lagos","ha","surface_area",470.0507952
+"1663",1026,"globathy","m","max_depth",20.1608753204346
+"1664",1026,"globathy","m","mean_depth",4.68831501808395
+"1665",1026,"hydrolakes","km2","surface_area",8.46000003814697
+"1666",1026,"hydrolakes","m","shoreline_length",47.3699989318848
+"1667",1026,"hydrolakes","mcm","volume",82.3000030517578
+"1668",1026,"hydrolakes","m","mean_depth",9.69999980926514
+"1669",1026,"nhdplus","km2","surface_area",8.571
+"1670",1026,"nhdplus","m","max_depth",33.81112308
+"1671",1026,"nhdplus","m","mean_depth",8.64213716
+"1672",1026,"nhdplus","m3","volume",74073506.93
+"1673",1026,"lagos","m","max_depth",9.78
+"1674",1026,"lagos","ha","surface_area",920.5097601
+"1675",1027,"globathy","m","max_depth",18.3082866668701
+"1676",1027,"globathy","m","mean_depth",6.74492535483433
+"1677",1027,"hydrolakes","km2","surface_area",2.86999988555908
+"1678",1027,"hydrolakes","m","shoreline_length",12.6199998855591
+"1679",1027,"hydrolakes","mcm","volume",108.199996948242
+"1680",1027,"hydrolakes","m","mean_depth",37.7000007629395
+"1681",1027,"nhdplus","km2","surface_area",3.113
+"1682",1027,"nhdplus","m","max_depth",12.81437299
+"1683",1027,"nhdplus","m","mean_depth",4.321260882
+"1684",1027,"nhdplus","m3","volume",13450981.12
+"1685",1027,"lagos","m","max_depth",12.07
+"1686",1027,"lagos","ha","surface_area",315.3324436
+"1687",1028,"globathy","m","max_depth",16.1743793487549
+"1688",1028,"globathy","m","mean_depth",5.20479552364824
+"1689",1028,"hydrolakes","km2","surface_area",7.51000022888184
+"1690",1028,"hydrolakes","m","shoreline_length",30.1399993896484
+"1691",1028,"hydrolakes","mcm","volume",107.400001525879
+"1692",1028,"hydrolakes","m","mean_depth",14.3000001907349
+"1693",1028,"nhdplus","km2","surface_area",7.982
+"1694",1028,"nhdplus","m","max_depth",8.722118404
+"1695",1028,"nhdplus","m","mean_depth",2.833119697
+"1696",1028,"nhdplus","m3","volume",22614511.7
+"1697",1028,"lagos","m","max_depth",12.95
+"1698",1028,"lagos","ha","surface_area",805.4261382
+"1699",1029,"globathy","m","max_depth",18.2366733551025
+"1700",1029,"globathy","m","mean_depth",5.35191250283119
+"1701",1029,"hydrolakes","km2","surface_area",13.7700004577637
+"1702",1029,"hydrolakes","m","shoreline_length",47.4000015258789
+"1703",1029,"hydrolakes","mcm","volume",109.199996948242
+"1704",1029,"hydrolakes","m","mean_depth",7.90000009536743
+"1705",1029,"nhdplus","km2","surface_area",13.807
+"1706",1029,"nhdplus","m","max_depth",30.17468415
+"1707",1029,"nhdplus","m","mean_depth",8.364333163
+"1708",1029,"nhdplus","m3","volume",115483510.4
+"1709",1029,"lagos","m","max_depth",6.58
+"1710",1029,"lagos","ha","surface_area",1406.577892
+"1711",1030,"globathy","m","max_depth",18.5937175750732
+"1712",1030,"globathy","m","mean_depth",4.85209542321097
+"1713",1030,"hydrolakes","km2","surface_area",8.25
+"1714",1030,"hydrolakes","m","shoreline_length",45.9099998474121
+"1715",1030,"hydrolakes","mcm","volume",76
+"1716",1030,"hydrolakes","m","mean_depth",9.19999980926514
+"1717",1030,"nhdplus","km2","surface_area",8.077
+"1718",1030,"nhdplus","m","max_depth",33.25917998
+"1719",1030,"nhdplus","m","mean_depth",9.175449108
+"1720",1030,"nhdplus","m3","volume",74108796.81
+"1721",1030,"lagos","m","max_depth",4.76
+"1722",1030,"lagos","ha","surface_area",864.6808439
+"1723",1031,"globathy","m","max_depth",17.0280818939209
+"1724",1031,"globathy","m","mean_depth",4.27882415632865
+"1725",1031,"hydrolakes","km2","surface_area",7.82000017166138
+"1726",1031,"hydrolakes","m","shoreline_length",39.7599983215332
+"1727",1031,"hydrolakes","mcm","volume",363.600006103516
+"1728",1031,"hydrolakes","m","mean_depth",46.5
+"1729",1031,"nhdplus","km2","surface_area",8.262
+"1730",1031,"nhdplus","m","max_depth",16.08263233
+"1731",1031,"nhdplus","m","mean_depth",3.856245759
+"1732",1031,"nhdplus","m3","volume",31859162.57
+"1733",1031,"lagos","m","max_depth",36.45
+"1734",1031,"lagos","ha","surface_area",799.2543721
+"1735",1032,"globathy","m","max_depth",8.92697620391846
+"1736",1032,"globathy","m","mean_depth",3.47273358671039
+"1737",1032,"hydrolakes","km2","surface_area",1.62999999523163
+"1738",1032,"hydrolakes","m","shoreline_length",7.76000022888184
+"1739",1032,"hydrolakes","mcm","volume",4.25
+"1740",1032,"hydrolakes","m","mean_depth",2.59999990463257
+"1741",1032,"nhdplus","km2","surface_area",1.515
+"1742",1032,"nhdplus","m","max_depth",7.763137686
+"1743",1032,"nhdplus","m","mean_depth",2.087505393
+"1744",1032,"nhdplus","m3","volume",3162151.979
+"1745",1033,"globathy","m","max_depth",17.1333160400391
+"1746",1033,"globathy","m","mean_depth",3.24701011490246
+"1747",1033,"hydrolakes","km2","surface_area",38.4500007629395
+"1748",1033,"hydrolakes","m","shoreline_length",177.440002441406
+"1749",1033,"hydrolakes","mcm","volume",1259.40002441406
+"1750",1033,"hydrolakes","m","mean_depth",32.7999992370605
+"1751",1033,"nhdplus","km2","surface_area",55.279
+"1752",1033,"nhdplus","m","max_depth",17.79735357
+"1753",1033,"nhdplus","m","mean_depth",3.289727308
+"1754",1033,"nhdplus","m3","volume",175864582.3
+"1755",1033,"lagos","m","max_depth",7
+"1756",1033,"lagos","ha","surface_area",5243.9466115
+"1757",1033,"nla index and nla phab","m","mean_depth",7
+"1758",1033,"nla07 index","m","max_depth",7

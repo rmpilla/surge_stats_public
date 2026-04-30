@@ -185,12 +185,11 @@ list(
     )
   ),
   
-  tar_file(name = national_morpho_file, "input_data/surge_res_morpho_all.csv"),
+  tar_file(name = national_morpho_file, "input_data/surge_res_morpho_all2.csv"),
   tar_target(
     name = national_morpho_data,
     command = get_national_morpho_data(
-      national_morpho_file = national_morpho_file,
-      lake_scale_data = lake_scale_data
+      national_morpho_file = national_morpho_file
     )
   ),
   
