@@ -8,6 +8,12 @@ make_variable_importance_plot <- function(variable_importance,
     mutate(variable_clean_superscript = fct_reorder(paste0(variable_clean, superscript), 
                                                     as.numeric(variable_ordered)))
   
+  if(var_group_use == "global_vars"){
+    var_imp_subset$variable_clean_superscript = factor(var_imp_subset$variable_clean_superscript,
+                                                       levels = rev(var_imp_subset$variable_clean_superscript[order(var_imp_subset$importance[var_imp_subset$response == "ch4_total"])])
+    )
+  }
+  
   variable_importance_plot <- ggplot() +
     geom_hline(yintercept = seq(2, length(unique(var_imp_subset$variable)), by = 2), linetype = 2) +
     geom_hline(yintercept = seq(1, length(unique(var_imp_subset$variable)), by = 2), color = "grey80") +
@@ -24,4 +30,4 @@ make_variable_importance_plot <- function(variable_importance,
   
   return(variable_importance_plot)
   
-}
+  }
