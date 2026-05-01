@@ -6,7 +6,7 @@
 # in a test repo, but couldn't get it to work in surge_stats. Resorting
 # to writing image outside of targets, then reading into .qmd.
 
-# setup
+# setup----
 library(terra)
 library(tidyterra)
 library(tidyverse)
@@ -17,12 +17,12 @@ library(spmodel)
 library(tictoc)
 library(furrr)
 
-# data
+# data----
 tar_load(dat_trans)
 tar_load(modeling_vars_final)
 tar_load(random_forest_object)
 
-### get bathymetry data----
+# get bathymetry data----
 # not enough memory on laptop for high resolution bathymetry map. Code chokes on
 # line 298
 # harsha_bathy_ras <- terra::rast("input_data/external_data/harsha/bathymetry.gdb", "high_res_bathy") %>%
@@ -42,7 +42,7 @@ plot(harsha_bathy_ras$site_depth)
 # this will be used to krige other predictor values to grid.
 harsha_grid <- harsha_bathy_ras %>% terra::as.points() %>% st_as_sf
 
-### get chl, turbidity_shallow, and temp_shallow
+# get chl, turbidity_shallow, and temp_shallow----
 pred_dat1 <- readxl::read_xlsx(
   path = "input_data/external_data/harsha/2014HarshaLakeFlyover_WaterChemistryDataUsedForChlorophyllStudy.xlsx",
   sheet = "WaterChemistryData ",
@@ -85,7 +85,7 @@ plot(harsha_bathy_ras$site_depth) # plot bathymetry data
 plot(st_geometry(pred_dat1), add = TRUE, col = "red", pch = 16) # add points
 
 
-### get do_deep and temp_deep from 2015 survey year----
+# get do_deep and temp_deep from 2015 survey year----
 # Beaulieu, J. J., et al. (2018). "Effects of an Experimental Water-level 
 # Drawdown on Methane Emissions from a Eutrophic Reservoir." 
 # Ecosystems 21(4): 657-674.
@@ -166,7 +166,7 @@ pred_dat2 <- readxl::read_xlsx(
   terra::extract(harsha_bathy_ras$site_depth, ., bind=TRUE) %>% # SpatVector
   st_as_sf # back to sf points
 
-### get sediment organic chemistry data----
+# get sediment organic chemistry data----
 # Berberich, M. E., et al. (2019). "Spatial variability of sediment methane 
 # production and methanogen communities within a eutrophic reservoir: 
 # Importance of organic matter source and quantity." Limnology and Oceanography.
@@ -202,7 +202,7 @@ pred_dat3 <- readxl::read_xlsx(
   st_as_sf # back to sf points
 
 
-### join pred_dat1, pred_dat2, and pred_dat3----
+# join pred_dat1, pred_dat2, and pred_dat3----
 pred_dat4 <- bind_rows(pred_dat1, pred_dat2, pred_dat3) %>%
   # aggregate across duplicate geometries
   group_by(geometry) %>%
@@ -220,13 +220,13 @@ pred_dat4 <- bind_rows(pred_dat1, pred_dat2, pred_dat3) %>%
 
 
 
-### create splm model for each predictor variable----
+# create splm model for each predictor variable----
 pred_mod <- map(
   pred_dat4, \(x)
   splm(value ~ site_depth, data = x, spcov_type = "exponential")
 )
 
-### predict values of predictors across the bathymetry grid----
+# predict values of predictors across the bathymetry grid----
 # Set up parallel workers (multisession is recommended for compatibility)
 future::plan(multisession, workers = availableCores() - 1) 
 tic()
@@ -253,28 +253,194 @@ plan(sequential) # turn off furrr parallel processing
 ## remove large objects from environment
 rm(harsha_grid)
 
-### map predictor values across bathymetry grid----
-# this isn't necessary but kinda nice to see how values for the predictors
-# are distributed across the lake
-# # Get column names excluding the geometry column
-# cols_to_plot <- setdiff(names(pred_preds), c("geometry", "id"))
-# 
-# # Loop and save
-# for (col in cols_to_plot) {
-#   # Create filename
-#   filename <- paste0("input_data/external_data/harsha/", col, ".png") #width = 800, height = 600)
-#   
-#   # Start PNG device
-#   png(filename)
-#   
-#   # Plot attribute column
-#   plot(pred_preds[col], main = paste("Map of", col))
-#   
-#   # Close device
-#   dev.off()
-# }
+# map predictor values across bathymetry grid----
+# SI figures
+# convert sf points object to terra spatial raster for plotting
+pred_preds_ras <- pred_preds %>%
+  mutate(
+    x = st_coordinates(.)[, 1],
+    y = st_coordinates(.)[, 2]
+  ) %>%
+  sf::st_drop_geometry() %>%
+  # put coordinates in first two columns to allign with xycols arguments in as_spatraster
+  relocate(x, y) %>%
+  tidyterra::as_spatraster(xycols = 1:2, crs = crs("ESRI:102008"))
 
-### gather other predictors needed for model----
+## depth----
+p_depth <- ggplot() +
+  geom_spatraster(data = pred_preds_ras$site_depth) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = "depth (m)") +
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## chl----
+p_chl <- ggplot() +
+  geom_spatraster(data = pred_preds_ras$chla_lab_shallow) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = expression("chlorophyll-" * italic("a") ~ (mu * g ~ L^{-1}))) +
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## deep do----
+p_deep_do <- ggplot() +
+  geom_spatraster(data = pred_preds_ras$do_deep) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = expression("deep dissolved oxygen" ~ (mg ~L^{-1}))) +
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+
+## deep temp----
+p_deep_do <- ggplot() +
+  geom_spatraster(data = pred_preds_ras$temp_deep) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = expression("deep temperature" ~ ("C"))) +
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## shallow temp----
+p_shallow_temp<- ggplot() +
+  geom_spatraster(data = pred_preds_ras$temp_shallow) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = "shallow temperature (C)") +
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## shallow turbidity----
+p_shallow_turb<- ggplot() +
+  geom_spatraster(data = pred_preds_ras$turbidity_shallow) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = "shallow turbidity (NTU)")+
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## sediment carbon----
+p_c <- ggplot() +
+  geom_spatraster(data = pred_preds_ras$nla17_sed_c) +
+  scale_fill_gradientn(
+    colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
+    na.value = "transparent") +
+  labs(fill = "sediment organic C (%)")+
+  theme_bw() + # Sets white background
+  theme(legend.position = "top",
+        # unit(t, r, b, l) -> top, right, bottom, left
+        legend.margin = margin(b = -10), # minimize gap between legend and plot
+        panel.grid = element_blank(), # remove grid
+        axis.text = element_text(size = 7)) + # tick label size
+  # 2. Place title above the guide and center it
+  guides(fill = guide_colorbar(
+    direction = "horizontal", # Bar is horizontal
+    title.position = "top",   # Title is above the bar
+    title.hjust = 0.5, # center title over bar
+    barwidth = unit(4, "cm"), # width of color bar
+    barheight = unit(0.25, "cm") # height of colorbar
+  )) +
+  theme(plot.tag.position = c(0.25, 0.70)) # for panel label position
+
+## patch maps into one image----
+# 6 images, 3 columns, 2 rows
+p_all_preds <- (p_depth + p_chl + p_deep_do) / (p_shallow_temp + p_shallow_turb + p_c) +
+  plot_annotation(tag_levels = 'A') &
+  theme(plot.tag = element_text(size = 10)) # Adjust size here
+  
+
+ggsave("harsha_predictor_maps.png", p_all_preds, width = 8, height = 5)
+
+
+ 
+
+# gather other predictors needed for model----
 # these predictors are invariant across space
 static_preds <- dat_trans %>% # all raw data
   filter(lake_id == 1031) %>% # 
@@ -296,10 +462,10 @@ static_preds <- dat_trans %>% # all raw data
   )
 colnames(static_preds)
 
-### join ALL predictors----
+# join ALL predictors----
 all_pred_grid <- bind_cols(pred_preds, static_preds)
 
-### predict emissions----
+# predict emissions----
 # predict() generates a list
 # could not allocate memory error
 pred_ranger_harsha <- predict(
@@ -344,9 +510,9 @@ mean_ch4 <- mean(harsha_preds_sim) # 89.05
 l95_ci_ch4 <- quantile(harsha_preds_sim, 0.05) # 72.5
 u95_ci_ch4 <- quantile(harsha_preds_sim, 0.95) # 105.9
 
-### map emissions and SE----
+# map emissions and SE----
 # convert to raster for plotting
-harsha_preds_ras <- harsha_preds%>%
+harsha_preds_ras <- harsha_preds %>%
   bind_cols(
     all_pred_grid %>%
       mutate(x = st_coordinates(.)[, 1],

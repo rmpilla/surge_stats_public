@@ -72,16 +72,8 @@ SI_variable_importance_globalvars
 
 ```
 
-Harsha Lake emission driver maps
+## Harsha Lake emission driver maps  
 
-```{r emission_driver_map, echo=FALSE, message=FALSE, warning=FALSE}
-#| fig-align: center
-#| fig-cap: "Figure S3. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
-#| fig-cap-location: bottom  
-#| fig-height: 4
-#| fig-width: 8
-#| out-width: 80% 
+Spatially explicit maps of several drivers of the CH~4~ total emission rate random forest model were constructed for William H Harsha lake in southwest Ohio (lake_id == 1031 in dataset). Bathymetry was retrieved from the Ohio Department of Natural Resources Geospatial Data Portal, point measurements of chlorophyll-*a* were retrieved from  
 
-# plot chla heat map
-chla_lab_shallow
-```
+![Figure S4. Map of water depth (A), chlorophyll-*a* (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)
