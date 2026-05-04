@@ -55,7 +55,7 @@ make_partial_dependence_plots <- function(random_forest_object,
   partial_dependence_plots <- ggplot() +
     geom_line(data = partial_df_final_all, 
               aes(x = var_value_SAtrans, y = untrans_resp, color = response_print), linewidth = 1) +
-    geom_rug(data = dat_trans %>% select(ch4_total, explanatory_vars) %>%
+    geom_rug(data = dat_trans %>% select(ch4_total, all_of(explanatory_vars)) %>%
                pivot_longer(values_to = "untrans_resp", names_to = "variable",
                             cols = 2:ncol(.)) %>% select(-ch4_total) %>% distinct() %>%
                mutate(use_resp = case_when(variable == "surface_area" ~ log10(untrans_resp),
