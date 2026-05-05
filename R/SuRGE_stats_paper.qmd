@@ -270,31 +270,3 @@ How much uncertainty in inventory predictions from this model? Is this model goo
 # Conclusions
 
 ## References
-
-\[a\]Bridget Deemer 1:15 PM Mar 13 Didn't we have a cutoff rho for the other variables that was higher than this? Probably want to include that in this paragraph.
-
-Bridget Deemer 1:17 PM Mar 13 Also, Rachel suggested maybe we don't need this text about circularity... but I do kind of like it as it shows an example of how we used our knowledge of the systems we are modeling to not let the random forest give us black box type output. Another way to get at this is a more generic statement that just says that we verified that partial dependence plots were predicting relationships consistent with known mechanisms.
-
-Jake Beaulieu 7:58 AM Mar 16 We did not adopt a rho threshold. We relied exclusively on the VIF values.
-
-Jake Beaulieu 8:15 AM Mar 16 I concur with the inclusion of the circularity discussion. Casas-Ruiz investigate CH4\~morphology relationships and include similar text in the Methods section.
-
-Casas-Ruiz, J. P., Jakobsson, J. & del Giorgio, P. A. The role of lake morphometry in modulating surface water carbon concentrations in boreal lakes. Environ. Res. Lett. 16, 074037, doi:10.1088/1748-9326/ac0be3 (2021). \[b\]Jake Beaulieu 12:55 PM Mar 13 @rachelmpilla\@gmail.com
-
-This seems like the natural spot to discuss the littoral fraction x mean depth interaction, but I'm having a tough time coming up with a reasonable explanation. For diffusion, the interaction says that as depth increases, rates will drop more quickly in lakes with lots of littoral vs those with little littoral?
-
-Rachel Pilla 11:29 AM Yesterday Correct, that's the right interpretation of the interactions. I haven't had time to really think about the explanations for these yet, but here's a go. Lake with high littoral area are mostly \<3 m, and we see a pretty fast decline in diffusive emissions by the time mean depth reaches even \~5 m. I think there's the biggest morphological changes when littoral area is high that influence the production/oxidation/emissions rates (vs when it's already low to begin with -- increasing depth isn't actually affecting low littoral area that's already \>3 m).
-
-Rachel Pilla 11:31 AM Yesterday I'm also quite curious now how we might be able to show what lakes with high/low littoral area and shallow/deep mean depths are. The one that's tripping me up a bit is high littoral area + deep mean depth, perhaps indicating there's only a small portion of the lake with a deep hole or something?
-
-Jake Beaulieu 1:47 PM Yesterday Agreed, hard to envision a waterbody that meets these criteria. A plot of mean_depth vs littoral fraction shows a strong negative relationship. The bivariate response surface is extrapolating well beyond the range of our observations. It would be cool to trim the response surface to reflect the range of our observations.
-
-The extrapolation probably doesn't invalidate the interaction, however, as most of the action occurs within a range of 0-7.5m of depth. \[c\]Rachel Pilla I like that idea! Would help us home in on the areas with the most rapid changes in fluxes. Even just for visualization/plots, we can definitely trim the response surface to those within our data range OR even further to specific regions of interest like the 0-7.5 m range
-
-Jake Beaulieu I think we have a similar issue with reservoirs that have low mean_depth AND low littoral zone. Littoral zone is the proportion less than 2.5m, so how can we have a mean depth of 2m and a small littoral zone?
-
-Rachel Pilla Do we have lakes that low mean depth + low littoral zone (or with high/high)? Might be useful to look at the bathymetry/morphology of those to wrap our heads around. My gut is that low mean depth + low littoral might have a deeper portion of the lake but that is fairly small, and with steep sides. I think the exact 3 m boundary for littoral zone adds some complexity since it's discrete despite the littoral fraction being continuous. I may also ask ChatGPT for some help describing these types of unusual lakes 😅 \[d\]Jake Beaulieu 2:46 PM Yesterday @rachelmpilla\@gmail.com
-
-What do you think of this explanation for the sediment C x mean depth interaction?
-
-Rachel Pilla 12:39 PM Today Added a couple suggestions, but this makes a lot of sense to me, and follows what I'd generally expect. One other potential explanation might be if sediment C is more readily metabolized into CH4 in shallower lakes due to perhaps warmer bottom temperatures or higher bottom DO? Not sure if there's evidence to support this per se, but more of that sed C in deeper lakes could be buried before converted to CH4 in cold, anoxic conditions. \[e\]Bottom temperature isn't showing up as important predictor in the RF models, so I don't want to make too much of this idea, although I think it makes perfect sense and I tried to find evidence for it with the gamm. I added a sentence to the end of the paragraph.
