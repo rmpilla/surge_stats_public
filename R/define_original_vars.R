@@ -167,7 +167,7 @@ define_original_vars <- function() {
   
   # 7. OTHERS--------
   other_vars <- c(
-    "year_completed",
+    "age",
     "ag_eco9_nm",
     "doy"
   ) %>%

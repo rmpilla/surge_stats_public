@@ -54,8 +54,8 @@ make_predicted_observed_plot_main_text <- function(random_forest_object, dat_tra
     ggplot(aes(observed_log, predicted_log)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0) +
-    labs(y = expression(atop("predicted diffusive emission rate", paste("1og10(mg C", H[4], " ", m^{-2}, " ", h^{-1}, ")"))),
-         x = expression(atop("observed diffusive emission rate", paste("log10(mg C", H[4], " ", m^{-2}, " ", h^{-1}, ")")))) +
+    labs(y = expression(atop("predicted diffusive emission rate", paste("1og10(mg C", H[4], " ", m^{-2}, " ", d^{-1}, ")"))),
+         x = expression(atop("observed diffusive emission rate", paste("log10(mg C", H[4], " ", m^{-2}, " ", d^{-1}, ")")))) +
     theme_bw() +
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank()) 
@@ -70,8 +70,8 @@ make_predicted_observed_plot_main_text <- function(random_forest_object, dat_tra
     ggplot(aes(observed_linear, predicted_linear)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0) +
-    labs(y = expression(paste("mg C", H[4], " ", m^{-2}, " ", h^{-1})),
-         x = expression(atop("observed diffusive emission rate", paste("mg C", H[4], " ", m^{-2}, " ", h^{-1})))) +
+    labs(y = expression(paste("mg C", H[4], " ", m^{-2}, " ", d^{-1})),
+         x = expression(atop("observed diffusive emission rate", paste("mg C", H[4], " ", m^{-2}, " ", d^{-1})))) +
     theme_bw() +
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank())

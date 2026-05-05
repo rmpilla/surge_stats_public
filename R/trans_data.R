@@ -563,13 +563,13 @@ trans_dat <- function(dat_impute, modeling_vars){
   # The following have outliers.
   # log transform the variables to reduce the influence of outliers.
   other_to_trans <- c(
-    "year_completed" # a few < 1850!
+    "age" # a few > 200!
   )
   
   # log10 transform variables with outliers and inspect distribution
   {dat_impute %>%
       mutate(
-        l_year_completed = log10(year_completed)
+        l_age = log10(age)
       ) %>%
       select(lake_id, starts_with("l_")) %>% 
       # climate variables are repeated across many/all sites in a lake

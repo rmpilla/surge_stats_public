@@ -72,7 +72,7 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
     "chemistry", "do_shallow", "local", "diffusion, ebullition, total",
     
     # other
-    "other", "year_completed", "local", "diffusion, ebullition, total",
+    "other", "age", "local", "diffusion, ebullition, total",
     "other", "ag_eco9_nm", "local, national", "diffusion, ebullition, total",
     "other", "doy", "local", "diffusion, ebullition, total"
   ) %>%

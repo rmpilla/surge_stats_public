@@ -167,7 +167,7 @@ merge_data <- function(
       density_units = "cells_ml",
       cyano_density = sum(density[algal_group == "CYANOBACTERIA"])
     )
-
+  
   
   # merge the dataframes----
   ## objects with lake_id, site_id, and visit first----
@@ -239,10 +239,13 @@ merge_data <- function(
     left_join(nla_chem$nla22_chem) %>%
     left_join(national_morpho_data) %>%
     ## derived quantities----
-    # add sampling month and day of year (DOY)
-    mutate(sample_month = format(sample_start, "%B"),
-           doy = lubridate::yday(sample_start),
-           rda = wsareasqkm / (surface_area / 1e6)) # m2 -> km2
+  # add sampling month, day of year (DOY), rda, and age
+  mutate(
+    sample_month = format(sample_start, "%B"),
+    doy = lubridate::yday(sample_start),
+    rda = wsareasqkm / (surface_area / 1e6), # m2 -> km2
+    age = as.numeric(substr(sample_start, 1, 4)) - year_completed
+  )
   
 
   # inspect dat object
