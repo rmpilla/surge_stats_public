@@ -80,8 +80,8 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
               by = c("Variable" = "variable")) %>%
     mutate(variable_clean_flextable = str_replace_all(variable_clean, pattern = "~", replacement = " "),
            variable_clean_flextable = case_when(Variable == "e_i" ~ "evaporation:inflow",
-                                                Variable == "nh4_shallow" ~ "NH~4~ (shallow)",
-                                                Variable == "so4_shallow" ~ "SO~4~ (shallow)",
+                                                Variable == "nh4_shallow" ~ "NH~4~^+^ (shallow)",
+                                                Variable == "so4_shallow" ~ "SO~4~^2-^ (shallow)",
                                                 TRUE ~ variable_clean_flextable),
            Variable_Group = factor(Variable_Group, levels = c("morphometry", "climate", "trophic",
                                                               "hydrology", "landscape", "chemistry", "other")),

@@ -63,7 +63,7 @@ make_interaction_plots <- function(interaction_results){
       scene = list(
         xaxis = list(title = "   sediment C<br>(% dry weight)"),
         yaxis = list(title = "mean depth<br>     (m)"),
-        zaxis = list(title = "Total CH<sub>4</sub> emission rate<br>     (mg CH<sub>4</sub> m<sup>-2</sup> h<sup>-1</sup>)"),
+        zaxis = list(title = "Total CH<sub>4</sub> emission rate<br>     (mg CH<sub>4</sub> m<sup>-2</sup> d<sup>-1</sup>)"),
         camera = list(
           eye = list(x = -1.75, y = 2, z = 1) # Adjust x, y, z for different angles/zoom
         )),

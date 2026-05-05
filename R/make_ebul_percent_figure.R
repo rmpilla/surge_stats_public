@@ -8,7 +8,7 @@ make_ebul_percent_figure <- function(lake_scale_percent_ebul){
                shape = 21, size = 3) +
     scale_x_continuous(breaks = seq(-120, -60, by = 10), labels = paste0(abs(seq(-120, -60, by = 10)), "°W")) +
     scale_y_continuous(labels = scales::percent) +
-    scale_fill_viridis_c(trans = "log10", na.value = "white", name = bquote(SO[4]~"(mg "~L^-1*"):"),
+    scale_fill_viridis_c(trans = "log10", na.value = "white", name = bquote(SO[4]^'2-'~"(mg "~L^-1*"):"),
                          labels = scales::comma_format(big.mark = ",")) +
     coord_cartesian(ylim = c(0, 1)) +
     labs(x = bquote("Longtitude"), y = "Percent of total emission as ebullition", title = "A") +
@@ -55,7 +55,7 @@ make_ebul_percent_figure <- function(lake_scale_percent_ebul){
     scale_x_continuous(trans = "log10", labels = scales::comma_format(big.mark = ",")) +
     scale_y_continuous(labels = scales::percent) +
     #scale_fill_viridis_c(na.value = "white") +
-    labs(x = bquote(SO[4]~"(mg "~L^-1*")"), y = "Percent of total emission as ebullition", title = "B") +
+    labs(x = bquote(SO[4]^'2-'~"(mg "~L^-1*")"), y = "Percent of total emission as ebullition", title = "B") +
     coord_cartesian(ylim = c(0, 1)) +
     theme_bw()
   
