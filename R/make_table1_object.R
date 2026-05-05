@@ -105,7 +105,6 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
   table1_object <- flextable(table1_dat) %>%
     ftExtra::colformat_md() %>%
     theme_booktabs() %>%
-    autofit(add_w = 0) %>%
     fontsize(size = 7.5, part = "all") %>%
     padding(padding = 0, part = "all") %>% # Set all padding to 0 points
     line_spacing(space = 1, part = "all") %>%  # Set line spacing to single space (1)
@@ -116,7 +115,9 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
           border = officer::fp_border(width = 1)) %>%
     flextable::set_header_labels(Variable_Group = "Variable Group",
                       variable_clean_flextable = "Variable Name",
-                      flextable_units = "Units")
+                      flextable_units = "Units") %>%
+    set_table_properties(layout = "fixed") %>%
+    width(j = 1:5, width = c(0.81, 2.06, 0.81, 0.94, 1.37))
   
   
   return(table1_object)

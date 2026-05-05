@@ -24,10 +24,15 @@ for(i in 1:length(random_forest_object)){
   # use response and predictor names to extract the training data
   observed_linear = dat_trans %>%
     select(
-      response, all_of(predictor_vars) # vars in model
+      all_of(response), all_of(predictor_vars) # vars in model
     ) %>%
     drop_na() %>% # omit any rows with NA
     pull(response)
+  
+  # extract model variance for use in Miller's correction to log -> linear
+  # transformation
+  resid_var <- random_forest_object[[i]]$splm$obdata$.ranger_resid %>%
+    var
   
   rf_dat_i <- tibble(
     predicted_log,
@@ -35,7 +40,7 @@ for(i in 1:length(random_forest_object)){
     response,
     model_var_set
   ) %>%
-    mutate(predicted_linear = expm1(predicted_log),
+    mutate(predicted_linear = exp(predicted_log + (resid_var/2)) - 1,
            observed_log = log1p(observed_linear))
   
   rf_dat <- bind_rows(rf_dat_i, rf_dat)

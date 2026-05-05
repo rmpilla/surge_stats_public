@@ -25,7 +25,7 @@ make_predicted_observed_plot_main_text <- function(random_forest_object, dat_tra
     # use response and predictor names to extract the training data
     observed_linear = dat_trans %>%
       select(
-        response, all_of(predictor_vars) # vars in model
+        all_of(response), all_of(predictor_vars) # vars in model
       ) %>%
       drop_na() %>% # omit any rows with NA
       pull(response)
@@ -105,7 +105,7 @@ make_predicted_observed_plot_main_text <- function(random_forest_object, dat_tra
       ignore_tag = TRUE 
     ) +
     plot_annotation(tag_levels = "A") &
-    theme(plot.tag.position = c(0.18, 1))
+    theme(plot.tag.position = c(0.08, 1)) #c(0.18, 1)
   
   
     
