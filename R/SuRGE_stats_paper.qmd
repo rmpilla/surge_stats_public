@@ -164,7 +164,7 @@ Variable importance plots
 #| fig-align: "center"
 #| fig-cap: "Figure 3. Relative variable importance for random forest models for local models for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables on the y-axis are presented in descending order of importance from the CH~4~ total model. Note that some explanatory variables are not used in all models, and lines are empty when not included. ^a^only used in CH~4~ diffusion and CH~4~ ebullition models, ^b^only used in CH~4~ diffusion model, and ^c^only used in CH~4~ ebullition model."
 #| fig-cap-location: bottom
-#| fig-height: 5
+#| fig-height: 6.5
 #| fig-width: 8
 #| out-width: "80%"
 
