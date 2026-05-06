@@ -30,7 +30,8 @@ library(trackdown) # manage interaction with google docs
 #   patchwork,
 #   terra, # used in make_harsha_pred_map.R
 #   tidyterra, # used in make_harsha_pred_map.R
-#   ranger # used in make_harsha_pred_map.R
+#   ranger, # used in make_harsha_pred_map.R
+#   officer # make_table2_object
 # )
 
 # Set target options:
@@ -64,6 +65,7 @@ suppressPackageStartupMessages({ # cleaner output
                  "ranger", # used in make_harsha_pred_map.R
                  "flextable", #moving from QMD to this file for Table 1 target
                  "ftExtra",
+                 "officer", # tables
                  "tictoc" # timing Harsha Lake heat map
                  )
   )
@@ -115,7 +117,7 @@ source("R/get_ebul_percent.R")
 
 # manuscript
 source("R/make_table1_object.R")
-source("R/get_table2_dat.R") # data for table 2
+source("R/make_table2_object.R")
 source("R/make_map_figure.R")
 source("R/make_predicted_observed_plot_main_text.R")
 source("R/make_variable_importance_plot.R")
@@ -507,8 +509,8 @@ list(
   ),
   
   tar_target(
-    name = table2_dat,
-    command = get_table2_dat(
+    name = table2_object,
+    command = make_table2_object(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans)
   ),

@@ -1,4 +1,4 @@
-get_table2_dat <- function(random_forest_object, dat_trans){
+make_table2_object <- function(random_forest_object, dat_trans){
 
 # GET PREDICTED VS OBSERVED AND ERROR METRICS----
 # get OOB predictions and training data
@@ -87,10 +87,13 @@ rf_r2_manual <-
 table2_dat <- rf_dat %>% 
   group_by(response, model_var_set) %>%
   summarize(
+    # smape Formula: 100 * mean( 2 * |A-F| / (|A|+|F|) )
+    smape_log = mean(200 * abs(observed_log - predicted_log) / (abs(observed_log) + abs(predicted_log))),
     mae_log = abs(observed_log - predicted_log) %>% mean(.),
     mse_log = (observed_log - predicted_log)^2 %>% mean(.),
     rmse_log = sqrt(mse_log),
-    mae_linear = (observed_linear - predicted_linear) %>% mean(.),
+    smape_linear = mean(200 * abs(observed_linear - predicted_linear) / (abs(observed_linear) + abs(predicted_linear))),
+    mae_linear = abs(observed_linear - predicted_linear) %>% mean(.),
     mse_linear = (observed_linear - predicted_linear)^2 %>% mean(.),
     rmse_linear = sqrt(mse_linear)
   ) %>%
@@ -100,14 +103,94 @@ table2_dat <- rf_dat %>%
     rf_r2_manual
   ) %>%
   select(
-    response, model_var_set,
-    mse_log, rmse_log, mae_log, r2_log = ranger_r2_log,
-    mse_linear, rmse_linear, mae_linear, r2_linear = manual_r2_linear,
-    nobs
+    response, model_var_set, nobs,
+    rmse_log, mae_log, smape_log,  r2_log = ranger_r2_log,
+    rmse_linear, mae_linear, smape_linear, r2_linear = manual_r2_linear
+    
   ) %>%
   filter(model_var_set != "local_vars_no_nla") %>%
   ungroup()
 
-return(table2_dat)
+table2_object <- table2_dat %>%
+  mutate(
+    placeholder = "", # add empty column to be between log and linear metrics
+    model_var_set = case_when(
+      model_var_set == "global_vars" ~ "national",
+      model_var_set == "local_vars_all" ~ "local",
+      TRUE ~ "FLY YOU FOOLS!"
+    ),
+    response = case_when(
+      response == "ch4_diffusion" ~ "diffusion",
+      response == "ch4_ebullition" ~ "ebullition",
+      response == "ch4_total" ~ "total",
+      TRUE ~ "FLY YOU FOOLS!"
+    )
+    ) %>%
+  rename(predictors = model_var_set) %>%
+  # move empty column between log and linear metrics
+  relocate(placeholder, .after = "r2_log") %>% 
+  # convert to flextable
+  flextable(.) %>%
+  theme_booktabs() %>%
+  fontsize(size = 8, part = "all") %>%
+  padding(padding = 0, part = "all") %>% # Set all padding to 0 points
+  line_spacing(space = 1, part = "all") %>%   # Set line spacing to single space (1)
+  merge_v(j = ~response) %>%
+  fix_border_issues() %>%
+  colformat_double(j = c("rmse_log", "mae_log"), digits = 3) %>%
+  colformat_double(j = c("smape_log"), digits = 0) %>%
+  colformat_double(j = c("r2_log", "r2_linear"), digits = 2) %>%
+  colformat_double(j = c("rmse_linear", "smape_linear"), digits = 0) %>%
+  colformat_double(j = c("mae_linear"), digits = 1) %>%
+  set_header_labels(
+    nobs = "n",
+    rmse_log = "RMSE",
+    mae_log = "MAE",
+    smape_log = "sMAPE",
+    placeholder = "",
+    rmse_linear = "RMSE",
+    mae_linear = "MAE",
+    smape_linear = "sMAPE"
+  ) %>%
+  # center align numeric column titles and data
+  align(
+    j = 3:12,
+    align = "center",
+    part = "all"
+  ) %>%
+  compose(
+    part = "header",
+    j = "r2_log",
+    value = as_paragraph("OOB r", as_sup("2"))
+  ) %>%
+  compose(
+    part = "header",
+    j = "r2_linear",
+    value = as_paragraph("OOB r", as_sup("2"))
+  ) %>%
+  # add headers to group the log and linear scale metrics
+  # Don't add grouping variable to first 3 and 8th columns
+  add_header_row(values = c("", "log", "", "linear"),
+                 colwidths = c(3,4,1,4)) %>%
+  align(i = 1, j = 4:8, align = "center", part = "header") %>% # center "log"
+  align(i = 1, j = 9:12, align = "center", part = "header") %>% # center "linear"
+  # Remove bottom border for the first 3  and 8th columns of the new top header row
+  hline(i = 1, j = 1:3, border = fp_border(width = 0), part = "header") %>%
+  hline(i = 1, j = 8, border = fp_border(width = 0), part = "header") %>%
+  hline(
+    i = c(2,4,6),
+    part = "body"
+  ) %>%
+  # remove border line from top of table
+  hline_top(
+    border = fp_border_default(width = 0), 
+    part = "header"
+  ) %>%
+  autofit()
+
+return(list(
+  table2_object = table2_object,
+  table2_dat = table2_dat)
+)
 
 }
