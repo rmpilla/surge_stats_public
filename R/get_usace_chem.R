@@ -9,15 +9,15 @@ get_usace_chem <- function(usace_caesar_file,
   # location data----
   # map to filter sites
   # bind_rows(
-  #   read_xlsx(usace_caesar_file, sheet = "Location Info") %>%
+  #   readxl::read_xlsx(usace_caesar_file, sheet = "Location Info") %>%
   #     clean_names() %>%
   #     rename(site_id = loc_id),
-  #   read_xlsx(usace_brookville_buckhorn_carr_file,
+  #   readxl::read_xlsx(usace_brookville_buckhorn_carr_file,
   #             sheet = "Location Information"
   #   ) %>%
   #     clean_names() %>%
   #     select(-reservoir, -location, -x6, -x7),
-  #   read_xlsx(usace_cave_file, sheet = "Location Information ") %>%
+  #   readxl::read_xlsx(usace_cave_file, sheet = "Location Information ") %>%
   #     clean_names() %>%
   #     select(-reservoir)
   # ) %>%
@@ -38,9 +38,9 @@ get_usace_chem <- function(usace_caesar_file,
 
   usace_chem <- bind_rows(
     # bind Brookville, Buckhorn, and Carr first
-    read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Brookville Regular Data"),
-    read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Carr Creek Regular Data"),
-    read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Buckhorn Regular Data")
+    readxl::read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Brookville Regular Data"),
+    readxl::read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Carr Creek Regular Data"),
+    readxl::read_xlsx(usace_brookville_buckhorn_carr_file, sheet = "Buckhorn Regular Data")
   ) %>% # close bind
     # format bound Brookville, Buckhorn, and Carr data
     clean_names() %>%
@@ -64,7 +64,7 @@ get_usace_chem <- function(usace_caesar_file,
     ) %>%
     # bind Caesar Creek Reservoir
     bind_rows(
-      read_xlsx(usace_caesar_file, sheet = "Regular Chem Data") %>%
+      readxl::read_xlsx(usace_caesar_file, sheet = "Regular Chem Data") %>%
         clean_names() %>%
         select(
           site_id = loc_id,
@@ -74,7 +74,7 @@ get_usace_chem <- function(usace_caesar_file,
     ) %>%
     # bind Cave Run data
     bind_rows(
-      read_xlsx(usace_cave_file, sheet = "All Regular Data") %>%
+      readxl::read_xlsx(usace_cave_file, sheet = "All Regular Data") %>%
         clean_names() %>%
         select(
           site_id = location,
@@ -84,7 +84,7 @@ get_usace_chem <- function(usace_caesar_file,
     ) %>% # close bind
     # bind Harsha data
     bind_rows(
-      read_xlsx(usace_harsha_file, sheet = "Regular Chem Data") %>%
+      readxl::read_xlsx(usace_harsha_file, sheet = "Regular Chem Data") %>%
         clean_names() %>%
         select(
           site_id = location,
@@ -103,7 +103,7 @@ get_usace_chem <- function(usace_caesar_file,
     ) %>%
     # bind Huntington district data
     bind_rows(
-      read_xlsx(usace_huntington_file) %>%   
+      readxl::read_xlsx(usace_huntington_file) %>%   
         clean_names %>%
         select(
           site_id = location_id,
@@ -142,7 +142,7 @@ get_usace_chem <- function(usace_caesar_file,
     ) %>% # close bind
     bind_rows(
       # bind Pittsburg District (MJ Kirwan)
-      read_xlsx(usace_pittsburg_file) %>%   
+      readxl::read_xlsx(usace_pittsburg_file) %>%   
         clean_names %>%
         select(
           sample_date = date, 

@@ -4,7 +4,7 @@
 
 get_ohio_wildlife_chem <- function(ohio_wildlife_chem_file = ohio_wildlife_chem_file){
   
-  ohio_wildlife_chem <- read_xlsx(ohio_wildlife_chem_file) %>%
+  ohio_wildlife_chem <- readxl::read_xlsx(ohio_wildlife_chem_file) %>%
     clean_names() %>%
   mutate(
     lake_id = case_when(location == "COWAN LAKE" ~ 1012,

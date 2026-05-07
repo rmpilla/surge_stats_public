@@ -16,6 +16,7 @@ library(sf)
 library(spmodel)
 library(tictoc)
 library(furrr)
+library(readxl)
 
 # data----
 tar_load(dat_trans)

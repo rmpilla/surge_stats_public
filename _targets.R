@@ -8,6 +8,13 @@ library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
 library(trackdown) # manage interaction with google docs
+library(conflicted) # specify preferences for functions in multiple packages
+
+# Set conflict preferences immediately
+conflicts_prefer(dplyr::filter(), 
+                 dplyr::select(),
+                 readxl::read_xlsx()
+                 )
 
 # # for development
 # pacman::p_load(
@@ -31,7 +38,8 @@ library(trackdown) # manage interaction with google docs
 #   terra, # used in make_harsha_pred_map.R
 #   tidyterra, # used in make_harsha_pred_map.R
 #   ranger, # used in make_harsha_pred_map.R
-#   officer # make_table2_object
+#   officer, # make_table2_object
+#   bib2df
 # )
 
 # Set target options:
@@ -66,7 +74,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "flextable", #moving from QMD to this file for Table 1 target
                  "ftExtra",
                  "officer", # tables
-                 "tictoc" # timing Harsha Lake heat map
+                 "tictoc", # timing Harsha Lake heat map
+                 "bib2df" # sort_bib.R
                  )
   )
 })
@@ -125,6 +134,7 @@ source("R/make_partial_dependence_plots.R")
 source("R/make_interaction_plots.R")
 source("R/make_ebul_percent_figure.R")
 source("R/get_signal_to_noise.R")
+source("R/sort_bib.R")
 
 # TARGETS PIPELINE------------------
 
@@ -579,9 +589,10 @@ list(
     )
   ),
   
+  #tar_file(unsorted_refs_file, "R/references_unsorted.bib"),
   tar_target(
-    refs, 
-    "R/references.bib", 
+    name = refs,
+    command = sort_bib("R/references.bib"),
     format = "file"
   ),
 
