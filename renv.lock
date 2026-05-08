@@ -3,6 +3,26 @@
     "Version": "4.5.0",
     "Repositories": [
       {
+        "Name": "BioCsoft",
+        "URL": "https://bioconductor.org/packages/3.22/bioc"
+      },
+      {
+        "Name": "BioCann",
+        "URL": "https://bioconductor.org/packages/3.22/data/annotation"
+      },
+      {
+        "Name": "BioCexp",
+        "URL": "https://bioconductor.org/packages/3.22/data/experiment"
+      },
+      {
+        "Name": "BioCworkflows",
+        "URL": "https://bioconductor.org/packages/3.22/workflows"
+      },
+      {
+        "Name": "BioCbooks",
+        "URL": "https://bioconductor.org/packages/3.22/books"
+      },
+      {
         "Name": "CRAN",
         "URL": "https://packagemanager.posit.co/cran/latest"
       }
@@ -6242,7 +6262,7 @@
     },
     "openssl": {
       "Package": "openssl",
-      "Version": "2.3.5",
+      "Version": "2.4.0",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Toolkit for Encryption, Signatures and Certificates Based on OpenSSL",
@@ -8020,7 +8040,7 @@
     },
     "rmarkdown": {
       "Package": "rmarkdown",
-      "Version": "2.30",
+      "Version": "2.31",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Dynamic Documents for R",
@@ -8067,12 +8087,12 @@
       "Config/Needs/website": "rstudio/quillt, pkgdown",
       "Config/testthat/edition": "3",
       "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.2",
+      "RoxygenNote": "7.3.3",
       "SystemRequirements": "pandoc (>= 1.14) - http://pandoc.org",
       "NeedsCompilation": "no",
       "Author": "JJ Allaire [aut], Yihui Xie [aut, cre] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Christophe Dervieux [aut] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Jonathan McPherson [aut], Javier Luraschi [aut], Kevin Ushey [aut], Aron Atkins [aut], Hadley Wickham [aut], Joe Cheng [aut], Winston Chang [aut], Richard Iannone [aut] (ORCID: <https://orcid.org/0000-0003-3925-190X>), Andrew Dunning [ctb] (ORCID: <https://orcid.org/0000-0003-0464-5036>), Atsushi Yasumoto [ctb, cph] (ORCID: <https://orcid.org/0000-0002-8335-495X>, cph: Number sections Lua filter), Barret Schloerke [ctb], Carson Sievert [ctb] (ORCID: <https://orcid.org/0000-0002-4958-2844>), Devon Ryan [ctb] (ORCID: <https://orcid.org/0000-0002-8549-0971>), Frederik Aust [ctb] (ORCID: <https://orcid.org/0000-0003-4900-788X>), Jeff Allen [ctb], JooYoung Seo [ctb] (ORCID: <https://orcid.org/0000-0002-4064-6012>), Malcolm Barrett [ctb], Rob Hyndman [ctb], Romain Lesur [ctb], Roy Storey [ctb], Ruben Arslan [ctb], Sergio Oller [ctb], Posit Software, PBC [cph, fnd], jQuery UI contributors [ctb, cph] (jQuery UI library; authors listed in inst/rmd/h/jqueryui/AUTHORS.txt), Mark Otto [ctb] (Bootstrap library), Jacob Thornton [ctb] (Bootstrap library), Bootstrap contributors [ctb] (Bootstrap library), Twitter, Inc [cph] (Bootstrap library), Alexander Farkas [ctb, cph] (html5shiv library), Scott Jehl [ctb, cph] (Respond.js library), Ivan Sagalaev [ctb, cph] (highlight.js library), Greg Franko [ctb, cph] (tocify library), John MacFarlane [ctb, cph] (Pandoc templates), Google, Inc. [ctb, cph] (ioslides library), Dave Raggett [ctb] (slidy library), W3C [cph] (slidy library), Dave Gandy [ctb, cph] (Font-Awesome), Ben Sperry [ctb] (Ionicons), Drifty [cph] (Ionicons), Aidan Lister [ctb, cph] (jQuery StickyTabs), Benct Philip Jonsson [ctb, cph] (pagebreak Lua filter), Albert Krewinkel [ctb, cph] (pagebreak Lua filter)",
       "Maintainer": "Yihui Xie <xie@yihui.name>",
-      "Repository": "CRAN"
+      "Repository": "RSPM"
     },
     "rpart": {
       "Package": "rpart",
@@ -10207,7 +10227,7 @@
     },
     "tinytex": {
       "Package": "tinytex",
-      "Version": "0.58",
+      "Version": "0.59",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents",
@@ -10232,11 +10252,11 @@
     },
     "trackdown": {
       "Package": "trackdown",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Title": "Collaborative Editing of Rmd (or Rnw) Documents in Google Drive",
+      "Version": "1.5.1",
+      "Source": "GitHub",
+      "Title": "Collaborative Editing of Rmd (or Quarto / Rnw) Documents in Google Drive",
       "Authors@R": "c(person(given = \"Emily\", family = \"Kothe\", role = \"aut\", email = \"emily.kothe@deakin.edu.au\", comment = c(ORCID = \"0000-0003-1210-0554\")), person(given = \"Claudio\", family = \"Zandonella Callegher\", role = c(\"aut\", \"cre\"), email = \"claudiozandonella@gmail.com\", comment = c(ORCID = \"0000-0001-7721-6318\")), person(given = \"Filippo\", family = \"Gambarota\", role = \"aut\", email = \"filippo.gambarota@gmail.com\", comment = c(ORCID = \"0000-0002-6666-1747\")), person(given = \"Janosch\", family = \"Linkersdörfer\", role = \"aut\", email = \"jlinkersdoerfer@ucsd.edu\", comment = c(ORCID = \"0000-0002-1577-1233\")), person(given = \"Mathew\", family = \"Ling\", role = \"aut\", email = \"m.ling@deakin.edu.au\", comment = c(ORCID = \"0000-0002-0940-2538\")))",
-      "Description": "Collaborative writing and editing of R Markdown (or Sweave) documents. The local .Rmd (or .Rnw) is uploaded as a plain-text file to Google Drive. By taking advantage of the easily readable Markdown (or LaTeX) syntax and the well-known online interface offered by Google Docs, collaborators can easily contribute to the writing and editing process. After integrating all authors’ contributions, the final document can be downloaded and rendered locally.",
+      "Description": "Collaborative writing and editing of R Markdown (or Quarto / Sweave) documents. The local .Rmd (or Quarto / .Rnw) is uploaded as a plain-text file to Google Drive. By taking advantage of the easily readable Markdown (or LaTeX) syntax and the well-known online interface offered by Google Docs, collaborators can easily contribute to the writing and editing process. After integrating all authors’ contributions, the final document can be downloaded and rendered locally.",
       "Depends": [
         "R (>= 3.5)"
       ],
@@ -10244,13 +10264,16 @@
       "Encoding": "UTF-8",
       "Imports": [
         "cli (>= 3.0.0)",
-        "googledrive (> 1.0.1)",
+        "gargle (>= 1.4.0)",
+        "googledrive (>= 2.1.0)",
+        "lifecycle",
+        "rlang (>= 1.0.2)",
         "rmarkdown"
       ],
       "Suggests": [
         "covr",
         "devtools",
-        "gargle",
+        "httr",
         "knitr",
         "pagedown",
         "sodium",
@@ -10258,14 +10281,20 @@
         "vcr"
       ],
       "Config/testthat/edition": "3",
-      "RoxygenNote": "7.1.1",
+      "RoxygenNote": "7.2.3",
       "VignetteBuilder": "knitr",
       "URL": "https://github.com/claudiozandonella/trackdown/, https://claudiozandonella.github.io/trackdown/",
       "BugReports": "https://github.com/claudiozandonella/trackdown/issues",
+      "Roxygen": "list(markdown = TRUE)",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "trackdown",
+      "RemoteUsername": "claudiozandonella",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "242d7ff615721eca613937c3765d7fbcc6b9c0b7",
       "NeedsCompilation": "no",
-      "Author": "Emily Kothe [aut] (<https://orcid.org/0000-0003-1210-0554>), Claudio Zandonella Callegher [aut, cre] (<https://orcid.org/0000-0001-7721-6318>), Filippo Gambarota [aut] (<https://orcid.org/0000-0002-6666-1747>), Janosch Linkersdörfer [aut] (<https://orcid.org/0000-0002-1577-1233>), Mathew Ling [aut] (<https://orcid.org/0000-0002-0940-2538>)",
-      "Maintainer": "Claudio Zandonella Callegher <claudiozandonella@gmail.com>",
-      "Repository": "CRAN"
+      "Author": "Emily Kothe [aut] (ORCID: <https://orcid.org/0000-0003-1210-0554>), Claudio Zandonella Callegher [aut, cre] (ORCID: <https://orcid.org/0000-0001-7721-6318>), Filippo Gambarota [aut] (ORCID: <https://orcid.org/0000-0002-6666-1747>), Janosch Linkersdörfer [aut] (ORCID: <https://orcid.org/0000-0002-1577-1233>), Mathew Ling [aut] (ORCID: <https://orcid.org/0000-0002-0940-2538>)",
+      "Maintainer": "Claudio Zandonella Callegher <claudiozandonella@gmail.com>"
     },
     "tune": {
       "Package": "tune",
@@ -10555,7 +10584,7 @@
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.7.1",
+      "Version": "0.7.3",
       "Source": "Repository",
       "Title": "Vector Helpers",
       "Authors@R": "c( person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"), person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = \"aut\"), person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = c(\"aut\", \"cre\")), person(\"data.table team\", role = \"cph\", comment = \"Radix sort based on data.table's forder() and their contribution to R's order()\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
@@ -10595,6 +10624,7 @@
       "Config/testthat/edition": "3",
       "Config/testthat/parallel": "true",
       "Encoding": "UTF-8",
+      "KeepSource": "true",
       "Language": "en-GB",
       "RoxygenNote": "7.3.3",
       "NeedsCompilation": "yes",
@@ -11104,7 +11134,7 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.56",
+      "Version": "0.57",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Supporting Functions for Packages Maintained by 'Yihui Xie'",
