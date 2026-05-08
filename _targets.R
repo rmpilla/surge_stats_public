@@ -8,13 +8,7 @@ library(styler) # for tidyverse styler conventions
 library(miniUI) # for styler Addin
 library(pacman) # load packages outside of tar_make
 library(trackdown) # manage interaction with google docs
-library(conflicted) # specify preferences for functions in multiple packages
 
-# Set conflict preferences immediately
-conflicts_prefer(dplyr::filter(), 
-                 dplyr::select(),
-                 readxl::read_xlsx()
-                 )
 
 # # for development
 # pacman::p_load(
