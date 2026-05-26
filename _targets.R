@@ -565,7 +565,8 @@ list(
                            "mean_depth",
                            "nla17_sed_c",
                            "so4_shallow",
-                           "surface_area")
+                           "surface_area",
+                           "site_depth")
     )
   ),
   
