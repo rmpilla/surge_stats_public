@@ -121,6 +121,7 @@ source("R/get_ebul_percent.R")
 # manuscript
 source("R/make_table1_object.R")
 source("R/make_table2_object.R")
+source("R/make_table3_object.R")
 source("R/make_map_figure.R")
 source("R/make_predicted_observed_plot_main_text.R")
 source("R/make_variable_importance_plot.R")
@@ -517,6 +518,11 @@ list(
     command = make_table2_object(
       random_forest_object = random_forest_object,
       dat_trans = dat_trans)
+  ),
+ 
+  tar_target(
+    name = table3_object,
+    command = make_table3_object()# no argument to this function
   ),
   
   tar_target(

@@ -5,6 +5,8 @@ if (requireNamespace("conflicted", quietly = TRUE)) {
 library(conflicted)
 conflicts_prefer(dplyr::filter(), 
                  dplyr::select(),
-                 readxl::read_xlsx()
+                 readxl::read_xlsx(),
+                 flextable::align(),
+                 flextable::compose()
                  )
 }
