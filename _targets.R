@@ -117,6 +117,7 @@ source("R/run_random_forest.R") # create random_forest_object, list of spatial r
 source("R/get_variable_importance.R")
 source("R/get_interaction_results.R")
 source("R/get_ebul_percent.R")
+source("R/run_random_forest_SI_variable_groups.R")
 
 # manuscript
 source("R/make_table1_object.R")
@@ -128,6 +129,7 @@ source("R/make_variable_importance_plot.R")
 source("R/make_partial_dependence_plots.R")
 source("R/make_interaction_plots.R")
 source("R/make_ebul_percent_figure.R")
+source("R/make_SItable1_object.R")
 source("R/get_signal_to_noise.R")
 source("R/sort_bib.R")
 
@@ -625,6 +627,27 @@ list(
   
   tar_target(name = SI_ebul_percent_plot,
              command = make_ebul_percent_figure(lake_scale_percent_ebul = lake_scale_percent_ebul)
+  ),
+  
+  tar_target(name = random_forest_variable_group,
+             command = run_random_forest_SI_variable_groups(dat_trans = dat_trans,
+                                                            modeling_vars_final = modeling_vars_final)
+  ),
+  
+  tar_target(
+    name = variable_importance_variable_group,
+    command = get_variable_importance(
+      random_forest_object = random_forest_variable_group
+    )
+  ),
+  
+  tar_target(name = SI_variable_group_table,
+             command = make_SItable1_object(random_forest_object = random_forest_variable_group,
+                                            variable_importance_variable_group = variable_importance_variable_group,
+                                            dat_trans = dat_trans,
+                                            table2_object = table2_object,
+                                            variable_importance = variable_importance,
+                                            clean_predictor_names_crosswalk = clean_predictor_names_crosswalk)
   ),
   
   ### harsha lake emission driver heat map----
