@@ -522,7 +522,11 @@ list(
  
   tar_target(
     name = table3_object,
-    command = make_table3_object()# no argument to this function
+    command = make_table3_object(
+      random_forest_object = random_forest_object,
+      table2_object = table2_object,
+      dat_trans = dat_trans
+    )
   ),
   
   tar_target(

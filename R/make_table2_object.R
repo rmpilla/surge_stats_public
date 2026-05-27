@@ -84,6 +84,14 @@ rf_r2_manual <-
 
 
 # Calculate and merge performance metrics
+# Fractional Bias function
+calc_fb <- function(obs, pred) {
+  mean_p <- mean(pred, na.rm = TRUE)
+  mean_o <- mean(obs, na.rm = TRUE)
+  fb <- 2 * (mean_p - mean_o) / (mean_p + mean_o)
+  return(fb)
+}
+
 table2_dat <- rf_dat %>% 
   group_by(response, model_var_set) %>%
   summarize(
@@ -92,10 +100,12 @@ table2_dat <- rf_dat %>%
     mae_log = abs(observed_log - predicted_log) %>% mean(.),
     mse_log = (observed_log - predicted_log)^2 %>% mean(.),
     rmse_log = sqrt(mse_log),
+    fbias_log = calc_fb(observed_log, predicted_log),
     smape_linear = mean(200 * abs(observed_linear - predicted_linear) / (abs(observed_linear) + abs(predicted_linear))),
     mae_linear = abs(observed_linear - predicted_linear) %>% mean(.),
     mse_linear = (observed_linear - predicted_linear)^2 %>% mean(.),
-    rmse_linear = sqrt(mse_linear)
+    rmse_linear = sqrt(mse_linear),
+    fbias_linear = calc_fb(observed_linear, predicted_linear),
   ) %>%
   full_join(
     rf_r2_ranger) %>%
@@ -104,9 +114,8 @@ table2_dat <- rf_dat %>%
   ) %>%
   select(
     response, model_var_set, nobs,
-    rmse_log, mae_log, smape_log,  r2_log = ranger_r2_log,
-    rmse_linear, mae_linear, smape_linear, r2_linear = manual_r2_linear
-    
+    rmse_log, mae_log, smape_log,  r2_log = ranger_r2_log, fbias_log,
+    rmse_linear, mae_linear, smape_linear, r2_linear = manual_r2_linear, fbias_linear
   ) %>%
   filter(model_var_set != "local_vars_no_nla") %>%
   ungroup()
@@ -128,7 +137,7 @@ table2_object <- table2_dat %>%
     ) %>%
   rename(predictors = model_var_set) %>%
   # move empty column between log and linear metrics
-  relocate(placeholder, .after = "r2_log") %>% 
+  relocate(placeholder, .after = "fbias_log") %>% 
   # convert to flextable
   flextable(.) %>%
   theme_booktabs() %>%
@@ -139,22 +148,25 @@ table2_object <- table2_dat %>%
   fix_border_issues() %>%
   colformat_double(j = c("rmse_log", "mae_log"), digits = 3) %>%
   colformat_double(j = c("smape_log"), digits = 0) %>%
-  colformat_double(j = c("r2_log", "r2_linear"), digits = 2) %>%
+  colformat_double(j = c("r2_log", "r2_linear", "fbias_linear"), digits = 2) %>%
   colformat_double(j = c("rmse_linear", "smape_linear"), digits = 0) %>%
   colformat_double(j = c("mae_linear"), digits = 1) %>%
+  colformat_double(j = c("fbias_log"), digits = 4) %>%
   set_header_labels(
     nobs = "n",
     rmse_log = "RMSE",
     mae_log = "MAE",
-    smape_log = "sMAPE",
+    smape_log = "sMAPE (%)",
+    fbias_log = "MFB",
     placeholder = "",
     rmse_linear = "RMSE",
     mae_linear = "MAE",
-    smape_linear = "sMAPE"
+    smape_linear = "sMAPE (%)",
+    fbias_linear = "MFB"
   ) %>%
   # center align numeric column titles and data
   align(
-    j = 3:12,
+    j = 3:13,
     align = "center",
     part = "all"
   ) %>%
@@ -171,12 +183,12 @@ table2_object <- table2_dat %>%
   # add headers to group the log and linear scale metrics
   # Don't add grouping variable to first 3 and 8th columns
   add_header_row(values = c("", "log", "", "linear"),
-                 colwidths = c(3,4,1,4)) %>%
+                 colwidths = c(3,5,1,5)) %>%
   align(i = 1, j = 4:8, align = "center", part = "header") %>% # center "log"
   align(i = 1, j = 9:12, align = "center", part = "header") %>% # center "linear"
-  # Remove bottom border for the first 3  and 8th columns of the new top header row
+  # Remove bottom border for the first 3  and 9th columns of the new top header row
   hline(i = 1, j = 1:3, border = fp_border(width = 0), part = "header") %>%
-  hline(i = 1, j = 8, border = fp_border(width = 0), part = "header") %>%
+  hline(i = 1, j = 9, border = fp_border(width = 0), part = "header") %>%
   hline(
     i = c(2,4,6),
     part = "body"
