@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(targets)
 library(tidyverse)
 #library(tidymodels) # glance
-#library(flextable) # tables
+library(flextable) # tables
 library(english) # numeric to text
 ```
 
@@ -22,6 +22,7 @@ library(english) # numeric to text
 targets::tar_load(SI_ebul_percent_plot)
 targets::tar_load(SI_variable_importance_globalvars)
 targets::tar_load(SI_partial_dependence_plots)
+targets::tar_load(SI_variable_group_table)
 targets::tar_load(chla_lab_shallow)
 
 ```
@@ -56,7 +57,14 @@ Center buoyancy frequency, an index of the strength of thermal stratification, w
 SI_ebul_percent_plot 
 ```
 
-## 
+## Comparison of morphological variables in random forest models
+
+```{r}
+#| label: table_S1 
+#| tbl-cap: "Table 1. Variables used in Random Forest model."  
+
+SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).") 
+```
 
 ## Partial dependence: Additional variables of interest
 
