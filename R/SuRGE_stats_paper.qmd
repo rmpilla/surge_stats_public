@@ -178,7 +178,8 @@ When sediment C was at its lowest (blue line at bottom right of **Figure 5**), C
 #| fig-width: 5
 #| fig-height: 4
 #| fig-align: "center"
-#| out-width: "80%" 
+#| out-width: "100%" 
+#| fig-dpi: 1200
 #| fig-cap: "Figure 5. Interaction plot for mean depth x sediment C for local model of CH~4~ total. Interaction strength was estimated as the difference in emission rate range across the range of sediment C when mean depth was low versus high (difference emission rate range between red lines), and similarly the difference in emission rate range across the range of mean depth with sediment C was low versus high (difference in emission rate range between blue lines)."
 #| fig-cap-location: bottom
 # plot interaction plots (3)   
