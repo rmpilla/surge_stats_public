@@ -70,7 +70,7 @@ make_partial_dependence_plots <- function(random_forest_object,
     scale_y_continuous(trans = "log1p") +
     scale_color_brewer(palette = "Dark2", name = "emission mechanism:", labels = scales::label_parse()) +
     labs(x = "explanatory variable value", 
-         y = bquote(atop(mean~predicted~total~CH[4]~emission~rate, (mg~CH[4]~m^-2~d^-1)))) +
+         y = bquote(atop(mean~predicted~CH[4]~emission~rate, (mg~CH[4]~m^-2~d^-1)))) +
     theme_bw() +
     theme(panel.grid = element_blank(),
           legend.position = "top")

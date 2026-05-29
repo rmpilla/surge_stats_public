@@ -67,7 +67,7 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
     # chemistry
     "chemistry", "nh4_shallow", "local", "diffusion, ebullition, total",
     "chemistry", "so4_shallow", "local", "diffusion, ebullition, total",
-    "chemistry", "toc_shallow", "local", "diffusion, ebullition, total",
+    #"chemistry", "toc_shallow", "local", "diffusion, ebullition, total",
     "chemistry", "do_deep", "local", "diffusion, ebullition, total",
     "chemistry", "turbidity_shallow", "local", "diffusion, ebullition, total",
     

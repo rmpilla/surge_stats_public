@@ -71,6 +71,7 @@ make_map_figure <- function(emissions_lake_data,
     scatterpie::geom_scatterpie_legend(breaks = c(0, 2, 4) * 5e4, radius = c(0, 1, 2, 3, 4) * 5e4,
                                        labeller = function(x){10^(x / 5e4)},
                                        x = -13500000, y = 2700000) +
+    annotate(geom = "text", x = -13100000, y = 3200000, size = 4, label = deparse(bquote(mg~CH[4]~m^-2~d^-1)), parse = T) +
     guides(fill = guide_legend(title.position = "top", ncol = 1)) +
     labs(x = NULL, y = NULL, title = "A") +
     theme_bw() +
@@ -92,6 +93,7 @@ make_map_figure <- function(emissions_lake_data,
     scatterpie::geom_scatterpie_legend(breaks = c(0, 2, 4) * 1e4, radius = c(0, 1, 2, 3, 4) * 1e4,
                                        labeller = function(x){ 10^(x / 1e4)},
                                        x = -9920000, y = 4900000) +
+    annotate(geom = "text", x = -9878000, y = 4980000, size = 4, label = deparse(bquote(mg~CH[4]~m^-2~d^-1)), parse = T) +
     #guides(fill = guide_legend(title.position = "top")) +
     labs(x = NULL, y = NULL, title = "B") +
     theme_bw() +

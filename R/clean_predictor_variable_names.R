@@ -9,12 +9,12 @@ clean_predictor_variable_names <- function(modeling_vars_final){
     mutate(
       
       variable_clean = case_when(variable == "surface_area" ~ "surface~area",
-                                 variable == "surface_area_global" ~ "surface~area~global",
+                                 variable == "surface_area_global" ~ "surface~area~national",
                                  variable == "mean_depth" ~ "mean~depth",
-                                 variable == "mean_depth_global" ~ "mean~depth~global",
+                                 variable == "mean_depth_global" ~ "mean~depth~national",
                                  variable == "site_depth" ~ "site~depth",
                                  variable == "littoral_fraction" ~ "littoral~fraction",
-                                 variable == "littoral_fraction_global" ~ "littoral~fraction~global",
+                                 variable == "littoral_fraction_global" ~ "littoral~fraction~national",
                                  variable == "buoyf" ~ "buoyancy~frequency",
                                  variable == "chla_lab_shallow" ~ "chl-a~extracted~(shallow)",
                                  variable == "tp_shallow" ~ "TP~(shallow)",
