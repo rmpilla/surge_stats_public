@@ -59,7 +59,7 @@ make_interaction_plots <- function(interaction_results){
               type = 'scatter3d', mode = 'line', split = ~group,
               line = list(width = 7, color = "#d73027" #~expm1(yhat), colorscale = 'Viridis'
               )) %>%
-    layout(#title =  "B)",
+    plotly::layout(#title =  "B)",
       scene = list(
         xaxis = list(title = "   sediment C<br>(% dry weight)"),
         yaxis = list(title = "mean depth<br>     (m)"),
@@ -108,8 +108,8 @@ make_interaction_plots <- function(interaction_results){
   # interaction_1_png <- magick::image_read("interaction_1.png")
   
   htmlwidgets::saveWidget(interaction_2, "interaction_2.html")
-  webshot2::webshot("interaction_2.html", "interaction_2.png", zoom = 1, cliprect = c(225, 100, 525, 650))
-  interaction_2_png <- magick::image_read("interaction_2.png")
+  webshot2::webshot("interaction_2.html", "interaction_2.png", zoom = 4, cliprect = c(225, 100, 525, 650))
+  interaction_2_png <- magick::image_read("interaction_2.png", density = 1000)
   
   # htmlwidgets::saveWidget(interaction_3, "interaction_3.html")
   # webshot2::webshot("interaction_3.html", "interaction_3.png", cliprect = c(200, 125, 600, 600))
@@ -120,7 +120,8 @@ make_interaction_plots <- function(interaction_results){
   #   patchwork::wrap_elements(grid::rasterGrob(interaction_2_png)) +
   #   patchwork::wrap_elements(grid::rasterGrob(interaction_3_png))
   
-  interaction_plots <- patchwork::wrap_elements(grid::rasterGrob(interaction_2_png))
+  interaction_plots <- interaction_2_png %>% 
+    magick::image_ggplot(interpolate = TRUE)   # patchwork::wrap_elements(grid::rasterGrob(interaction_2_png))
   
   return(interaction_plots)
   
