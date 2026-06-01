@@ -78,8 +78,8 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       #"generalized additive model", "Spain", "reservoirs", 12, "total", 0.59, "Leon_Palmero et al. 2020",
       "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "diffusion", 0.79, "Tan 2024",
       "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "total", 0.88, "Tan 2024",
-      "ResME", "global", "reservoir", 54, "total", 0.41, "Delwiche et al. 2022",
-      "FLaMe-v1.0", "Europe", "reservoir and lakes", 47, "total", 0.52, "Maisonnier et al. 2025"
+      "ResME", "global", "reservoir", 54, "total", 0.41, "Delwiche et al. 2022"
+     # "FLaMe-v1.0", "Europe", "reservoir and lakes", 47, "total", 0.52, "Maisonnier et al. 2025"
     ) %>%
     bind_rows(
       this_study %>%
@@ -93,7 +93,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     # two digits in r2 column
     colformat_double(j = "r2", digits = 2) %>%
     # Add bottom border below each citation
-    hline(i = c(2,5,6,8,9,10,13), border = fp_border(width = 1)) %>%
+    hline(i = c(2,5,6,8,9,12), border = fp_border(width = 1)) %>%
     # remove border line from top of table
     hline_top(
       border = fp_border_default(width = 0), 
@@ -143,7 +143,13 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       ref_symbols = c("c"),
       part = "body"
     ) %>%
-
+    # enforce single line spacing between footers
+    padding(
+      padding.top = 0, 
+      padding.bottom = 0, 
+      part = "footer"
+    ) %>%
+    hrule(rule = "exact", part = "footer") %>%
     fontsize(size = 8, part = "all") %>%
     line_spacing(space = 1, part = "all") %>%   # single space
     autofit()
