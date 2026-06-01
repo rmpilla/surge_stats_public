@@ -121,7 +121,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     flextable::footnote(
       j = 4, # column
       value = as_paragraph(
-        "Number of waterbodies in validation dataset"
+        "Number of waterbodies in validation dataset. Models in this study are trained using multiple observations within each reservoir whereas the other studies aggregate multiple observations into a single value per waterbody for model training"
       ),
       ref_symbols = c("a"),
       part = "header"

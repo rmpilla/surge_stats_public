@@ -1,5 +1,4 @@
 ---
-title: "Supplementary Materials for: A national-scale model for spatially-explicit predictions of summertime methane ebullition and diffusion from reservoir water surfaces"
 format: docx
 editor: visual
 bibliography: references.bib
@@ -24,14 +23,29 @@ targets::tar_load(SI_variable_importance_globalvars)
 targets::tar_load(SI_partial_dependence_plots)
 targets::tar_load(SI_variable_group_table)
 targets::tar_load(chla_lab_shallow)
-
+targets::tar_load(predicted_observed_plot)
 ```
 
-This supplement contains additional methods, results and discussion as well as one table, four supplementary figures and associated references.
+## Title
+
+Supplemental Materials for: A national-scale model for spatially-explicit predictions of summertime methane emissions from reservoir water surfaces
+
+## Authors
+J.J Beaulieu<sup>1*</sup>, R.M. Pilla^2^, B.D. Deemer^3^, N.A. Griffiths^2^, J.W. Hollister^4^, S.D. Shivers^4^
+
+^1^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Cincinnati, Ohio, USA  
+^2^ Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA  
+^3^ Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, U.S. Geological Survey, Flagstaff, Arizona, USA  
+^4^ Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency,  Narragansett, Rhode Island, USA  
+
+*corresponding author: beaulieu.jake@epa.gov
+
+# Introduction
+This supplement contains additional methods, results and discussion as well as one table, five supplementary figures and associated references.
 
 ## Supplemental Methods
 
-Several morphological variables were collinear and we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF > 3 including dynamic ratio and shoreline complexity, and the inclusion of any of these three did not qualitatively change the analysis results (**Table Sx**). We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (pearson correlation coefficient = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021].
+Several morphological variables were collinear and we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF \> 3 including dynamic ratio and shoreline complexity, and the inclusion of any of these three did not qualitatively change the analysis results (**Table S1**). We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (pearson correlation coefficient = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021].
 
 ## Supplemental Results and Discussion
 
@@ -41,13 +55,13 @@ Relative drainage area (RDA), calculated as the ratio of watershed to reservoir 
 
 ### Buoyancy frequency
 
-Center buoyancy frequency, an index of the strength of thermal stratification, was the fourth best predictor of CH~4~ diffusion in the local RF model. CH~4~ diffusion rates showed a positive non-linear relationship with reservoir buoyancy frequency, with mean predicted emissions increasingly steeply from un-stratified systems to weakly stratified ones (with a threshold at 0.0006 s^-1^) and then remaining relatively flat as stratification increased **(Figure S2)**. An analysis of mixing regimes across 34 ponds and shallow lakes found that a threshold density gradient of 0.287 kg m^-3^ m^-1^ distinguished conditions promoting mixing from stable stratified conditions [@holgerson_2022]. Assuming freshwater at 10 degrees C, this would roughly correspond to a center buoyancy frequency of 0.002 s^-1^, which is nearly an order of magnitude higher than the threshold we observed here. Thus, we report the lowest rates of CH~4~ diffusion from systems that are very well mixed. Such conditions would be less likely to support a build-up of methane in the water column because oxygen can efficiently mix down to the sediment water interface. Several studies have examined the relationship between center buoyancy frequency and CH~4~ concentrations, but have ultimately found bottom water dissolved oxygen as a more important predictor of surface emissions [@webb_2019], or found that higher buoyancy frequencies resulted in higher deep water CH~4~ concentrations without resulting in measurable differences at the surface [@rimas_2026]. One study found that buoyancy frequency was negatively related to CH~4~ concentrations in reservoirs (but at higher buoyancy frequencies-- mean of 0.011 s^-1^ and standard deviation of 0.01), but positively related to CH~4~ concentrations in wetlands [@jensen_2023]. In this study, buoyancy frequency may be a better predictor than bottom dissolved oxygen concentrations (which were measured at every site) because it may integrate over a longer timescale than the dissolved oxygen signal.
+Center buoyancy frequency, an index of the strength of thermal stratification, was the fourth best predictor of CH~4~ diffusion in the local RF model. CH~4~ diffusion rates showed a positive non-linear relationship with reservoir buoyancy frequency, with mean predicted emissions increasingly steeply from un-stratified systems to weakly stratified ones (with a threshold at 0.0006 s^-1^) and then remaining relatively flat as stratification increased **(Figure S3)**. An analysis of mixing regimes across 34 ponds and shallow lakes found that a threshold density gradient of 0.287 kg m^-3^ m^-1^ distinguished conditions promoting mixing from stable stratified conditions [@holgerson_2022]. Assuming freshwater at 10 degrees C, this would roughly correspond to a center buoyancy frequency of 0.002 s^-1^, which is nearly an order of magnitude higher than the threshold we observed here. Thus, we report the lowest rates of CH~4~ diffusion from systems that are very well mixed. Such conditions would be less likely to support a build-up of methane in the water column because oxygen can efficiently mix down to the sediment water interface. Several studies have examined the relationship between center buoyancy frequency and CH~4~ concentrations, but have ultimately found bottom water dissolved oxygen as a more important predictor of surface emissions [@webb_2019], or found that higher buoyancy frequencies resulted in higher deep water CH~4~ concentrations without resulting in measurable differences at the surface [@rimas_2026]. One study found that buoyancy frequency was negatively related to CH~4~ concentrations in reservoirs (but at higher buoyancy frequencies-- mean of 0.011 s^-1^ and standard deviation of 0.01), but positively related to CH~4~ concentrations in wetlands [@jensen_2023]. In this study, buoyancy frequency may be a better predictor than bottom dissolved oxygen concentrations (which were measured at every site) because it may integrate over a longer timescale than the dissolved oxygen signal.
 
-## Spatial patterns in ebullition versus diffusion and SO~4~^2-^
+## Supplemental Figures
 
 ```{r SI_ebul_percent_plot, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center  
-#| fig-cap: "Figure S1. Percent of lake-scale total CH~4~ emission as ebullition as a function of (A) longitude and (B) SO~4~. In (A), points are colored by SO~4~, with dark purple showing low concentrations and yellow showing high concentrations."
+#| fig-cap: "Figure S1. Percent of lake-scale total CH~4~ emission as ebullition as a function of (A) longitude and (B) SO~4~^2-^. In (A), points are colored by SO~4~^2-^, with dark purple showing low concentrations and yellow showing high concentrations."
 #| fig-cap-location: bottom 
 #| fig-height: 5
 #| fig-width: 8 
@@ -56,36 +70,41 @@ Center buoyancy frequency, an index of the strength of thermal stratification, w
 #  plots of % ebullition versus longitude & versus SO[4] 
 SI_ebul_percent_plot 
 ```
+<br>
+<br>
+<br>
+```{r pred_obs, echo=FALSE, warning=FALSE, message=FALSE}
+#| fig-width: 6
+#| fig-height: 3
+#| fig-align: "center"
+#| out-width: "80%"
+#| fig-cap: "Figure S2. Predicted versus observed diffusive emission rates in A) log and b) linear scales."
+#| fig-cap-location: bottom
+# plot predicted vs observed
+predicted_observed_plot
 
-## Comparison of morphological variables in random forest models
-
-```{r}
-#| label: table_S1 
-#| tbl-cap: "Table 1. Variables used in Random Forest model."  
-
-SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).") 
 ```
-
-## Partial dependence: Additional variables of interest
-
+<br>
+<br>
+<br>
 ```{r SI_partial_dependence_plots, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center 
-#| fig-cap: "Figure S2. Partial dependence plot for reservoir age (year of dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
+#| fig-cap: "Figure S3. Partial dependence plot for reservoir age (years elaspsed since dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
 #| fig-cap-location: bottom 
 #| fig-height: 5 
 #| fig-width: 8 
 #| out-width: 60%  
  
 # plot year_completed vs CH4 emission rates
-SI_partial_dependence_plots
+SI_partial_dependence_plots 
 
 ```
-
-## Variable importance: National models
-
+<br>
+<br>
+<br>   
 ```{r SI_variable_importance_globalvars, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center
-#| fig-cap: "Figure S3. Relative variable importance for random forest models using only nationally available variable for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
+#| fig-cap: "Figure S4. Relative variable importance for random forest models using only nationally available variables for CH~4~ total, CH~4~ diffusion, and CH~4~ ebullition. Explanatory variables are consistenly used in each of the three models."
 #| fig-cap-location: bottom  
 #| fig-height: 4
 #| fig-width: 8
@@ -95,15 +114,29 @@ SI_partial_dependence_plots
 SI_variable_importance_globalvars
 
 ```
+<br>
+<br>
+<br> 
+![Figure S5. Map of water depth (A), chlorophyll-*a* (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)
+<br>
+<br>
+<br>
 
-## Harsha Lake emission driver maps
+## Supplemental Tables
 
-Spatially explicit maps of several drivers of the CH~4~ total emission rate random forest model were constructed for William H Harsha lake in southwest Ohio (lake_id == 1031 in dataset). These spatially explicit datasets were subsequently used to inform predictions of the total CH~4~ emission rate at the lake.
+```{r}
+#| label: table_S1 
+#| tbl-cap: "Table 1. Variables used in Random Forest model."  
 
-![Figure S4. Map of water depth (A), chlorophyll-*a* (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)
+SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).") %>%
+     paginate(init = TRUE, hdr_ftr = TRUE) # don't allow table to break across page
+```
+<br>
+<br>
+<br>
 
 ## Disclaimer
 
-Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the US Government.
+The views expressed in this article are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the US Government.
 
 ## References

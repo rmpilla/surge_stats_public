@@ -86,9 +86,7 @@ rf_r2_manual <-
 # Calculate and merge performance metrics
 # Fractional Bias function
 calc_fb <- function(obs, pred) {
-  mean_p <- mean(pred, na.rm = TRUE)
-  mean_o <- mean(obs, na.rm = TRUE)
-  fb <- 2 * (mean_p - mean_o) / (mean_p + mean_o)
+  fb <- mean(((pred - obs) / ((pred + obs) / 2))) * 100
   return(fb)
 }
 
@@ -134,7 +132,7 @@ table2_object <- table2_dat %>%
       response == "ch4_total" ~ "total",
       TRUE ~ "FLY YOU FOOLS!"
     )
-    ) %>%
+  ) %>%
   rename(predictors = model_var_set) %>%
   # move empty column between log and linear metrics
   relocate(placeholder, .after = "fbias_log") %>% 
@@ -148,25 +146,24 @@ table2_object <- table2_dat %>%
   fix_border_issues() %>%
   colformat_double(j = c("rmse_log", "mae_log"), digits = 3) %>%
   colformat_double(j = c("smape_log"), digits = 0) %>%
-  colformat_double(j = c("r2_log", "r2_linear", "fbias_linear"), digits = 2) %>%
+  colformat_double(j = c("r2_log", "r2_linear"), digits = 2) %>%
   colformat_double(j = c("rmse_linear", "smape_linear"), digits = 0) %>%
-  colformat_double(j = c("mae_linear"), digits = 1) %>%
-  colformat_double(j = c("fbias_log"), digits = 4) %>%
+  colformat_double(j = c("mae_linear", "fbias_log", "fbias_linear"), digits = 1) %>%
   set_header_labels(
     nobs = "n",
     rmse_log = "RMSE",
     mae_log = "MAE",
     smape_log = "sMAPE (%)",
-    fbias_log = "MFB",
+    fbias_log = "MFB (%)",
     placeholder = "",
     rmse_linear = "RMSE",
     mae_linear = "MAE",
     smape_linear = "sMAPE (%)",
-    fbias_linear = "MFB"
+    fbias_linear = "MFB (%)"
   ) %>%
   # center align numeric column titles and data
   align(
-    j = 3:13,
+    j = 3:14,
     align = "center",
     part = "all"
   ) %>%
@@ -180,6 +177,19 @@ table2_object <- table2_dat %>%
     j = "r2_linear",
     value = as_paragraph("OOB r", as_sup("2"))
   ) %>%
+  autofit() %>% # apply before footnote
+  # add footnote to n
+  flextable::footnote(
+    i = c(1), # rows
+    j = 3, # column
+    value = as_paragraph(
+      "n reflects observations sites nested within reservoirs"
+    ),
+    ref_symbols = "a",
+    part = "header"
+  ) %>%
+  # Set the footnote / footer font size to 8pt
+  fontsize(size = 8, part = "footer") %>%
   # add headers to group the log and linear scale metrics
   # Don't add grouping variable to first 3 and 8th columns
   add_header_row(values = c("", "log", "", "linear"),
@@ -197,8 +207,7 @@ table2_object <- table2_dat %>%
   hline_top(
     border = fp_border_default(width = 0), 
     part = "header"
-  ) %>%
-  autofit()
+  ) 
 
 return(list(
   table2_object = table2_object,
