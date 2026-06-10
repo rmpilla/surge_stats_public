@@ -32,12 +32,13 @@ Supplemental Materials for: A national-scale model for spatially-explicit predic
 
 ## Authors
 
-J.J. Beaulieu^1\*^, R.M. Pilla^2^, B.D. Deemer^3^, N.A. Griffiths^2^, J.W. Hollister^4^, S.D. Shivers^4^
+J.J. Beaulieu^1\*^, R.M. Pilla^2^, B.D. Deemer^3^, N.A. Griffiths^2^, J.W. Hollister^4^, A.O. Tatters^5^
 
 ^1^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Cincinnati, Ohio, USA\
 ^2^ Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
 ^3^ Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, U.S. Geological Survey, Flagstaff, Arizona, USA\
-^4^ Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA
+^4^ Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA\
+^5^University of Washington, Olympic Natural Resources Center, Forks, Washington, USA\
 
 \*corresponding author: beaulieu.jake\@epa.gov
 
@@ -59,8 +60,7 @@ Relative drainage area (RDA), calculated as the ratio of watershed to reservoir 
 
 Center buoyancy frequency, an index of the strength of thermal stratification, was the fourth best predictor of CH~4~ diffusion in the local RF model. CH~4~ diffusion rates showed a positive non-linear relationship with reservoir buoyancy frequency, with mean predicted emissions increasingly steeply from un-stratified systems to weakly stratified ones (with a threshold at 0.0006 s^-1^) and then remaining relatively flat as stratification increased **(Figure S3)**. An analysis of mixing regimes across 34 ponds and shallow lakes found that a threshold density gradient of 0.287 kg m^-3^ m^-1^ distinguished conditions promoting mixing from stable stratified conditions [@holgerson_2022]. Assuming freshwater at 10 degrees C, this would roughly correspond to a center buoyancy frequency of 0.002 s^-1^, which is nearly an order of magnitude higher than the threshold we observed here. Thus, we report the lowest rates of CH~4~ diffusion from systems that are very well mixed. Such conditions would be less likely to support a build-up of methane in the water column because oxygen can efficiently mix down to the sediment water interface. Several studies have examined the relationship between center buoyancy frequency and CH~4~ concentrations, but have ultimately found bottom water dissolved oxygen as a more important predictor of surface emissions [@webb_2019], or found that higher buoyancy frequencies resulted in higher deep water CH~4~ concentrations without resulting in measurable differences at the surface [@rimas_2026]. One study found that buoyancy frequency was negatively related to CH~4~ concentrations in reservoirs (but at higher buoyancy frequencies-- mean of 0.011 s^-1^ and standard deviation of 0.01), but positively related to CH~4~ concentrations in wetlands [@jensen_2023]. In this study, buoyancy frequency may be a better predictor than bottom dissolved oxygen concentrations (which were measured at every site) because it may integrate over a longer timescale than the dissolved oxygen signal.
 
-{{< pagebreak >}}
-## Supplemental Figures
+{{< pagebreak >}} \## Supplemental Figures
 
 ```{r SI_ebul_percent_plot, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center  
@@ -89,6 +89,7 @@ predicted_observed_plot
 ```
 
 {{< pagebreak >}}
+
 ```{r SI_partial_dependence_plots, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center 
 #| fig-cap: "Figure S3. Partial dependence plot for reservoir age (years elaspsed since dam construction completion) and buoyancy frequency for local models of CH~4~ total (green), CH~4~ diffusion (orange), and CH~4~ ebullition (purple)." 
@@ -117,12 +118,8 @@ SI_variable_importance_globalvars
 
 ```
 
-
-{{< pagebreak >}}
-![Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)  
-<br>
-*Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).*
-
+{{< pagebreak >}} ![Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)\
+<br> *Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).*
 
 {{< pagebreak >}}
 
@@ -135,11 +132,10 @@ SI_variable_importance_globalvars
 SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).") %>%
      paginate(init = TRUE, hdr_ftr = TRUE) # don't allow table to break across page
 ```
+
 *Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).*
 
-
-{{< pagebreak >}}
-## Disclaimer
+{{< pagebreak >}} \## Disclaimer
 
 The views expressed in this article are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the US Government.
 
