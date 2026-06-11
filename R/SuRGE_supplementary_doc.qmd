@@ -60,7 +60,9 @@ Relative drainage area (RDA), calculated as the ratio of watershed to reservoir 
 
 Center buoyancy frequency, an index of the strength of thermal stratification, was the fourth best predictor of CH~4~ diffusion in the local RF model. CH~4~ diffusion rates showed a positive non-linear relationship with reservoir buoyancy frequency, with mean predicted emissions increasingly steeply from un-stratified systems to weakly stratified ones (with a threshold at 0.0006 s^-1^) and then remaining relatively flat as stratification increased **(Figure S3)**. An analysis of mixing regimes across 34 ponds and shallow lakes found that a threshold density gradient of 0.287 kg m^-3^ m^-1^ distinguished conditions promoting mixing from stable stratified conditions [@holgerson_2022]. Assuming freshwater at 10 degrees C, this would roughly correspond to a center buoyancy frequency of 0.002 s^-1^, which is nearly an order of magnitude higher than the threshold we observed here. Thus, we report the lowest rates of CH~4~ diffusion from systems that are very well mixed. Such conditions would be less likely to support a build-up of methane in the water column because oxygen can efficiently mix down to the sediment water interface. Several studies have examined the relationship between center buoyancy frequency and CH~4~ concentrations, but have ultimately found bottom water dissolved oxygen as a more important predictor of surface emissions [@webb_2019], or found that higher buoyancy frequencies resulted in higher deep water CH~4~ concentrations without resulting in measurable differences at the surface [@rimas_2026]. One study found that buoyancy frequency was negatively related to CH~4~ concentrations in reservoirs (but at higher buoyancy frequencies-- mean of 0.011 s^-1^ and standard deviation of 0.01), but positively related to CH~4~ concentrations in wetlands [@jensen_2023]. In this study, buoyancy frequency may be a better predictor than bottom dissolved oxygen concentrations (which were measured at every site) because it may integrate over a longer timescale than the dissolved oxygen signal.
 
-{{< pagebreak >}} \## Supplemental Figures
+{{< pagebreak >}} 
+
+## Supplemental Figures
 
 ```{r SI_ebul_percent_plot, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center  
@@ -118,7 +120,9 @@ SI_variable_importance_globalvars
 
 ```
 
-{{< pagebreak >}} ![Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)\
+{{< pagebreak >}} 
+
+![Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)\
 <br> *Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).*
 
 {{< pagebreak >}}
@@ -135,7 +139,9 @@ SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Co
 
 *Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).*
 
-{{< pagebreak >}} \## Disclaimer
+{{< pagebreak >}} 
+
+## Disclaimer
 
 The views expressed in this article are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the US Government.
 

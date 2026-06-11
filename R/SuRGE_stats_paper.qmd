@@ -2,6 +2,7 @@
 format: docx
 editor: visual
 bibliography: references.bib
+citeproc: true
 csl: american-geophysical-union.csl # define bib style https://www.zotero.org/styles
 ---
 
@@ -76,7 +77,7 @@ We used data from the Survey of Reservoir Greenhouse gas Emissions (SuRGE) proje
 
 Diffusive CH~4~ emission rates were measured using short-term (`r min(dat_trans$ch4_deployment_length, na.rm = TRUE)` - `r max(dat_trans$ch4_deployment_length, na.rm = TRUE)` seconds) floating chamber deployments. Ebullitive CH~4~ emissions were measured using inverted funnels deployed for `r dat_trans %>% mutate(duration = trap_rtrvl_date_time - trap_deply_date_time) %>% {min(.$duration, na.rm = TRUE)} %>% as.numeric(.) %>% round(., digits = 1)` - `r dat_trans %>% mutate(duration = trap_rtrvl_date_time - trap_deply_date_time) %>% {max(.$duration, na.rm = TRUE)} %>% as.numeric(.) %>% round(., digits = 1)` hours. Vertically resolved temperature and dissolved oxygen profiles, nutrient concentrations (nitrogen, phosphorus, organic carbon, sulfate), and chlorophyll-*a* (extraction-based) were measured at the deepest sampling site in each reservoir. Basic physicochemistry parameters (temperature, dissolved oxygen, pH, optical sensor-based chlorophyll-*a*) and water depth were measured at all sites. See Beaulieu et al. [-@beaulieu_et_al_2026] for full methodological details.
 
-In addition to variables measured during the sampling campaign, the SuRGE dataset contains numerous predictor variables derived from external sources. Reservoir age was derived from the National Inventory of Dams [@usace_2025]  supplemented with historical sources, sediment carbon (C) content and water residence time were retrieved from the 2017 National Lakes Assessment [@usepa_2022], landscape and mean annual climate variables (e.g. watershed size, soil organic matter content, mean annual precipitation) were retrieved from lakeCat [@hill_et_al_2018], meteorology variables corresponding to the time and location of the emission rate observation were retrieved from ERA5-Land [@era5_2021], and remotely sensed trophic status and dissolved organic carbon (DOC) estimates were retrieved from LAGOS [@hanly_et_al_2025]. Given the potential for light to influence emissions via the inhibition of methanotrophy [@thottathil_2018], we supplemented the SuRGE dataset with shortwave radiation data accessed using the Free Weather API (https://open-meteo.com), a wrapper for ERA5-Land. Shortwave radiation was calculated as the sum of radiation during the duration of our observations in units of mJ m^-2^.
+In addition to variables measured during the sampling campaign, the SuRGE dataset contains numerous predictor variables derived from external sources. Reservoir age was derived from the National Inventory of Dams [@usace_2025] supplemented with historical sources, sediment carbon (C) content and water residence time were retrieved from the 2017 National Lakes Assessment [@usepa_2022], landscape and mean annual climate variables (e.g. watershed size, soil organic matter content, mean annual precipitation) were retrieved from lakeCat [@hill_et_al_2018], meteorology variables corresponding to the time and location of the emission rate observation were retrieved from ERA5-Land [@era5_2021], and remotely sensed trophic status and dissolved organic carbon (DOC) estimates were retrieved from LAGOS [@hanly_et_al_2025]. Given the potential for light to influence emissions via the inhibition of methanotrophy [@thottathil_2018], we supplemented the SuRGE dataset with shortwave radiation data accessed using the Free Weather API (https://open-meteo.com), a wrapper for ERA5-Land. Shortwave radiation was calculated as the sum of radiation during the duration of our observations in units of mJ m^-2^.
 
 While sulfate and chlorophyll-*a* samples were collected for the majority of SuRGE reservoirs included in the probabilistic survey, sulfate was not collected in 2016 or early 2020 sampling campaigns, and chlorophyll-*a* was not measured at a subset of the 2016 survey sites. Because preliminary analysis suggested that both of these variables may be important predictors, we added auxiliary data for missing sulfate (n = `r dat_raw %>% filter(is.na(so4_shallow)) %>% distinct(lake_id) %>% {nrow(.)}`) and extraction-based chlorophyll-*a* (n = `r dat_raw %>% filter(is.na(chla_lab_shallow)) %>% distinct(lake_id) %>% {nrow(.)}`) concentrations with values obtained from state (e.g. Ohio Department of Natural Resources) or federal (U.S. Army Corps of Engineers, EPA's National Lakes Assessment) monitoring programs. Preference was given to values measured during the same month and year of the emission rate measurements when available, else the mean of all available data was used. Potential error from assigning missing observations with values from external data sources was assessed by comparing values measured during the SuRGE campaign to those measured during the 2017 and 2022 National Lakes Assessments [@usepa_2022; @usepa_2024] in reservoirs where both values were available. The Pearson correlation coefficient (*r*) among chlorophyll-*a* measurements was `r dat_raw %>% select(chla_lab_shallow, nla17_chla, nla22_chla) %>% distinct %>% pivot_longer(!chla_lab_shallow) %>% {cor(.$chla_lab_shallow, .$value, use = "complete.obs") %>% round(digits = 2)}`. Sulfate showed much less temporal variability with an *r* value of `r dat_raw %>% select(so4_shallow, nla17_sulfate, nla22_sulfate) %>% distinct %>% pivot_longer(!so4_shallow) %>% {cor(.$so4_shallow, .$value, use = "complete.obs") %>% round(digits = 2)}`.
 
@@ -198,7 +199,9 @@ This effort was designed to address the limitations that literature data have im
 
 We appreciate helpful conversations with John Walker and Jeremy Schroeder regarding the development of ERA-5 predictor datasets. The views expressed in this article are those of the authors and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
 
-{{< pagebreak >}} \## Figures
+{{< pagebreak >}}
+
+## Figures
 
 ```{r map_figure, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center
@@ -289,6 +292,6 @@ table3_object %>%
   paginate(init = TRUE, hdr_ftr = TRUE)
 ```
 
-*Table 3. Prediction accuracy of CH4 emission rate models.* {{< pagebreak >}}
+*Table 3. Prediction accuracy of CH~4~ emission rate models.* {{< pagebreak >}}
 
-## References
+# References
