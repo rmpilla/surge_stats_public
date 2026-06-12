@@ -10,7 +10,7 @@ csl: american-geophysical-union.csl # define bib style https://www.zotero.org/st
 knitr::opts_chunk$set(echo = FALSE)
 # libraries specified in tar_quarto call in _targets.R. Annoyingly,
 # tar_quarto ignores tar_option_set
-library(targets) #
+library(targets)
 library(tidyverse)
 library(tidymodels) # glance
 library(flextable) # tables

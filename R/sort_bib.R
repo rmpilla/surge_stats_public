@@ -3,6 +3,7 @@ sort_bib <- function(refs_file){
 
   # read .bib file and sort alphabetically
 df <- bib2df(refs_file) %>% # read file
+  select(-TYPE) %>%
   arrange(BIBTEXKEY) # sort
 
 # write sorted file
