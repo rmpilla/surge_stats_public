@@ -56,7 +56,7 @@ make_map_figure <- function(emissions_lake_data,
   us_pr_map_plot <- ggplot() +
     geom_sf(data = ecoregion, aes(fill = WSA9_NAME), alpha = 0.5) +
     scale_fill_manual(name = "Eco-Region:", values = unique(ecoregion$cols)) +
-    guides(fill = guide_legend(title.position = "top", ncol = 3)) +
+    guides(fill = guide_legend(title.position = "top", ncol = 2)) +
     
     geom_sf(data = us_states, alpha = 0) +
     geom_rect(data = bbox, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), color = "black", linewidth = 1.25, fill = NA) +
@@ -75,12 +75,21 @@ make_map_figure <- function(emissions_lake_data,
     guides(fill = guide_legend(title.position = "top", ncol = 1)) +
     labs(x = NULL, y = NULL, title = "A") +
     theme_bw() +
-    theme(legend.position = "bottom",
+    theme(legend.position = "right",
           legend.title = element_text(hjust = 0.5))
+  
+  
+  legend_plot <- ggpubr::as_ggplot(ggpubr::get_legend(us_pr_map_plot))
+  
+  us_pr_map_plot <- us_pr_map_plot +
+    theme(legend.position = "none")
   
   
   OhInKy_map_plot <- ggplot() +
     geom_sf(data = ecoregion_OhInKy, aes(fill = WSA9_NAME), alpha = 0.5) +
+    scale_fill_manual(name = "Eco-Region:", values = unique(ecoregion$cols)) +
+    guides(fill = guide_legend(title.position = "top", ncol = 2)) +
+    
     geom_sf(data = OhInKy_map, alpha = 0) +
     scatterpie::geom_scatterpie(data = OhInKy_emissions %>% as.data.frame(), 
                                 cols = c("ch4_diffusion_lake", "ch4_ebullition_lake"),
@@ -94,7 +103,7 @@ make_map_figure <- function(emissions_lake_data,
                                        labeller = function(x){ 10^(x / 1e4)},
                                        x = -9920000, y = 4900000) +
     annotate(geom = "text", x = -9878000, y = 4980000, size = 4, label = deparse(bquote(mg~CH[4]~m^-2~d^-1)), parse = T) +
-    #guides(fill = guide_legend(title.position = "top")) +
+    guides(fill = guide_legend(title.position = "top", ncol = 1)) +
     labs(x = NULL, y = NULL, title = "B") +
     theme_bw() +
     theme(legend.position = "none")
@@ -133,11 +142,11 @@ make_map_figure <- function(emissions_lake_data,
   #   labs(title = "B") +
   #   theme_bw()
   
-  
-  map_plot_figure <- (us_pr_map_plot + OhInKy_map_plot) +
-    plot_layout(guides = "collect") & 
-    theme(legend.position = "bottom")
-  
+  map_plot_figure <- us_pr_map_plot /
+    (OhInKy_map_plot + legend_plot) +
+    plot_layout(heights = c(1, 0.75))
+
+    
   return(map_plot_figure)
   
 }

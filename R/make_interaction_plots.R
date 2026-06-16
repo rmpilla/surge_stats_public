@@ -36,6 +36,18 @@ make_interaction_plots <- function(interaction_results){
   #       )),
   #     showlegend = FALSE)
   
+  annotations_depth <- data.frame("x" = c(0.55, 0.4),
+                            "y" = c(0.81, 0.30),
+                            "z" = c(1, 1),
+                            "text" = c("<b>shallow</b>", "<b>deep</b>"),
+                            "angle" = c(15, 25))
+  
+  annotations_sedC <- data.frame("x" = c(0.39, 0.6),
+                                  "y" = c(0.47, 0.17),
+                                  "z" = c(1, 1),
+                                  "text" = c("<b>high C</b>", "<b>low C</b>"),
+                                  "angle" = c(-20, -40))
+  
   
   interaction_2 <- plot_ly(data = partial_interaction_spatial_df_g1 %>% filter(pair_num == 1), 
                            x = ~var1, y = ~var2, z = ~expm1(yhat),
@@ -59,6 +71,10 @@ make_interaction_plots <- function(interaction_results){
               type = 'scatter3d', mode = 'line', split = ~group,
               line = list(width = 7, color = "#d73027" #~expm1(yhat), colorscale = 'Viridis'
               )) %>%
+    add_annotations(data = annotations_depth, x = ~x, y = ~y, z = ~z, text = ~text, textangle = ~angle,
+                    font = list(color = "#d73027", size = 14), showarrow = F) %>%
+    add_annotations(data = annotations_sedC, x = ~x, y = ~y, z = ~z, text = ~text, textangle = ~angle,
+                    font = list(color = "#4575b4", size = 14), showarrow = F) %>%
     plotly::layout(#title =  "B)",
       scene = list(
         xaxis = list(title = "   sediment C<br>(% dry weight)"),
@@ -68,7 +84,6 @@ make_interaction_plots <- function(interaction_results){
           eye = list(x = -1.75, y = 2, z = 1) # Adjust x, y, z for different angles/zoom
         )),
       showlegend = FALSE)
-  
   
   # interaction_3 <- plot_ly(data = partial_interaction_spatial_df_g1 %>% filter(pair_num == 3), 
   #                          x = ~var1, y = ~var2, z = ~expm1(yhat),
