@@ -69,7 +69,8 @@ suppressPackageStartupMessages({ # cleaner output
                  "ftExtra",
                  "officer", # tables
                  "tictoc", # timing Harsha Lake heat map
-                 "bib2df" # sort_bib.R
+                 "bib2df", # sort_bib.R
+                 "ggpubr"  # get legend from ggplot
                  )
   )
 })
