@@ -1,80 +1,80 @@
 make_table1_object <- function(clean_predictor_names_crosswalk){
   
   table1_dat <- tribble(
-    ~Variable_Group, ~Variable, ~Scale, ~Response,
+    ~Variable_Group, ~Variable, ~Model, ~Aggregation, ~Response,
     
     # morphometry
-    "morphometry", "buoyf", "local", "diffusion, ebullition, total",
-    "morphometry", "site_depth", "local", "diffusion, ebullition, total",
-    "morphometry", "circularity", "local, national", "diffusion, ebullition, total",      
-    "morphometry", "dynamic_ratio", "local, national", "diffusion, ebullition, total",        
-    "morphometry", "littoral_fraction", "local, national", "diffusion, ebullition, total",    
-    "morphometry", "max_depth", "local, national", "diffusion, ebullition, total",           
-    "morphometry",  "max_length", "local, national", "diffusion, ebullition, total",           
-    "morphometry",  "max_width", "local, national", "diffusion, ebullition, total",            
-    "morphometry",  "mean_depth", "local, national", "diffusion, ebullition, total",           
-    "morphometry",  "mean_width", "local, national", "diffusion, ebullition, total",           
-    "morphometry",  "shoreline_development", "local, national", "diffusion, ebullition, total",
-    "morphometry", "shoreline_length", "local, national", "diffusion, ebullition, total",     
-    "morphometry", "surface_area", "local, national", "diffusion, ebullition, total",        
-    "morphometry", "volume", "local, national", "diffusion, ebullition, total",
+    "morphometry", "buoyf", "local", NA, "diffusion, ebullition, total",
+    "morphometry", "site_depth", "local", NA, "diffusion, ebullition, total",
+    "morphometry", "circularity", "local, national", NA, "diffusion, ebullition, total",      
+    "morphometry", "dynamic_ratio", "local, national", NA, "diffusion, ebullition, total",        
+    "morphometry", "littoral_fraction", "local, national", NA, "diffusion, ebullition, total",    
+    "morphometry", "max_depth", "local, national", NA, "diffusion, ebullition, total",           
+    "morphometry",  "max_length", "local, national", NA, "diffusion, ebullition, total",           
+    "morphometry",  "max_width", "local, national", NA, "diffusion, ebullition, total",            
+    "morphometry",  "mean_depth", "local, national", NA, "diffusion, ebullition, total",           
+    "morphometry",  "mean_width", "local, national", NA, "diffusion, ebullition, total",           
+    "morphometry",  "shoreline_development", "local, national", NA, "diffusion, ebullition, total",
+    "morphometry", "shoreline_length", "local, national", NA, "diffusion, ebullition, total",     
+    "morphometry", "surface_area", "local, national", NA, "diffusion, ebullition, total",        
+    "morphometry", "volume", "local, national", NA, "diffusion, ebullition, total",
     
     # climate
-    "climate", "temp_deep", "local", "diffusion, ebullition, total",
-    "climate", "temp_shallow", "local", "diffusion, ebullition, total",
-    "climate", "precipitation_chamber", "local", "diffusion",
-    "climate", "precipitation_trap", "local", "ebullition",
-    "climate", "wind_speed_chamber", "local", "diffusion",
-    "climate", "wind_speed_trap", "local", "ebullition",
-    "climate", "delta_bp_ebu", "local", "ebullition",
-    "climate", "delta_bp_diff", "local", "diffusion",
-    "climate", "shortwave_radiation_sum_mj_m2", "local", "diffusion",
-    "climate", "precip8110cat", "national", "diffusion, ebullition, total",
-    "climate", "precip8110ws", "national", "diffusion, ebullition, total",
-    "climate", "runoffcat", "national", "diffusion, ebullition, total",
-    "climate", "runoffws", "national", "diffusion, ebullition, total",
-    "climate", "tmax8110cat", "national", "diffusion, ebullition, total",
+    "climate", "temp_deep", "local", NA, "diffusion, ebullition, total",
+    "climate", "temp_shallow", "local", NA, "diffusion, ebullition, total",
+    "climate", "precipitation_chamber", "local", "cumulative", "diffusion",
+    "climate", "precipitation_trap", "local", "cumulative", "ebullition",
+    "climate", "wind_speed_chamber", "local", "mean", "diffusion",
+    "climate", "wind_speed_trap", "local", "mean", "ebullition",
+    "climate", "delta_bp_ebu", "local", "final - initial", "ebullition",
+    "climate", "delta_bp_diff", "local", "final - initial", "diffusion",
+    "climate", "shortwave_radiation_sum_mj_m2", "local", "cumulative", "diffusion",
+    "climate", "precip8110cat", "national", "annual mean 1981-2010", "diffusion, ebullition, total",
+    "climate", "precip8110ws", "national", "annual mean 1981-2010", "diffusion, ebullition, total",
+    "climate", "runoffcat", "national", "annual mean 1900-2008", "diffusion, ebullition, total",
+    "climate", "runoffws", "national", "annual mean 1900-2008", "diffusion, ebullition, total",
+    "climate", "tmax8110cat", "national", "annual mean 1981-2010", "diffusion, ebullition, total",
     
     
     # trophic
-    "trophic", "chla_lab_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "no2_3_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "tp_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "tn_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "op_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "toc_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "chla_sonde_shallow", "local", "diffusion, ebullition, total",
-    "trophic", "nla17_sed_c", "local", "diffusion, ebullition, total",
-    "trophic", "chl_predicted_sample_month_visit1", "national", "diffusion, ebullition, total",
-    "trophic", "doc_predicted_sample_month_visit1", "national", "diffusion, ebullition, total",
+    "trophic", "chla_lab_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "no2_3_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "tp_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "tn_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "op_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "toc_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "chla_sonde_shallow", "local", NA, "diffusion, ebullition, total",
+    "trophic", "nla17_sed_c", "local", NA, "diffusion, ebullition, total",
+    "trophic", "chl_predicted_sample_month_visit1", "national", "Mean during month of emission rate observation", "diffusion, ebullition, total",
+    "trophic", "doc_predicted_sample_month_visit1", "national", "Mean during month of emission rate observation", "diffusion, ebullition, total",
     
     # hydrology
-    "hydrology", "e_i", "local", "diffusion, ebullition, total",
-    "hydrology", "residence_time", "local", "diffusion, ebullition, total",
+    "hydrology", "e_i", "local", NA, "diffusion, ebullition, total",
+    "hydrology", "residence_time", "local", NA, "diffusion, ebullition, total",
     
     # landscape
-    "landscape", "wsareasqkm", "local, national", "diffusion, ebullition, total",
-    "landscape", "rda", "local, national", "diffusion, ebullition, total",
-    "landscape", "kffactcat", "national",  "diffusion, ebullition, total",
-    "landscape", "omcat", "national",  "diffusion, ebullition, total",
-    "landscape", "scat", "national",  "diffusion, ebullition, total",
-    "landscape", "pctcrop2019cat", "national",  "diffusion, ebullition, total",
-    "landscape", "wsareasqkm", "national",  "diffusion, ebullition, total",
-    "landscape", "nitrogencat", "national",  "diffusion, ebullition, total",
-    "landscape", "agkffactcat", "national",  "diffusion, ebullition, total",
-    "landscape", "elevcat", "national",  "diffusion, ebullition, total",
+    "landscape", "wsareasqkm", "local, national", NA, "diffusion, ebullition, total",
+    "landscape", "rda", "local, national", NA, "diffusion, ebullition, total",
+    "landscape", "kffactcat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "omcat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "scat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "pctcrop2019cat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "wsareasqkm", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "nitrogencat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "agkffactcat", "national",  NA, "diffusion, ebullition, total",
+    "landscape", "elevcat", "national",  NA, "diffusion, ebullition, total",
     
     # chemistry
-    "chemistry", "nh4_shallow", "local", "diffusion, ebullition, total",
-    "chemistry", "so4_shallow", "local", "diffusion, ebullition, total",
-    #"chemistry", "toc_shallow", "local", "diffusion, ebullition, total",
-    "chemistry", "do_deep", "local", "diffusion, ebullition, total",
-    "chemistry", "turbidity_shallow", "local", "diffusion, ebullition, total",
+    "chemistry", "nh4_shallow", "local", NA, "diffusion, ebullition, total",
+    "chemistry", "so4_shallow", "local", NA, "diffusion, ebullition, total",
+    #"chemistry", "toc_shallow", "local", NA, "diffusion, ebullition, total",
+    "chemistry", "do_deep", "local", NA, "diffusion, ebullition, total",
+    "chemistry", "turbidity_shallow", "local", NA, "diffusion, ebullition, total",
     
     # other
-    "other", "age", "local", "diffusion, ebullition, total",
-    "other", "ag_eco9_nm", "local, national", "diffusion, ebullition, total",
-    "other", "doy", "local", "diffusion, ebullition, total"
+    "other", "age", "local", NA, "diffusion, ebullition, total",
+    "other", "ag_eco9_nm", "local, national", NA, "diffusion, ebullition, total",
+    "other", "doy", "local", NA, "diffusion, ebullition, total"
   ) %>%
     left_join(clean_predictor_names_crosswalk,
               by = c("Variable" = "variable")) %>%
@@ -89,8 +89,8 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
                                                   "diffusion", "ebullition"))) %>%
     filter(!is.na(variable_clean)) %>%
     select(Variable_Group, variable_clean_flextable, flextable_units, 
-           Scale, Response) %>%
-    arrange(Variable_Group, Scale, Response, variable_clean_flextable)
+           Model, Aggregation, Response) %>%
+    arrange(Variable_Group, Model, Response, variable_clean_flextable)
   
   
   
@@ -105,9 +105,6 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
   table1_object <- flextable(table1_dat) %>%
     ftExtra::colformat_md() %>%
     theme_booktabs() %>%
-    fontsize(size = 7.5, part = "all") %>%
-    padding(padding = 0, part = "all") %>% # Set all padding to 0 points
-    line_spacing(space = 1, part = "all") %>%  # Set line spacing to single space (1)
     merge_v(j = c("Variable_Group"#, "Scale", "Response"
     )) %>%
     fix_border_issues() %>%
@@ -117,7 +114,18 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
                       variable_clean_flextable = "Variable Name",
                       flextable_units = "Units") %>%
     set_table_properties(layout = "fixed") %>%
-    width(j = 1:5, width = c(0.81, 2.06, 0.81, 0.94, 1.37))
+    flextable::width(j = 1:6, width = c(0.81, 2.06, 0.81, 0.94, 1.37, 1.37)) %>%
+    flextable::footnote(i = 8:14, j = 2, ref_symbols = "1", part = "body", 
+             value = as_paragraph("Modeled at hourly timestep.")) %>%
+    flextable::footnote(i = 15:16, j = 2, ref_symbols = "2", part = "body", 
+                        value = as_paragraph("Modeled at daily timestep.")) %>%
+    flextable::footnote(i = 17, j = 2, ref_symbols = "3", part = "body", 
+                        value = as_paragraph("Modeled at monthly timestep.")) %>%
+    flextable::footnote(i = 25:26, j = 2, ref_symbols = "4", part = "body", 
+                        value = as_paragraph("Number of observations per month vary across reservoirs depending on satellite flyover frequency and cloud cover during flyover.")) %>%
+    fontsize(size = 7.5, part = "all") %>%
+    padding(padding = 0, part = "all") %>% # Set all padding to 0 points
+    line_spacing(space = 1, part = "all")  # Set line spacing to single space (1)
   
   
   return(table1_object)
