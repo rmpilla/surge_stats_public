@@ -139,9 +139,6 @@ table2_object <- table2_dat %>%
   # convert to flextable
   flextable(.) %>%
   theme_booktabs() %>%
-  fontsize(size = 8, part = "all") %>%
-  padding(padding = 0, part = "all") %>% # Set all padding to 0 points
-  line_spacing(space = 1, part = "all") %>%   # Set line spacing to single space (1)
   merge_v(j = ~response) %>%
   fix_border_issues() %>%
   colformat_double(j = c("rmse_log", "mae_log"), digits = 3) %>%
@@ -188,8 +185,56 @@ table2_object <- table2_dat %>%
     ref_symbols = "a",
     part = "header"
   ) %>%
-  # Set the footnote / footer font size to 8pt
-  fontsize(size = 8, part = "footer") %>%
+  # add footnote to RMSE
+  flextable::footnote(
+    i = c(1), # rows
+    j = c(4,10), # column
+    value = as_paragraph(
+      "RMSE: Root Mean Square Error"
+    ),
+    ref_symbols = "b",
+    part = "header"
+  ) %>%
+  # add footnote to MAE
+  flextable::footnote(
+    i = c(1), # rows
+    j = c(5,11), # column
+    value = as_paragraph(
+      "MAE: Mean Absolute Error"
+    ),
+    ref_symbols = "c",
+    part = "header"
+  ) %>%
+  # add footnote to sMAPE
+  flextable::footnote(
+    i = c(1), # rows
+    j = c(6,12), # column
+    value = as_paragraph(
+      "sMAPE: Symmetric Mean Absolute Percentage Error"
+    ),
+    ref_symbols = "d",
+    part = "header"
+  ) %>%
+  # add footnote to OOB r2
+  flextable::footnote(
+    i = c(1), # rows
+    j = c(7,13), # column
+    value = as_paragraph(
+      "OOB r", as_sup("2"), ": coefficient of determination based on out of bag sample"
+      ),
+    ref_symbols = "e",
+    part = "header"
+  ) %>%
+  # add footnote to MFB
+  flextable::footnote(
+    i = c(1), # rows
+    j = c(8,14), # column
+    value = as_paragraph(
+      "MFB: Mean Fractional Bias"
+    ),
+    ref_symbols = "f",
+    part = "header"
+  ) %>%
   # add headers to group the log and linear scale metrics
   # Don't add grouping variable to first 3 and 8th columns
   add_header_row(values = c("", "log", "", "linear"),
@@ -207,7 +252,18 @@ table2_object <- table2_dat %>%
   hline_top(
     border = fp_border_default(width = 0), 
     part = "header"
-  ) 
+  ) %>%
+  fontsize(size = 8, part = "all") %>%
+  padding(padding = 0, part = "all") %>% # Set all padding to 0 points
+  line_spacing(space = 1, part = "all") %>%   # Set line spacing to single space (1)
+  set_table_properties(layout = "fixed") %>%
+  flextable::width(
+    j = 1:14, # all columns
+    width = c(0.62, 0.62, 0.52, # response, predictors, n
+              0.52, 0.52, 0.52, 0.52, 0.52, # log
+              0.2, # blank
+              0.52, 0.52, 0.52, 0.52, 0.52) # linear
+    )
 
 return(list(
   table2_object = table2_object,

@@ -69,16 +69,16 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
   table3_object <- 
     tribble(
       ~Model,  ~Domain, ~System, ~n, ~Pathway, ~r2, ~Citation,
-      "G-res", "global", "reservoir", 160, "diffusion", 0.51, "Prairie et al. 2021",
-      "G-res", "global", "reservoir", 46, "ebullition", 0.26, "Prairie et al. 2021",
-      "Size productivity weighted", "global", "reservoir & lakes", 423,  "diffusion", 0.29, "DelSontro et al. 2018",
-      "Size productivity weighted", "global", "reservoir & lakes", 65, "ebullition", 0.32, "DelSontro et al. 2018",
-      "Size productivity weighted", "global", "reservoir & lakes", 74, "total", 0.38, "DelSontro et al. 2018",
-      "Multivariate regression model", "global", "reservoir & lakes", 167, "total", 0.44, "Deemer and Holgerson 2021",
+      "G-res", "global", "reservoir", 160, "diffusion", 0.51, "Prairie et al., 2021",
+      "G-res", "global", "reservoir", 46, "ebullition", 0.26, "Prairie et al., 2021",
+      "Size productivity weighted", "global", "reservoir & lakes", 423,  "diffusion", 0.29, "DelSontro et al., 2018",
+      "Size productivity weighted", "global", "reservoir & lakes", 65, "ebullition", 0.32, "DelSontro et al., 2018",
+      "Size productivity weighted", "global", "reservoir & lakes", 74, "total", 0.38, "DelSontro et al., 2018",
+      "Multivariate regression model", "global", "reservoir & lakes", 167, "total", 0.44, "Deemer & Holgerson 2021",
       #"generalized additive model", "Spain", "reservoirs", 12, "total", 0.59, "Leon_Palmero et al. 2020",
-      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "diffusion", 0.79, "Tan 2024",
-      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "total", 0.88, "Tan 2024",
-      "ResME", "global", "reservoir", 54, "total", 0.41, "Delwiche et al. 2022"
+      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "diffusion", 0.79, "Tan et al., 2024",
+      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "total", 0.88, "Tan et al., 2024",
+      "ResME", "global", "reservoir", 54, "total", 0.41, "Delwiche et al., 2022"
      # "FLaMe-v1.0", "Europe", "reservoir and lakes", 47, "total", 0.52, "Maisonnier et al. 2025"
     ) %>%
     bind_rows(
@@ -90,6 +90,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     # Tan is comparing to mean annual
     flextable() %>%
     theme_booktabs() %>%
+    line_spacing(space = 1, part = "all") %>%   # single space
     # two digits in r2 column
     colformat_double(j = "r2", digits = 2) %>%
     # Add bottom border below each citation
@@ -121,7 +122,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     flextable::footnote(
       j = 4, # column
       value = as_paragraph(
-        "Number of waterbodies in validation dataset. Models in this study are trained using multiple observations within each reservoir whereas the other studies aggregate multiple observations into a single value per waterbody for model training"
+        "Number of waterbodies in validation dataset. Models in this study are trained using multiple observations within each reservoir whereas the other studies aggregate multiple observations into a single value per waterbody for model training. We report the number of waterbodies in this study to facilitate direct comparison with other studies. See Table 2 for number of observations used to train the models in this study."
       ),
       ref_symbols = c("a"),
       part = "header"
@@ -138,20 +139,24 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       i = c(1,2, 7,8), # rows
       j = 6, # column
       value = as_paragraph(
-        " r", as_sup("2"), " calculated for mean annual rate"
+        "r", as_sup("2"), " calculated for mean annual rate"
       ),
       ref_symbols = c("c"),
       part = "body"
     ) %>%
-    # enforce single line spacing between footers
-    padding(
-      padding.top = 0, 
-      padding.bottom = 0, 
-      part = "footer"
-    ) %>%
-    hrule(rule = "exact", part = "footer") %>%
+    # # enforce single line spacing between footers
+    # padding(
+    #   padding.top = 0, 
+    #   padding.bottom = 0, 
+    #   part = "footer"
+    # ) %>%
+    # 1. Clear default internal cell padding
+    padding(padding = 0, part = "all") %>%
+    # 2. Force exact line spacing (e.g., 14pt is standard single spacing for 11pt font)
+    line_spacing(space = 1, part = "all") %>%
+    # 3. Prevent word from adding paragraph spaces before/after text
+    hrule(rule = "exact", part = "all") %>%
     fontsize(size = 8, part = "all") %>%
-    line_spacing(space = 1, part = "all") %>%   # single space
     autofit()
   
   return(table3_object)
