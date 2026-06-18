@@ -75,11 +75,18 @@ make_interaction_plots <- function(interaction_results){
                     font = list(color = "#d73027", size = 14), showarrow = F) %>%
     add_annotations(data = annotations_sedC, x = ~x, y = ~y, z = ~z, text = ~text, textangle = ~angle,
                     font = list(color = "#4575b4", size = 14), showarrow = F) %>%
+    add_annotations(text = "Total CH<sub>4</sub> emission rate<br>     (mg CH<sub>4</sub> m<sup>-2</sup> d<sup>-1</sup>)",
+                    x = 0.21,
+                    y = 0.5,
+                    z = 0.3,
+                    font = list(size = 15),
+                    textangle = 265,
+                    showarrow = FALSE) %>%
     plotly::layout(#title =  "B)",
       scene = list(
         xaxis = list(title = "   sediment C<br>(% dry weight)"),
         yaxis = list(title = "mean depth<br>     (m)"),
-        zaxis = list(title = "Total CH<sub>4</sub> emission rate<br>     (mg CH<sub>4</sub> m<sup>-2</sup> d<sup>-1</sup>)"),
+        zaxis = list(title = ""),
         camera = list(
           eye = list(x = -1.75, y = 2, z = 1) # Adjust x, y, z for different angles/zoom
         )),
