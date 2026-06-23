@@ -261,7 +261,7 @@ interaction_plots
 
 {{< pagebreak >}}
 
-![Figure 5. Predicted CH~4~ total emission rate (A) and standard error (B) at William H. Harsha Lake (lake_id == 1031).](../harsha_pred_map.png)
+![Figure 5. Predicted CH~4~ total emission rate (A) and standard error (B) at William H. Harsha Lake (lake_id = 1031).](../harsha_pred_map.png)
 
 {{< pagebreak >}}
 
