@@ -156,11 +156,11 @@ clean_predictor_variable_names <- function(modeling_vars_final){
                                   variable == "elevcat" ~ "m",
                                   variable == "precipitation_chamber" ~ "m",
                                   variable == "wind_speed_chamber" ~ "m s^-1^",
-                                  variable == "delta_bp_diff" ~ "Δ Pa",
+                                  variable == "delta_bp_diff" ~ "Pa h^-1^",
                                   variable == "shortwave_radiation_sum_mj_m2" ~ "MJ m^-2^",
                                   variable == "precipitation_trap" ~ "m",
                                   variable == "wind_speed_trap" ~ "m s^-1^",
-                                  variable == "delta_bp_ebu" ~ "Δ Pa"
+                                  variable == "delta_bp_ebu" ~ "Pa h^-1^"
       )
     )
   

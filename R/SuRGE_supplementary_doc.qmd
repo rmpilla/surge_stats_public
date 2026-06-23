@@ -35,9 +35,9 @@ Supplemental Materials for: A national-scale model for spatially explicit predic
 J.J. Beaulieu^1\*^, R.M. Pilla^2^, B.R. Deemer^3^, N.A. Griffiths^2^, J.W. Hollister^4^, A.O. Tatters^5^
 
 ^1^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Cincinnati, Ohio, USA\
-^2^ Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
-^3^ Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, U.S. Geological Survey, Flagstaff, Arizona, USA\
-^4^ Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA\
+^2^Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
+^3^Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, U.S. Geological Survey, Flagstaff, Arizona, USA\
+^4^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA\
 ^5^University of Washington, Olympic Natural Resources Center, Forks, Washington, USA\
 
 \*corresponding author: beaulieu.jake\@epa.gov
