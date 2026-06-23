@@ -54,7 +54,7 @@ make_map_figure <- function(emissions_lake_data,
   
   
   us_pr_map_plot <- ggplot() +
-    geom_sf(data = ecoregion, aes(fill = WSA9_NAME), alpha = 0.5) +
+    geom_sf(data = ecoregion, aes(fill = WSA9_NAME), alpha = 0.5, color = NA) +
     scale_fill_manual(name = "Eco-Region:", values = unique(ecoregion$cols)) +
     guides(fill = guide_legend(title.position = "top", ncol = 2)) +
     
@@ -86,7 +86,7 @@ make_map_figure <- function(emissions_lake_data,
   
   
   OhInKy_map_plot <- ggplot() +
-    geom_sf(data = ecoregion_OhInKy, aes(fill = WSA9_NAME), alpha = 0.5) +
+    geom_sf(data = ecoregion_OhInKy, aes(fill = WSA9_NAME), alpha = 0.5, color = NA) +
     scale_fill_manual(name = "Eco-Region:", values = unique(ecoregion$cols)) +
     guides(fill = guide_legend(title.position = "top", ncol = 2)) +
     

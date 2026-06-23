@@ -145,6 +145,52 @@ make_interaction_plots <- function(interaction_results){
   interaction_plots <- interaction_2_png %>% 
     magick::image_ggplot(interpolate = TRUE)   # patchwork::wrap_elements(grid::rasterGrob(interaction_2_png))
   
-  return(interaction_plots)
+  low_sedC_range = interaction_results[[1]] %>% 
+    filter(group %in% c(1, 50)) %>% 
+    group_by(group, var1_name) %>% 
+    summarize(range_ch4 = expm1(max(yhat)) - expm1(min(yhat))) %>% 
+    pivot_wider(values_from = range_ch4, names_from = group) %>% 
+    pull(2) %>% 
+    round(., 1)
+  
+  high_sedC_range = interaction_results[[1]] %>% 
+    filter(group %in% c(1, 50)) %>% 
+    group_by(group, var1_name) %>% 
+    summarize(range_ch4 = expm1(max(yhat)) - expm1(min(yhat))) %>% 
+    pivot_wider(values_from = range_ch4, names_from = group) %>% 
+    pull(3) %>% 
+    round(., 1)
+  
+  low_meanZ_range = interaction_results[[2]] %>% 
+    filter(group %in% c(1, 50)) %>% 
+    group_by(group, var1_name) %>% 
+    summarize(range_ch4 = expm1(max(yhat)) - expm1(min(yhat))) %>% 
+    pivot_wider(values_from = range_ch4, names_from = group) %>% 
+    pull(2) %>% 
+    round(., 1)
+  
+  high_meanZ_range = interaction_results[[2]] %>% 
+    filter(group %in% c(1, 50)) %>% 
+    group_by(group, var1_name) %>% 
+    summarize(range_ch4 = expm1(max(yhat)) - expm1(min(yhat))) %>% 
+    pivot_wider(values_from = range_ch4, names_from = group) %>% 
+    pull(3) %>% 
+    round(., 1)
+  
+  interaction_plot_final <- interaction_plots +
+    geom_segment(mapping = aes(x = 1860, xend = 1900, y = 950, yend = 1450), 
+                 color = "#4575b4", arrow = arrow(ends = "both", length = unit(0.25, "cm"))) +
+    geom_segment(mapping = aes(x = 600, xend = 540, y = 1350, yend = 2250), 
+                 color = "#4575b4", arrow = arrow(ends = "both", length = unit(0.25, "cm"))) +
+    geom_segment(mapping = aes(x = 1880, xend = 1935, y = 1500, yend = 2200), 
+                 color = "#d73027", arrow = arrow(ends = "both", length = unit(0.25, "cm"))) +
+    geom_segment(mapping = aes(x = 1000, xend = 1000, y = 700, yend = 1000), 
+                 color = "#d73027", arrow = arrow(ends = "both", length = unit(0.25, "cm"))) +
+    annotate(geom = "text", label = paste0("Δ", c(low_sedC_range, high_sedC_range, low_meanZ_range, high_meanZ_range)),
+             color = c("#4575b4", "#4575b4", "#d73027", "#d73027"), x = c(1990, 700, 2005, 890),
+             y = c(1200, 1900, 1800, 850), size = 3.25)
+  
+  
+  return(interaction_plot_final)
   
 }
