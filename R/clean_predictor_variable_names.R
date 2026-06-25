@@ -31,12 +31,12 @@ clean_predictor_variable_names <- function(modeling_vars_final){
                                  variable == "rda" ~ "relative~drainage~area",
                                  variable == "nh4_shallow" ~ "NH[4]^'+'~(shallow)",
                                  variable == "so4_shallow" ~ "SO[4]^'2-'~(shallow)",
-                                 variable == "do_deep" ~ "DO~(deep)",
+                                 variable == "do_deep" ~ "dissolved~oxygen~(deep)",
                                  variable == "age" ~ "age",
                                  variable == "ag_eco9_nm" ~ "eco-region",
                                  variable == "doy" ~ "day~of~year",
                                  variable == "wsareasqkm" ~ "watershed~area",
-                                 variable == "do_shallow" ~ "DO~(shallow)",
+                                 variable == "do_shallow" ~ "dissolved~oxygen~(shallow)",
                                  variable == "chl_predicted_sample_month_visit1" ~ "chl-a~remotely~sensed",
                                  variable == "doc_predicted_sample_month_visit1" ~ "dissolved~organic~carbon~remotely~sensed",
                                  variable == "precip8110cat" ~ "precipitation",
@@ -156,11 +156,11 @@ clean_predictor_variable_names <- function(modeling_vars_final){
                                   variable == "elevcat" ~ "m",
                                   variable == "precipitation_chamber" ~ "m",
                                   variable == "wind_speed_chamber" ~ "m s^-1^",
-                                  variable == "delta_bp_diff" ~ "Δ Pa",
+                                  variable == "delta_bp_diff" ~ "Pa h^-1^",
                                   variable == "shortwave_radiation_sum_mj_m2" ~ "MJ m^-2^",
                                   variable == "precipitation_trap" ~ "m",
                                   variable == "wind_speed_trap" ~ "m s^-1^",
-                                  variable == "delta_bp_ebu" ~ "Δ Pa"
+                                  variable == "delta_bp_ebu" ~ "Pa h^-1^"
       )
     )
   

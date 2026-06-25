@@ -22,13 +22,13 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
     # climate
     "climate", "temp_deep", "local", NA, "diffusion, ebullition, total",
     "climate", "temp_shallow", "local", NA, "diffusion, ebullition, total",
-    "climate", "precipitation_chamber", "local", "cumulative", "diffusion",
-    "climate", "precipitation_trap", "local", "cumulative", "ebullition",
-    "climate", "wind_speed_chamber", "local", "mean", "diffusion",
-    "climate", "wind_speed_trap", "local", "mean", "ebullition",
-    "climate", "delta_bp_ebu", "local", "final - initial", "ebullition",
-    "climate", "delta_bp_diff", "local", "final - initial", "diffusion",
-    "climate", "shortwave_radiation_sum_mj_m2", "local", "cumulative", "diffusion",
+    "climate", "precipitation_chamber", "local", "hourly value", "diffusion",
+    "climate", "precipitation_trap", "local", "cumulative over deployment", "ebullition",
+    "climate", "wind_speed_chamber", "local", "hourly value", "diffusion",
+    "climate", "wind_speed_trap", "local", "mean hourly value over deployment", "ebullition",
+    "climate", "delta_bp_ebu", "local", "slope of pressure change from 3 hours prior through the duration of the deployment", "ebullition",
+    "climate", "delta_bp_diff", "local", "slope of change for 24 hours prior to chamber deployment", "diffusion",
+    "climate", "shortwave_radiation_sum_mj_m2", "local", "mean daily cumulative radiation", "diffusion",
     "climate", "precip8110cat", "national", "annual mean 1981-2010", "diffusion, ebullition, total",
     "climate", "precip8110ws", "national", "annual mean 1981-2010", "diffusion, ebullition, total",
     "climate", "runoffcat", "national", "annual mean 1900-2008", "diffusion, ebullition, total",
@@ -114,13 +114,20 @@ make_table1_object <- function(clean_predictor_names_crosswalk){
                       flextable_units = "Units") %>%
     set_table_properties(layout = "fixed") %>%
     flextable::width(j = 1:6, width = c(0.81, 2.06, 0.81, 0.94, 1.37, 1.37)) %>%
-    flextable::footnote(i = 8:14, j = 2, ref_symbols = "1", part = "body", 
+    flextable::footnote(i = 8:14, j = 2, 
+                        ref_symbols = "1", part = "body", 
              value = as_paragraph("Modeled at hourly timestep.")) %>%
-    flextable::footnote(i = 15:16, j = 2, ref_symbols = "2", part = "body", 
+    flextable::footnote(i = 15:16, j = 2, 
+                        ref_symbols = "2", part = "body", 
                         value = as_paragraph("Modeled at daily timestep.")) %>%
-    flextable::footnote(i = 17, j = 2, ref_symbols = "3", part = "body", 
+    flextable::footnote(i = 17, j = 2, 
+                        ref_symbols = "3", part = "body", 
                         value = as_paragraph("Modeled at monthly timestep.")) %>%
-    flextable::footnote(i = 25:26, j = 2, ref_symbols = "4", part = "body", 
+    flextable::footnote(i = c(21,27,28), j = 2, 
+                        ref_symbols = "4", part = "body", 
+                        value = as_paragraph("Measured during 2017 National Lakes Assessment.")) %>%
+    flextable::footnote(i = 25:26, j = 2, 
+                        ref_symbols = "5", part = "body", 
                         value = as_paragraph("Number of observations per month vary across reservoirs depending on satellite flyover frequency and cloud cover during flyover.")) %>%
     fontsize(size = 7.5, part = "all") %>%
     padding(padding = 0, part = "all") %>% # Set all padding to 0 points
