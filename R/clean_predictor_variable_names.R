@@ -23,7 +23,7 @@ clean_predictor_variable_names <- function(modeling_vars_final){
                                  variable == "toc_shallow" ~ "total~organic~carbon~(shallow)",
                                  variable == "turbidity_shallow" ~ "turbidity~(shallow)",
                                  variable == "chla_sonde_shallow" ~ "chl-a~sonde~(shallow)",
-                                 variable == "nla17_sed_c" ~ "sediment~TOC",
+                                 variable == "nla17_sed_c" ~ "sediment~organic~C",
                                  variable == "temp_deep" ~ "water~temperature~(deep)",
                                  variable == "temp_shallow" ~ "water~temperature~(shallow)",
                                  variable == "e_i" ~ "evaportation:inflow",

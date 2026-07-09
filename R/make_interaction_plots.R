@@ -84,7 +84,7 @@ make_interaction_plots <- function(interaction_results){
                     showarrow = FALSE) %>%
     plotly::layout(#title =  "B)",
       scene = list(
-        xaxis = list(title = "  sediment TOC<br>(% dry weight)"),
+        xaxis = list(title = "sediment organic C<br>  (% dry weight)"),
         yaxis = list(title = "mean depth<br>     (m)"),
         zaxis = list(title = ""),
         camera = list(
