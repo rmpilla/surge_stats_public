@@ -54,13 +54,13 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
   mutate(
     Pathway = substr(response, 5, nchar(response)),
     Model = case_when(
-      grepl("global", model_var_set) ~ "This study (national model)",
-      grepl("local", model_var_set) ~ "This study (local model)",
+      grepl("global", model_var_set) ~ "SuRGE (national model)",
+      grepl("local", model_var_set) ~ "SuRGE (local model)",
       TRUE ~ "FLY YOU FOOLS!"
     ),
     Domain = "U.S.",
     System = "reservoir",
-    Citation = NA
+    Citation = "This study"
   ) %>%
     select(Model, Domain, System, n, Pathway, r2 = r2_log, Citation)
     
@@ -69,16 +69,19 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
   table3_object <- 
     tribble(
       ~Model,  ~Domain, ~System, ~n, ~Pathway, ~r2, ~Citation,
-      "G-res", "global", "reservoir", 160, "diffusion", 0.51, "Prairie et al., 2021",
-      "G-res", "global", "reservoir", 46, "ebullition", 0.26, "Prairie et al., 2021",
-      "Size productivity weighted", "global", "reservoir & lakes", 423,  "diffusion", 0.29, "DelSontro et al., 2018",
-      "Size productivity weighted", "global", "reservoir & lakes", 65, "ebullition", 0.32, "DelSontro et al., 2018",
-      "Size productivity weighted", "global", "reservoir & lakes", 74, "total", 0.38, "DelSontro et al., 2018",
-      "Multivariate regression model", "global", "reservoir & lakes", 167, "total", 0.44, "Deemer & Holgerson 2021",
-      #"generalized additive model", "Spain", "reservoirs", 12, "total", 0.59, "Leon_Palmero et al. 2020",
-      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "diffusion", 0.79, "Tan et al., 2024",
-      "Advanced Lake Biogeochemistry Model", "global", "reservoir & lakes", 106, "total", 0.88, "Tan et al., 2024",
-      "ResME", "global", "reservoir", 54, "total", 0.41, "Delwiche et al., 2022"
+      "G-res", "global", "reservoirs", 160, "diffusion", 0.51, "Prairie et al., 2021",
+      "G-res", "global", "reservoirs", 46, "ebullition", 0.26, "Prairie et al., 2021",
+      "Size productivity weighted", "global", "reservoirs & lakes", 423,  "diffusion", 0.29, "DelSontro et al., 2018",
+      "Size productivity weighted", "global", "reservoirs & lakes", 65, "ebullition", 0.32, "DelSontro et al., 2018",
+      "Size productivity weighted", "global", "reservoirs & lakes", 74, "total", 0.38, "DelSontro et al., 2018",
+      "Multivariate regression model", "global", "reservoirs", 68, "diffusion", 0.62, "Deemer & Holgerson 2021",
+      "Multivariate regression model", "global", "reservoirs", 59, "ebullition", 0.28, "Deemer & Holgerson 2021",
+      "Advanced Lake Biogeochemistry Model", "global", "reservoirs & lakes", 106, "diffusion", 0.79, "Tan et al., 2024",
+      "Advanced Lake Biogeochemistry Model", "global", "reservoirs & lakes", 106, "total", 0.88, "Tan et al., 2024",
+      "ResME", "global", "reservoirs", 54, "total", 0.41, "Delwiche et al., 2022",
+      "Trophic regression model", "Mexico", "reservoirs & lakes", 6, "total", 0.93, "Gonzalez-Valencia et al. 2014",
+      "Watershed lithology & morphometry", "Spain", "reservoirs", 12, "total", 0.59, "Leon_Palmero et al. 2020",
+      "Lake Pulse", "Canada", "lakes", 349, "ebullition", 0.79, "Kim et al. 2026"
      # "FLaMe-v1.0", "Europe", "reservoir and lakes", 47, "total", 0.52, "Maisonnier et al. 2025"
     ) %>%
     bind_rows(
@@ -94,7 +97,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     # two digits in r2 column
     colformat_double(j = "r2", digits = 2) %>%
     # Add bottom border below each citation
-    hline(i = c(2,5,6,8,9,12), border = fp_border(width = 1)) %>%
+    hline(i = c(2,5,7,9,10,11,12,13, 16,19), border = fp_border(width = 1)) %>%
     # remove border line from top of table
     hline_top(
       border = fp_border_default(width = 0), 
@@ -136,12 +139,21 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       part = "header"
     ) %>%
     flextable::footnote(
-      i = c(1,2, 7,8), # rows
+      i = c(1,2, 8,9, 11), # rows
       j = 6, # column
       value = as_paragraph(
         "r", as_sup("2"), " calculated for mean annual rate"
       ),
       ref_symbols = c("c"),
+      part = "body"
+    ) %>%
+    flextable::footnote(
+      i = c(13), # rows
+      j = 6, # column
+      value = as_paragraph(
+        "regression based on data binned by average slope in watershed"
+      ),
+      ref_symbols = c("d"),
       part = "body"
     ) %>%
     # # enforce single line spacing between footers

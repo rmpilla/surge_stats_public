@@ -17,6 +17,7 @@ library(spmodel)
 library(tictoc)
 library(furrr)
 library(readxl)
+library(ggspatial)
 
 # data----
 tar_load(dat_trans)
@@ -217,7 +218,7 @@ pred_dat4 <- bind_rows(pred_dat1, pred_dat2, pred_dat3) %>%
   group_by(name) %>%
   # split into list element by grouping variable.
   # use set_names and group_keys to name each element
-  {set_names(group_split(.), group_keys(.)[[1]])}
+  {purrr::set_names(group_split(.), group_keys(.)[[1]])}
 
 
 
@@ -528,7 +529,7 @@ harsha_preds_ras <- harsha_preds %>%
 # linear plots
 # corrected transformation
 p.mean <- ggplot() +
-  geom_spatraster(data = harsha_pred_ras$ch4_tot_corrected) +
+  geom_spatraster(data = harsha_preds_ras$ch4_tot_corrected) +
   scale_fill_gradientn(
     colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
     na.value = "transparent") +
@@ -542,11 +543,12 @@ p.mean <- ggplot() +
     title.position = "top",   # Title is above the bar
     barwidth = unit(10, "cm") # width of color bar
     )) +
+  ggspatial::annotation_scale() + # scale bar
   theme(plot.tag.position = c(0.15, 0.76))
   
 
 p.se <- ggplot() +
-  geom_spatraster(data = harsha_pred_ras$ch4_tot_se_corrected) +
+  geom_spatraster(data = harsha_preds_ras$ch4_tot_se_corrected) +
   scale_fill_gradientn(
     colors = terra::map.pal("viridis", 100), # defalt terra::plot palette
     na.value = "transparent") +
@@ -561,6 +563,7 @@ p.se <- ggplot() +
     title.position = "top",   # Title is above the bar
     barwidth = unit(10, "cm") # width of color bar
   )) +
+  ggspatial::annotation_scale() + # scale bar
   theme(plot.tag.position = c(0.05, 0.76))
 
 combined <- p.mean + p.se +
