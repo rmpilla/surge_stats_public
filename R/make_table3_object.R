@@ -169,7 +169,10 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     # 3. Prevent word from adding paragraph spaces before/after text
     hrule(rule = "exact", part = "all") %>%
     fontsize(size = 8, part = "all") %>%
-    autofit()
+    autofit() %>%
+    # make sure row height for header that wraps across lines is big enough
+    height(i = 1, height = 0.5, part = "footer") %>% 
+    hrule(i = 1, rule = "atleast", part = "footer")
   
   return(table3_object)
 }
