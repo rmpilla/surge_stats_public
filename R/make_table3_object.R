@@ -71,9 +71,9 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       ~Model,  ~Domain, ~System, ~n, ~Pathway, ~r2, ~Citation,
       "G-res", "global", "reservoirs", 160, "diffusion", 0.51, "Prairie et al., 2021",
       "G-res", "global", "reservoirs", 46, "ebullition", 0.26, "Prairie et al., 2021",
-      "Size productivity weighted", "global", "reservoirs & lakes", 423,  "diffusion", 0.29, "DelSontro et al., 2018",
-      "Size productivity weighted", "global", "reservoirs & lakes", 65, "ebullition", 0.32, "DelSontro et al., 2018",
-      "Size productivity weighted", "global", "reservoirs & lakes", 74, "total", 0.38, "DelSontro et al., 2018",
+      "Size productivity weighted", "global", "reservoirs & lakes", 423,  "diffusion", 0.29, "DelSontro, Beaulieu, and Downing 2018",
+      "Size productivity weighted", "global", "reservoirs & lakes", 65, "ebullition", 0.32, "DelSontro, Beaulieu, and Downing 2018",
+      "Size productivity weighted", "global", "reservoirs & lakes", 74, "total", 0.38, "DelSontro, Beaulieu, and Downing 2018",
       "Multivariate regression model", "global", "reservoirs", 68, "diffusion", 0.62, "Deemer & Holgerson 2021",
       "Multivariate regression model", "global", "reservoirs", 59, "ebullition", 0.28, "Deemer & Holgerson 2021",
       "Advanced Lake Biogeochemistry Model", "global", "reservoirs & lakes", 106, "diffusion", 0.79, "Tan et al., 2024",
@@ -81,7 +81,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
       "ResME", "global", "reservoirs", 54, "total", 0.41, "Delwiche et al., 2022",
       "Trophic regression model", "Mexico", "reservoirs & lakes", 6, "total", 0.93, "Gonzalez-Valencia et al. 2014",
       "Watershed lithology & morphometry", "Spain", "reservoirs", 12, "total", 0.59, "Leon_Palmero et al. 2020",
-      "Lake Pulse", "Canada", "lakes", 349, "ebullition", 0.79, "Kim et al. 2026"
+      "Lake Pulse", "Canada", "lakes", 349, "ebullition", 0.79, "Kim et al. 2025"
      # "FLaMe-v1.0", "Europe", "reservoir and lakes", 47, "total", 0.52, "Maisonnier et al. 2025"
     ) %>%
     bind_rows(
@@ -125,7 +125,7 @@ make_table3_object <- function(random_forest_object, table2_object, dat_trans) {
     flextable::footnote(
       j = 4, # column
       value = as_paragraph(
-        "Number of waterbodies in validation dataset. Models in this study are trained using multiple observations within each reservoir whereas the other studies aggregate multiple observations into a single value per waterbody for model training. We report the number of waterbodies in this study to facilitate direct comparison with other studies. See Table 2 for number of observations used to train the models in this study."
+        "Number of waterbodies in validation dataset. Models in this study are trained using multiple observations within each reservoir whereas the other studies aggregate multiple observations into a single value per waterbody for model training. We report the number of waterbodies in this study to facilitate direct comparison with other studies. Refer to Table 2 for number of observations used to train the models in this study."
       ),
       ref_symbols = c("a"),
       part = "header"

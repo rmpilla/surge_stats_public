@@ -180,7 +180,7 @@ table2_object <- table2_dat %>%
     i = c(1), # rows
     j = 3, # column
     value = as_paragraph(
-      "n reflects observations sites nested within reservoirs"
+      "n reflects observation sites nested within reservoirs"
     ),
     ref_symbols = "a",
     part = "header"
