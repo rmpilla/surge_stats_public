@@ -26,9 +26,9 @@ targets::tar_load(chla_lab_shallow)
 targets::tar_load(predicted_observed_plot)
 ```
 
-## Title
+## Supplementary Materials
 
-Supplemental Materials for: A national-scale model for spatially explicit predictions of summertime methane emissions from reservoir water surfaces
+A national-scale model for spatially explicit predictions of summertime methane emissions from reservoir water surfaces
 
 ## Authors
 
@@ -36,7 +36,7 @@ J.J. Beaulieu^1\*^, R.M. Pilla^2^, B.R. Deemer^3^, N.A. Griffiths^2^, J.W. Holli
 
 ^1^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Cincinnati, Ohio, USA\
 ^2^Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
-^3^Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, U.S. Geological Survey, Flagstaff, Arizona, USA\
+^3^U.S. Geological Survey, Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, Flagstaff, Arizona, USA\
 ^4^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA\
 ^5^University of Washington, Olympic Natural Resources Center, Forks, Washington, USA\
 
@@ -48,7 +48,7 @@ This supplement contains additional methods, results and discussion as well as o
 
 ## Supplemental Methods
 
-Several morphological variables were collinear and we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF \> 3 including dynamic ratio and shoreline complexity, and the inclusion of any of these three did not qualitatively change the analysis results (**Table S1**). We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (Pearson rho = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021].
+Several morphological variables were collinear; we chose *a priori* to include surface area as a predictor while omitting all other morphological variables with a VIF \> 3 including dynamic ratio and shoreline complexity, and the inclusion of any of these three did not qualitatively change the analysis results (**Table S1**). We also excluded circularity as a predictor, despite its relatively low VIF value, given counterintuitive relationships where partial dependence plots showed emissions increasing with circularity. We expect this prediction was likely due to the negative relationship between circularity and surface area (Pearson rho = 0.5; smaller reservoirs are more round), as has been reported elsewhere [@casas_ruiz_2021].
 
 ## Supplemental Results and Discussion
 
@@ -66,7 +66,7 @@ Center buoyancy frequency, an index of the strength of thermal stratification, w
 
 ```{r SI_ebul_percent_plot, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center  
-#| fig-cap: "Figure S1. Percent of lake-scale total CH~4~ emission as ebullition as a function of (A) longitude and (B) SO~4~^2-^. In (A), points are colored by SO~4~^2-^, with dark purple showing low concentrations and yellow showing high concentrations."
+#| fig-cap: "Figure S1. Percent of lake-scale total methane (CH~4~) emission as ebullition as a function of (A) longitude and (B) SO~4~^2-^. In (A), points are colored by SO~4~^2-^, with dark purple showing low concentrations and yellow showing high concentrations."
 #| fig-cap-location: bottom 
 #| fig-height: 5
 #| fig-width: 8 
@@ -109,7 +109,7 @@ SI_partial_dependence_plots
 
 ```{r SI_variable_importance_globalvars, echo=FALSE, message=FALSE, warning=FALSE}
 #| fig-align: center
-#| fig-cap: "Figure S4. Relative variable importance for random forest models using only nationally available variables for total, diffusive, and ebullitive emission rates. Explanatory variables are consistently used in each of the three models and are presented on the y-axis in descending order of importance from the CH~4~ total model."
+#| fig-cap: "Figure S4. Relative variable importance for random forest models using only nationally available variables for total, diffusive, and ebullitive emission rates. Explanatory variables are consistently used in each of the three models and are presented on the y-axis in descending order of importance from the methane (CH~4~) total model."
 #| fig-cap-location: bottom  
 #| fig-height: 4
 #| fig-width: 8
@@ -123,7 +123,7 @@ SI_variable_importance_globalvars
 {{< pagebreak >}}
 
 ![Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id == 1031).](../harsha_predictor_maps.png)\
-<br> *Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake (lake_id = 1031).*
+<br> *Figure S5. Map of water depth (A), chlorophyll-a (B), water temperature near sediment-water interface (C), water temperature 0.1 m below water surface (D), turbidity 0.1 m below water surface (E), and sediment organic carbon (F) in William H. Harsha Lake, Ohio (lake_id = 1031).*
 
 {{< pagebreak >}}
 
