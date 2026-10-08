@@ -26,7 +26,7 @@ clean_predictor_variable_names <- function(modeling_vars_final){
                                  variable == "nla17_sed_c" ~ "sediment~organic~C",
                                  variable == "temp_deep" ~ "water~temperature~(deep)",
                                  variable == "temp_shallow" ~ "water~temperature~(shallow)",
-                                 variable == "e_i" ~ "evaportation:inflow",
+                                 variable == "e_i" ~ "evaporation:inflow",
                                  variable == "residence_time" ~ "residence~time",
                                  variable == "rda" ~ "relative~drainage~area",
                                  variable == "nh4_shallow" ~ "NH[4]^'+'~(shallow)",

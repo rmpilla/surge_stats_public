@@ -32,15 +32,13 @@ A national-scale model for spatially explicit predictions of summertime methane 
 
 ## Authors
 
-J.J. Beaulieu^1\*^, R.M. Pilla^2^, B.R. Deemer^3^, N.A. Griffiths^2^, J.W. Hollister^4^, A.O. Tatters^5^
+R.M. Pilla^1*^, B.R. Deemer^2^, N.A. Griffiths^1^,A.O. Tatters^3^
 
-^1^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Cincinnati, Ohio, USA\
-^2^Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
-^3^U.S. Geological Survey, Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, Flagstaff, Arizona, USA\
-^4^Office of Applied Sciences and Environmental Solutions, Environmental Protections Agency, Narragansett, Rhode Island, USA\
-^5^University of Washington, Olympic Natural Resources Center, Forks, Washington, USA\
+^1^Environmental Sciences Division, Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA\
+^2^U.S. Geological Survey, Southwest Biological Science Center, Grand Canyon Monitoring and Research Center, Flagstaff, Arizona, USA\
+^3^University of Washington, Olympic Natural Resources Center, Forks, Washington, USA\
 
-\*corresponding author: beaulieu.jake\@epa.gov
+\*corresponding author: pillarm1\@ornl.gov
 
 # Introduction
 
@@ -131,13 +129,13 @@ SI_variable_importance_globalvars
 
 ```{r}
 #| label: table_S1 
-#| tbl-cap: "Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio)."  
+#| tbl-cap: "Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio). The number of observation sites nested within reservoirs (n) is shown as well as model root mean square error (RMSE), mean absolute error (MAE), symmetric mean absolute percentage error (sMAPE), and the coefficient of determination based on out of bag sample (OOB r^2^)."  
 
 SI_variable_group_table$tableSI1_object %>% flextable::set_caption("Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).") %>%
      paginate(init = TRUE, hdr_ftr = TRUE) # don't allow table to break across page
 ```
 
-*Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio).*
+*Table S1. Comparison of random forest results when using alternative morphological variables as predictor variables (surface area, shoreline development, dynamic ratio). The number of observation sites nested within reservoirs (n) is shown as well as model root mean square error (RMSE), mean absolute error (MAE), symmetric mean absolute percentage error (sMAPE), and the coefficient of determination based on out of bag sample (OOB r^2^).*
 
 {{< pagebreak >}}
 
