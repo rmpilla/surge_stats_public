@@ -219,7 +219,7 @@ We appreciate helpful conversations with John Walker and Jeremy Schroeder regard
 
 ## Availability Statement
 
-The data used to create the random forest models is currently available at https://doi.org/10.6073/pasta/01c74388f08fbb1b632cae2a194778b4. The data and code used to create the RF models and execute the data analysis will be archived and made available at Zenodo at the time of publication. In the meantime, reviewers can request access to the private private GitHub repository.
+The data used to create the random forest models is currently available at https://doi.org/10.6073/pasta/01c74388f08fbb1b632cae2a194778b4. The data and code used to create the RF models and execute the data analysis are currently available at https://github.com/rmpilla/surge_stats_public.
 
 {{< pagebreak >}}
 
